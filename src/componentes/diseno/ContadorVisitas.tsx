@@ -8,7 +8,10 @@ function leerConteo(): number {
   return parseInt(localStorage.getItem(CLAVE_CONTEO) ?? '0', 10) || 0
 }
 
-export default function ContadorVisitas() {
+interface Props { variante?: 'claro' | 'oscuro' }
+
+export default function ContadorVisitas({ variante = 'claro' }: Props) {
+  const oscuro = variante === 'oscuro'
   const [conteo, setConteo] = useState(0)
   const [mostrado, setMostrado] = useState(0)
   const rafRef = useRef<number | null>(null)
@@ -45,10 +48,10 @@ export default function ContadorVisitas() {
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
   }, [conteo])
 
-  const digitos = String(mostrado).padStart(4, '0').split('')
+  const digitos = String(mostrado).padStart(6, '0').split('')
 
   return (
-    <div className="border-t border-gray-100 pt-4 mt-2">
+    <div className={`border-t pt-4 mt-2 ${oscuro ? 'border-white/20' : 'border-gray-100'}`}>
       <div className="flex items-center justify-between gap-4">
 
         {/* Dígitos */}
@@ -56,7 +59,7 @@ export default function ContadorVisitas() {
           {digitos.map((d, i) => (
             <div
               key={i}
-              className="w-8 h-10 rounded-lg bg-azul flex items-center justify-center shadow-inner overflow-hidden"
+              className={`w-8 h-10 rounded-lg flex items-center justify-center overflow-hidden ${oscuro ? 'bg-white/15' : 'bg-azul'}`}
               style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)' }}
             >
               <div className="relative w-full h-full flex items-center justify-center">
@@ -71,7 +74,9 @@ export default function ContadorVisitas() {
 
         {/* Etiqueta derecha */}
         <div className="text-right">
-          <p className="text-azul font-black text-sm leading-tight">Continuamos con Javier</p>
+          <p className={`font-black text-sm leading-tight ${oscuro ? 'text-white' : 'text-azul'}`}>
+            Continuamos con Javier
+          </p>
         </div>
       </div>
     </div>

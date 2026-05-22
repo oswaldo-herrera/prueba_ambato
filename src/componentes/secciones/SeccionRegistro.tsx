@@ -38,7 +38,7 @@ const pasos = [
 
 export default function SeccionRegistro() {
   return (
-    <section id="registro" className="py-24 bg-azul relative overflow-hidden -mt-px">
+    <section id="registro" className="py-24 bg-azul relative overflow-hidden -mt-px scroll-mt-20">
       {/* Decoración de fondo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-oro/5 blur-3xl" />

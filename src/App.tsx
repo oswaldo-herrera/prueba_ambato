@@ -19,6 +19,7 @@ import SeccionValores from './componentes/secciones/SeccionValores'
 import SeccionPropuestas from './componentes/secciones/SeccionPropuestas'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
+import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
 
 export default function App() {
   return (
@@ -49,6 +50,9 @@ export default function App() {
 
         {/* 6. Formulario de registro */}
         <SeccionRegistro />
+
+        {/* 7. Sección de registro alternativa */}
+        <SeccionRegistroBackup />
       </main>
 
       {/* ── PIE DE PÁGINA ── */}

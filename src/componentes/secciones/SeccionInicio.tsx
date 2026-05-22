@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { seccionInicio } from '../../contenido/textos'
+import CarruselVideos from '../diseno/CarruselVideos'
 
 export default function SeccionInicio() {
   const [indice, setIndice] = useState(0)
   const [visible, setVisible] = useState(true)
   const [girada, setGirada] = useState(false)
+  const [carruselAbierto, setCarruselAbierto] = useState(false)
 
   useEffect(() => {
     const intervalo = setInterval(() => {
@@ -18,6 +20,7 @@ export default function SeccionInicio() {
   }, [])
 
   return (
+    <>
     <section
       id="inicio"
       className="relative min-h-screen bg-azul flex items-center overflow-hidden"
@@ -51,13 +54,11 @@ export default function SeccionInicio() {
             <h1 className="font-titulo font-black text-5xl sm:text-6xl xl:text-6xl text-white leading-tight">
               {seccionInicio.titulo}
               {/* Contenedor de altura fija para evitar saltos de layout */}
-              <span className="block h-[1.25em] overflow-hidden">
-                <span
-                  className="text-oro inline-block whitespace-nowrap transition-opacity duration-300"
-                  style={{ opacity: visible ? 1 : 0 }}
-                >
-                  {seccionInicio.titulosRotativos[indice]}
-                </span>
+              <span
+                className="block text-oro transition-opacity duration-300"
+                style={{ opacity: visible ? 1 : 0 }}
+              >
+                {seccionInicio.titulosRotativos[indice]}
               </span>
             </h1>
 
@@ -68,13 +69,13 @@ export default function SeccionInicio() {
 
             {/* Botones */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <a
-                href={seccionInicio.boton1.href}
+              <button
+                onClick={() => setCarruselAbierto(true)}
                 className="inline-flex items-center justify-center gap-2 bg-oro hover:bg-oro-oscuro text-azul font-bold px-8 py-4 rounded-full transition-all duration-200 shadow-lg shadow-oro/20 hover:shadow-oro/40 hover:scale-105"
               >
                 {seccionInicio.boton1.texto}
                 <span className="text-lg">↓</span>
-              </a>
+              </button>
               <a
                 href={seccionInicio.boton2.href}
                 className="inline-flex items-center justify-center gap-2 border-2 border-white/30 hover:border-oro text-white hover:text-oro font-bold px-8 py-4 rounded-full transition-all duration-200"
@@ -171,5 +172,8 @@ export default function SeccionInicio() {
         </svg>
       </div>
     </section>
+
+    {carruselAbierto && <CarruselVideos onCerrar={() => setCarruselAbierto(false)} />}
+  </>
   )
 }

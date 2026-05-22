@@ -76,27 +76,49 @@ export default function SeccionQuienSoy() {
             </div>
           </div>
 
-          {/* Tres pilares + botón galería */}
-          <div className="order-1 lg:order-2 space-y-6">
-            {seccionQuienSoy.pilares.map((pilar) => (
-              <div
-                key={pilar.numero}
-                className="group flex gap-5 p-5 rounded-2xl hover:bg-azul-muy-claro transition-colors duration-200"
-              >
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-oro/10 group-hover:bg-oro flex items-center justify-center transition-colors duration-200">
-                  <span className="font-titulo font-black text-oro group-hover:text-azul text-sm transition-colors duration-200">
-                    {pilar.numero}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-titulo font-bold text-azul text-lg mb-1">{pilar.titulo}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{pilar.texto}</p>
-                </div>
-              </div>
-            ))}
+          {/* Biografía + botón galería */}
+          <div className="order-1 lg:order-2 space-y-5">
+
+            {/* Nombre destacado */}
+            <div className="border-l-4 border-oro pl-4">
+              <p className="text-oro font-black text-base leading-snug uppercase tracking-wide">
+                "El Ciudadano con Visión Futura y Continuidad"
+              </p>
+              <h3 className="font-titulo font-black text-azul text-xl leading-tight mt-1">
+                Francisco Javier Altamirano Sánchez
+              </h3>
+            </div>
+
+            {/* Texto biográfico */}
+            <div className="text-gray-600 text-sm leading-relaxed space-y-3 text-justify">
+              <p>
+                Conocido en las calles como <strong className="text-azul">"Javier Altamirano"</strong>, es un ciudadano
+                que creció en <em>(nombre de la parroquia)</em>. Fue hijo de…, padre de…, sufrió injusticias en el
+                trayecto de su vida, vivió carencias y padeció como muchos: problemas económicos, laborales, de
+                desigualdad y falta de oportunidades.
+              </p>
+              <p>
+                Desde muy temprana edad Javier apoyó a sus hermanos y hermanas. Empezó a trabajar desde los{' '}
+                <strong className="text-azul">10 años de edad</strong>. Se preparó profesionalmente con mucho esfuerzo
+                y sacrificio, logrando ser <strong className="text-azul">Abogado por la Universidad de Ambato</strong>.
+              </p>
+              <p>
+                Ha trabajado como <strong className="text-azul">Decano de la Facultad de Jurisprudencia</strong> en la
+                Universidad Tecnológica Indoamérica, en el período 2014–2019. Logró ser{' '}
+                <strong className="text-azul">Alcalde en el período 2019–2023</strong>, logrando grandes obras
+                como…, …, … y …; y como Alcalde en pleno <strong className="text-azul">COVID</strong> cuidó la salud
+                y la vida de todos los Ambateños, con responsabilidad y acciones concretas.
+              </p>
+              <p className="font-semibold text-azul">
+                El <span className="text-oro">PASADO</span> le dio la experiencia, el{' '}
+                <span className="text-oro">PRESENTE</span> nos exige evolución — vamos por la{' '}
+                <span className="text-oro">CONTINUIDAD</span> de nuestras grandes metas con{' '}
+                <span className="text-oro">JAVIER ALTAMIRANO!!!</span>
+              </p>
+            </div>
 
             {/* Botón galería */}
-            <div className="pt-2">
+            <div className="pt-1">
               <button
                 onClick={() => { setIndiceActivo(0); setGaleriaAbierta(true) }}
                 className="inline-flex items-center gap-3 bg-azul hover:bg-azul-claro text-white font-titulo font-bold px-7 py-4 rounded-full transition-all duration-200 shadow-lg hover:scale-105 hover:shadow-azul/30"

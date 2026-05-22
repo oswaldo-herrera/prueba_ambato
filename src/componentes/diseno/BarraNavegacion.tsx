@@ -27,7 +27,7 @@ export default function BarraNavegacion() {
           {/* Logo */}
           <a href="#" className="flex items-center group">
             <img
-              src="/imagenes/logo_ambato.png"
+              src="/imagenes/logo_2.png"
               alt="HERSA Ambato"
               className="h-14 md:h-16 w-auto group-hover:scale-105 transition-transform duration-200"
             />
@@ -44,12 +44,12 @@ export default function BarraNavegacion() {
                 {enlace.texto}
               </a>
             ))}
-            <button
-              onClick={() => setCarruselAbierto(true)}
+            <a
+              href="#registro"
               className="bg-oro hover:bg-oro-oscuro text-azul font-bold text-sm px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:shadow-oro/30 hover:scale-105"
             >
               {navegacion.botonPrincipal.texto}
-            </button>
+            </a>
           </nav>
 
           {/* Botón hamburguesa (móvil) */}
@@ -81,12 +81,13 @@ export default function BarraNavegacion() {
                 </a>
               ))}
               <div className="px-4 pt-2">
-                <button
-                  onClick={() => { setMenuAbierto(false); setCarruselAbierto(true) }}
+                <a
+                  href="#registro"
+                  onClick={() => setMenuAbierto(false)}
                   className="block w-full text-center bg-oro hover:bg-oro-oscuro text-azul font-bold text-sm px-5 py-3 rounded-full transition-colors"
                 >
                   {navegacion.botonPrincipal.texto}
-                </button>
+                </a>
               </div>
             </nav>
           </div>

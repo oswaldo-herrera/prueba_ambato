@@ -48,7 +48,7 @@ export default function SeccionValores() {
               <strong className="text-oro font-bold">TIEMPO</strong>, ha puesto toda su{' '}
               <strong className="text-oro font-bold">PASIÓN</strong> y ha hecho las cosas desde el{' '}
               <strong className="text-oro font-bold">CORAZÓN</strong> por tener y vivir en un{' '}
-              <strong className="text-white font-bold">AMBATO SEGURO, JUSTO Y LLENO DE OPORTUNIDADES PARA TODOS LOS AMBATEÑOS</strong>"
+              <strong className="text-white font-bold">AMBATO JUSTO, SEGURO, CON CALMA Y LLENO DE OPORTUNIDADES PARA TODOS LOS AMBATEÑOS</strong>"
             </p>
           </blockquote>
         </div>

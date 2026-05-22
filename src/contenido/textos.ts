@@ -14,7 +14,7 @@ export const navegacion = {
     { texto: 'Mi Historia',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Propuestas',  href: '#propuestas' },
-    { texto: 'Regístrate',  href: '#registro' },
+    { texto: 'Regístrate',  href: '#registro-backup' },
   ],
   botonPrincipal: {
     texto: 'Continua con Javier',
@@ -24,20 +24,19 @@ export const navegacion = {
 
 // ── SECCIÓN INICIO (HERO) ────────────────────────────────────
 export const seccionInicio = {
-  etiqueta: 'Candidato al Congreso · Ambato 2026',    // Texto pequeño arriba del título
+  etiqueta: 'Candidato a la Alcaldía de Ambato 2026',    // Texto pequeño arriba del título
   titulo: 'Por un Ambato',    // Primera línea del título grande
   // Palabras que rotan en color oro — edítalas libremente
   titulosRotativos: [
-    'con futuro',
-    'con seguridad',
-    'con empleo',
-    'con educación',
-    'con integridad',
+    'justo',
+    'seguro',
+    'con alma',
+    'con oportunidades',
   ],
   descripcion:
     'Construyamos juntos una ciudad más justa, con oportunidades reales para todos. Con experiencia, visión y compromiso ciudadano.',
-  boton1: { texto: 'Ver propuestas', href: '#propuestas' },
-  boton2: { texto: 'Regístrate aquí', href: '#registro' },
+  boton1: { texto: 'Videos', href: '#propuestas' },
+  boton2: { texto: 'Regístrate aquí', href: '#registro-backup' },
   // IMAGEN: coloca tu foto en /public/imagenes/candidato.png
   imagenCandidato: '/imagenes/candidato.png',
   imagenAlt: 'Fotografía del candidato',
@@ -45,17 +44,16 @@ export const seccionInicio = {
   estadisticas: [
     { numero: '15+', descripcion: 'Años de experiencia' },
     { numero: '50K', descripcion: 'Vecinos comprometidos' },
-    { numero: '12',  descripcion: 'Propuestas concretas' },
+    { numero: '63',  descripcion: 'Motivos para ganar' },
   ],
 }
 
 // ── SECCIÓN QUIÉN SOY ────────────────────────────────────────
 export const seccionQuienSoy = {
-  etiqueta: 'Conóceme',
-  titulo: 'Una vida al',
-  tituloDestacado: 'servicio público',
-  descripcion:
-    'Nací en Ambato, crecí entre su gente y dediqué mi carrera a construir instituciones más justas y eficientes.',
+  etiqueta: 'Mi Historia',
+  titulo: '¿Quién es',
+  tituloDestacado: 'Javier Altamirano?',
+  descripcion: 'Origen, logros, aciertos y desaciertos',
   pilares: [
     {
       numero: '01',

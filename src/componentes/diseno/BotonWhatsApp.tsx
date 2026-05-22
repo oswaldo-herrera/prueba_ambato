@@ -53,7 +53,7 @@ export default function BotonWhatsApp() {
               </div>
               <div className="bg-white rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm max-w-[220px]">
                 <p className="text-gray-800 text-sm leading-relaxed">
-                  ¡Jola! 👋 ¿Tienes preguntas sobre la campaña? Escríbenos directamente.
+                  ¡Hola! ¿Tienes alguna pregunta o alguna propuesta? Escríbenos directamente.
                 </p>
                 <p className="text-gray-400 text-[10px] mt-1 text-right">ahora</p>
               </div>

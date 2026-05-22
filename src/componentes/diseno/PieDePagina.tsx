@@ -42,7 +42,7 @@ export default function PieDePagina() {
           <div className="space-y-4">
             <div className="flex items-center">
               <img
-                src="/imagenes/logo_ambato.png"
+                src="/imagenes/logo_2.png"
                 alt="HERSA Ambato"
                 className="h-14 w-auto"
               />
