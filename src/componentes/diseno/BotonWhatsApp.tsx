@@ -21,10 +21,10 @@ export default function BotonWhatsApp() {
           <div className="bg-azul px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-oro flex items-center justify-center font-titulo font-black text-azul text-sm">
-                H
+                J
               </div>
               <div>
-                <p className="text-white font-semibold text-sm leading-tight">HERSA Ambato</p>
+                <p className="text-white font-semibold text-sm leading-tight">Javier Altamirano</p>
                 <p className="text-white/60 text-xs flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
                   En línea
@@ -43,17 +43,17 @@ export default function BotonWhatsApp() {
           {/* Cuerpo del chat */}
           <div className="bg-[#f0f0f0] px-4 py-5"
             style={{
-              backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d1d5db' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+              backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d1d5db' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4J4v4J0v2h4v4h2v-4h4v-2J6zM6 4V0J4v4J0v2h4v4h2V6h4V4J6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
             }}
           >
             {/* Burbuja de mensaje */}
             <div className="flex items-end gap-2 mb-1">
               <div className="w-7 h-7 rounded-full bg-oro flex-shrink-0 flex items-center justify-center font-titulo font-black text-azul text-xs">
-                H
+                J
               </div>
               <div className="bg-white rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm max-w-[220px]">
                 <p className="text-gray-800 text-sm leading-relaxed">
-                  ¡Hola! 👋 ¿Tienes preguntas sobre la campaña? Escríbenos directamente.
+                  ¡Jola! 👋 ¿Tienes preguntas sobre la campaña? Escríbenos directamente.
                 </p>
                 <p className="text-gray-400 text-[10px] mt-1 text-right">ahora</p>
               </div>
