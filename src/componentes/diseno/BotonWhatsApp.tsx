@@ -5,7 +5,7 @@ export default function BotonWhatsApp() {
   const [abierto, setAbierto] = useState(false)
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className={`fixed bottom-6 right-6 flex flex-col items-end gap-3 ${abierto ? 'z-[60]' : 'z-50'}`}>
 
       {/* Popup de chat */}
       <div
