@@ -49,7 +49,7 @@ export default function SeccionTrayectoria() {
       {/* Ola divisora — transición hacia sección blanca */}
       <div className="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
         <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
-          <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="white" />
+          <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#21243D" />
         </svg>
       </div>
     </section>

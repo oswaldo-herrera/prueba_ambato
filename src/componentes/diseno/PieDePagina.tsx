@@ -40,18 +40,12 @@ export default function PieDePagina() {
 
           {/* Columna 1 — Logo y descripción */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-oro flex items-center justify-center font-titulo font-black text-azul text-sm">
-                H
-              </div>
-              <div className="leading-none">
-                <span className="block font-titulo font-black text-white text-xl tracking-wide">
-                  {pieDePagina.logo}
-                </span>
-                <span className="block text-oro text-xs font-medium tracking-widest uppercase">
-                  {pieDePagina.eslogan}
-                </span>
-              </div>
+            <div className="flex items-center">
+              <img
+                src="/imagenes/logo_ambato.png"
+                alt="HERSA Ambato"
+                className="h-14 w-auto"
+              />
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
               {pieDePagina.descripcion}

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { navegacion } from '../../contenido/textos'
+import CarruselVideos from './CarruselVideos'
 
 export default function BarraNavegacion() {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [scrollado, setScrollado] = useState(false)
+  const [carruselAbierto, setCarruselAbierto] = useState(false)
 
   // Detecta si el usuario hizo scroll para cambiar el fondo del menú
   useEffect(() => {
@@ -13,6 +15,7 @@ export default function BarraNavegacion() {
   }, [])
 
   return (
+    <>
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrollado ? 'bg-azul shadow-lg shadow-azul/20' : 'bg-transparent'
@@ -22,18 +25,12 @@ export default function BarraNavegacion() {
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full bg-oro flex items-center justify-center font-titulo font-black text-azul text-sm leading-none shadow-md group-hover:scale-105 transition-transform">
-              H
-            </div>
-            <div className="leading-none">
-              <span className="block font-titulo font-black text-white text-xl tracking-wide">
-                {navegacion.logo}
-              </span>
-              <span className="block text-oro text-xs font-medium tracking-widest uppercase">
-                {navegacion.eslogan}
-              </span>
-            </div>
+          <a href="#" className="flex items-center group">
+            <img
+              src="/imagenes/logo_ambato.png"
+              alt="HERSA Ambato"
+              className="h-14 md:h-16 w-auto group-hover:scale-105 transition-transform duration-200"
+            />
           </a>
 
           {/* Menú escritorio */}
@@ -47,12 +44,12 @@ export default function BarraNavegacion() {
                 {enlace.texto}
               </a>
             ))}
-            <a
-              href={navegacion.botonPrincipal.href}
+            <button
+              onClick={() => setCarruselAbierto(true)}
               className="bg-oro hover:bg-oro-oscuro text-azul font-bold text-sm px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:shadow-oro/30 hover:scale-105"
             >
               {navegacion.botonPrincipal.texto}
-            </a>
+            </button>
           </nav>
 
           {/* Botón hamburguesa (móvil) */}
@@ -84,18 +81,20 @@ export default function BarraNavegacion() {
                 </a>
               ))}
               <div className="px-4 pt-2">
-                <a
-                  href={navegacion.botonPrincipal.href}
-                  onClick={() => setMenuAbierto(false)}
+                <button
+                  onClick={() => { setMenuAbierto(false); setCarruselAbierto(true) }}
                   className="block w-full text-center bg-oro hover:bg-oro-oscuro text-azul font-bold text-sm px-5 py-3 rounded-full transition-colors"
                 >
                   {navegacion.botonPrincipal.texto}
-                </a>
+                </button>
               </div>
             </nav>
           </div>
         )}
       </div>
     </header>
+
+    {carruselAbierto && <CarruselVideos onCerrar={() => setCarruselAbierto(false)} />}
+  </>
   )
 }

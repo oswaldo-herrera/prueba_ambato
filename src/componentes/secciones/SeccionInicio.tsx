@@ -23,7 +23,7 @@ export default function SeccionInicio() {
       className="relative min-h-screen bg-azul flex items-center overflow-hidden"
     >
       {/* Fondo decorativo con patrón */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-oro/10 blur-3xl" />
         <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-azul-claro/20 blur-3xl" />
         {/* Patrón de puntos */}
@@ -145,7 +145,7 @@ export default function SeccionInicio() {
 
               {/* Badge flotante */}
               <div className="absolute -bottom-4 -left-4 bg-oro text-azul font-titulo font-black text-sm px-4 py-2 rounded-2xl shadow-lg">
-                🗳️ Ambato 2026
+                Ambato 2026
               </div>
             </div>
           </div>

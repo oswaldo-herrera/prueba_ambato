@@ -15,6 +15,7 @@ import AvatarFlotante from './componentes/diseno/AvatarFlotante'
 import SeccionInicio from './componentes/secciones/SeccionInicio'
 import SeccionQuienSoy from './componentes/secciones/SeccionQuienSoy'
 import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
+import SeccionValores from './componentes/secciones/SeccionValores'
 import SeccionPropuestas from './componentes/secciones/SeccionPropuestas'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
@@ -37,7 +38,10 @@ export default function App() {
         {/* 3. Trayectoria / Experiencia */}
         <SeccionTrayectoria />
 
-        {/* 4. Propuestas */}
+        {/* 4. Valores — Tiempo, Pasión y Corazón */}
+        <SeccionValores />
+
+        {/* 5. Propuestas */}
         <SeccionPropuestas />
 
         {/* 5. Canal de WhatsApp */}

@@ -1,22 +1,19 @@
 import { useState, useEffect, useRef } from 'react'
 
-const AUDIO_SALUDO = '/imagenes/saludo.mp3'
+const AUDIO_SALUDO = '/imagenes/prueba_fidel.mp3'
 
 export default function AvatarFlotante() {
   const [burbujaVisible, setBurbujaVisible] = useState(false)
   const [cerrado, setCerrado] = useState(false)
   const [hablando, setHablando] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const desbloqueadoRef = useRef(false)
 
   function reproducir() {
     const audio = audioRef.current
     if (!audio) return
     audio.pause()
     audio.currentTime = 0
-    audio.play().then(() => {
-      desbloqueadoRef.current = true
-    }).catch(() => {})
+    audio.play().catch(() => {})
   }
 
   useEffect(() => {
@@ -27,35 +24,11 @@ export default function AvatarFlotante() {
     audio.onerror = () => setHablando(false)
     audioRef.current = audio
 
-    const timer = setTimeout(() => {
-      setBurbujaVisible(true)
-      audio.play().then(() => {
-        desbloqueadoRef.current = true
-      }).catch(() => {})
-    }, 1500)
-
-    const alInteractuar = (e: Event) => {
-      e.stopPropagation()
-      if (desbloqueadoRef.current) return
-      desbloqueadoRef.current = true
-      audio.pause()
-      audio.currentTime = 0
-      audio.play().catch(() => {})
-      document.removeEventListener('click',    alInteractuar, true)
-      document.removeEventListener('keydown',  alInteractuar, true)
-      document.removeEventListener('touchend', alInteractuar, true)
-    }
-
-    document.addEventListener('click',    alInteractuar, { capture: true, once: true })
-    document.addEventListener('keydown',  alInteractuar, { capture: true, once: true })
-    document.addEventListener('touchend', alInteractuar, { capture: true, once: true })
+    const timer = setTimeout(() => setBurbujaVisible(true), 1500)
 
     return () => {
       clearTimeout(timer)
       audio.pause()
-      document.removeEventListener('click',    alInteractuar, true)
-      document.removeEventListener('keydown',  alInteractuar, true)
-      document.removeEventListener('touchend', alInteractuar, true)
     }
   }, [])
 
@@ -75,7 +48,7 @@ export default function AvatarFlotante() {
           >
             ✕
           </button>
-          <p className="text-azul font-semibold text-sm leading-snug">¡Hola! 👋 Soy Oswaldo Herrera.</p>
+          <p className="text-azul font-semibold text-sm leading-snug">¡Hola! 👋 Soy Javier Altamirano.</p>
           <p className="text-gray-500 text-xs mt-1 leading-relaxed">Bienvenido, estoy para servirte.</p>
           <div className="absolute -bottom-2 left-5 w-4 h-4 bg-white border-r border-b border-gray-100 rotate-45" />
         </div>
@@ -83,10 +56,8 @@ export default function AvatarFlotante() {
 
       {/* Avatar */}
       <button
-        onMouseEnter={() => {
-          setBurbujaVisible(true)
-          if (desbloqueadoRef.current && !hablando) reproducir()
-        }}
+        onMouseEnter={() => setBurbujaVisible(true)}
+        onClick={() => { if (!hablando) reproducir() }}
         className="relative focus:outline-none"
         style={{ animation: 'flotar 3s ease-in-out infinite' }}
         title="¡Haz clic para escucharme!"

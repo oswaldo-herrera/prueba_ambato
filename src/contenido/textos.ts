@@ -11,13 +11,13 @@ export const navegacion = {
   logo: 'HERSA',          // Nombre o logo en texto del partido/candidato
   eslogan: 'Ambato',      // Subtítulo del logo
   enlaces: [
-    { texto: 'Conóceme',    href: '#quiensoy' },
+    { texto: 'Mi Historia',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Propuestas',  href: '#propuestas' },
     { texto: 'Regístrate',  href: '#registro' },
   ],
   botonPrincipal: {
-    texto: 'Apoya la campaña',
+    texto: 'Continua con Javier',
     href: '#registro',
   },
 }
@@ -182,8 +182,8 @@ export const seccionRegistro = {
 
 // ── SECCIÓN WHATSAPP ─────────────────────────────────────────
 export const seccionWhatsApp = {
-  titulo: 'Información oficial,',
-  tituloDestacado: 'sin intermediarios',
+  titulo: 'Recibe información oficial,',
+  tituloDestacado: 'sin intermediarios y sin cuento',
   descripcion:
     'Únete a nuestro canal de WhatsApp y recibe actualizaciones directas, eventos y novedades de primera mano.',
   boton: {
@@ -197,11 +197,11 @@ export const seccionWhatsApp = {
 export const pieDePagina = {
   logo: 'HERSA',
   eslogan: 'Ambato',
-  descripcion: 'Campaña política comprometida con el desarrollo de Ambato y Tungurahua.',
+  descripcion: 'Continuamos con el desarrollo de Ambato Tungurahua.',
   // Derechos de autor — el año se actualiza automáticamente
   derechos: 'HERSA Campaña Ambato',
   enlacesRapidos: [
-    { texto: 'Conóceme',    href: '#quiensoy' },
+    { texto: 'Mi Historia',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Propuestas',  href: '#propuestas' },
     { texto: 'Regístrate',  href: '#registro' },
