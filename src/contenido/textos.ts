@@ -355,8 +355,7 @@ export const seccionRegistro = {
 export const seccionWhatsApp = {
   titulo: 'Únete a nuestro Canal de WhatsApp,',
   tituloDestacado: 'y recibe actualizaciones directas, eventos y novedades, “Continúa con Javier”',
-  //descripcion:
-    
+  descripcion: '',
   boton: {
     texto: 'Unirse al canal de WhatsApp',
     // CAMBIA ESTE ENLACE por el link real de tu canal de WhatsApp
