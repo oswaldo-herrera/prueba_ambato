@@ -40,6 +40,13 @@ export default function SeccionValores() {
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
+        {/* Etiqueta superior */}
+        <div className="text-center mb-10">
+          <span className="inline-block text-oro font-semibold text-sm tracking-widest uppercase">
+            Continúo por Ambato
+          </span>
+        </div>
+
         {/* Cita */}
         <div className="flex justify-center mb-14">
           <blockquote className="border-l-4 border-oro pl-6 max-w-3xl">
@@ -48,7 +55,7 @@ export default function SeccionValores() {
               <strong className="text-oro font-bold">TIEMPO</strong>, ha puesto toda su{' '}
               <strong className="text-oro font-bold">PASIÓN</strong> y ha hecho las cosas desde el{' '}
               <strong className="text-oro font-bold">CORAZÓN</strong> por tener y vivir en un{' '}
-              <strong className="text-white font-bold">AMBATO JUSTO, SEGURO, CON CALMA Y LLENO DE OPORTUNIDADES PARA TODOS LOS AMBATEÑOS</strong>"
+              <strong className="text-white font-bold">AMBATO JUSTO, SEGURO, CON ALMA Y LLENO DE OPORTUNIDADES PARA TODOS LOS AMBATEÑOS</strong>"
             </p>
           </blockquote>
         </div>
@@ -78,7 +85,7 @@ export default function SeccionValores() {
       {/* Ola inferior para transición a la sección Propuestas */}
       <div className="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
         <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
-          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#ffffff" />
+          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#eaeaf2" />
         </svg>
       </div>
     </section>

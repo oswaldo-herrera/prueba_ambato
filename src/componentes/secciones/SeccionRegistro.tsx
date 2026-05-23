@@ -19,8 +19,8 @@ const pasos = [
     icono: '🎥',
     texto: (
       <>
-        Graba tu video expresando que{' '}
-        <strong className="text-azul">"TÚ CONTINÚAS CON JAVIER"</strong>{' '}
+        Graba tu video expresando {' '}
+        <strong className="text-azul">"YO CONTINÚO CON JAVIER"</strong>{' '}
         por un Ambato Justo, Seguro con Alma y lleno de Oportunidades
       </>
     ),
@@ -38,7 +38,7 @@ const pasos = [
 
 export default function SeccionRegistro() {
   return (
-    <section id="registro" className="py-24 bg-azul relative overflow-hidden -mt-px scroll-mt-20">
+    <section id="registro" className="py-24 pb-36 bg-azul-muy-claro relative overflow-hidden -mt-px scroll-mt-20">
       {/* Decoración de fondo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-oro/5 blur-3xl" />
@@ -46,26 +46,45 @@ export default function SeccionRegistro() {
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Título principal centrado */}
+        <div className="text-center mb-14">
+          <h2 className="font-titulo font-black text-4xl sm:text-5xl text-azul">
+            Yo continúo con <span className="text-oro">Javier</span>
+          </h2>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* Columna izquierda */}
-          <div className="text-white space-y-6">
+          <div className="text-azul space-y-6">
             <span className="inline-block text-oro font-semibold text-sm tracking-widest uppercase">
-              Únete al movimiento
+              Continua con Javier
             </span>
+
+            {/* Video campaña */}
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-azul/10 max-w-sm">
+              <video
+                src="/imagenes/continuo_javier.mp4"
+                controls
+                playsInline
+                className="w-full h-auto block"
+              />
+            </div>
+
             <h2 className="font-titulo font-black text-4xl sm:text-5xl leading-tight">
               Cada día somos{' '}
               <span className="text-oro">más</span> los que continuamos con{' '}
               <span className="text-oro">Javier Altamirano</span>
             </h2>
-            <p className="text-white/70 text-lg leading-relaxed">
-              ¿Y Tú? ¿<strong className="text-white">Continúas</strong>… o Retrocedes?
+            <p className="text-azul/70 text-lg leading-relaxed">
+              ¿Y Tú? ¿<strong className="text-azul">Continúas</strong>… o Retrocedes?
             </p>
 
             {/* Etiqueta motivacional */}
-            <div className="inline-flex items-center gap-3 bg-oro/10 border border-oro/30 rounded-2xl px-5 py-4 mt-2">
+            <div className="inline-flex items-center gap-3 bg-azul/10 border border-azul/20 rounded-2xl px-5 py-4 mt-2">
               <span className="text-3xl">🔵</span>
-              <p className="text-white/90 text-sm leading-snug font-medium">
+              <p className="text-azul/90 text-sm leading-snug font-medium">
                 Pinta Ambato de azul.<br />
                 <span className="text-oro font-bold">#YoContinúoConJavier</span>
               </p>
@@ -78,7 +97,7 @@ export default function SeccionRegistro() {
             {/* Encabezado de la tarjeta */}
             <div className="text-center pb-2 border-b border-gray-100">
               <h3 className="font-titulo font-black text-azul text-xl leading-snug">
-                Si tú continúas con Javier…
+                Continúa con Javier
               </h3>
               <p className="text-gray-400 text-xs mt-1">sigue estos 4 pasos y manda tu video</p>
             </div>
@@ -121,6 +140,13 @@ export default function SeccionRegistro() {
             <ContadorVisitas />
           </div>
         </div>
+      </div>
+
+      {/* Ola divisora — transición hacia SeccionWhatsApp (oro-claro) */}
+      <div className="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
+        <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
+          <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#eaeaf2" />
+        </svg>
       </div>
     </section>
   )

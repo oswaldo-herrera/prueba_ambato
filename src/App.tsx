@@ -16,7 +16,8 @@ import SeccionInicio from './componentes/secciones/SeccionInicio'
 import SeccionQuienSoy from './componentes/secciones/SeccionQuienSoy'
 import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
 import SeccionValores from './componentes/secciones/SeccionValores'
-import SeccionPropuestas from './componentes/secciones/SeccionPropuestas'
+import SeccionLogros from './componentes/secciones/SeccionLogros'
+import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
 import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
@@ -36,23 +37,29 @@ export default function App() {
         {/* 2. Quién soy / Conóceme */}
         <SeccionQuienSoy />
 
-        {/* 3. Trayectoria / Experiencia */}
+        {/* 3. Logros 2019-2023 */}
+        <SeccionLogros />
+
+        {/* 4. Propuestas */}
+        <SeccionPropuestasNuevas />
+
+        {/* 5. Trayectoria / Experiencia */}
         <SeccionTrayectoria />
 
         {/* 4. Valores — Tiempo, Pasión y Corazón */}
         <SeccionValores />
 
-        {/* 5. Propuestas */}
-        <SeccionPropuestas />
+        {/* 5. Propuestas — oculta temporalmente */}
+        {/* <SeccionPropuestas /> */}
 
-        {/* 5. Canal de WhatsApp */}
-        <SeccionWhatsApp />
-
-        {/* 6. Formulario de registro */}
+        {/* 5. Formulario de registro */}
         <SeccionRegistro />
 
-        {/* 7. Sección de registro alternativa */}
+        {/* 6. Formulario de registro alternativo */}
         <SeccionRegistroBackup />
+
+        {/* 7. Canal de WhatsApp */}
+        <SeccionWhatsApp />
       </main>
 
       {/* ── PIE DE PÁGINA ── */}
