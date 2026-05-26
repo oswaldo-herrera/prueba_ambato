@@ -97,7 +97,7 @@ export default function SeccionLogros() {
   const [logroAbierto, setLogroAbierto] = useState<number | null>(null)
 
   return (
-    <section id="logros" className="relative py-24 pb-36 bg-azul overflow-hidden -mt-px">
+    <section id="logros" className="relative py-24 pb-36 bg-azul overflow-hidden -mt-px scroll-mt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Encabezado */}

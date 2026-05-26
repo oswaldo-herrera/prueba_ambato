@@ -13,7 +13,8 @@ export const navegacion = {
   enlaces: [
     { texto: 'Mi Historia',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
-    { texto: 'Propuestas',  href: '#propuestas' },
+    { texto: 'Logros',      href: '#logros' },
+    { texto: 'Propuestas',  href: '#propuestas-nuevas' },
     { texto: 'Regístrate',  href: '#registro-backup' },
   ],
   botonPrincipal: {
@@ -373,7 +374,7 @@ export const pieDePagina = {
   enlacesRapidos: [
     { texto: 'Mi Historia',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
-    { texto: 'Propuestas',  href: '#propuestas' },
+    { texto: 'Propuestas',  href: '#propuestas-nuevas' },
     { texto: 'Regístrate',  href: '#registro' },
   ],
   redesSociales: [
