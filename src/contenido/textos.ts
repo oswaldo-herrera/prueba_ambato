@@ -38,7 +38,7 @@ export const seccionInicio = {
   boton1: { texto: 'Videos', href: '#propuestas' },
   boton2: { texto: 'Regístrate aquí', href: '#registro-backup' },
   // IMAGEN: coloca tu foto en /public/imagenes/candidato.png
-  imagenCandidato: '/imagenes/candidato.png',
+  imagenCandidato: '/imagenes/perfil_1.jpeg',
   imagenAlt: 'Fotografía del candidato',
   // Números destacados debajo del hero
   estadisticas: [
@@ -75,7 +75,7 @@ export const seccionQuienSoy = {
     },
   ],
   // IMAGEN: coloca tu foto en /public/imagenes/candidato-sobre.png
-  imagen: '/imagenes/casual.jpg',
+  imagen: '/imagenes/sentado.jpeg',
   imagenAlt: 'Candidato con la comunidad',
 }
 
@@ -101,7 +101,7 @@ export const seccionLogros = {
   logros2: [
     {
       icono: '🚰',
-      titulo: 'Regeneración de Parques',
+      titulo: 'Casa de la música',
       resumen: 'Acceso a servicios básicos para comunidades históricamente olvidadas.',
       puntos: [
         'Instalación de redes de agua potable en 6 comunidades rurales',
@@ -111,7 +111,7 @@ export const seccionLogros = {
     },
     {
       icono: '🏥',
-      titulo: 'Colectoras',
+      titulo: 'Mercado de Chibuleo y Mercado de Pilahuin',
       resumen: 'Atención médica de calidad para quienes más lo necesitan.',
       puntos: [
         'Más de 4.000 consultas médicas gratuitas entregadas',
@@ -121,7 +121,7 @@ export const seccionLogros = {
     },
     {
       icono: '🤲',
-      titulo: 'Plan 2020',
+      titulo: 'Quebrada los gallinazos y Parque Infantil de Atocha',
       resumen: 'Programas directos de asistencia a grupos vulnerables.',
       puntos: [
         'Entrega de canastas básicas a más de 800 familias',
@@ -131,7 +131,7 @@ export const seccionLogros = {
     },
     {
       icono: '🛣️',
-      titulo: 'Cuido la vida de los Ambateños durante el "COVID"',
+      titulo: 'Sistema de Agua Potable Chibuleo San Francisco',
       resumen: 'Vías y accesos mejorados para una ciudad más ágil.',
       puntos: [
         'Adoquinado y reparcheo en más de 8 km de vías urbanas',
@@ -143,7 +143,7 @@ export const seccionLogros = {
   logros: [
     {
       icono: '🏗️',
-      titulo: 'Paso Deprimido Norte',
+      titulo: 'Paso a desnivel de Huachi Chico',
       resumen: 'Obras concretas que transformaron barrios y comunidades de Ambato.',
       puntos: [
         'Rehabilitación de vías en 12 barrios del sur de la ciudad',
@@ -153,7 +153,7 @@ export const seccionLogros = {
     },
     {
       icono: '🎓',
-      titulo: 'Paso Deprimido Sur',
+      titulo: 'Paso a desnivel de Izamba',
       resumen: 'Inversión directa en la educación de niños y jóvenes ambateños.',
       puntos: [
         'Entrega de más de 2.000 kits escolares en zonas vulnerables',
@@ -163,7 +163,7 @@ export const seccionLogros = {
     },
     {
       icono: '💼',
-      titulo: 'El Mercado Chimolero',
+      titulo: 'Centro de Revisión Técnica Vehicular CRTV',
       resumen: 'Apoyo directo a emprendedores y trabajadores de la ciudad.',
       puntos: [
         'Feria de emprendimiento con más de 300 negocios participantes',
@@ -173,7 +173,7 @@ export const seccionLogros = {
     },
     {
       icono: '🌿',
-      titulo: 'La Terminal Terrestre',
+      titulo: 'Parque del Deporte',
       resumen: 'Acciones concretas por un Ambato más limpio y saludable.',
       puntos: [
         'Campaña de reforestación con 5.000 árboles plantados',
@@ -338,8 +338,8 @@ export const seccionPropuestas = {
 // ── SECCIÓN REGISTRO ─────────────────────────────────────────
 export const seccionRegistro = {
   etiqueta: 'Únete',
-  titulo: 'Sé parte del',
-  tituloDestacado: 'cambio',
+  titulo: 'Yo continúo con',
+  tituloDestacado: 'Javier',
   descripcion:
     'Regístrate y recibe información directa sobre la campaña, eventos y cómo puedes participar en tu barrio.',
   campos: {
@@ -369,7 +369,7 @@ export const pieDePagina = {
   eslogan: 'Ambato',
   descripcion: 'Continuamos con el desarrollo de Ambato Tungurahua.',
   // Derechos de autor — el año se actualiza automáticamente
-  derechos: 'HERSA Campaña Ambato',
+  derechos: 'HERSA',
   enlacesRapidos: [
     { texto: 'Mi Historia',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },

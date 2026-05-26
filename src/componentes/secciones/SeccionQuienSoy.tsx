@@ -6,7 +6,7 @@ const galeria = [
   '/imagenes/abrazo.jpg',
   '/imagenes/abrazo_1.jpg',
   '/imagenes/abrazo_2.jpg',
-  '/imagenes/abrazo4.jpg',
+  '/imagenes/gente_2.jpg',
   '/imagenes/hablando.jpg',
 ]
 
@@ -61,10 +61,10 @@ export default function SeccionQuienSoy() {
                 }}
               >
                 <div
-                  className="absolute inset-0 rounded-3xl overflow-hidden bg-gray-100 border border-gray-200"
+                  className="absolute inset-0 rounded-3xl overflow-hidden bg-black"
                   style={{ backfaceVisibility: 'hidden' }}
                 >
-                  <img src={seccionQuienSoy.imagen} alt={seccionQuienSoy.imagenAlt} className="w-full h-full object-cover" />
+                  <img src={seccionQuienSoy.imagen} alt={seccionQuienSoy.imagenAlt} className="w-full h-full object-contain object-bottom" />
                 </div>
                 <div
                   className="absolute inset-0 rounded-3xl overflow-hidden bg-gray-100 border border-gray-200"
@@ -85,35 +85,45 @@ export default function SeccionQuienSoy() {
                 "El Ciudadano con Visión Futura y Continuidad"
               </p>
               <h3 className="font-titulo font-black text-azul text-xl leading-tight mt-1">
-                Francisco Javier Altamirano Sánchez
+                Javier Francisco Altamirano Sánchez
               </h3>
             </div>
 
             {/* Texto biográfico */}
             <div className="text-gray-600 text-sm leading-relaxed space-y-3 text-justify">
               <p>
-                Conocido en las calles como <strong className="text-azul">"Javier Altamirano"</strong>, es un ciudadano
-                que creció en <em>(nombre de la parroquia)</em>. Fue hijo de…, padre de…, sufrió injusticias en el
-                trayecto de su vida, vivió carencias y padeció como muchos: problemas económicos, laborales, de
-                desigualdad y falta de oportunidades.
+                Conocido en Ambato como <strong className="text-azul">"Javier Altamirano"</strong>, es un ciudadano
+                que creció en el barrio <strong className="text-azul">"La Merced"</strong>. Es hijo de Jaime Altamirano
+                Chico y Clelia Sánchez Arias. Durante el trayecto de su vida sufrió injusticias, vivió carencias y
+                padeció como muchos: problemas económicos, laborales, de desigualdad y falta de oportunidades.
               </p>
               <p>
-                Desde muy temprana edad Javier apoyó a sus hermanos y hermanas. Empezó a trabajar desde los{' '}
-                <strong className="text-azul">10 años de edad</strong>. Se preparó profesionalmente con mucho esfuerzo
-                y sacrificio, logrando ser <strong className="text-azul">Abogado por la Universidad de Ambato</strong>.
+                Desde muy temprana edad Javier apoyó a su familia; comenzó a trabajar desde los{' '}
+                <strong className="text-azul">12 años de edad</strong> en el negocio familiar. Se preparó
+                profesionalmente con mucho esfuerzo y sacrificio, recibiéndose como{' '}
+                <strong className="text-azul">Doctor en Jurisprudencia por la Universidad Central del Ecuador</strong>.
               </p>
               <p>
-                Ha trabajado como <strong className="text-azul">Decano de la Facultad de Jurisprudencia</strong> en la
-                Universidad Tecnológica Indoamérica, en el período 2014–2019. Logró ser{' '}
-                <strong className="text-azul">Alcalde en el período 2019–2023</strong>, logrando grandes obras
-                como…, …, … y …; y como Alcalde en pleno <strong className="text-azul">COVID</strong> cuidó la salud
-                y la vida de todos los Ambateños, con responsabilidad y acciones concretas.
+                Fue <strong className="text-azul">Concejal en el Gobierno Municipal de Ambato</strong> en el período
+                2004–2008. Trabajó en el período 2014–2019 como{' '}
+                <strong className="text-azul">Decano de la Facultad de Jurisprudencia</strong> en la Universidad
+                Tecnológica Indoamérica.
+              </p>
+              <p>
+                Con el apoyo de más de <strong className="text-azul">95,000 Ambateños</strong>, fue electo{' '}
+                <strong className="text-azul">Alcalde en el período 2019–2023</strong>, construyendo grandes obras como
+                los <em>"Pasos a desnivel de Huachi Chico e Izamba"</em>,{' '}
+                <em>"Centro de Revisión Técnica Vehicular CRTV"</em>, <em>"Casa de la Música"</em>, los{' '}
+                <em>"Mercados Chibuleo y Pilahuin"</em>, y la regeneración de parques como el{' '}
+                <em>"Del Deporte, Quebrada Los Gallinazos e Infantil de Atocha"</em>, entre otras obras. Como Alcalde
+                en pleno <strong className="text-azul">COVID</strong> cuidó la salud y la vida de todos los Ambateños
+                con responsabilidad y acciones concretas.
               </p>
               <p className="font-semibold text-azul">
                 El <span className="text-oro">PASADO</span> le dio la experiencia, el{' '}
                 <span className="text-oro">PRESENTE</span> nos exige evolución — vamos por la{' '}
                 <span className="text-oro">CONTINUIDAD</span> de nuestras grandes metas con{' '}
-                <span className="text-oro">JAVIER ALTAMIRANO!!!</span>
+                <span className="text-oro">JAVIER ALTAMIRANO.</span>
               </p>
             </div>
 
@@ -139,18 +149,18 @@ export default function SeccionQuienSoy() {
           className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center p-4"
           onClick={cerrar}
         >
-          <div className="relative w-full max-w-3xl" onClick={e => e.stopPropagation()}>
-
-            {/* Botón cerrar */}
-            <button
-              onClick={() => setGaleriaAbierta(false)}
-              className="absolute -top-10 right-0 text-white/70 hover:text-white text-3xl leading-none z-10"
-            >
-              ✕
-            </button>
+          <div className="relative w-full max-w-xl" onClick={e => e.stopPropagation()}>
 
             {/* Imagen principal */}
             <div className="relative rounded-2xl overflow-hidden bg-black aspect-[4/3]">
+
+              {/* Botón cerrar — dentro de la imagen, esquina superior derecha */}
+              <button
+                onClick={() => setGaleriaAbierta(false)}
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 hover:bg-oro border border-white/30 hover:border-oro text-white text-base font-bold flex items-center justify-center z-20 transition-all duration-200 shadow-lg"
+              >
+                ✕
+              </button>
               <img
                 key={indiceActivo}
                 src={galeria[indiceActivo]}

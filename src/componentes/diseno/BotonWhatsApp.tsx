@@ -5,7 +5,7 @@ export default function BotonWhatsApp() {
   const [abierto, setAbierto] = useState(false)
 
   return (
-    <div className={`fixed bottom-6 right-6 flex flex-col items-end gap-3 ${abierto ? 'z-[60]' : 'z-50'}`}>
+    <div className={`fixed bottom-6 right-6 flex flex-col items-end gap-3 pointer-events-none ${abierto ? 'z-[60]' : 'z-50'}`}>
 
       {/* Popup de chat */}
       <div
@@ -79,7 +79,7 @@ export default function BotonWhatsApp() {
       <button
         onClick={() => setAbierto(v => !v)}
         aria-label="Chat de WhatsApp"
-        className="relative w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#1da851] shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 flex items-center justify-center"
+        className="relative w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#1da851] shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 flex items-center justify-center pointer-events-auto"
       >
         {/* Anillo de pulso */}
         {!abierto && (
