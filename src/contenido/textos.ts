@@ -388,5 +388,6 @@ export const pieDePagina = {
     { nombre: 'Instagram', href: '#', icono: 'ig' },
     { nombre: 'Twitter/X', href: '#', icono: 'tw' },
     { nombre: 'YouTube',   href: '#', icono: 'yt' },
+    { nombre: 'TikTok',   href: '#', icono: 'tt' },
   ],
 }
