@@ -85,14 +85,14 @@ export const seccionLogros = {
   titulo: 'Lo que ya',
   tituloDestacado: 'logramos',
   galeria: [
-    { frente: '/imagenes/gente.jpg',    reverso: '/imagenes/476431256_1158597422375233_2378425285877736878_n.jpg' },
-    { frente: '/imagenes/abrazo.jpg',   reverso: '/imagenes/476386470_1158591599042482_587719789063592314_n.jpg' },
-    { frente: '/imagenes/abrazo_1.jpg', reverso: '/imagenes/476805736_1158590762375899_8851990481937959008_n.jpg' },
-    { frente: '/imagenes/calle.jpg',    reverso: '/imagenes/476009588_1158590439042598_5229177781056991096_n.jpg' },
-    { frente: '/imagenes/abrazo_2.jpg', reverso: '/imagenes/476830910_1158590429042599_6701177877427897421_n.jpg' },
-    { frente: '/imagenes/abrazo_4.jpg', reverso: '/imagenes/476774321_1158589355709373_2626562355904971872_n.jpg' },
-    { frente: '/imagenes/hablando.jpg', reverso: '/imagenes/476382386_1158589519042690_4804614561289909979_n.jpg' },
-    { frente: '/imagenes/trabajando.jpg', reverso: '/imagenes/476832443_1158587272376248_6435993229627634584_n.jpg' },
+    { frente: '/imagenes/new_images/3.jpeg',  reverso: '/imagenes/new_images/10.jpeg' },
+    { frente: '/imagenes/new_images/9.jpeg',  reverso: '/imagenes/new_images/4.jpeg'  },
+    { frente: '/imagenes/new_images/5.jpeg',  reverso: '/imagenes/new_images/12.jpeg' },
+    { frente: '/imagenes/new_images/15.jpeg', reverso: '/imagenes/new_images/7.jpeg'  },
+    { frente: '/imagenes/new_images/8.jpeg',  reverso: '/imagenes/new_images/3.jpeg'  },
+    { frente: '/imagenes/new_images/4.jpeg',  reverso: '/imagenes/new_images/9.jpeg'  },
+    { frente: '/imagenes/new_images/7.jpeg',  reverso: '/imagenes/new_images/5.jpeg'  },
+    { frente: '/imagenes/new_images/12.jpeg', reverso: '/imagenes/new_images/15.jpeg' },
   ],
   botonRendicion: {
     texto: 'Enlace a rendición de cuentas',
@@ -190,10 +190,10 @@ export const seccionPropuestasNuevas = {
   titulo: 'Lo que',
   tituloDestacado: 'lograremos',
   galeria: [
-    { frente: '/imagenes/476806618_1158581895710119_5687367754366581586_n.jpg', reverso: '/imagenes/476454570_1158581659043476_8860559930503311005_n.jpg' },
-    { frente: '/imagenes/476145899_1157954529106189_6414210977516144070_n.jpg', reverso: '/imagenes/577051462_1364530098448630_1018775810050144370_n.jpg' },
-    { frente: '/imagenes/476009971_1157948235773485_8728827498493728921_n.jpg', reverso: '/imagenes/casual.jpg' },
-    { frente: '/imagenes/candidato.jpeg', reverso: '/imagenes/476832443_1158587272376248_6435993229627634584_n.jpg' },
+    { frente: '/imagenes/new_images/22.jpeg', reverso: '/imagenes/new_images/25.jpeg' },
+    { frente: '/imagenes/new_images/2.jpeg',  reverso: '/imagenes/new_images/23.jpeg' },
+    { frente: '/imagenes/new_images/20.jpeg', reverso: '/imagenes/new_images/24.jpeg' },
+    { frente: '/imagenes/new_images/24.jpeg', reverso: '/imagenes/new_images/20.jpeg' },
   ],
   tarjetas: [
     {
@@ -253,12 +253,27 @@ export const seccionTrayectoria = {
           '',
       },
       {
-        titulo: 'Decano de la Facultad de Jurisprudencia en la “Universidad Tecnológica Indoamérica”. Periodo 2014-2019',
+        titulo: 'Decano de la Facultad de Jurisprudencia en la “Universidad Tecnológica Indoamérica”. Periodo 2011-2019',
         descripcion:
           '',
       },
       {
-        titulo: 'Docente en la Facultad de Jurisprudencia en la “Universidad Técnica de Ambato”.',
+        titulo: 'Abogado Externo Banco de Guayaquil . Periodo 2013-2018',
+        descripcion:
+          '',
+      },
+      {
+        titulo: 'Docente en la Facultad de Jurisprudencia en la “Universidad Técnica de Ambato”. Periodo 2013',
+        descripcion:
+          '',
+      },
+      {
+        titulo: 'Abogado en Libre Ejercicio. Periodo 2023 - Actualidad',
+        descripcion:
+          '',
+      },
+      {
+        titulo: 'Docente en la “Universidad Autonoma de los Andes ”. Periodo 2013',
         descripcion:
           '',
       },

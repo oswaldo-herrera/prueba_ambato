@@ -2,12 +2,12 @@ import { useState } from 'react'
 import { seccionQuienSoy } from '../../contenido/textos'
 
 const galeria = [
-  '/imagenes/calle.jpg',
-  '/imagenes/abrazo.jpg',
-  '/imagenes/abrazo_1.jpg',
-  '/imagenes/abrazo_2.jpg',
-  '/imagenes/gente_2.jpg',
-  '/imagenes/hablando.jpg',
+  '/imagenes/new_images/22.jpeg',
+  '/imagenes/new_images/25.jpeg',
+  '/imagenes/new_images/2.jpeg',
+  '/imagenes/new_images/20.jpeg',
+  '/imagenes/new_images/24.jpeg',
+  '/imagenes/new_images/23.jpeg',
 ]
 
 export default function SeccionQuienSoy() {
@@ -70,7 +70,7 @@ export default function SeccionQuienSoy() {
                   className="absolute inset-0 rounded-3xl overflow-hidden bg-gray-100 border border-gray-200"
                   style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                 >
-                  <img src="/imagenes/trabajando.jpg" alt="Candidato trabajando" className="w-full h-full object-cover" />
+                  <img src="/imagenes/new_images/21.jpeg" alt="Candidato trabajando" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>

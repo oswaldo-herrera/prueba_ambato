@@ -23,6 +23,7 @@ import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
 import SeccionValores from './componentes/secciones/SeccionValores'
 import SeccionLogros from './componentes/secciones/SeccionLogros'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
+import SeccionMundial from './componentes/secciones/SeccionMundial'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
 import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
@@ -52,6 +53,9 @@ export default function App() {
 
         {/* 4. Propuestas */}
         <SeccionPropuestasNuevas />
+
+        {/* 4.5 Mundial 2026 */}
+        <SeccionMundial />
 
         {/* 5. Trayectoria / Experiencia */}
         <SeccionTrayectoria />

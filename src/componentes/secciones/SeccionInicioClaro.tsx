@@ -163,7 +163,7 @@ export default function SeccionInicioClaro() {
                     style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                   >
                     <img
-                      src="/imagenes/abrazo.jpg"
+                      src="/imagenes/new_images/19.jpeg"
                       alt="Candidato con la comunidad"
                       className="w-full h-full object-cover object-top"
                     />
