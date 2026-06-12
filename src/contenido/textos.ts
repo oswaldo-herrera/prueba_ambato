@@ -25,7 +25,7 @@ export const navegacion = {
 
 // ── SECCIÓN INICIO (HERO) ────────────────────────────────────
 export const seccionInicio = {
-  etiqueta: 'Yo continúo con Javier',    // Texto pequeño arriba del título
+  etiqueta: 'Continúo X Ambato',    // Texto pequeño arriba del título
   titulo: 'X un Ambato con ',    // Primera línea del título grande
   // Palabras que rotan en color oro — edítalas libremente
   titulosRotativos: [
@@ -231,9 +231,9 @@ export const seccionPropuestasNuevas = {
       titulo: 'Movilidad',
       resumen: 'Para abordar la movilidad en Ambato se deben considerar sus desafíos particulares: la alta congestión en los "días de feria", la compleja topografía de la ciudad, la necesidad de conectar las parroquias rurales con el casco urbano y el acelerado crecimiento del parque automotor.',
       puntos: [
+        'Plan Maestro de Movilidad',
         'Reordenamiento y Rediseño de Rutas de Transporte Público',
-        'Infraestructura de Conectividad para Parroquias Rurales',
-        'Plan de Peatonalización y Accesibilidad Universal en el Casco Central',
+        'Caja Común',
       ],
     },
   ],
@@ -250,17 +250,22 @@ export const seccionTrayectoria = {
       {
         titulo: 'Concejal en el Gobierno Municipal de Ambato en el periodo 2004-2008',
         descripcion:
-          'Especialización en Derecho Público y Constitucional. Participación en clínicas jurídicas de acceso a la justicia.',
+          '',
       },
       {
         titulo: 'Decano de la Facultad de Jurisprudencia en la “Universidad Tecnológica Indoamérica”. Periodo 2014-2019',
         descripcion:
-          'Enfocada en modernización del Estado, presupuesto participativo y rendición de cuentas a la ciudadanía.',
+          '',
+      },
+      {
+        titulo: 'Docente en la Facultad de Jurisprudencia en la “Universidad Técnica de Ambato”.',
+        descripcion:
+          '',
       },
       {
         titulo: 'Alcalde de Ambato Periodo 2019-2023',
         descripcion:
-          'Descripción del tercer ítem de la columna 1. Edita este texto en textos.ts.',
+          '',
       },
     ],
   },
@@ -270,17 +275,17 @@ export const seccionTrayectoria = {
       {
         titulo: 'Doctor en Jurisprudencia por la Universidad Central del Ecuador',
         descripcion:
-          'Especialización en Derecho Público y Constitucional. Participación en clínicas jurídicas de acceso a la justicia.',
+          '',
       },
       {
-        titulo: 'Maestría en Gestión Pública',
+        titulo: 'Maestría en Derecho Procesal "Universidad Andina Simón Bolivar" ',
         descripcion:
-          'Enfocada en modernización del Estado, presupuesto participativo y rendición de cuentas a la ciudadanía.',
+          '',
       },
       {
-        titulo: 'Certificación Internacional en Gobernanza',
+        titulo: 'Pendiente',
         descripcion:
-          'Formación avalada por organismos internacionales en transparencia, anticorrupción y buen gobierno.',
+          '',
       },
     ],
   },
@@ -367,7 +372,7 @@ export const seccionWhatsApp = {
 export const pieDePagina = {
   logo: 'HERSA',
   eslogan: 'Ambato',
-  descripcion: 'Continuamos con el desarrollo de Ambato Tungurahua.',
+  descripcion: 'Continuamos X el desarrollo de Ambato.',
   // Derechos de autor — el año se actualiza automáticamente
   derechos: 'HERSA',
   enlacesRapidos: [

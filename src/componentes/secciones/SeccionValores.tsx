@@ -41,10 +41,25 @@ export default function SeccionValores() {
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Etiqueta superior */}
-        <div className="text-center mb-10">
-          <span className="inline-block text-oro font-semibold text-xl tracking-widest uppercase">
+        <div className="text-center mb-10 flex flex-col items-center gap-2">
+          <div className="flex items-center gap-4 justify-center">
+            <div className="w-16 h-px bg-gradient-to-r from-transparent to-oro/60" />
+            <span className="text-white/30 text-[10px] tracking-[0.4em] uppercase font-medium">Alcaldía de Ambato · 2026</span>
+            <div className="w-16 h-px bg-gradient-to-l from-transparent to-oro/60" />
+          </div>
+          <span
+            className="font-titulo font-black text-4xl sm:text-5xl tracking-widest uppercase"
+            style={{
+              background: 'linear-gradient(110deg, #AC7C3F 0%, #f5d98a 50%, #AC7C3F 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 0 18px rgba(255,255,255,0.35)) drop-shadow(0 2px 8px rgba(245,217,138,0.5))',
+            }}
+          >
             Continúo X Ambato
           </span>
+          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-oro/70 to-transparent rounded-full" />
         </div>
 
         {/* Cita */}
@@ -55,7 +70,7 @@ export default function SeccionValores() {
               <strong className="text-oro font-bold">TIEMPO</strong>, ha puesto toda su{' '}
               <strong className="text-oro font-bold">PASIÓN</strong> y ha hecho las cosas desde el{' '}
               <strong className="text-oro font-bold">CORAZÓN</strong> por tener y vivir en un{' '}
-              <strong className="text-white font-bold">AMBATO JUSTO, SEGURO, CON ALMA Y LLENO DE OPORTUNIDADES PARA TODOS LOS AMBATEÑOS</strong>"
+              <strong className="text-white font-bold">UN AMBATO JUSTO, SEGURO Y CON ALMA </strong>"
             </p>
           </blockquote>
         </div>

@@ -21,7 +21,7 @@ const pasos = [
       <>
         Graba tu video expresando {' '}
         <strong className="text-azul">"YO CONTINÚO CON JAVIER"</strong>{' '}
-        por un Ambato Justo, Seguro con Alma y lleno de Oportunidades
+        por un Ambato Justo, Seguro con Alma.
       </>
     ),
   },

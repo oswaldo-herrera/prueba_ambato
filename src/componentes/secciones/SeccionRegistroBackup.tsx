@@ -213,7 +213,7 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
               <span className="text-oro">{seccionRegistro.tituloDestacado}</span>
             </h2>
             <p className="text-white/70 text-lg leading-relaxed">
-              Regístrate y recibe información directa sobre actividades, eventos y cómo puedes participar en tu parroquia, barrio o sección.
+              Regístrate y recibe información directa sobre actividades, eventos y cómo puedes participar en tu parroquia, barrio o sector.
             </p>
 
             <ul className="space-y-3 pt-2">

@@ -45,9 +45,24 @@ export default function SeccionInicio() {
           {/* Columna izquierda — Texto */}
           <div className="space-y-6">
             {/* Etiqueta */}
-            <div className="inline-flex items-center gap-2 bg-oro/20 border border-oro/30 text-oro text-xs font-semibold px-4 py-2 rounded-full tracking-wide uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-oro animate-pulse" />
-              {seccionInicio.etiqueta}
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-px bg-oro/50" />
+                <span className="text-white/40 text-[10px] tracking-[0.35em] uppercase font-medium">Alcaldía de Ambato · 2026</span>
+              </div>
+              <span
+                className="font-titulo font-black text-4xl sm:text-5xl tracking-widest uppercase"
+                style={{
+                  background: 'linear-gradient(110deg, #AC7C3F 0%, #f5d98a 50%, #AC7C3F 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: 'drop-shadow(0 0 18px rgba(255,255,255,0.35)) drop-shadow(0 2px 8px rgba(245,217,138,0.5))',
+                }}
+              >
+                {seccionInicio.etiqueta}
+              </span>
+              <div className="w-20 h-0.5 bg-gradient-to-r from-oro/70 to-transparent rounded-full" />
             </div>
 
             {/* Título principal */}
