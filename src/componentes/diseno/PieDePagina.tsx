@@ -27,7 +27,7 @@ const iconosRedes: Record<string, JSX.Element> = {
   ),
 }
 
-export default function PieDePagina() {
+export default function PieDePagina({ onPolitica }: { onPolitica?: () => void }) {
   const anioActual = new Date().getFullYear()
 
   return (
@@ -105,8 +105,16 @@ export default function PieDePagina() {
 
         {/* Línea de derechos */}
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-white/40 text-xs">
-          <span>© {anioActual} {pieDePagina.derechos}. Todos los derechos reservados.</span>
-          <span>Hecho con ❤️ para Ambato</span>
+          <span>© {anioActual} Todos los derechos reservados.</span>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onPolitica}
+              className="hover:text-oro transition-colors duration-200 underline underline-offset-2"
+            >
+              Política de Privacidad
+            </button>
+            <span>Hecho con ❤️ para Ambato</span>
+          </div>
         </div>
       </div>
     </footer>

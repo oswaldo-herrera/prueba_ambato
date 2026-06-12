@@ -42,8 +42,8 @@ export default function SeccionValores() {
 
         {/* Etiqueta superior */}
         <div className="text-center mb-10">
-          <span className="inline-block text-oro font-semibold text-sm tracking-widest uppercase">
-            Continúo por Ambato
+          <span className="inline-block text-oro font-semibold text-xl tracking-widest uppercase">
+            Continúo X Ambato
           </span>
         </div>
 

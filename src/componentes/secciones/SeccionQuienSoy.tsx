@@ -52,7 +52,7 @@ export default function SeccionQuienSoy() {
             <div className="absolute -bottom-6 -left-6 w-48 h-48 rounded-2xl bg-oro/10 pointer-events-none" />
             <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-azul/5 pointer-events-none" />
 
-            <div className="relative w-full aspect-[4/5]" style={{ perspective: '1000px' }}>
+            <div className="relative w-full aspect-[4/3]" style={{ perspective: '1000px' }}>
               <div
                 className="relative w-full h-full transition-transform duration-700 pointer-events-none"
                 style={{
@@ -61,10 +61,10 @@ export default function SeccionQuienSoy() {
                 }}
               >
                 <div
-                  className="absolute inset-0 rounded-3xl overflow-hidden bg-black"
+                  className="absolute inset-0 rounded-3xl overflow-hidden bg-gray-100"
                   style={{ backfaceVisibility: 'hidden' }}
                 >
-                  <img src={seccionQuienSoy.imagen} alt={seccionQuienSoy.imagenAlt} className="w-full h-full object-contain object-bottom" />
+                  <img src={seccionQuienSoy.imagen} alt={seccionQuienSoy.imagenAlt} className="w-full h-full object-cover object-top" />
                 </div>
                 <div
                   className="absolute inset-0 rounded-3xl overflow-hidden bg-gray-100 border border-gray-200"

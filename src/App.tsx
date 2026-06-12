@@ -7,12 +7,17 @@
 // la línea correspondiente dentro del <main>.
 // ============================================================
 
+import { useState } from 'react'
 import BarraNavegacion from './componentes/diseno/BarraNavegacion'
+import IntroAnimacion from './componentes/diseno/IntroAnimacion'
+import AudioFondo from './componentes/diseno/AudioFondo'
+import PoliticaPrivacidad from './componentes/secciones/PoliticaPrivacidad'
 import PieDePagina from './componentes/diseno/PieDePagina'
 import BotonWhatsApp from './componentes/diseno/BotonWhatsApp'
 import AvatarFlotante from './componentes/diseno/AvatarFlotante'
 
-import SeccionInicio from './componentes/secciones/SeccionInicio'
+// import SeccionInicio from './componentes/secciones/SeccionInicio'      // ← fondo oscuro
+import SeccionInicioClaro from './componentes/secciones/SeccionInicioClaro' // ← fondo claro (activo)
 import SeccionQuienSoy from './componentes/secciones/SeccionQuienSoy'
 import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
 import SeccionValores from './componentes/secciones/SeccionValores'
@@ -23,6 +28,8 @@ import SeccionRegistro from './componentes/secciones/SeccionRegistro'
 import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
 
 export default function App() {
+  const [politicaAbierta, setPoliticaAbierta] = useState(false)
+
   return (
     <div className="font-sans text-gray-800 antialiased">
 
@@ -31,8 +38,11 @@ export default function App() {
 
       {/* ── CONTENIDO PRINCIPAL ── */}
       <main>
-        {/* 1. Sección de inicio / Hero */}
-        <SeccionInicio />
+        {/* 1. Sección de inicio / Hero — CAMBIA ENTRE LAS DOS OPCIONES */}
+        {/* FONDO OSCURO (actual): */}
+        {/* <SeccionInicio /> */}
+        {/* FONDO CLARO (propuesta nueva): */}
+        <SeccionInicioClaro />
 
         {/* 2. Quién soy / Conóceme */}
         <SeccionQuienSoy />
@@ -56,20 +66,29 @@ export default function App() {
         <SeccionRegistro />
 
         {/* 6. Formulario de registro alternativo */}
-        <SeccionRegistroBackup />
+        <SeccionRegistroBackup onPolitica={() => setPoliticaAbierta(true)} />
 
         {/* 7. Canal de WhatsApp */}
         <SeccionWhatsApp />
       </main>
 
       {/* ── PIE DE PÁGINA ── */}
-      <PieDePagina />
+      <PieDePagina onPolitica={() => setPoliticaAbierta(true)} />
 
       {/* ── BOTÓN FLOTANTE WHATSAPP ── */}
       <BotonWhatsApp />
 
       {/* ── AVATAR FLOTANTE ── */}
       <AvatarFlotante />
+
+      {/* ── INTRO ANIMACIÓN ── */}
+      <IntroAnimacion />
+
+      {/* ── POLÍTICA DE PRIVACIDAD ── */}
+      {politicaAbierta && <PoliticaPrivacidad onCerrar={() => setPoliticaAbierta(false)} />}
+
+      {/* ── AUDIO DE FONDO (una sola vez al cargar) ── */}
+      <AudioFondo />
 
     </div>
   )

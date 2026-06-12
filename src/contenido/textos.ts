@@ -26,13 +26,12 @@ export const navegacion = {
 // ── SECCIÓN INICIO (HERO) ────────────────────────────────────
 export const seccionInicio = {
   etiqueta: 'Yo continúo con Javier',    // Texto pequeño arriba del título
-  titulo: 'Por un Ambato',    // Primera línea del título grande
+  titulo: 'X un Ambato con ',    // Primera línea del título grande
   // Palabras que rotan en color oro — edítalas libremente
   titulosRotativos: [
-    'justo',
-    'seguro',
-    'con alma',
-    'con oportunidades',
+    '+ Seguridad',
+    '+ Empleo',
+    '+ Salud',
   ],
   descripcion:
     'Construyamos juntos una ciudad más justa, con oportunidades reales para todos. Con experiencia, visión futura y compromiso ciudadano.',
@@ -76,7 +75,7 @@ export const seccionQuienSoy = {
     },
   ],
   // IMAGEN: coloca tu foto en /public/imagenes/candidato-sobre.png
-  imagen: '/imagenes/sentado.jpeg',
+  imagen: '/imagenes/presidente.jpeg',
   imagenAlt: 'Candidato con la comunidad',
 }
 
@@ -97,12 +96,12 @@ export const seccionLogros = {
   ],
   botonRendicion: {
     texto: 'Enlace a rendición de cuentas',
-    href: '#',
+    href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/',
   },
   logros2: [
     {
       icono: '🚰',
-      titulo: 'Casa de la música',
+      titulo: 'Casa de la Música',
       resumen: 'Acceso a servicios básicos para comunidades históricamente olvidadas.',
       puntos: [
         'Instalación de redes de agua potable en 6 comunidades rurales',
@@ -112,7 +111,7 @@ export const seccionLogros = {
     },
     {
       icono: '🏥',
-      titulo: 'Mercado de Chibuleo y Mercado de Pilahuin',
+      titulo: 'Mercado de Chibuleo',
       resumen: 'Atención médica de calidad para quienes más lo necesitan.',
       puntos: [
         'Más de 4.000 consultas médicas gratuitas entregadas',
@@ -122,7 +121,7 @@ export const seccionLogros = {
     },
     {
       icono: '🤲',
-      titulo: 'Quebrada los gallinazos y Parque Infantil de Atocha',
+      titulo: 'Quebrada los Gallinazos y Parque Infantil de Atocha',
       resumen: 'Programas directos de asistencia a grupos vulnerables.',
       puntos: [
         'Entrega de canastas básicas a más de 800 familias',
@@ -199,42 +198,42 @@ export const seccionPropuestasNuevas = {
   tarjetas: [
     {
       icono: '🏙️',
-      titulo: 'Propuesta 1',
-      resumen: 'Descripción breve de esta propuesta para Ambato.',
+      titulo: 'Seguridad',
+      resumen: 'La seguridad en Ambato puede fortalecerse mediante prevención del delito, control del espacio público y tecnología. Estas acciones deben ejecutarse conforme a las competencias establecidas por el COOTAD para los GAD.',
       puntos: [
-        'Punto clave uno de la propuesta',
-        'Punto clave dos de la propuesta',
-        'Punto clave tres de la propuesta',
+        'Modernización de las Salas de Monitoreo e Integración con Inteligencia Artificial',
+        'Recuperación y Activación Cultural/Económica de Espacios Públicos Críticos',
+        'Programa de "Mercados Seguros" y Control de la Informalidad Comercial',
       ],
     },
     {
       icono: '🛡️',
-      titulo: 'Propuesta 2',
-      resumen: 'Descripción breve de esta propuesta para Ambato.',
+      titulo: 'Salud',
+      resumen: 'La salud en Ambato debe fortalecerse mediante la prevención y la mejora de los servicios locales. Aunque el MSP dirige el sistema de salud, el municipio cumple un papel importante a través del hospital municipal.',
       puntos: [
-        'Punto clave uno de la propuesta',
-        'Punto clave dos de la propuesta',
-        'Punto clave tres de la propuesta',
+        'Unidades Médicas Móviles para Parroquias Rurales y Zonas Periféricas',
+        'Construcción del Nuevo Hospital Municipal',
+        'Programa Cantonal de Prevención y Manejo de la Desnutrición Crónica Infantil (DCI)',
       ],
     },
     {
       icono: '💡',
-      titulo: 'Propuesta 3',
-      resumen: 'Descripción breve de esta propuesta para Ambato.',
+      titulo: 'Empleo',
+      resumen: 'Tomando como referencia las competencias de desarrollo productivo local que el COOTAD otorga a los municipios, las propuestas estratégicas en materia de empleo y reactivación económica para el cantón:',
       puntos: [
-        'Punto clave uno de la propuesta',
-        'Punto clave dos de la propuesta',
-        'Punto clave tres de la propuesta',
+        'Creación de una Incubadora y Aceleradora Municipal de Empresas',
+        'Programa de Educación Técnica y Tecnológica Alineada a la Industria Local',
+        'Modernización del Comercio Autónomo e Informal hacia el Empleo Formal',
       ],
     },
     {
       icono: '🌱',
-      titulo: 'Propuesta 4',
-      resumen: 'Descripción breve de esta propuesta para Ambato.',
+      titulo: 'Movilidad',
+      resumen: 'Para abordar la movilidad en Ambato se deben considerar sus desafíos particulares: la alta congestión en los "días de feria", la compleja topografía de la ciudad, la necesidad de conectar las parroquias rurales con el casco urbano y el acelerado crecimiento del parque automotor.',
       puntos: [
-        'Punto clave uno de la propuesta',
-        'Punto clave dos de la propuesta',
-        'Punto clave tres de la propuesta',
+        'Reordenamiento y Rediseño de Rutas de Transporte Público',
+        'Infraestructura de Conectividad para Parroquias Rurales',
+        'Plan de Peatonalización y Accesibilidad Universal en el Casco Central',
       ],
     },
   ],
@@ -269,7 +268,7 @@ export const seccionTrayectoria = {
     titulo: 'Preparación Profesional',
     items: [
       {
-        titulo: 'Derecho — Universidad Central del Ecuador',
+        titulo: 'Doctor en Jurisprudencia por la Universidad Central del Ecuador',
         descripcion:
           'Especialización en Derecho Público y Constitucional. Participación en clínicas jurídicas de acceso a la justicia.',
       },
@@ -374,6 +373,7 @@ export const pieDePagina = {
   enlacesRapidos: [
     { texto: 'Mi Historia',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
+    { texto: 'Logros',      href: '#logros' },
     { texto: 'Propuestas',  href: '#propuestas-nuevas' },
     { texto: 'Regístrate',  href: '#registro' },
   ],

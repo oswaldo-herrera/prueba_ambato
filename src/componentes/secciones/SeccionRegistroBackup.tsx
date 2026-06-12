@@ -9,7 +9,7 @@ type CamposFormulario = {
   propuesta: string
 }
 
-export default function SeccionRegistroBackup() {
+export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () => void }) {
   const [formulario, setFormulario] = useState<CamposFormulario>({
     nombre: '',
     correo: '',
@@ -19,6 +19,7 @@ export default function SeccionRegistroBackup() {
   })
   const [enviado, setEnviado] = useState(false)
   const [enviando, setEnviando] = useState(false)
+  const [aceptaPolitica, setAceptaPolitica] = useState(false)
 
   const alCambiar = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormulario({ ...formulario, [e.target.name]: e.target.value })
@@ -163,11 +164,34 @@ export default function SeccionRegistroBackup() {
                   />
                 </div>
 
+                {/* Checkbox política de privacidad */}
+                <div className="flex items-start gap-3 pt-1">
+                  <input
+                    type="checkbox"
+                    id="acepta-politica"
+                    checked={aceptaPolitica}
+                    onChange={e => setAceptaPolitica(e.target.checked)}
+                    required
+                    className="mt-0.5 w-4 h-4 accent-oro flex-shrink-0 cursor-pointer"
+                  />
+                  <label htmlFor="acepta-politica" className="text-azul/60 text-xs leading-relaxed cursor-pointer">
+                    He leído y acepto la{' '}
+                    <button
+                      type="button"
+                      onClick={onPolitica}
+                      className="text-oro hover:text-oro-oscuro underline underline-offset-2 font-semibold transition-colors"
+                    >
+                      Política de Privacidad
+                    </button>
+                    {' '}y autorizo el tratamiento de mis datos personales conforme a la LOPDP.
+                  </label>
+                </div>
+
                 {/* Botón */}
                 <button
                   type="submit"
-                  disabled={enviando}
-                  className="w-full bg-oro hover:bg-oro-oscuro disabled:opacity-60 disabled:cursor-not-allowed text-azul font-bold py-4 rounded-xl transition-all duration-200 hover:scale-[1.02] shadow-lg shadow-oro/20 mt-2"
+                  disabled={enviando || !aceptaPolitica}
+                  className="w-full bg-oro hover:bg-oro-oscuro disabled:opacity-40 disabled:cursor-not-allowed text-azul font-bold py-4 rounded-xl transition-all duration-200 hover:scale-[1.02] shadow-lg shadow-oro/20 mt-1"
                 >
                   {enviando ? 'Enviando...' : seccionRegistro.botonEnviar}
                 </button>
