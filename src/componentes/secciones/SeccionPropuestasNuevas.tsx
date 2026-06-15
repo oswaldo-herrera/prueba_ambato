@@ -137,23 +137,43 @@ export default function SeccionPropuestasNuevas() {
           </h2>
         </div>
 
-        {/* 4 tarjetas */}
+        {/* Fila 1: Seguridad + Salud */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {seccionPropuestasNuevas.tarjetas.map((tarjeta, index) => (
+          {[0, 1].map((index) => (
             <TarjetaPropuesta
               key={index}
-              tarjeta={tarjeta}
+              tarjeta={seccionPropuestasNuevas.tarjetas[index]}
               abierto={abierta === index}
               onToggle={() => setAbierta(abierta === index ? null : index)}
             />
           ))}
         </div>
 
-        {/* 4 fotos con flip — fila única */}
+        {/* Fila 2: Empleo centrado */}
+        <div className="mt-6 flex justify-center">
+          <div className="w-full md:w-1/2">
+            <TarjetaPropuesta
+              tarjeta={seccionPropuestasNuevas.tarjetas[2]}
+              abierto={abierta === 2}
+              onToggle={() => setAbierta(abierta === 2 ? null : 2)}
+            />
+          </div>
+        </div>
+
+        {/* Galería de fotos */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
           {seccionPropuestasNuevas.galeria.map((img, i) => (
             <ImagenFlip key={i} frente={img.frente} reverso={img.reverso} alt={`Propuesta ${i + 1}`} />
           ))}
+        </div>
+
+        {/* Movilidad — debajo de las fotos, centrada en media fila */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TarjetaPropuesta
+            tarjeta={seccionPropuestasNuevas.tarjetas[3]}
+            abierto={abierta === 3}
+            onToggle={() => setAbierta(abierta === 3 ? null : 3)}
+          />
         </div>
 
       </div>

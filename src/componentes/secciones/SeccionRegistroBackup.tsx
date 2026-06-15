@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { seccionRegistro } from '../../contenido/textos'
+import { supabase } from '../../lib/supabase'
 
 type CamposFormulario = {
   nombre: string
@@ -19,6 +20,7 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
   })
   const [enviado, setEnviado] = useState(false)
   const [enviando, setEnviando] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [aceptaPolitica, setAceptaPolitica] = useState(false)
 
   const alCambiar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,10 +30,26 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
   const alEnviar = async (e: React.FormEvent) => {
     e.preventDefault()
     setEnviando(true)
-    await new Promise((r) => setTimeout(r, 1200))
+    setError(null)
+
+    const { error: sbError } = await supabase.from('registros_ambato_formulario').insert([{
+      nombre: formulario.nombre,
+      correo: formulario.correo,
+      celular: formulario.celular,
+      parroquia: formulario.parroquia,
+      propuesta: formulario.propuesta,
+      acepta_politica: aceptaPolitica,
+    }])
+
     setEnviando(false)
-    setEnviado(true)
-    setFormulario({ nombre: '', correo: '', celular: '', parroquia: '', propuesta: '' })
+
+    if (sbError) {
+      setError('Hubo un problema al enviar. Intenta de nuevo.')
+      console.error(sbError)
+    } else {
+      setEnviado(true)
+      setFormulario({ nombre: '', correo: '', celular: '', parroquia: '', propuesta: '' })
+    }
   }
 
   return (
@@ -195,6 +213,9 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
                 >
                   {enviando ? 'Enviando...' : seccionRegistro.botonEnviar}
                 </button>
+                {error && (
+                  <p className="text-red-500 text-sm text-center mt-3">{error}</p>
+                )}
 
                 <p className="text-center text-azul/30 text-xs pt-1">
                   Tu información es privada y no será compartida.
@@ -209,27 +230,21 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
               {seccionRegistro.etiqueta}
             </span>
             <h2 className="font-titulo font-black text-4xl sm:text-5xl text-white leading-tight">
-              {seccionRegistro.titulo}{' '}
-              <span className="text-oro">{seccionRegistro.tituloDestacado}</span>
+              {seccionRegistro.titulo}
+              <span className="block text-oro">{seccionRegistro.tituloDestacado}</span>
             </h2>
             <p className="text-white/70 text-lg leading-relaxed">
               Regístrate y recibe información directa sobre actividades, eventos y cómo puedes participar en tu parroquia, barrio o sector.
             </p>
 
-            <ul className="space-y-3 pt-2">
-              {[
-                'Recibe información directa',
-                'Entérate de eventos y actividades',
-                'Sé de los primeros en conocer las novedades',
-              ].map((beneficio) => (
-                <li key={beneficio} className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded-full bg-oro/20 border border-oro/40 flex items-center justify-center text-oro text-xs flex-shrink-0">
-                    ✓
-                  </span>
-                  <span className="text-white/70 text-sm">{beneficio}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="pt-4 space-y-3">
+              <p className="text-oro font-semibold text-xl italic leading-snug">
+                Seguridad, Salud y Empleo.
+              </p>
+              <p className="text-white/70 text-lg leading-relaxed">
+                ¡Ya lo hicimos! <strong className="text-white font-semibold">continuemos el trabajo...</strong>
+              </p>
+            </div>
           </div>
         </div>
       </div>

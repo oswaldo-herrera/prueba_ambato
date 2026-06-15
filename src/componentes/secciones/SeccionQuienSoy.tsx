@@ -82,7 +82,7 @@ export default function SeccionQuienSoy() {
             {/* Nombre destacado */}
             <div className="border-l-4 border-oro pl-4">
               <p className="text-oro font-black text-base leading-snug uppercase tracking-wide">
-                "El Ciudadano con Visión Futura y Continuidad"
+                
               </p>
               <h3 className="font-titulo font-black text-azul text-xl leading-tight mt-1">
                 Javier Francisco Altamirano Sánchez

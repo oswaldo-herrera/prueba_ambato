@@ -94,7 +94,7 @@ export default function PieDePagina({ onPolitica }: { onPolitica?: () => void })
           {/* Columna 3 — Llamado a la acción */}
           <div>
             <h3 className="font-titulo font-bold text-oro text-sm tracking-widest uppercase mb-4">
-              Únete Yo Continúo con Javier
+              Únete Ambato con Javier
             </h3>
             <p className="text-white/60 text-sm leading-relaxed mb-4">
               Tu participación marca la diferencia. Regístrate y unete con Javier Altamirano.

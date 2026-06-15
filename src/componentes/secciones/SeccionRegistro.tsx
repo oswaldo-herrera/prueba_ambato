@@ -38,7 +38,7 @@ const pasos = [
 
 export default function SeccionRegistro() {
   return (
-    <section id="registro" className="py-24 pb-36 bg-azul-muy-claro relative overflow-hidden -mt-px scroll-mt-20">
+    <section id="registro" className="pt-10 pb-36 bg-azul-muy-claro relative overflow-hidden -mt-px scroll-mt-20">
       {/* Decoración de fondo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-oro/5 blur-3xl" />
@@ -49,6 +49,12 @@ export default function SeccionRegistro() {
 
         {/* Título principal centrado */}
         <div className="text-center mb-14">
+          <span
+            className="font-titulo font-black text-2xl sm:text-3xl tracking-widest mb-3 inline-block"
+            style={{ color: '#8B6214', letterSpacing: '0.15em' }}
+          >
+            #AquíConJavier
+          </span>
           <h2 className="font-titulo font-black text-4xl sm:text-5xl text-azul">
             Yo continúo con <span className="text-oro">Javier</span>
           </h2>
@@ -91,8 +97,18 @@ export default function SeccionRegistro() {
             </div>
           </div>
 
-          {/* Columna derecha — Tarjeta blanca */}
-          <div className="bg-white rounded-3xl p-8 shadow-2xl space-y-6">
+          {/* Columna derecha — Imagen + Tarjeta */}
+          <div className="flex flex-col items-center gap-4">
+
+            {/* Imagen yo_javier */}
+            <img
+              src="/imagenes/yo_javier.png"
+              alt="Yo continúo con Javier"
+              className="w-full max-w-xs object-contain"
+            />
+
+          {/* Tarjeta blanca */}
+          <div className="bg-white rounded-3xl p-5 shadow-2xl space-y-4 w-full max-w-sm">
 
             {/* Encabezado de la tarjeta */}
             <div className="text-center pb-2 border-b border-gray-100">
@@ -138,6 +154,7 @@ export default function SeccionRegistro() {
             </p>
 
             <ContadorVisitas />
+          </div>
           </div>
         </div>
       </div>

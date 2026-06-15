@@ -11,7 +11,7 @@ export const navegacion = {
   logo: 'HERSA',          // Nombre o logo en texto del partido/candidato
   eslogan: 'Ambato',      // Subtítulo del logo
   enlaces: [
-    { texto: 'Mi Historia',  href: '#quiensoy' },
+    { texto: '¿Quién es?',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Logros',      href: '#logros' },
     { texto: 'Propuestas',  href: '#propuestas-nuevas' },
@@ -50,10 +50,10 @@ export const seccionInicio = {
 
 // ── SECCIÓN QUIÉN SOY ────────────────────────────────────────
 export const seccionQuienSoy = {
-  etiqueta: 'Mi Historia',
+  etiqueta: '',
   titulo: '¿Quién es',
   tituloDestacado: 'Javier Altamirano?',
-  descripcion: 'Origen, logros, aciertos y desaciertos',
+  descripcion: '',
   pilares: [
     {
       numero: '01',
@@ -358,7 +358,7 @@ export const seccionPropuestas = {
 // ── SECCIÓN REGISTRO ─────────────────────────────────────────
 export const seccionRegistro = {
   etiqueta: 'Únete',
-  titulo: 'Yo continúo con',
+  titulo: 'Ambato con',
   tituloDestacado: 'Javier',
   descripcion:
     'Regístrate y recibe información directa sobre la campaña, eventos y cómo puedes participar en tu barrio.',
@@ -374,7 +374,7 @@ export const seccionRegistro = {
 // ── SECCIÓN WHATSAPP ─────────────────────────────────────────
 export const seccionWhatsApp = {
   titulo: 'Únete a nuestro Canal de WhatsApp,',
-  tituloDestacado: 'y recibe actualizaciones directas, eventos y novedades, “Continúa con Javier”',
+  tituloDestacado: 'Información directa, eventos,actualizaciones',
   descripcion: '',
   boton: {
     texto: 'Unirse al canal de WhatsApp',
@@ -387,11 +387,11 @@ export const seccionWhatsApp = {
 export const pieDePagina = {
   logo: 'HERSA',
   eslogan: 'Ambato',
-  descripcion: 'Continuamos X el desarrollo de Ambato.',
+  descripcion: 'Seguridad, Salud y Empleo',
   // Derechos de autor — el año se actualiza automáticamente
   derechos: 'HERSA',
   enlacesRapidos: [
-    { texto: 'Mi Historia',  href: '#quiensoy' },
+    { texto: '¿Quién es?',  href: '#quiensoy' },
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Logros',      href: '#logros' },
     { texto: 'Propuestas',  href: '#propuestas-nuevas' },

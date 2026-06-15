@@ -17,7 +17,8 @@ import BotonWhatsApp from './componentes/diseno/BotonWhatsApp'
 import AvatarFlotante from './componentes/diseno/AvatarFlotante'
 
 // import SeccionInicio from './componentes/secciones/SeccionInicio'      // ← fondo oscuro
-import SeccionInicioClaro from './componentes/secciones/SeccionInicioClaro' // ← fondo claro (activo)
+// import SeccionInicioClaro from './componentes/secciones/SeccionInicioClaro' // ← fondo claro (oculta)
+import SeccionInicioNueva from './componentes/secciones/SeccionInicioNueva' // ← inicio_nueva (activa)
 import SeccionQuienSoy from './componentes/secciones/SeccionQuienSoy'
 import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
 import SeccionValores from './componentes/secciones/SeccionValores'
@@ -40,10 +41,8 @@ export default function App() {
       {/* ── CONTENIDO PRINCIPAL ── */}
       <main>
         {/* 1. Sección de inicio / Hero — CAMBIA ENTRE LAS DOS OPCIONES */}
-        {/* FONDO OSCURO (actual): */}
-        {/* <SeccionInicio /> */}
-        {/* FONDO CLARO (propuesta nueva): */}
-        <SeccionInicioClaro />
+        {/* INICIO NUEVA (activa) — para volver a la anterior ver los imports comentados arriba */}
+        <SeccionInicioNueva />
 
         {/* 2. Quién soy / Conóceme */}
         <SeccionQuienSoy />
