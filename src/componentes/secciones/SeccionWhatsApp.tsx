@@ -15,7 +15,7 @@ export default function SeccionWhatsApp() {
         {/* Texto */}
         <h2 className="font-titulo font-black text-3xl sm:text-4xl text-azul mb-3">
           {seccionWhatsApp.titulo}
-          <span className="text-oro block text-xl sm:text-2xl whitespace-nowrap">{seccionWhatsApp.tituloDestacado}</span>
+          <span className="text-oro block text-lg sm:text-2xl">{seccionWhatsApp.tituloDestacado}</span>
         </h2>
         <p className="text-gray-500 text-lg max-w-lg mx-auto mb-8 leading-relaxed">
           {seccionWhatsApp.descripcion}
