@@ -1,27 +1,29 @@
 import { useState, useRef, useEffect } from 'react'
 
-const VIDEOS = [
+const VIDEOS_DEFAULT = [
   { src: '/imagenes/video_1.mp4',  titulo: 'Yo con Javier' },
   { src: '/imagenes/video_2_.mp4', titulo: 'Yo con Javier' },
   { src: '/imagenes/video_3.mp4',  titulo: 'Yo con Javier' },
 ]
 
+interface VideoItem { src: string; titulo: string }
+
 interface Props {
   onCerrar: () => void
+  videos?: VideoItem[]
 }
 
-export default function CarruselVideos({ onCerrar }: Props) {
+export default function CarruselVideos({ onCerrar, videos = VIDEOS_DEFAULT }: Props) {
   const [indice, setIndice] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const anterior = () => {
-    setIndice((i) => (i - 1 + VIDEOS.length) % VIDEOS.length)
+    setIndice((i) => (i - 1 + videos.length) % videos.length)
   }
   const siguiente = () => {
-    setIndice((i) => (i + 1) % VIDEOS.length)
+    setIndice((i) => (i + 1) % videos.length)
   }
 
-  // Reinicia el video al cambiar de slide
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
@@ -29,14 +31,13 @@ export default function CarruselVideos({ onCerrar }: Props) {
     v.load()
   }, [indice])
 
-  // Cierra con Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onCerrar() }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [onCerrar])
 
-  const video = VIDEOS[indice]
+  const video = videos[indice]
 
   return (
     <div
@@ -72,7 +73,7 @@ export default function CarruselVideos({ onCerrar }: Props) {
           />
 
           {/* Flechas — solo si hay más de 1 video */}
-          {VIDEOS.length > 1 && (
+          {videos.length > 1 && (
             <>
               <button
                 onClick={anterior}
@@ -94,7 +95,7 @@ export default function CarruselVideos({ onCerrar }: Props) {
 
         {/* Pie: puntos indicadores + contador */}
         <div className="flex items-center justify-center gap-3 py-3 bg-azul">
-          {VIDEOS.length > 1 && VIDEOS.map((_, i) => (
+          {videos.length > 1 && videos.map((_: VideoItem, i: number) => (
             <button
               key={i}
               onClick={() => setIndice(i)}
@@ -104,7 +105,7 @@ export default function CarruselVideos({ onCerrar }: Props) {
               aria-label={`Video ${i + 1}`}
             />
           ))}
-          <span className="text-white/40 text-xs ml-1">{indice + 1} / {VIDEOS.length}</span>
+          <span className="text-white/40 text-xs ml-1">{indice + 1} / {videos.length}</span>
         </div>
       </div>
     </div>

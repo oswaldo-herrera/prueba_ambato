@@ -86,38 +86,6 @@ function TarjetaPropuesta({
   )
 }
 
-function ImagenFlip({ frente, reverso, alt }: { frente: string; reverso: string; alt: string }) {
-  const [girada, setGirada] = useState(false)
-  return (
-    <div
-      className="aspect-square cursor-pointer"
-      style={{ perspective: '1000px' }}
-      onMouseEnter={() => setGirada(true)}
-      onMouseLeave={() => setGirada(false)}
-    >
-      <div
-        className="relative w-full h-full transition-transform duration-700"
-        style={{
-          transformStyle: 'preserve-3d',
-          transform: girada ? 'rotateY(180deg)' : 'rotateY(0deg)',
-        }}
-      >
-        <div
-          className="absolute inset-0 rounded-2xl overflow-hidden shadow-sm"
-          style={{ backfaceVisibility: 'hidden' }}
-        >
-          <img src={frente} alt={alt} className="w-full h-full object-cover" />
-        </div>
-        <div
-          className="absolute inset-0 rounded-2xl overflow-hidden shadow-sm"
-          style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-        >
-          <img src={reverso} alt={alt} className="w-full h-full object-cover" />
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export default function SeccionPropuestasNuevas() {
   const [abierta, setAbierta] = useState<number | null>(null)
@@ -160,20 +128,15 @@ export default function SeccionPropuestasNuevas() {
           </div>
         </div>
 
-        {/* Galería de fotos */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
-          {seccionPropuestasNuevas.galeria.map((img, i) => (
-            <ImagenFlip key={i} frente={img.frente} reverso={img.reverso} alt={`Propuesta ${i + 1}`} />
-          ))}
-        </div>
-
-        {/* Movilidad — debajo de las fotos, centrada en media fila */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <TarjetaPropuesta
-            tarjeta={seccionPropuestasNuevas.tarjetas[3]}
-            abierto={abierta === 3}
-            onToggle={() => setAbierta(abierta === 3 ? null : 3)}
-          />
+        {/* Movilidad — centrada igual que Empleo */}
+        <div className="mt-6 flex justify-center">
+          <div className="w-full md:w-1/2">
+            <TarjetaPropuesta
+              tarjeta={seccionPropuestasNuevas.tarjetas[3]}
+              abierto={abierta === 3}
+              onToggle={() => setAbierta(abierta === 3 ? null : 3)}
+            />
+          </div>
         </div>
 
       </div>

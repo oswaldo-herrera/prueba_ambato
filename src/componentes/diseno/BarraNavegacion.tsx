@@ -2,10 +2,28 @@ import { useState, useEffect, useRef } from 'react'
 import { navegacion } from '../../contenido/textos'
 import CarruselVideos from './CarruselVideos'
 
+const BASE_AMBATO = '/imagenes/videos/ambato/'
+const enc = (f: string) => BASE_AMBATO + encodeURIComponent(f)
+
+const VIDEOS_AMBATO = [
+  //{ src: enc('Ambato_La_Gran_Ciudad_GAD_Municipalidad_de_Ambato.mp4'), titulo: 'Ambato La Gran Ciudad' },
+  { src: enc('AMBATO_LA_GRAN_CIUDAD.mp4'), titulo: 'Ambato La Gran Ciudad (corto)' }
+  //{ src: enc('Aquí_me_quedo_Hnos_Miño_Naranjo_Roger_Ycaza_Nicole_Santana_Sonia_Chagmana_Comite_Permanente.mp4'), titulo: 'Aquí me quedo' },
+  //{ src: enc('De_Origen_Ambateño_Comite_Permanente.mp4'), titulo: 'De Origen Ambateño' },
+  //{ src: enc('De_Origen_Ambateño_2022_Comite_Permanente_FFF.mp4'), titulo: 'De Origen Ambateño 2022' },
+  //{ src: enc('Florecemos_para_el_mundo_Video_Oficial_FFF_2023_Comite_Permanente_FFF.mp4'), titulo: 'Florecemos para el mundo — FFF 2023' },
+  //{ src: enc('Mega_Evento_Sebastián_Yatra_FFF_2020_Comite_Permanente_FFF.mp4'), titulo: 'Mega Evento Sebastián Yatra FFF 2020' },
+  //{ src: enc('Memorias_del_49_Comite_Permanente_FFF.mp4'), titulo: 'Memorias del 49' },
+  //{ src: enc('Música_desde_el_Balcón_El_Origen_Comite_Permanente_FFF.mp4'), titulo: 'Música desde el Balcón — El Origen' },
+  //{ src: enc('Nos_Levantamos_Video_Oficial_FFF2022_Comite_Permanente_FFF.mp4'), titulo: 'Nos Levantamos — FFF 2022' },
+  //{ src: enc('Somos_Altivos_Comite_Permanente_FFF.mp4'), titulo: 'Somos Altivos' },
+]
+
 export default function BarraNavegacion() {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [scrollado, setScrollado] = useState(false)
   const [carruselAbierto, setCarruselAbierto] = useState(false)
+  const [videosAmbato, setVideosAmbato] = useState(false)
   const [mostrarTaco, setMostrarTaco] = useState(false)
   const [bolaGolpeada, setBolaGolpeada] = useState(false)
   const [tacoPos, setTacoPos] = useState<{ top: number; left: number } | null>(null)
@@ -66,6 +84,16 @@ export default function BarraNavegacion() {
                 {enlace.texto}
               </a>
             ))}
+            <button
+              onClick={() => setVideosAmbato(true)}
+              className={`font-bold text-sm px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:scale-105 flex items-center gap-2 ${scrollado ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-azul/10 hover:bg-azul/20 text-azul'}`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Ambato
+            </button>
             <a
               href="#registro"
               className="bg-oro hover:bg-oro-oscuro text-white font-bold text-sm px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:scale-105"
@@ -102,7 +130,17 @@ export default function BarraNavegacion() {
                   {enlace.texto}
                 </a>
               ))}
-              <div className="px-4 pt-2">
+              <div className="px-4 pt-2 flex flex-col gap-2">
+                <button
+                  onClick={() => { setMenuAbierto(false); setVideosAmbato(true) }}
+                  className="flex items-center justify-center gap-2 w-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm px-5 py-3 rounded-full transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Videos
+                </button>
                 <a
                   href="#registro"
                   onClick={() => setMenuAbierto(false)}
@@ -143,6 +181,7 @@ export default function BarraNavegacion() {
     )}
 
     {carruselAbierto && <CarruselVideos onCerrar={() => setCarruselAbierto(false)} />}
+    {videosAmbato && <CarruselVideos videos={VIDEOS_AMBATO} onCerrar={() => setVideosAmbato(false)} />}
   </>
   )
 }
