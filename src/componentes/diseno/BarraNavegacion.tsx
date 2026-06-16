@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { navegacion } from '../../contenido/textos'
 import CarruselVideos from './CarruselVideos'
 
-const BASE_AMBATO = '/imagenes/videos/'
+const BASE_AMBATO = '/imagenes/'
 const enc = (f: string) => BASE_AMBATO + encodeURIComponent(f)
 
 const VIDEOS_AMBATO = [
