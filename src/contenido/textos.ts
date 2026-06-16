@@ -114,7 +114,7 @@ export const seccionLogros = {
       titulo: 'Mercado Intercultural y Turístico del Pueblo Chibuleo',
       resumen: 'Parroquia Juan Benigno Vela – Vía Ambato-Guaranda',
       puntos: [
-        'Financiado con crédito de ~4 millones USD del Banco de Desarrollo del Ecuador; obras entre 2021 y 2022',
+        'Financiado con crédito de 4 millones USD del Banco de Desarrollo del Ecuador; obras entre 2021 y 2022',
         'Fachadas y cubiertas con iconografía ancestral del pueblo Chibuleo como hito de identidad cultural y turismo',
         'Áreas de comercio tecnificado, patio de comidas, guardería, estacionamientos y zona de comercialización de ganado menor',
       ],
