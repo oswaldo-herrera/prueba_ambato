@@ -5,3 +5,4 @@ dist
 
 # Videos — demasiado grandes para GitHub/Vercel, sirven solo en local
 public/imagenes/videos/
+!public/imagenes/videos/ambato/AMBATO_LA_GRAN_CIUDAD.mp4
