@@ -19,7 +19,7 @@ const videos: VideoItem[] = [
   // v('Colector Quebrada Los Gallinazos y Parque Infantil', 'Colector Quebrada Los Gallinazos y Parque Infantil de Atocha - Rendición de Cuentas 2021 - GAD Municipalidad de Ambato (1080p, h264, youtube).mp4'),
   // v('Construiremos la Casa de la Música', 'Construiremos la Casa de la Música -  Rendición de Cuentas 2021 - GAD Municipalidad de Ambato (1080p, h264, youtube).mp4'),
   //v('Hemos ejecutado cerca de 200 obras', 'ejecutado_cerca_de_200_obras-Rendición_de Cuentas_2021.mp4'),
-  v('Quebrada los gallinazos', 'quebrada_los_gallinazos.mp4'),
+  { titulo: 'Quebrada los gallinazos', url: '/imagenes/quebrada_los_gallinazos.mp4' },
 ]
 
 const galeria = [
