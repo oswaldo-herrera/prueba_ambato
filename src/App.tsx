@@ -23,6 +23,7 @@ import SeccionQuienSoy from './componentes/secciones/SeccionQuienSoy'
 import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
 import SeccionValores from './componentes/secciones/SeccionValores'
 import SeccionLogros from './componentes/secciones/SeccionLogros'
+import SeccionAgenda from './componentes/secciones/SeccionAgenda'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
 import SeccionMundial from './componentes/secciones/SeccionMundial'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
@@ -49,6 +50,9 @@ export default function App() {
 
         {/* 3. Logros 2019-2023 */}
         <SeccionLogros />
+
+        {/* 3.5 Agenda de eventos */}
+        <SeccionAgenda />
 
         {/* 4. Propuestas */}
         <SeccionPropuestasNuevas />

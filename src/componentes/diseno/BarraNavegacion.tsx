@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { navegacion } from '../../contenido/textos'
 import CarruselVideos from './CarruselVideos'
+import BolaBillar from './BolaBillar'
 
 const BASE_AMBATO = '/imagenes/'
 const enc = (f: string) => BASE_AMBATO + encodeURIComponent(f)
@@ -27,7 +28,7 @@ export default function BarraNavegacion() {
   const [mostrarTaco, setMostrarTaco] = useState(false)
   const [bolaGolpeada, setBolaGolpeada] = useState(false)
   const [tacoPos, setTacoPos] = useState<{ top: number; left: number } | null>(null)
-  const logoRef = useRef<HTMLImageElement>(null)
+  const logoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const alScrollear = () => setScrollado(window.scrollY > 20)
@@ -65,12 +66,10 @@ export default function BarraNavegacion() {
 
           {/* Logo */}
           <a href="#" className="flex items-center ml-16 sm:ml-0">
-            <img
-              ref={logoRef}
-              src="/imagenes/logo_2.png"
-              alt="HERSA Ambato"
-              className={`h-14 md:h-16 w-auto block ${bolaGolpeada ? 'bola-anim' : 'hover:scale-105 transition-transform duration-200'}`}
-            />
+            <div ref={logoRef} className={`h-14 md:h-16 ${bolaGolpeada ? 'bola-anim' : 'hover:scale-105 transition-transform duration-200'}`}>
+              {/* Para volver al 63: <BolaBillar texto="63" className="h-full w-auto" /> */}
+              <BolaBillar texto="J" className="h-full w-auto" />
+            </div>
           </a>
 
           {/* Menú escritorio */}

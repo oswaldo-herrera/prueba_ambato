@@ -117,26 +117,18 @@ export default function SeccionPropuestasNuevas() {
           ))}
         </div>
 
-        {/* Fila 2: Empleo centrado */}
-        <div className="mt-6 flex justify-center">
-          <div className="w-full md:w-1/2">
-            <TarjetaPropuesta
-              tarjeta={seccionPropuestasNuevas.tarjetas[2]}
-              abierto={abierta === 2}
-              onToggle={() => setAbierta(abierta === 2 ? null : 2)}
-            />
-          </div>
-        </div>
-
-        {/* Movilidad — centrada igual que Empleo */}
-        <div className="mt-6 flex justify-center">
-          <div className="w-full md:w-1/2">
-            <TarjetaPropuesta
-              tarjeta={seccionPropuestasNuevas.tarjetas[3]}
-              abierto={abierta === 3}
-              onToggle={() => setAbierta(abierta === 3 ? null : 3)}
-            />
-          </div>
+        {/* Fila 2: Empleo + Movilidad */}
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TarjetaPropuesta
+            tarjeta={seccionPropuestasNuevas.tarjetas[2]}
+            abierto={abierta === 2}
+            onToggle={() => setAbierta(abierta === 2 ? null : 2)}
+          />
+          <TarjetaPropuesta
+            tarjeta={seccionPropuestasNuevas.tarjetas[3]}
+            abierto={abierta === 3}
+            onToggle={() => setAbierta(abierta === 3 ? null : 3)}
+          />
         </div>
 
       </div>

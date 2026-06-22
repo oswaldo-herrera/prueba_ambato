@@ -15,6 +15,7 @@ export const navegacion = {
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Logros',      href: '#logros' },
     { texto: 'Propuestas',  href: '#propuestas-nuevas' },
+    { texto: 'Agenda',      href: '#agenda' },
     { texto: 'Regístrate',  href: '#registro-backup' },
   ],
   botonPrincipal: {
@@ -95,8 +96,12 @@ export const seccionLogros = {
     { frente: '/imagenes/new_images/agua.jpeg', reverso: '/imagenes/new_images/agua_2.jpeg' },
   ],
   botonRendicion: {
-    texto: 'Enlace a rendición de cuentas',
-    href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/',
+    texto: 'Rendición de Cuentas',
+    opciones: [
+      { texto: 'Rendición de Cuentas 2021', href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/' },
+      { texto: 'Rendición de Cuentas 2022', href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/' },
+      { texto: 'Rendición de Cuentas 2023', href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/' },
+    ],
   },
   logros2: [
     {
@@ -184,6 +189,42 @@ export const seccionLogros = {
   ],
 }
 
+// ── SECCIÓN AGENDA DE EVENTOS ─────────────────────────────────
+// Edita aquí los eventos de la agenda del candidato.
+// fecha en formato 'YYYY-MM-DD', horaInicio/horaFin en formato 'HH:MM' (24h).
+export const seccionAgenda = {
+  etiqueta: 'Mantente al día',
+  titulo: 'Agenda de',
+  tituloDestacado: 'Eventos',
+  descripcion: 'Sigue de cerca las actividades de Javier Altamirano y agrégalas a tu calendario para no perderte ninguna.',
+  eventos: [
+    {
+      titulo: 'Recorrido y diálogo ciudadano',
+      fecha: '2026-06-20',
+      horaInicio: '09:00',
+      horaFin: '11:00',
+      lugar: 'Parque Cevallos, Ambato',
+      descripcion: 'Recorrido por el sector y conversación directa con vecinos sobre seguridad y movilidad.',
+    },
+    {
+      titulo: 'Encuentro con comerciantes',
+      fecha: '2026-06-24',
+      horaInicio: '16:00',
+      horaFin: '18:00',
+      lugar: 'Mercado Central, Ambato',
+      descripcion: 'Diálogo con comerciantes sobre propuestas de reactivación económica y empleo.',
+    },
+    {
+      titulo: 'Asamblea con la parroquia Huachi Chico',
+      fecha: '2026-06-28',
+      horaInicio: '18:30',
+      horaFin: '20:30',
+      lugar: 'Casa Barrial de Huachi Chico',
+      descripcion: 'Presentación del plan de trabajo y espacio de preguntas con la comunidad.',
+    },
+  ],
+}
+
 // ── SECCIÓN PROPUESTAS NUEVAS (antes de Trayectoria) ─────────
 export const seccionPropuestasNuevas = {
   etiqueta: 'Propuestas y Compromisos',
@@ -248,37 +289,47 @@ export const seccionTrayectoria = {
     titulo: 'Principales Cargos',
     items: [
       {
-        titulo: 'Concejal en el Gobierno Municipal de Ambato en el periodo 2004-2008',
+        titulo: 'Abogado en libre ejercicio Javier Altamirano Estudio Jurídico & Asociados · Jornada completa jun. 2023 - actualidad · 3 años 1 mes Ambato, Tungurahua, Ecuador · Presencial',
         descripcion:
           '',
       },
       {
-        titulo: 'Decano de la Facultad de Jurisprudencia en la “Universidad Tecnológica Indoamérica”. Periodo 2011-2019',
+        titulo: 'Alcalde de Ambato Gobierno Autónomo Municipalidad de Ambato · Jornada completa may. 2019 - may. 2023 · 4 años 1 mes Ambato, Tungurahua, Ecuador · Presencial',
         descripcion:
           '',
       },
       {
-        titulo: 'Abogado Externo Banco de Guayaquil . Periodo 2013-2018',
+        titulo: 'Decano Facultad de Jurisprudencia Universidad Indoamérica · Jornada completa jul. 2011 - may. 2019 · 7 años 11 meses Ambato, Tungurahua, Ecuador · Presencial',
         descripcion:
           '',
       },
       {
-        titulo: 'Docente en la Facultad de Jurisprudencia en la “Universidad Técnica de Ambato”. Periodo 2013',
+        titulo: 'Abogado externo Banco de Guayaquil · Jornada parcial mar. 2013 - mar. 2018 · 5 años 1 mes Ambato, Tungurahua, Ecuador · Presencial',
         descripcion:
           '',
       },
       {
-        titulo: 'Abogado en Libre Ejercicio. Periodo 2023 - Actualidad',
+        titulo: 'Docente Facultad de Jurisprudencia Universidad Técnica de Ambato · Jornada completa may. 2013 - ago. 2013 · 4 meses Ambato, Tungurahua, Ecuador · Presencial',
         descripcion:
           '',
       },
       {
-        titulo: 'Docente en la “Universidad Autonoma de los Andes ”. Periodo 2013',
+        titulo: 'Docente en el área del Derecho Civil Universidad Regional Autónoma de los Andes · Jornada completa jun. 2010 - ago. 2010 · 3 meses Presencial',
         descripcion:
           '',
       },
       {
-        titulo: 'Alcalde de Ambato Periodo 2019-2023',
+        titulo: 'Concejal de Ambato Gobierno Autónomo Municipalidad de Ambato · Jornada completa may. 2004 - may. 2008 · 4 años 1 mes Ambato, Tungurahua, Ecuador · Presencial',
+        descripcion:
+          '',
+      },
+      {
+        titulo: 'Docencia Universidad Cooperativa de Colombia (UCC) · Jornada completa oct. 1998 - sept. 2000 · 2 años Ambato, Tungurahua, Ecuador · Presencial Profesor cualificado',
+        descripcion:
+          '',
+      },
+      {
+        titulo: 'Asesor legal Registro de la ¨Propiedad del cantón Ambato · Jornada completa mar. 1997 - ago. 1998 · 1 año 6 meses Ambato, Tungurahua, Ecuador · Presencial',
         descripcion:
           '',
       },

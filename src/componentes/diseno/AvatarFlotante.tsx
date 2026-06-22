@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-const AUDIO_SALUDO = '/imagenes/prueba_fidel.mp3'
+const AUDIO_SALUDO = '/imagenes/musica_javier.mp3'
 
 export default function AvatarFlotante() {
   const [burbujaVisible, setBurbujaVisible] = useState(false)

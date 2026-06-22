@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import BolaBillar from './BolaBillar'
 
 export default function IntroAnimacion() {
   const [saliendo, setSaliendo] = useState(false)
@@ -37,11 +38,8 @@ export default function IntroAnimacion() {
         style={{ animation: 'zoomEntrada 1s cubic-bezier(0.22, 1, 0.36, 1) forwards' }}
       >
         {/* Logo */}
-        <img
-          src="/imagenes/logo_2.png"
-          alt="Logo"
-          className="h-20 mx-auto mb-8 drop-shadow-xl"
-        />
+        {/* Para volver al 63: <BolaBillar texto="63" className="h-20 mx-auto mb-8 drop-shadow-xl" /> */}
+        <BolaBillar texto="J" className="h-20 mx-auto mb-8 drop-shadow-xl" />
 
         {/* Etiqueta */}
         <p className="text-oro/80 font-semibold text-xs tracking-[0.3em] uppercase mb-4">
