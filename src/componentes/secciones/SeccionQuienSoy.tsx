@@ -3,8 +3,8 @@ import { seccionQuienSoy } from '../../contenido/textos'
 
 type VideoItem = { titulo: string; url: string }
 
-const BASE = '/imagenes/videos/consejo_consultivo/'
-const v = (titulo: string, archivo: string): VideoItem => ({ titulo, url: BASE + encodeURIComponent(archivo) })
+// Para agregar más videos de la carpeta consejo_consultivo:
+// { titulo: 'Nombre', url: '/imagenes/videos/consejo_consultivo/' + encodeURIComponent('archivo.mp4') }
 
 const videos: VideoItem[] = [
   //v('Consejo Consultivo de Género','quebrada_los_gallinazos.mp4'),
