@@ -10,7 +10,7 @@
 import { useState } from 'react'
 import BarraNavegacion from './componentes/diseno/BarraNavegacion'
 import IntroAnimacion from './componentes/diseno/IntroAnimacion'
-import AudioFondo from './componentes/diseno/AudioFondo'
+// import AudioFondo from './componentes/diseno/AudioFondo' // ← desactivado temporalmente
 import PoliticaPrivacidad from './componentes/secciones/PoliticaPrivacidad'
 import PieDePagina from './componentes/diseno/PieDePagina'
 import BotonWhatsApp from './componentes/diseno/BotonWhatsApp'
