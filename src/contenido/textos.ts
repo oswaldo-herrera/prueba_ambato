@@ -348,11 +348,7 @@ export const seccionTrayectoria = {
         descripcion:
           '',
       },
-      {
-        titulo: 'Pendiente',
-        descripcion:
-          '',
-      },
+      
     ],
   },
 }

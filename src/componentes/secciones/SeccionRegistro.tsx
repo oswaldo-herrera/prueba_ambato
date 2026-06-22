@@ -1,6 +1,6 @@
 import ContadorVisitas from '../diseno/ContadorVisitas'
 
-const WHATSAPP_NUMERO = '593963197900'
+const WHATSAPP_NUMERO = '593986324840'
 const WHATSAPP_MENSAJE = encodeURIComponent(
   '¡Hola Javier! Yo continúo contigo 🔵✊ Por un Ambato Justo, Seguro con Alma y lleno de Oportunidades. ¡Aquí va mi video!'
 )
@@ -30,7 +30,7 @@ const pasos = [
     texto: (
       <>
         Envía tu video al WhatsApp{' '}
-        <strong className="text-azul">963 197 900</strong>
+        <strong className="text-azul">+593 98 632 4840</strong>
       </>
     ),
   },
@@ -150,7 +150,7 @@ export default function SeccionRegistro() {
             </a>
 
             <p className="text-center text-gray-400 text-xs">
-              963 197 900 · Solo WhatsApp
+              +593 98 632 4840 · Solo WhatsApp
             </p>
 
             <ContadorVisitas />

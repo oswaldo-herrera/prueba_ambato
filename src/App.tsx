@@ -94,8 +94,8 @@ export default function App() {
       {/* ── POLÍTICA DE PRIVACIDAD ── */}
       {politicaAbierta && <PoliticaPrivacidad onCerrar={() => setPoliticaAbierta(false)} />}
 
-      {/* ── AUDIO DE FONDO (una sola vez al cargar) ── */}
-      <AudioFondo />
+      {/* ── AUDIO DE FONDO (una sola vez al cargar) — desactivado temporalmente ── */}
+      {/* <AudioFondo /> */}
 
     </div>
   )
