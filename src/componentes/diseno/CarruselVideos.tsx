@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 
 const VIDEOS_DEFAULT = [
-  { src: '/imagenes/video_1.mp4',  titulo: 'Yo con Javier' },
-  { src: '/imagenes/video_2_.mp4', titulo: 'Yo con Javier' },
-  { src: '/imagenes/video_3.mp4',  titulo: 'Yo con Javier' },
+  { src: '/imagenes/yo_con_javier_1.mp4',  titulo: 'Yo con Javier' },
+  { src: '/imagenes/yo_con_javier_2.mp4', titulo: 'Yo con Javier' },
+  //{ src: '/imagenes/video_3.mp4',  titulo: 'Yo con Javier' },
 ]
 
 interface VideoItem { src: string; titulo: string }

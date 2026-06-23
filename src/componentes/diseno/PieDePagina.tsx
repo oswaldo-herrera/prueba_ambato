@@ -1,4 +1,5 @@
 import { pieDePagina } from '../../contenido/textos'
+import BolaBillar from './BolaBillar'
 
 // Iconos simples para redes sociales (SVG inline)
 const iconosRedes: Record<string, JSX.Element> = {
@@ -46,11 +47,8 @@ export default function PieDePagina({ onPolitica }: { onPolitica?: () => void })
           {/* Columna 1 — Logo y descripción */}
           <div className="space-y-4">
             <div className="flex items-center">
-              <img
-                src="/imagenes/logo_2.png"
-                alt="HERSA Ambato"
-                className="h-14 w-auto"
-              />
+              {/* Para volver al 63: <BolaBillar texto="63" className="h-14 w-auto" /> */}
+              <BolaBillar texto="J" className="h-14 w-auto" />
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
               {pieDePagina.descripcion}
@@ -62,6 +60,8 @@ export default function PieDePagina({ onPolitica }: { onPolitica?: () => void })
                 <a
                   key={red.icono}
                   href={red.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={red.nombre}
                   className="w-9 h-9 rounded-full bg-white/10 hover:bg-oro hover:text-azul flex items-center justify-center text-white/70 transition-all duration-200"
                 >
