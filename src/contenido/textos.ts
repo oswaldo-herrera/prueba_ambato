@@ -98,9 +98,9 @@ export const seccionLogros = {
   botonRendicion: {
     texto: 'Rendición de Cuentas',
     opciones: [
-      { texto: 'Rendición de Cuentas 2021', href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/' },
-      { texto: 'Rendición de Cuentas 2022', href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/' },
-      { texto: 'Rendición de Cuentas 2023', href: 'https://ambato.gob.ec/rendicion-de-cuentas-2022/' },
+      { texto: 'Rendición de Cuentas 2021', href: 'https://gobiernoabierto.ambato.gob.ec/transparencia-2021/' },
+      { texto: 'Rendición de Cuentas 2022', href: 'https://ambato.gob.ec/transparencia-2022/' },
+      { texto: 'Rendición de Cuentas 2023', href: 'https://ambato.gob.ec/transparencia-2023/' },
     ],
   },
   logros2: [
