@@ -426,7 +426,7 @@ export const seccionWhatsApp = {
   boton: {
     texto: 'Unirse al canal de WhatsApp',
     // CAMBIA ESTE ENLACE por el link real de tu canal de WhatsApp
-    href: 'https://wa.me/593000000000',
+    href: 'https://wa.me/593985432272',
   },
 }
 
