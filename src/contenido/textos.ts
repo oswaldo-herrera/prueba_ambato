@@ -98,6 +98,7 @@ export const seccionLogros = {
   botonRendicion: {
     texto: 'Rendición de Cuentas',
     opciones: [
+      { texto: 'Rendición de Cuentas 2020', href: 'https://gobiernoabierto.ambato.gob.ec/transparencia-2020/' },
       { texto: 'Rendición de Cuentas 2021', href: 'https://gobiernoabierto.ambato.gob.ec/transparencia-2021/' },
       { texto: 'Rendición de Cuentas 2022', href: 'https://ambato.gob.ec/transparencia-2022/' },
       { texto: 'Rendición de Cuentas 2023', href: 'https://ambato.gob.ec/transparencia-2023/' },
@@ -415,18 +416,18 @@ export const seccionRegistro = {
     celular: { etiqueta: 'Número de celular', placeholder: '09XXXXXXXX' },
   },
   botonEnviar: 'Quiero unirme',
-  mensajeExito: '¡Gracias por registrarte! Pronto recibirás noticias de la campaña.',
+  mensajeExito: '¡Gracias por registrarte! Pronto recibirás noticias de los eventos.',
 }
 
 // ── SECCIÓN WHATSAPP ─────────────────────────────────────────
 export const seccionWhatsApp = {
   titulo: 'Únete a nuestro Canal de WhatsApp,',
-  tituloDestacado: 'Información directa, eventos,actualizaciones',
+  tituloDestacado: 'Información directa, eventos, actualizaciones',
   descripcion: '',
   boton: {
     texto: 'Unirse al canal de WhatsApp',
     // CAMBIA ESTE ENLACE por el link real de tu canal de WhatsApp
-    href: 'https://wa.me/593985432272',
+    href: 'https://whatsapp.com/channel/0029Vb7px5v2ZjCdsAa0dv2q',
   },
 }
 

@@ -2,7 +2,7 @@ import ContadorVisitas from '../diseno/ContadorVisitas'
 
 const WHATSAPP_NUMERO = '593986324840'
 const WHATSAPP_MENSAJE = encodeURIComponent(
-  '¡Hola Javier! Yo continúo contigo 🔵✊ Por un Ambato Justo, Seguro con Alma y lleno de Oportunidades. ¡Aquí va mi video!'
+  '¡Hola Javier! Yo continúo contigo 🔵✊ Por un Ambato Justo, Seguro con Alma. ¡Aquí va mi video!'
 )
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMERO}?text=${WHATSAPP_MENSAJE}`
 

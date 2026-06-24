@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { seccionLogros } from '../../contenido/textos'
 
 function IconoLogro({ titulo }: { titulo: string }) {
@@ -171,6 +172,16 @@ function ImagenFlip({ frente, reverso, alt }: { frente: string; reverso: string;
 export default function SeccionLogros() {
   const [logroAbierto, setLogroAbierto] = useState<number | null>(null)
   const [rendicionAbierta, setRendicionAbierta] = useState(false)
+  const [rendicionPos, setRendicionPos] = useState<{ top: number; left: number } | null>(null)
+  const botonRendicionRef = useRef<HTMLButtonElement>(null)
+
+  const alternarRendicion = () => {
+    if (!rendicionAbierta && botonRendicionRef.current) {
+      const rect = botonRendicionRef.current.getBoundingClientRect()
+      setRendicionPos({ top: rect.bottom + 8, left: rect.left + rect.width / 2 })
+    }
+    setRendicionAbierta(v => !v)
+  }
 
   return (
     <section id="logros" className="relative py-24 pb-36 bg-azul overflow-hidden -mt-px scroll-mt-20">
@@ -220,35 +231,41 @@ export default function SeccionLogros() {
 
         {/* Botón rendición de cuentas */}
         <div className="mt-12 flex justify-center">
-          <div className="relative">
-            <button
-              onClick={() => setRendicionAbierta(!rendicionAbierta)}
-              className="inline-flex items-center gap-2 bg-oro hover:bg-oro-oscuro text-azul font-titulo font-bold px-8 py-4 rounded-full transition-all duration-200 shadow-md hover:shadow-oro/30 hover:scale-105 text-sm tracking-wide"
-            >
-              {seccionLogros.botonRendicion.texto}
-              <svg className={`w-4 h-4 transition-transform duration-200 ${rendicionAbierta ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            {rendicionAbierta && (
-              <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-20">
-                {seccionLogros.botonRendicion.opciones.map((opcion, i) => (
-                  <a
-                    key={i}
-                    href={opcion.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setRendicionAbierta(false)}
-                    className="block px-5 py-3 text-azul text-sm font-medium hover:bg-oro-claro transition-colors border-b border-gray-100 last:border-b-0"
-                  >
-                    {opcion.texto}
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
+          <button
+            ref={botonRendicionRef}
+            onClick={alternarRendicion}
+            className="inline-flex items-center gap-2 bg-oro hover:bg-oro-oscuro text-azul font-titulo font-bold px-8 py-4 rounded-full transition-all duration-200 shadow-md hover:shadow-oro/30 hover:scale-105 text-sm tracking-wide"
+          >
+            {seccionLogros.botonRendicion.texto}
+            <svg className={`w-4 h-4 transition-transform duration-200 ${rendicionAbierta ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
         </div>
+
+        {rendicionAbierta && rendicionPos && createPortal(
+          <>
+            <div className="fixed inset-0 z-40" onClick={() => setRendicionAbierta(false)} />
+            <div
+              className="fixed -translate-x-1/2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+              style={{ top: rendicionPos.top, left: rendicionPos.left }}
+            >
+              {seccionLogros.botonRendicion.opciones.map((opcion, i) => (
+                <a
+                  key={i}
+                  href={opcion.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setRendicionAbierta(false)}
+                  className="block px-5 py-3 text-azul text-sm font-medium hover:bg-oro-claro transition-colors border-b border-gray-100 last:border-b-0"
+                >
+                  {opcion.texto}
+                </a>
+              ))}
+            </div>
+          </>,
+          document.body
+        )}
 
       </div>
 

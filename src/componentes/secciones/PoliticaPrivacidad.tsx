@@ -36,8 +36,8 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
             <h2 className="font-titulo font-bold text-azul text-base mb-2">2. Responsable del Tratamiento de Datos</h2>
             <ul className="space-y-1 text-gray-600">
               <li><span className="font-semibold text-azul">Nombre:</span> Francisco Javier Altamirano Sánchez</li>
-              <li><span className="font-semibold text-azul">Cargo:</span> Candidato a la Alcaldía de Ambato 2026</li>
-              <li><span className="font-semibold text-azul">Sitio Web:</span> prueba-ambato.vercel.app</li>
+              <li><span className="font-semibold text-azul">Cargo:</span> PreCandidato a la Alcaldía de Ambato 2026</li>
+              <li><span className="font-semibold text-azul">Sitio Web:</span> https://javieraltamirano.org/</li>
               <li><span className="font-semibold text-azul">Correo:</span> [CORREO ELECTRÓNICO]</li>
               <li><span className="font-semibold text-azul">Dirección:</span> Ambato, Tungurahua, Ecuador</li>
             </ul>
