@@ -263,9 +263,9 @@ export const seccionPropuestasNuevas = {
       titulo: 'Empleo',
       resumen: 'Tomando como referencia las competencias de desarrollo productivo local que el COOTAD otorga a los municipios, las propuestas estratégicas en materia de empleo y reactivación económica para el cantón:',
       puntos: [
-        'Creación de una Incubadora y Aceleradora Municipal de Empresas',
-        'Programa de Educación Técnica y Tecnológica Alineada a la Industria Local',
-        'Modernización del Comercio Autónomo e Informal hacia el Empleo Formal',
+        'Generación de empleo a través de la obra pública realizada por el GAD municipio de Ambato',
+        'Atraer la inversión de los grandes productores  inmobiliarios, agilizando los permisos de construcción y así se generarán plazas de trabajo para los Ambateños.',
+        
       ],
     },
     {
