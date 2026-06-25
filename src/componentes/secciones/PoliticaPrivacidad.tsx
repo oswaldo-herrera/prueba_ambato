@@ -40,6 +40,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
               <li><span className="font-semibold text-azul">Sitio Web:</span> https://javieraltamirano.org/</li>
               <li><span className="font-semibold text-azul">Correo:</span> [CORREO ELECTRÓNICO]</li>
               <li><span className="font-semibold text-azul">Dirección:</span> Ambato, Tungurahua, Ecuador</li>
+              <li><span className="font-semibold text-azul">Delegado de Protección de Datos Personales (DPD):</span> Juan Fidel Herrera Sánchez</li>
             </ul>
             <p className="mt-2">El responsable del tratamiento garantiza que los datos personales serán tratados de forma lícita, leal, transparente y segura.</p>
           </section>
@@ -58,6 +59,8 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
               <li>Opiniones, sugerencias y propuestas ciudadanas</li>
               <li>Información técnica de navegación (IP, navegador, dispositivo, cookies y estadísticas de uso)</li>
             </ul>
+            <br/>
+            <p>Este sitio web no está dirigido a niños, niñas o adolescentes. En caso de que un menor de edad proporcione datos personales a través de los formularios disponibles, dicho tratamiento únicamente se realizará con el consentimiento previo, expreso e informado de su representante legal, conforme a lo establecido en la Ley Orgánica de Protección de Datos Personales.</p>
           </section>
 
           <section>
@@ -86,6 +89,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
           <section>
             <h2 className="font-titulo font-bold text-azul text-base mb-2">6. Conservación de los Datos</h2>
             <p>Los datos personales serán conservados únicamente durante el tiempo necesario para cumplir con las finalidades descritas en esta política o mientras exista una obligación legal que así lo requiera.</p>
+            <p>En particular, los datos recopilados con fines de campaña o participación electoral serán conservados como máximo hasta doce (12) meses después de concluido el proceso electoral o la finalidad para la cual fueron recabados, salvo que exista una obligación legal que justifique un plazo distinto.</p>
             <p className="mt-2">Posteriormente serán eliminados, anonimizados o bloqueados conforme a la normativa vigente.</p>
           </section>
 
@@ -102,12 +106,18 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
               <li>Revocatoria del consentimiento otorgado</li>
             </ul>
             <p className="mt-2">Para ejercer cualquiera de estos derechos, el titular podrá enviar una solicitud al correo electrónico: <span className="text-oro font-semibold">[CORREO DE PROTECCIÓN DE DATOS]</span></p>
+            <br />
+            <p>El responsable del tratamiento atenderá la solicitud en un plazo máximo de quince (15) días, el cual podrá prorrogarse, de manera justificada, por un plazo adicional de hasta la mitad del término original (siete días y medio), informando oportunamente al titular sobre dicha prórroga y sus motivos.</p>
+            <br />
+            <p>En caso de que el titular considere que su solicitud no fue atendida adecuadamente o dentro de los plazos señalados, podrá presentar su reclamo ante la Superintendencia de Protección de Datos Personales (SPDP), autoridad de control en esta materia en el Ecuador, conforme a los mecanismos previstos en la Ley Orgánica de Protección de Datos Personales y su Reglamento.</p>
           </section>
 
           <section>
             <h2 className="font-titulo font-bold text-azul text-base mb-2">8. Seguridad de la Información</h2>
             <p>Implementamos medidas técnicas, administrativas y organizativas razonables para proteger la información personal contra pérdida, acceso no autorizado, alteración, divulgación o destrucción.</p>
             <p className="mt-2">No obstante, ningún sistema tecnológico es completamente invulnerable, por lo que no se puede garantizar seguridad absoluta.</p>
+            <br />
+            <p>El uso indebido o la revelación no autorizada de datos personales puede acarrear, además de las sanciones administrativas previstas en la Ley Orgánica de Protección de Datos Personales, responsabilidad penal conforme a las disposiciones del Código Orgánico Integral Penal relativas a delitos contra la intimidad.</p>
           </section>
 
           <section>
@@ -129,19 +139,28 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
               <li>Por requerimiento legal o judicial</li>
               <li>Cuando sea necesario para la prestación de servicios tecnológicos contratados que cumplan con la normativa ecuatoriana de protección de datos</li>
             </ul>
+            <br />
+            <p>Este sitio web puede utilizar servicios de alojamiento (hosting), analítica u otras herramientas tecnológicas provistas por proveedores ubicados fuera del territorio ecuatoriano, lo que puede implicar una transferencia internacional de datos personales. En dichos casos, se adoptarán las garantías adecuadas exigidas por el Reglamento General a la Ley Orgánica de Protección de Datos Personales, a fin de asegurar un nivel de protección equivalente al previsto en la normativa ecuatoriana.</p>
           </section>
 
           <section>
-            <h2 className="font-titulo font-bold text-azul text-base mb-2">11. Modificaciones a esta Política</h2>
+            <h2 className="font-titulo font-bold text-azul text-base mb-2">11. Tratamiento de Datos en el Contexto Electoral</h2>
+            <p>El tratamiento de datos personales realizado a través de este sitio web también se sujeta a lo dispuesto en la Ley Orgánica Electoral y de Organizaciones Políticas (Código de la Democracia), en lo relativo al uso de información de los ciudadanos para fines de propaganda, difusión de propuestas y demás actividades propias de la campaña electoral.
+               Los datos recopilados durante el proceso electoral no serán utilizados, una vez concluido dicho proceso, para finalidades distintas a las informadas en esta política, salvo que se cuente con una nueva autorización expresa del titular o exista una obligación legal que lo permita.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="font-titulo font-bold text-azul text-base mb-2">12. Modificaciones a esta Política</h2>
             <p>Nos reservamos el derecho de modificar la presente Política de Privacidad cuando resulte necesario para adaptarla a cambios legales, regulatorios o tecnológicos. Las modificaciones serán publicadas oportunamente en este sitio web.</p>
           </section>
 
           <section>
-            <h2 className="font-titulo font-bold text-azul text-base mb-2">12. Contacto</h2>
+            <h2 className="font-titulo font-bold text-azul text-base mb-2">13. Contacto</h2>
             <ul className="space-y-1 text-gray-600">
-              <li><span className="font-semibold text-azul">Correo:</span> [correo@dominio.com]</li>
+              <li><span className="font-semibold text-azul">Correo:</span> [correo@algo.com]</li>
               <li><span className="font-semibold text-azul">Teléfono:</span> 963 197 900</li>
-              <li><span className="font-semibold text-azul">Sitio Web:</span> prueba-ambato.vercel.app</li>
+              <li><span className="font-semibold text-azul">Sitio Web:</span> https://javieraltamirano.org/</li>
             </ul>
             <p className="mt-2 text-gray-500 text-xs">Última actualización: junio 2026</p>
           </section>
