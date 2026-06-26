@@ -29,7 +29,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
           <section>
             <h2 className="font-titulo font-bold text-azul text-base mb-2">1. Introducción</h2>
             <p>En cumplimiento de la Constitución de la República del Ecuador, la Ley Orgánica de Protección de Datos Personales (LOPDP) y demás normativa aplicable, el presente sitio web establece su Política de Privacidad con el propósito de informar a los usuarios sobre la recolección, uso, almacenamiento, protección y tratamiento de sus datos personales.</p>
-            <p className="mt-2">La protección de la información personal de nuestros visitantes, simpatizantes, colaboradores, voluntarios y ciudadanos constituye una prioridad permanente.</p>
+            <p className="mt-2">La protección de la información personal de nuestros visitantes, simpatizantes, colaboradores, voluntarios y ciudadanos constituye una prioridad permanente. </p>
           </section>
 
           <section>
