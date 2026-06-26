@@ -68,6 +68,9 @@ export default function CarruselVideos({ onCerrar, videos = VIDEOS_DEFAULT }: Pr
             key={video.src}
             src={video.src}
             controls
+            controlsList="nodownload"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
             className="w-full h-full object-contain"
           />
 

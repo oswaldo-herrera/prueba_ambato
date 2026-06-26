@@ -73,6 +73,9 @@ export default function SeccionRegistro() {
               <video
                 src="/imagenes/continuo_javier.mp4"
                 controls
+                controlsList="nodownload"
+                disablePictureInPicture
+                onContextMenu={(e) => e.preventDefault()}
                 playsInline
                 className="w-full h-auto block"
               />

@@ -217,6 +217,9 @@ export default function SeccionQuienSoy() {
                     key={videoActivo}
                     src={videos[videoActivo].url}
                     controls
+                    controlsList="nodownload"
+                    disablePictureInPicture
+                    onContextMenu={(e) => e.preventDefault()}
                     className="w-full h-full"
                     preload="metadata"
                   />
