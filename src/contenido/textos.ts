@@ -200,7 +200,7 @@ export const seccionAgenda = {
   descripcion: 'Sigue de cerca las actividades de Javier Altamirano y agrégalas a tu calendario para no perderte ninguna.',
   eventos: [
     {
-      titulo: 'Pendiente',
+      titulo: 'Próximamente',
       fecha: '',
       horaInicio: '',
       horaFin: '',
@@ -208,7 +208,7 @@ export const seccionAgenda = {
       descripcion: '',
     },
     {
-      titulo: 'Pendiente',
+      titulo: 'Próximamente',
       fecha: '',
       horaInicio: '',
       horaFin: '',
@@ -216,7 +216,7 @@ export const seccionAgenda = {
       descripcion: '',
     },
     {
-      titulo: 'Pendiente',
+      titulo: 'Próximamente',
       fecha: '',
       horaInicio: '',
       horaFin: '',
