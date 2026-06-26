@@ -4,32 +4,32 @@ const partidos = [
     grupo: 'Grupo E',
     fecha: 'Domingo, 14 Jun 2026',
     hora: '5:00 PM',
-    equipoA: { nombre: 'Costa de Marfil', img: '/imagenes/new_images/costa_de_marfil.jfif', codigo: 'CIV' },
-    equipoB: { nombre: 'Ecuador',         img: '/imagenes/new_images/ecuador.jfif',         codigo: 'ECU' },
+    equipoA: { nombre: 'Costa de Marfil', img: '/imagenes/new_images/costa_de_marfil.jfif', codigo: 'CIV', marcador: 1 },
+    equipoB: { nombre: 'Ecuador',         img: '/imagenes/new_images/ecuador.jfif',         codigo: 'ECU', marcador: 0 },
   },
   {
     jornada: 'Jornada 2',
     grupo: 'Grupo E',
     fecha: 'Sábado, 20 Jun 2026',
     hora: '6:00 PM',
-    equipoA: { nombre: 'Ecuador', img: '/imagenes/new_images/ecuador.jfif',  codigo: 'ECU' },
-    equipoB: { nombre: 'Curazao', img: '/imagenes/new_images/curazao.jpg',   codigo: 'CUW' },
+    equipoA: { nombre: 'Ecuador', img: '/imagenes/new_images/ecuador.jfif',  codigo: 'ECU', marcador: 0 },
+    equipoB: { nombre: 'Curazao', img: '/imagenes/new_images/curazao.jpg',   codigo: 'CUW', marcador: 0 },
   },
   {
     jornada: 'Jornada 3',
     grupo: 'Grupo E',
     fecha: 'Jueves, 25 Jun 2026',
     hora: '2:00 PM',
-    equipoA: { nombre: 'Ecuador',  img: '/imagenes/new_images/ecuador.jfif',  codigo: 'ECU' },
-    equipoB: { nombre: 'Alemania', img: '/imagenes/new_images/alemania.jfif', codigo: 'GER' },
+    equipoA: { nombre: 'Ecuador',  img: '/imagenes/new_images/ecuador.jfif',  codigo: 'ECU', marcador: 2 },
+    equipoB: { nombre: 'Alemania', img: '/imagenes/new_images/alemania.jfif', codigo: 'GER', marcador: 1 },
   },
   {
     jornada: 'Jornada 4',
     grupo: null,
     fecha: null,
     hora: null,
-    equipoA: { nombre: 'Ecuador', img: '/imagenes/new_images/ecuador.jfif', codigo: 'ECU' },
-    equipoB: { nombre: 'Por definir', img: null, codigo: '?' },
+    equipoA: { nombre: 'Ecuador', img: '/imagenes/new_images/ecuador.jfif', codigo: 'ECU', marcador: null },
+    equipoB: { nombre: 'Por definir', img: null, codigo: '?', marcador: null },
   },
 ]
 
@@ -161,14 +161,26 @@ export default function SeccionMundial() {
                     <p className="text-white/50 text-[10px] font-mono tracking-widest">{partido.equipoA.codigo}</p>
                   </div>
 
-                  {/* VS */}
+                  {/* VS o marcador */}
                   <div className="flex flex-col items-center shrink-0">
-                    <span
-                      className="font-titulo font-black text-3xl leading-none"
-                      style={{ color: '#FFD700', textShadow: '0 0 25px rgba(255,215,0,0.8)' }}
-                    >
-                      VS
-                    </span>
+                    {partido.equipoA.marcador !== null && partido.equipoB.marcador !== null ? (
+                      <>
+                        <span
+                          className="font-titulo font-black text-3xl leading-none"
+                          style={{ color: '#FFD700', textShadow: '0 0 25px rgba(255,215,0,0.8)' }}
+                        >
+                          {partido.equipoA.marcador} - {partido.equipoB.marcador}
+                        </span>
+                        <span className="text-white/40 text-[9px] tracking-widest uppercase mt-1.5">Final</span>
+                      </>
+                    ) : (
+                      <span
+                        className="font-titulo font-black text-3xl leading-none"
+                        style={{ color: '#FFD700', textShadow: '0 0 25px rgba(255,215,0,0.8)' }}
+                      >
+                        VS
+                      </span>
+                    )}
                   </div>
 
                   {/* Equipo B */}
