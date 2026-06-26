@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 
-const VIDEOS_DEFAULT = [
-  { src: '/imagenes/yo_con_javier_1.mp4',  titulo: 'Yo con Javier' },
-  { src: '/imagenes/yo_con_javier_2.mp4', titulo: 'Yo con Javier' },
-  //{ src: '/imagenes/video_3.mp4',  titulo: 'Yo con Javier' },
-]
+const VIDEOS_DEFAULT = Array.from({ length: 15 }, (_, i) => ({
+  src: `/imagenes/videos_yo_con_javier/${i + 1}.mp4`,
+  titulo: 'Yo con Javier',
+}))
 
 interface VideoItem { src: string; titulo: string }
 
