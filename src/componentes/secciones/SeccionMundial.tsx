@@ -1,6 +1,7 @@
 const partidos = [
   {
     jornada: 'Jornada 1',
+    grupo: 'Grupo E',
     fecha: 'Domingo, 14 Jun 2026',
     hora: '5:00 PM',
     equipoA: { nombre: 'Costa de Marfil', img: '/imagenes/new_images/costa_de_marfil.jfif', codigo: 'CIV' },
@@ -8,6 +9,7 @@ const partidos = [
   },
   {
     jornada: 'Jornada 2',
+    grupo: 'Grupo E',
     fecha: 'Sábado, 20 Jun 2026',
     hora: '6:00 PM',
     equipoA: { nombre: 'Ecuador', img: '/imagenes/new_images/ecuador.jfif',  codigo: 'ECU' },
@@ -15,10 +17,19 @@ const partidos = [
   },
   {
     jornada: 'Jornada 3',
+    grupo: 'Grupo E',
     fecha: 'Jueves, 25 Jun 2026',
     hora: '2:00 PM',
     equipoA: { nombre: 'Ecuador',  img: '/imagenes/new_images/ecuador.jfif',  codigo: 'ECU' },
     equipoB: { nombre: 'Alemania', img: '/imagenes/new_images/alemania.jfif', codigo: 'GER' },
+  },
+  {
+    jornada: 'Jornada 4',
+    grupo: null,
+    fecha: null,
+    hora: null,
+    equipoA: { nombre: 'Ecuador', img: '/imagenes/new_images/ecuador.jfif', codigo: 'ECU' },
+    equipoB: { nombre: 'Por definir', img: null, codigo: '?' },
   },
 ]
 
@@ -116,7 +127,7 @@ export default function SeccionMundial() {
         </div>
 
         {/* Match cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {partidos.map((partido, i) => (
             <div key={i} className="group relative">
 
@@ -128,9 +139,11 @@ export default function SeccionMundial() {
                 {/* Top: jornada + grupo */}
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-white/60 text-[10px] tracking-[0.3em] uppercase font-semibold">{partido.jornada}</span>
-                  <span className="bg-yellow-400/20 text-yellow-300 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full border border-yellow-400/30">
-                    Grupo E
-                  </span>
+                  {partido.grupo && (
+                    <span className="bg-yellow-400/20 text-yellow-300 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full border border-yellow-400/30">
+                      {partido.grupo}
+                    </span>
+                  )}
                 </div>
 
                 {/* Equipos */}
@@ -160,12 +173,21 @@ export default function SeccionMundial() {
 
                   {/* Equipo B */}
                   <div className="flex flex-col items-center gap-3 flex-1">
-                    <img
-                      src={partido.equipoB.img}
-                      alt={partido.equipoB.nombre}
-                      className="w-16 h-16 rounded-full object-cover border-2 border-white/20"
-                      style={{ filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.6))' }}
-                    />
+                    {partido.equipoB.img ? (
+                      <img
+                        src={partido.equipoB.img}
+                        alt={partido.equipoB.nombre}
+                        className="w-16 h-16 rounded-full object-cover border-2 border-white/20"
+                        style={{ filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.6))' }}
+                      />
+                    ) : (
+                      <div
+                        className="w-16 h-16 rounded-full bg-white/10 border-2 border-yellow-400/40 flex items-center justify-center"
+                        style={{ filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.6))' }}
+                      >
+                        <span className="font-titulo font-black text-2xl text-yellow-400">?</span>
+                      </div>
+                    )}
                     <p className="text-white font-bold text-sm text-center leading-snug">{partido.equipoB.nombre}</p>
                     <p className="text-white/50 text-[10px] font-mono tracking-widest">{partido.equipoB.codigo}</p>
                   </div>
@@ -173,13 +195,19 @@ export default function SeccionMundial() {
 
                 {/* Fecha y hora */}
                 <div className="mt-5 pt-4 border-t border-white/15 text-center">
-                  <p className="text-white/70 text-[11px] uppercase tracking-[0.25em] font-semibold">{partido.fecha}</p>
-                  <p
-                    className="font-titulo font-black text-2xl mt-1"
-                    style={{ color: '#FFD700', textShadow: '0 0 15px rgba(255,215,0,0.4)' }}
-                  >
-                    {partido.hora}
-                  </p>
+                  {partido.fecha ? (
+                    <>
+                      <p className="text-white/70 text-[11px] uppercase tracking-[0.25em] font-semibold">{partido.fecha}</p>
+                      <p
+                        className="font-titulo font-black text-2xl mt-1"
+                        style={{ color: '#FFD700', textShadow: '0 0 15px rgba(255,215,0,0.4)' }}
+                      >
+                        {partido.hora}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-white/50 text-xs uppercase tracking-[0.25em] font-semibold py-1.5">Fecha por confirmar</p>
+                  )}
                 </div>
               </div>
             </div>

@@ -4,10 +4,11 @@ import { linkGoogleCalendar, descargarICS } from '../../lib/calendario'
 const MESES = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC']
 
 function TarjetaEvento({ evento }: { evento: typeof seccionAgenda.eventos[number] }) {
-  const fecha = new Date(`${evento.fecha}T00:00:00`)
-  const dia = fecha.getDate()
-  const mes = MESES[fecha.getMonth()]
-  const esPasado = fecha < new Date(new Date().toDateString())
+  const tieneFecha = !!evento.fecha
+  const fecha = tieneFecha ? new Date(`${evento.fecha}T00:00:00`) : null
+  const dia = fecha ? fecha.getDate() : '00'
+  const mes = fecha ? MESES[fecha.getMonth()] : 'JUL'
+  const esPasado = fecha ? fecha < new Date(new Date().toDateString()) : false
 
   return (
     <div className="flex gap-5 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-5">
@@ -21,21 +22,25 @@ function TarjetaEvento({ evento }: { evento: typeof seccionAgenda.eventos[number
       {/* Contenido */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <span
-            className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${
-              esPasado ? 'bg-gray-100 text-gray-400' : 'bg-oro-claro text-oro-oscuro'
-            }`}
-          >
-            {esPasado ? 'Realizado' : 'Próximo'}
-          </span>
-          <span className="text-gray-400 text-xs">{evento.horaInicio} – {evento.horaFin}</span>
+          {tieneFecha && (
+            <span
+              className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${
+                esPasado ? 'bg-gray-100 text-gray-400' : 'bg-oro-claro text-oro-oscuro'
+              }`}
+            >
+              {esPasado ? 'Realizado' : 'Próximo'}
+            </span>
+          )}
+          {(evento.horaInicio || evento.horaFin) && (
+            <span className="text-gray-400 text-xs">{evento.horaInicio} – {evento.horaFin}</span>
+          )}
         </div>
 
         <h3 className="font-titulo font-bold text-azul text-lg leading-tight">{evento.titulo}</h3>
         <p className="text-gray-500 text-sm mt-0.5">{evento.lugar}</p>
         <p className="text-gray-500 text-sm leading-relaxed mt-2">{evento.descripcion}</p>
 
-        {!esPasado && (
+        {!esPasado && tieneFecha && (
           <div className="flex flex-wrap gap-2 mt-4">
             <a
               href={linkGoogleCalendar(evento)}

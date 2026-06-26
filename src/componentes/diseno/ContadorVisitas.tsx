@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { supabase } from '../../lib/supabase'
 
-const CLAVE_CONTEO  = 'hersa_visitas'
 const CLAVE_ULTIMA  = 'hersa_ultima_visita'
-const INTERVALO_MS  = 30 * 60 * 1000   // 30 min entre visitas del mismo dispositivo
-
-function leerConteo(): number {
-  return parseInt(localStorage.getItem(CLAVE_CONTEO) ?? '0', 10) || 0
-}
+const INTERVALO_MS  = 30 * 60 * 1000   // 30 min entre visitas del mismo dispositivo, para no inflar el total
 
 interface Props { variante?: 'claro' | 'oscuro' }
 
@@ -17,17 +13,25 @@ export default function ContadorVisitas({ variante = 'claro' }: Props) {
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
-    const ahora    = Date.now()
-    const ultima   = parseInt(localStorage.getItem(CLAVE_ULTIMA) ?? '0', 10)
-    let   total    = leerConteo()
+    async function cargarConteo() {
+      const ahora = Date.now()
+      const ultima = parseInt(localStorage.getItem(CLAVE_ULTIMA) ?? '0', 10)
+      const yaContadoRecientemente = ahora - ultima < INTERVALO_MS
 
-    if (ahora - ultima > INTERVALO_MS) {
-      total += 1
-      localStorage.setItem(CLAVE_CONTEO, String(total))
-      localStorage.setItem(CLAVE_ULTIMA, String(ahora))
+      if (yaContadoRecientemente) {
+        const { data } = await supabase.from('contador_visitas').select('total').eq('id', 1).single()
+        if (data) setConteo(data.total)
+        return
+      }
+
+      const { data, error } = await supabase.rpc('incrementar_contador')
+      if (!error && typeof data === 'number') {
+        localStorage.setItem(CLAVE_ULTIMA, String(ahora))
+        setConteo(data)
+      }
     }
 
-    setConteo(total)
+    cargarConteo()
   }, [])
 
   // Animación roll-up desde 0 hasta el conteo real

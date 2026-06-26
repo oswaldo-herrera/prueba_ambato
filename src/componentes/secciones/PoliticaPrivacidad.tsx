@@ -38,7 +38,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
               <li><span className="font-semibold text-azul">Nombre:</span> Francisco Javier Altamirano Sánchez</li>
               <li><span className="font-semibold text-azul">Cargo:</span> PreCandidato a la Alcaldía de Ambato 2026</li>
               <li><span className="font-semibold text-azul">Sitio Web:</span> https://javieraltamirano.org/</li>
-              <li><span className="font-semibold text-azul">Correo:</span> [CORREO ELECTRÓNICO]</li>
+              <li><span className="font-semibold text-azul">Correo:</span> yoporambato@gmail.com</li>
               <li><span className="font-semibold text-azul">Dirección:</span> Ambato, Tungurahua, Ecuador</li>
               <li><span className="font-semibold text-azul">Delegado de Protección de Datos Personales (DPD):</span> Juan Fidel Herrera Sánchez</li>
             </ul>
@@ -105,7 +105,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
               <li>Suspensión del tratamiento</li>
               <li>Revocatoria del consentimiento otorgado</li>
             </ul>
-            <p className="mt-2">Para ejercer cualquiera de estos derechos, el titular podrá enviar una solicitud al correo electrónico: <span className="text-oro font-semibold">[CORREO DE PROTECCIÓN DE DATOS]</span></p>
+            <p className="mt-2">Para ejercer cualquiera de estos derechos, el titular podrá enviar una solicitud al correo electrónico: <span className="text-oro font-semibold">yoporambato@gmail.com</span></p>
             <br />
             <p>El responsable del tratamiento atenderá la solicitud en un plazo máximo de quince (15) días, el cual podrá prorrogarse, de manera justificada, por un plazo adicional de hasta la mitad del término original (siete días y medio), informando oportunamente al titular sobre dicha prórroga y sus motivos.</p>
             <br />
@@ -158,7 +158,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
           <section>
             <h2 className="font-titulo font-bold text-azul text-base mb-2">13. Contacto</h2>
             <ul className="space-y-1 text-gray-600">
-              <li><span className="font-semibold text-azul">Correo:</span> [correo@algo.com]</li>
+              <li><span className="font-semibold text-azul">Correo:</span> yoporambato@gmail.com</li>
               <li><span className="font-semibold text-azul">Teléfono:</span> 963 197 900</li>
               <li><span className="font-semibold text-azul">Sitio Web:</span> https://javieraltamirano.org/</li>
             </ul>
