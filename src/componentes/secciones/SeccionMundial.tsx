@@ -26,10 +26,10 @@ const partidos = [
   {
     jornada: 'Jornada 4',
     grupo: null,
-    fecha: null,
-    hora: null,
+    fecha: 'Martes, 30 Jun 2026',
+    hora: '8:00 PM',
     equipoA: { nombre: 'Ecuador', img: '/imagenes/new_images/ecuador.jfif', codigo: 'ECU', marcador: null },
-    equipoB: { nombre: 'Por definir', img: null, codigo: '?', marcador: null },
+    equipoB: { nombre: 'México',  img: '/imagenes/mexico.png',             codigo: 'MEX', marcador: null },
   },
 ]
 
