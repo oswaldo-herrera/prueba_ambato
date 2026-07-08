@@ -45,7 +45,7 @@ export const seccionInicio = {
   estadisticas: [
     { numero: '15+', descripcion: 'Años de experiencia' },
     { numero: '50K', descripcion: 'Vecinos comprometidos' },
-    { numero: '63',  descripcion: 'Motivos para ganar' },
+    { numero: '',  descripcion: '' },
   ],
 }
 
