@@ -35,7 +35,7 @@
       radial-gradient(ellipse 60% 35% at 0% 100%, rgba(172,124,63,.07) 0%, transparent 50%),
       radial-gradient(ellipse 50% 30% at 100% 80%, rgba(172,124,63,.07) 0%, transparent 50%),
       #E8DCC8;
-    opacity:0; transition:opacity 1s ease; pointer-events:none;
+    opacity:0; transition:opacity .4s ease; pointer-events:none;
   }
   #inv.show { opacity:1; pointer-events:auto; }
   #inv::before {
@@ -133,6 +133,24 @@
   }
   #skip-btn:hover { color:#fff; border-color:rgba(255,255,255,.7); }
 
+  /* ── Animación de entrada ── */
+  @keyframes land {
+    from { opacity:0; transform:translateY(-22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card > * { opacity:0; }
+
+  #inv.show .logo-fuerza { animation: land .6s cubic-bezier(.25,.8,.25,1) .10s both; }
+  #inv.show .eyebrow     { animation: land .6s cubic-bezier(.25,.8,.25,1) .28s both; }
+  #inv.show .event-title { animation: land .7s cubic-bezier(.25,.8,.25,1) .44s both; }
+  #inv.show .cand-header { animation: land .5s cubic-bezier(.25,.8,.25,1) .58s both; }
+  #inv.show .candidates  { animation: land .9s cubic-bezier(.25,.8,.25,1) .66s both; }
+  #inv.show .rule        { animation: land .5s cubic-bezier(.25,.8,.25,1) .92s both; }
+  #inv.show .name        { animation: land .6s cubic-bezier(.25,.8,.25,1) .96s both; }
+  #inv.show .name-sub    { animation: land .6s cubic-bezier(.25,.8,.25,1) 1.10s both; }
+  #inv.show .details     { animation: land .7s cubic-bezier(.25,.8,.25,1) 1.26s both; }
+  #inv.show .footer      { animation: land .6s cubic-bezier(.25,.8,.25,1) 1.52s both; }
+
   @media (prefers-reduced-motion:reduce) {
     *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
   }
@@ -196,7 +214,7 @@
       <div class="cand main">
         <div class="cand-img-wrap"><img class="cand-img" src="/imagenes/javier_a.png" alt="Javier Altamirano"></div>
         <div class="cand-name">Javier Altamirano</div>
-        <div class="cand-role">Candidato</div>
+        <div class="cand-role">Presidente</div>
       </div>
       <div class="cand">
         <div class="cand-img-wrap"><img class="cand-img" src="/imagenes/danilo_ortiz.png" alt="Danilo Ortiz"></div>
@@ -241,7 +259,6 @@ function startVideo() {
 
 function showInv() {
   document.getElementById('video-intro').style.display = 'none';
-  document.getElementById('inv').style.opacity = '1';
-  document.getElementById('inv').style.pointerEvents = 'auto';
+  document.getElementById('inv').classList.add('show');
 }
 </script>
