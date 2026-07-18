@@ -1,0 +1,551 @@
+<title>Presentación de Pre-Candidatos — Fuerza Democrática Solidaria</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://javieraltamirano.org/presentacion/">
+<meta property="og:title"       content="Presentación de Pre-Candidatos · Fuerza Democrática Solidaria">
+<meta property="og:description" content="Te invitamos a la Presentación de Pre-Candidatos. Sábado 25 de Julio, 12:00 PM — Hotel Ambato.">
+<meta property="og:image"       content="https://javieraltamirano.org/imagenes/fuerza.jpeg">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:image"       content="https://javieraltamirano.org/imagenes/fuerza.jpeg">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --azul:#21243D; --oro:#AC7C3F; --oro-lt:#D4A86A; --cream:#F0E8D8; }
+  html, body { height:100%; overflow:hidden; background:var(--azul); font-family:system-ui,sans-serif; }
+
+  #c { position:fixed; inset:0; width:100%; height:100%; }
+
+  #skip {
+    position:fixed; top:18px; right:22px; z-index:50;
+    background:none; border:1px solid rgba(255,255,255,.2);
+    color:rgba(255,255,255,.4); font-family:inherit;
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    padding:6px 14px; border-radius:2px; cursor:pointer; transition:all .2s;
+  }
+  #skip:hover { color:#fff; border-color:rgba(255,255,255,.6); }
+
+  #inv {
+    position:fixed; inset:0; z-index:20;
+    display:flex; align-items:flex-start; justify-content:center;
+    padding:48px 24px 40px; overflow-y:auto;
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(172,124,63,.10) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 35% at 0% 100%, rgba(172,124,63,.07) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 30% at 100% 80%, rgba(172,124,63,.07) 0%, transparent 50%),
+      #E8DCC8;
+    opacity:0; transition:opacity 1s ease; pointer-events:none;
+  }
+  #inv.show { opacity:1; pointer-events:auto; }
+  #inv::before {
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 50% 30% at 50% 6%, rgba(172,124,63,.13) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 20% at 50% 97%, rgba(172,124,63,.09) 0%, transparent 60%);
+  }
+  #inv::after {
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background-image:radial-gradient(circle, rgba(172,124,63,.09) 1px, transparent 1px);
+    background-size:36px 36px;
+  }
+  /* SVG vectores de fondo */
+  .bg-svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+  .card { position:relative; z-index:1; text-align:center; max-width:560px; width:100%; }
+  .badge {
+    display:inline-block; font-size:9.5px; font-weight:600;
+    letter-spacing:.38em; text-transform:uppercase; color:var(--oro);
+    border:1px solid rgba(172,124,63,.5); padding:7px 22px;
+    border-radius:2px; margin-bottom:40px;
+  }
+  .eyebrow { font-size:15px; font-weight:600; letter-spacing:.20em;
+    text-transform:uppercase; color:rgba(33,36,61,.75);
+    margin-bottom:14px; font-style:italic; }
+  .event-title { font-family:'Georgia',serif; font-size:clamp(26px,6.5vw,50px);
+    font-weight:700; line-height:1.1; letter-spacing:.04em;
+    color:#0f1124; text-wrap:balance;
+    text-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .event-title .gold { color:#8a5e1e; text-shadow: 0 1px 3px rgba(0,0,0,.10); }
+  .rule { display:flex; align-items:center; gap:12px; margin:30px auto; max-width:300px; }
+  .rl { flex:1; height:1px; background:linear-gradient(to right,transparent,rgba(172,124,63,.42),transparent); }
+  .rd { width:7px; height:7px; background:var(--oro); transform:rotate(45deg); flex-shrink:0; }
+  .name { font-family:'Georgia',serif; font-size:clamp(36px,9.5vw,70px);
+    font-weight:900; line-height:.95; letter-spacing:.065em; color:#21243D; text-wrap:balance; }
+  .name-sub { font-size:22px; font-weight:800; letter-spacing:.18em;
+    text-transform:uppercase; color:rgba(33,36,61,.75);
+    margin-top:14px; margin-bottom:42px; }
+  .details { display:flex; flex-direction:column; gap:10px; max-width:380px; margin:0 auto; }
+  .dt { display:flex; align-items:center; gap:16px;
+    background:rgba(33,36,61,.04);
+    border:1px solid rgba(172,124,63,.2);
+    border-left:2px solid rgba(172,124,63,.55);
+    padding:13px 18px; border-radius:2px; text-align:left; }
+  .dt-ico { font-size:17px; flex-shrink:0; }
+  .dt-lbl { font-size:8.5px; font-weight:600; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--oro); margin-bottom:4px; }
+  .dt-val { font-family:'Georgia',serif; font-size:14px; font-style:italic; color:#21243D; }
+  .footer { margin-top:54px; display:flex; flex-direction:column; align-items:center; gap:9px; }
+  .f-logo { font-family:'Georgia',serif; font-size:18px; font-weight:700;
+    letter-spacing:.32em; color:var(--oro); }
+  .f-tag { font-size:14px; font-weight:700; letter-spacing:.20em;
+    text-transform:uppercase; color:rgba(33,36,61,.65); }
+  .logo-fuerza { max-width:220px; width:100%; margin-bottom:28px; display:block; margin-left:auto; margin-right:auto; }
+  /* ── Candidates ── */
+  .cand-header { font-size:9px; font-weight:600; letter-spacing:.32em; text-transform:uppercase;
+    color:rgba(172,124,63,.7); margin:22px 0 0; }
+  .candidates { display:flex; justify-content:center; align-items:flex-end; gap:16px; margin:28px 0 0; }
+  .cand { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .cand-img-wrap { border-radius:4px; overflow:hidden; border:1.5px solid rgba(172,124,63,.4); box-shadow:0 0 20px rgba(172,124,63,.25); }
+  .cand-img { display:block; width:98px; height:136px; object-fit:cover; object-position:top; }
+  .cand.main .cand-img-wrap { border-color:var(--oro); box-shadow:0 0 36px rgba(172,124,63,.55), 0 0 72px rgba(172,124,63,.2); transform:translateY(-18px); }
+  .cand.main .cand-img { width:128px; height:174px; }
+  .cand-name { font-family:'Georgia',serif; font-size:12px; font-weight:700; color:#21243D; letter-spacing:.05em; }
+  .cand-role { font-size:8px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:var(--oro); }
+  .name--sm { font-size:clamp(20px,4.2vw,32px); letter-spacing:.04em; }
+
+  @media (prefers-reduced-motion:reduce) {
+    *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  }
+</style>
+
+<!-- <canvas id="c"></canvas> -->
+<!-- <button id="skip" onclick="showInv()">Saltar ↓</button> -->
+
+<div id="inv" class="show">
+  <!-- Decoración vectorial de fondo -->
+  <svg class="bg-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Arco grande esquina superior izquierda -->
+    <circle cx="-80" cy="-80" r="420" fill="none" stroke="rgba(140,96,30,.38)" stroke-width="1.5"/>
+    <circle cx="-80" cy="-80" r="540" fill="none" stroke="rgba(140,96,30,.22)" stroke-width="1"/>
+    <circle cx="-80" cy="-80" r="300" fill="none" stroke="rgba(140,96,30,.18)" stroke-width="1" stroke-dasharray="6 8"/>
+    <!-- Arco esquina inferior derecha -->
+    <circle cx="1520" cy="980" r="500" fill="none" stroke="rgba(140,96,30,.35)" stroke-width="1.5"/>
+    <circle cx="1520" cy="980" r="650" fill="none" stroke="rgba(140,96,30,.20)" stroke-width="1"/>
+    <circle cx="1520" cy="980" r="360" fill="none" stroke="rgba(140,96,30,.18)" stroke-width="1" stroke-dasharray="6 8"/>
+    <!-- Líneas diagonales doradas -->
+    <line x1="0" y1="900" x2="600" y2="0" stroke="rgba(140,96,30,.22)" stroke-width="1.2"/>
+    <line x1="180" y1="900" x2="780" y2="0" stroke="rgba(140,96,30,.14)" stroke-width="1"/>
+    <line x1="1440" y1="0" x2="840" y2="900" stroke="rgba(140,96,30,.22)" stroke-width="1.2"/>
+    <line x1="1260" y1="0" x2="660" y2="900" stroke="rgba(140,96,30,.14)" stroke-width="1"/>
+    <!-- Barra dorada inferior -->
+    <rect x="0" y="872" width="1440" height="2" fill="rgba(140,96,30,.45)"/>
+    <rect x="0" y="876" width="1440" height="1" fill="rgba(140,96,30,.18)"/>
+    <!-- Barra superior -->
+    <rect x="0" y="0" width="1440" height="1.5" fill="rgba(140,96,30,.35)"/>
+    <!-- Acento luminoso superior centrado -->
+    <ellipse cx="720" cy="0" rx="380" ry="80" fill="rgba(140,96,30,.10)"/>
+    <!-- Puntos decorativos izquierda -->
+    <circle cx="80" cy="200" r="4" fill="rgba(140,96,30,.50)"/>
+    <circle cx="120" cy="248" r="2.5" fill="rgba(140,96,30,.35)"/>
+    <circle cx="52" cy="265" r="2" fill="rgba(140,96,30,.40)"/>
+    <circle cx="100" cy="290" r="1.5" fill="rgba(140,96,30,.25)"/>
+    <!-- Puntos decorativos derecha -->
+    <circle cx="1360" cy="680" r="4" fill="rgba(140,96,30,.50)"/>
+    <circle cx="1318" cy="725" r="2.5" fill="rgba(140,96,30,.35)"/>
+    <circle cx="1392" cy="708" r="2" fill="rgba(140,96,30,.40)"/>
+    <circle cx="1340" cy="750" r="1.5" fill="rgba(140,96,30,.25)"/>
+  </svg>
+  <div class="card">
+    <img class="logo-fuerza" src="/imagenes/fuerza_2.png" alt="Fuerza Democrática Solidaria">
+    <p class="eyebrow">Se le invita cordialmente a la</p>
+    <h1 class="event-title">Presentación <br><span class="gold">de Pre - Candidatos</span></h1>
+    <p class="cand-header"></p>
+    <div class="candidates">
+      <div class="cand">
+        <div class="cand-img-wrap"><img class="cand-img" src="/imagenes/sandra_caiza.png" alt="Sandra Caiza"></div>
+        <div class="cand-name">Sandra Caiza</div>
+        <div class="cand-role">Viceprefectura</div>
+      </div>
+      <div class="cand main">
+        <div class="cand-img-wrap"><img class="cand-img" src="/imagenes/javier_a.png" alt="Javier Altamirano"></div>
+        <div class="cand-name">Javier Altamirano</div>
+        <div class="cand-role">Candidato</div>
+      </div>
+      <div class="cand">
+        <div class="cand-img-wrap"><img class="cand-img" src="/imagenes/danilo_ortiz.png" alt="Danilo Ortiz"></div>
+        <div class="cand-name">Danilo Ortiz</div>
+        <div class="cand-role">Prefectura</div>
+      </div>
+    </div>
+    <div class="rule"><div class="rl"></div><div class="rd"></div><div class="rl"></div></div>
+    <h2 class="name name--sm"></h2>
+    <p class="name-sub">Juntos X Ambato</p>
+    <div class="rule"><div class="rl"></div><div class="rd"></div><div class="rl"></div></div>
+    <div class="details">
+      <div class="dt"><div class="dt-ico">📅</div><div><div class="dt-lbl">Fecha</div><div class="dt-val">Sábado, 25 de Julio de 2026</div></div></div>
+      <div class="dt"><div class="dt-ico">🕛</div><div><div class="dt-lbl">Hora</div><div class="dt-val">12:00 PM</div></div></div>
+      <div class="dt"><div class="dt-ico">📍</div><div><div class="dt-lbl">Lugar</div><div class="dt-val">Hotel Ambato &middot; Ambato, Ecuador</div></div></div>
+    </div>
+    <div class="footer">
+      <div class="f-logo"></div>
+      <div class="f-tag">Seguridad &middot; Salud &middot; Empleo &middot; Ambato 2026</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  let W, H, CX, CY;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    CX = W / 2; CY = H * 0.50;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const FOV  = 520;
+  const BRAD = 28; // ball world-radius
+
+  /* ── 3D → 2D projection (origin at CX,CY, +z = away from camera) ── */
+  function proj(x, y, z) {
+    const s = FOV / Math.max(FOV + z, 1);
+    return { x: CX + x * s, y: CY + y * s, s };
+  }
+
+  /* ── Draw realistic sphere ── */
+  function drawBall(sx, sy, r, red, alpha) {
+    if (r < 0.5 || alpha <= 0) return;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+
+    // Shadow on table
+    if (r > 4) {
+      const sg = ctx.createRadialGradient(sx + r*.12, sy + r*.8, 0, sx, sy + r*.7, r * 1.35);
+      sg.addColorStop(0, 'rgba(0,0,0,.5)');
+      sg.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = sg;
+      ctx.beginPath();
+      ctx.ellipse(sx + r*.1, sy + r*.75, r * 1.25, r * .28, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Base sphere gradient
+    const c0 = red ? '#ff5a5a' : '#ffffff';
+    const c1 = red ? '#d10a0a' : '#e2e2e2';
+    const c2 = red ? '#8a0000' : '#b0b0b0';
+    const c3 = red ? '#3c0000' : '#707070';
+    const g = ctx.createRadialGradient(sx - r*.33, sy - r*.33, r*.04, sx + r*.08, sy + r*.1, r);
+    g.addColorStop(0, c0); g.addColorStop(.48, c1);
+    g.addColorStop(.78, c2); g.addColorStop(1, c3);
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+
+    // Primary specular
+    const sp = ctx.createRadialGradient(sx - r*.4, sy - r*.42, 0, sx - r*.24, sy - r*.28, r*.52);
+    sp.addColorStop(0, 'rgba(255,255,255,.95)');
+    sp.addColorStop(.38, 'rgba(255,255,255,.35)');
+    sp.addColorStop(.75, 'rgba(255,255,255,.06)');
+    sp.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = sp;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+
+    // Soft secondary
+    const sp2 = ctx.createRadialGradient(sx + r*.28, sy + r*.3, 0, sx + r*.18, sy + r*.22, r*.38);
+    sp2.addColorStop(0, 'rgba(255,255,255,.16)');
+    sp2.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = sp2;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+
+    // Rim darkening
+    const rim = ctx.createRadialGradient(sx, sy, r * .68, sx, sy, r);
+    rim.addColorStop(0, 'rgba(0,0,0,0)');
+    rim.addColorStop(1, 'rgba(0,0,0,.38)');
+    ctx.fillStyle = rim;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2); ctx.fill();
+
+    ctx.restore();
+  }
+
+  /* ── Draw cue ── */
+  function drawCue(tx, ty, bx, by, alpha) {
+    if (alpha <= 0) return;
+    const dx = bx - tx, dy = by - ty;
+    const len = Math.hypot(dx, dy);
+    if (len < 1) return;
+    const nx = -dy / len, ny = dx / len;
+    const tw = 3, bw = 11;
+
+    ctx.save();
+    ctx.globalAlpha = alpha;
+
+    const woodG = ctx.createLinearGradient(tx, ty, bx, by);
+    woodG.addColorStop(0,   '#D8C058');
+    woodG.addColorStop(.22, '#B88828');
+    woodG.addColorStop(.55, '#9A6818');
+    woodG.addColorStop(.82, '#6A4010');
+    woodG.addColorStop(1,   '#361E06');
+    ctx.fillStyle = woodG;
+    ctx.beginPath();
+    ctx.moveTo(tx + nx*tw, ty + ny*tw);
+    ctx.lineTo(bx + nx*bw, by + ny*bw);
+    ctx.lineTo(bx - nx*bw, by - ny*bw);
+    ctx.lineTo(tx - nx*tw, ty - ny*tw);
+    ctx.closePath();
+    ctx.fill();
+
+    // Gloss highlight along length
+    const hlG = ctx.createLinearGradient(tx + nx*tw*.5, ty + ny*tw*.5, tx - nx*tw*.5, ty - ny*tw*.5);
+    hlG.addColorStop(0, 'rgba(255,230,120,.55)');
+    hlG.addColorStop(.4, 'rgba(255,200,80,.15)');
+    hlG.addColorStop(1, 'rgba(0,0,0,.3)');
+    ctx.fillStyle = hlG;
+    ctx.beginPath();
+    ctx.moveTo(tx + nx*tw, ty + ny*tw);
+    ctx.lineTo(bx + nx*bw, by + ny*bw);
+    ctx.lineTo(bx - nx*bw, by - ny*bw);
+    ctx.lineTo(tx - nx*tw, ty - ny*tw);
+    ctx.closePath();
+    ctx.fill();
+
+    // Chalk tip
+    ctx.fillStyle = '#7aabcc';
+    ctx.beginPath(); ctx.ellipse(tx, ty, tw * 1.3, tw * 1.1, 0, 0, Math.PI * 2); ctx.fill();
+
+    ctx.restore();
+  }
+
+  /* ── Impact flash ── */
+  function drawImpact(sx, sy, t) {
+    if (t <= 0 || t >= 1) return;
+    ctx.save();
+    ctx.globalAlpha = 1 - t;
+    const r = t * 90;
+    const ig = ctx.createRadialGradient(sx, sy, r*.2, sx, sy, r);
+    ig.addColorStop(0, 'rgba(255,240,120,.85)');
+    ig.addColorStop(.45, 'rgba(255,180,30,.4)');
+    ig.addColorStop(1, 'rgba(255,80,0,0)');
+    ctx.fillStyle = ig;
+    ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI*2); ctx.fill();
+    for (let i = 0; i < 14; i++) {
+      const a = (i / 14) * Math.PI * 2;
+      const d = t * 65;
+      ctx.fillStyle = `rgba(255,${170 + (i%3)*30},60,${(1-t)*.9})`;
+      ctx.beginPath();
+      ctx.arc(sx + Math.cos(a)*d, sy + Math.sin(a)*d, 3*(1-t)+1, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* ── Draw table felt ── */
+  function drawTable(alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+
+    ctx.fillStyle = '#030609';
+    ctx.fillRect(0, 0, W, H);
+
+    // Felt trapezoid (perspective receding upward)
+    const nearY = H + 20, farY = H * .36;
+    const nearW = W * .98, farW = W * .14;
+    ctx.beginPath();
+    ctx.moveTo(CX - nearW/2, nearY); ctx.lineTo(CX + nearW/2, nearY);
+    ctx.lineTo(CX + farW/2,  farY);  ctx.lineTo(CX - farW/2,  farY);
+    ctx.closePath();
+    const felt = ctx.createLinearGradient(CX, nearY, CX, farY);
+    felt.addColorStop(0,   '#1e6030');
+    felt.addColorStop(.45, '#145022');
+    felt.addColorStop(1,   '#0a2e14');
+    ctx.fillStyle = felt; ctx.fill();
+
+    // Perspective grid lines
+    ctx.strokeStyle = 'rgba(0,0,0,.1)'; ctx.lineWidth = 1;
+    for (let i = 0; i <= 10; i++) {
+      const t = i / 10;
+      ctx.beginPath();
+      ctx.moveTo(CX - nearW/2 + nearW*t, nearY);
+      ctx.lineTo(CX - farW/2  + farW*t,  farY);
+      ctx.stroke();
+    }
+    // Horizontal lines (perspective spacing)
+    for (let j = 1; j <= 6; j++) {
+      const t = Math.pow(j/7, 1.5);
+      const y = nearY + (farY - nearY) * t;
+      const lw = nearW + (farW - nearW) * t;
+      ctx.beginPath(); ctx.moveTo(CX - lw/2, y); ctx.lineTo(CX + lw/2, y); ctx.stroke();
+    }
+
+    // Overhead light
+    const light = ctx.createRadialGradient(CX, H*.65, 0, CX, H*.65, W*.58);
+    light.addColorStop(0,   'rgba(90,220,110,.16)');
+    light.addColorStop(.5,  'rgba(40,140,60,.06)');
+    light.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.fillStyle = light; ctx.fillRect(0, 0, W, H);
+
+    // Vignette
+    const vig = ctx.createRadialGradient(CX, H*.5, H*.15, CX, H*.5, H*.85);
+    vig.addColorStop(0, 'rgba(0,0,0,0)');
+    vig.addColorStop(1, 'rgba(0,0,0,.75)');
+    ctx.fillStyle = vig; ctx.fillRect(0, 0, W, H);
+
+    ctx.restore();
+  }
+
+  /* ══════════════ ANIMATION STATE ══════════════ */
+
+  // 3D world positions. z=0 is "camera near", +z is away.
+  // White ball starts CLOSE (z=100), reds are FAR (z=400+).
+  const WB_START_Z  = 100;
+  const WB_END_Z    = 360; // white ball travels toward reds
+  const RB_START_Z  = 400;
+  const RB2_DZ      = 46;  // triangle back offset
+
+  let wb = { x:0, y:0, z: WB_START_Z };
+
+  // Red balls initial world positions (triangle)
+  const RB_INIT = [
+    { x:  0,  y:0, z: RB_START_Z          },  // front
+    { x:-30,  y:0, z: RB_START_Z + RB2_DZ },  // back-left
+    { x: 30,  y:0, z: RB_START_Z + RB2_DZ },  // back-right
+  ];
+  let rb = RB_INIT.map(b => ({ ...b, vx:0, vz:0 }));
+
+  // Timing (ms)
+  const T = {
+    TABLE:    400,   // table fades in
+    CUE_IN:   700,   // cue slides in
+    AIM:      1100,  // cue held, aimed
+    STRIKE:   1450,  // cue thrusts
+    WB_ROLL:  1680,  // white ball starts moving
+    COLLIDE:  2050,  // impact!
+    SCENE_END: 3500, // fade out
+    SHOW_INV: 3800,
+  };
+
+  let started = false, t0 = 0;
+  let impactAge = -1, impactStartT = 0;
+  let scattered = false;
+  let running = true;
+
+  /* ── Easing ── */
+  const easeOut = t => 1 - Math.pow(1-t, 3);
+  const easeIn  = t => t * t;
+  const clamp   = (v,a,b) => Math.min(b, Math.max(a, v));
+  const lerp    = (a,b,t) => a + (b-a)*t;
+  const norm    = (v,a,b) => clamp((v-a)/(b-a), 0, 1);
+
+  /* ── Main loop ── */
+  function loop(now) {
+    if (!started) { started = true; t0 = now; }
+    const el = now - t0;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Table
+    const tableAlpha = easeOut(norm(el, 0, T.TABLE));
+    drawTable(tableAlpha);
+
+    // ── White ball position ──
+    if (el >= T.WB_ROLL && el < T.COLLIDE) {
+      const t = easeIn(norm(el, T.WB_ROLL, T.COLLIDE));
+      wb.z = lerp(WB_START_Z, WB_END_Z, t);
+    }
+
+    // ── Collision ──
+    if (el >= T.COLLIDE && !scattered) {
+      scattered = true;
+      impactStartT = now;
+      impactAge = 0;
+      // Launch red balls toward camera and to sides
+      rb[0].vx =   0;   rb[0].vz = -820; // straight at camera
+      rb[1].vx = -290;  rb[1].vz = -640; // left-forward
+      rb[2].vx =  290;  rb[2].vz = -640; // right-forward
+    }
+
+    if (scattered) {
+      const dt = (now - impactStartT) / 1000;
+      rb.forEach((b, i) => {
+        b.x = RB_INIT[i].x + b.vx * dt;
+        b.z = RB_INIT[i].z + b.vz * dt;
+      });
+      if (impactAge >= 0) impactAge = norm(now - impactStartT, 0, 700);
+    }
+
+    // ── Project balls ──
+    const wbP = proj(wb.x, wb.y, wb.z);
+    const rbP = rb.map(b => ({ ...proj(b.x, b.y, b.z), b }));
+
+    // Draw red balls back-to-front (largest z = farthest = draw first)
+    [...rbP].sort((a,b) => b.b.z - a.b.z).forEach(({ x, y, s, b }) => {
+      const r = BRAD * Math.max(s, 0.001);
+      const fadeAlpha = b.z < -300 ? Math.max(0, 1 - norm(b.z, -300, -520)) : tableAlpha;
+      drawBall(x, y, r, true, fadeAlpha);
+    });
+
+    // Draw white ball (hide after collision)
+    if (el < T.COLLIDE + 150) {
+      const wa = el >= T.COLLIDE ? Math.max(0, 1 - norm(el, T.COLLIDE, T.COLLIDE+150)) : tableAlpha;
+      drawBall(wbP.x, wbP.y, BRAD * wbP.s, false, wa);
+    }
+
+    // Impact
+    if (impactAge > 0) {
+      const rbFrontP = proj(RB_INIT[0].x, 0, RB_INIT[0].z);
+      drawImpact(rbFrontP.x, rbFrontP.y, impactAge);
+    }
+
+    // ── Cue ──
+    if (el >= T.CUE_IN && el < T.WB_ROLL + 100) {
+      // Cue tip rests just above white ball, butt extends downward (toward viewer)
+      const cueAlpha = el < T.CUE_IN   ? 0
+        : el < T.AIM                    ? easeOut(norm(el, T.CUE_IN, T.AIM))
+        : el < T.WB_ROLL                ? 1
+        : Math.max(0, 1 - norm(el, T.WB_ROLL, T.WB_ROLL+100));
+
+      // During strike: cue tip thrusts toward white ball (move toward contact)
+      let strikeAdv = 0;
+      if (el >= T.STRIKE && el < T.WB_ROLL) {
+        strikeAdv = easeOut(norm(el, T.STRIKE, T.WB_ROLL)) * 52;
+      }
+
+      // Cue enter: slides up from below
+      const enterOffset = el < T.AIM ? (1 - easeOut(norm(el, T.CUE_IN, T.AIM))) * 80 : 0;
+
+      // Cue tip is just behind white ball (slightly below it on screen since that's "closer")
+      const tipX = wbP.x + 4;
+      const tipY = wbP.y + BRAD * wbP.s * 1.1 + 8 - strikeAdv + enterOffset;
+      // Butt extends downward (toward viewer = lower on screen)
+      const cueLen = Math.min(W, H) * 0.55;
+      const angle  = -0.06; // nearly straight up-down, slight slant
+      const buttX  = tipX + Math.sin(angle) * cueLen;
+      const buttY  = tipY + Math.cos(angle) * cueLen;
+
+      drawCue(tipX, tipY, buttX, buttY, cueAlpha);
+    }
+
+    // ── Scene fade in / out ──
+    if (el < 200) {
+      ctx.fillStyle = `rgba(3,6,9,${1 - el/200})`;
+      ctx.fillRect(0, 0, W, H);
+    }
+    if (el > T.SCENE_END) {
+      const ft = norm(el, T.SCENE_END, T.SHOW_INV);
+      ctx.fillStyle = `rgba(33,36,61,${easeOut(ft)})`; // fade to --azul color
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    if (el > T.SHOW_INV) {
+      running = false;
+      showInv();
+      return;
+    }
+
+    if (running) requestAnimationFrame(loop);
+  }
+
+  requestAnimationFrame(loop);
+})();
+
+function showInv() {
+  document.getElementById('skip').style.display = 'none';
+  document.getElementById('inv').classList.add('show');
+  const c = document.getElementById('c');
+  setTimeout(() => { c.style.display = 'none'; }, 1100);
+}
+
+setTimeout(showInv, 4200);
+</script>

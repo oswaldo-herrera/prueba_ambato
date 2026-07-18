@@ -27,6 +27,7 @@ import SeccionAgenda from './componentes/secciones/SeccionAgenda'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
 import SeccionMundial from './componentes/secciones/SeccionMundial'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
+import SeccionFacebookLive from './componentes/secciones/SeccionFacebookLive'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
 import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
 
@@ -75,7 +76,10 @@ export default function App() {
         {/* 6. Formulario de registro alternativo */}
         <SeccionRegistroBackup onPolitica={() => setPoliticaAbierta(true)} />
 
-        {/* 7. Canal de WhatsApp */}
+        {/* 7. Facebook Live */}
+        {/*<SeccionFacebookLive /> */}
+
+        {/* 8. Canal de WhatsApp */}
         <SeccionWhatsApp />
       </main>
 

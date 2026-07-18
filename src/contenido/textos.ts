@@ -419,6 +419,17 @@ export const seccionRegistro = {
   mensajeExito: '¡Gracias por registrarte! Pronto recibirás noticias de los eventos.',
 }
 
+// ── SECCIÓN FACEBOOK LIVE ────────────────────────────────────
+// Cuando vayas EN VIVO en Facebook, copia el enlace del video y pégalo en urlLive.
+// Cuando NO estés en vivo, deja urlLive en '' para mostrar el mensaje de espera.
+export const seccionFacebookLive = {
+  // PEGA AQUÍ el link del video cuando estés en vivo, por ejemplo:
+  // urlLive: 'https://www.facebook.com/jfaltamirano63/videos/123456789/',
+  urlLive: '',
+  paginaFacebook: 'https://www.facebook.com/jfaltamirano63',
+  //paginaFacebook: 'https://www.facebook.com/profile.php?id=61578884747731',
+}
+
 // ── SECCIÓN WHATSAPP ─────────────────────────────────────────
 export const seccionWhatsApp = {
   titulo: 'Únete a nuestro Canal de WhatsApp,',
