@@ -27,7 +27,7 @@ import SeccionAgenda from './componentes/secciones/SeccionAgenda'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
 import SeccionMundial from './componentes/secciones/SeccionMundial'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
-import SeccionFacebookLive from './componentes/secciones/SeccionFacebookLive'
+// import SeccionFacebookLive from './componentes/secciones/SeccionFacebookLive'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
 import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
 
