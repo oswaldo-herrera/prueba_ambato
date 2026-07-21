@@ -62,7 +62,7 @@ export default function BotonWhatsApp() {
 
           {/* Botón de acción */}
           <a
-            href={seccionWhatsApp.boton.href}
+            href={seccionWhatsApp.telefonoHref}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white font-semibold text-sm py-3 px-4 transition-colors w-full"

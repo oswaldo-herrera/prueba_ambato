@@ -113,19 +113,23 @@
   #video-intro.hide { opacity:0; pointer-events:none; }
   #play-overlay {
     position:absolute; inset:0; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:16px;
-    background:rgba(0,0,0,.45);
+    align-items:center; justify-content:center; gap:24px;
+    background:rgba(0,0,0,.62); backdrop-filter:blur(3px);
+    cursor:pointer; transition:opacity .5s ease;
   }
-  #play-btn {
-    width:90px; height:90px; border-radius:50%;
-    background:rgba(172,124,63,.9); border:3px solid rgba(255,255,255,.7);
-    color:#fff; font-size:32px; cursor:pointer;
+  #play-overlay.fade-out { opacity:0; pointer-events:none; }
+  .tap-ring {
+    width:92px; height:92px; border-radius:50%;
+    border:2px solid rgba(172,124,63,.8);
     display:flex; align-items:center; justify-content:center;
-    transition:transform .15s, background .15s;
+    animation:tapPulse 2.4s ease-in-out infinite;
   }
-  #play-btn:hover { transform:scale(1.08); background:rgba(172,124,63,1); }
-  #play-hint { color:rgba(255,255,255,.8); font-size:13px; letter-spacing:.12em;
-    text-transform:uppercase; font-family:inherit; }
+  .tap-ring::after { content:'▶'; color:rgba(172,124,63,1); font-size:30px; padding-left:5px; }
+  @keyframes tapPulse {
+    0%,100% { box-shadow:0 0 0 0 rgba(172,124,63,.55), 0 0 0 0 rgba(172,124,63,.2); transform:scale(1); }
+    50%      { box-shadow:0 0 0 22px rgba(172,124,63,0), 0 0 0 44px rgba(172,124,63,0); transform:scale(1.06); }
+  }
+  .tap-hint { color:rgba(255,255,255,.65); font-size:11px; letter-spacing:.32em; text-transform:uppercase; }
   #skip-btn {
     position:fixed; top:18px; right:22px; z-index:40;
     background:none; border:1px solid rgba(255,255,255,.25);
@@ -209,10 +213,9 @@
 
 <div id="video-intro">
   <video id="vid" playsinline muted style="width:100%;height:100%;object-fit:cover;display:block;background:#000;"></video>
-  <!-- Pantalla de inicio: el clic activa el audio -->
-  <div id="play-overlay">
-    <button id="play-btn" onclick="startVideo()">▶</button>
-    <p id="play-hint">Toca para reproducir</p>
+  <div id="play-overlay" onclick="startVideo()">
+    <div class="tap-ring"></div>
+    <p class="tap-hint">Toca para iniciar</p>
   </div>
   <button id="skip-btn" onclick="showInv()" style="display:none;">Saltar ↓</button>
 </div>
@@ -290,20 +293,36 @@
 </div>
 
 <script>
-// Carga el video adecuado según el dispositivo
+// Carga el video y trata de reproducirlo con audio automáticamente
 (function() {
   var vid = document.getElementById('vid');
   var mobile = window.innerWidth < 768 || window.innerHeight > window.innerWidth;
   vid.src = mobile
     ? '/imagenes/video_presentacion_movil.mp4'
     : '/imagenes/video_presentacion.mp4';
+
+  // Intentar con audio primero (funciona en algunos navegadores/dispositivos)
+  vid.muted = false;
+  vid.play().then(function() {
+    // El navegador permitió audio: ocultar overlay y continuar
+    document.getElementById('play-overlay').classList.add('fade-out');
+    setTimeout(function(){ document.getElementById('play-overlay').style.display='none'; }, 500);
+    document.getElementById('skip-btn').style.display = 'block';
+    vid.onended = showInv;
+  }).catch(function() {
+    // Audio bloqueado: reproducir en silencio y esperar toque del usuario
+    vid.muted = true;
+    vid.play().catch(function(){});
+  });
 })();
 
 function startVideo() {
-  const vid = document.getElementById('vid');
+  var vid = document.getElementById('vid');
   vid.muted = false;
-  vid.play();
-  document.getElementById('play-overlay').style.display = 'none';
+  vid.currentTime = 0;   // reinicia desde el principio con audio
+  vid.play().catch(function(){ vid.muted = true; vid.play(); });
+  document.getElementById('play-overlay').classList.add('fade-out');
+  setTimeout(function(){ document.getElementById('play-overlay').style.display='none'; }, 500);
   document.getElementById('skip-btn').style.display = 'block';
   vid.onended = showInv;
 }

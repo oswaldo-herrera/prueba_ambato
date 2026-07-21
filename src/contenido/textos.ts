@@ -437,9 +437,9 @@ export const seccionWhatsApp = {
   descripcion: '',
   boton: {
     texto: 'Unirse al canal de WhatsApp',
-    // CAMBIA ESTE ENLACE por el link real de tu canal de WhatsApp
     href: 'https://whatsapp.com/channel/0029Vb7px5v2ZjCdsAa0dv2q',
   },
+  telefonoHref: 'https://wa.me/593985432272',
 }
 
 // ── PIE DE PÁGINA ─────────────────────────────────────────────

@@ -13,7 +13,7 @@ import IntroAnimacion from './componentes/diseno/IntroAnimacion'
 // import AudioFondo from './componentes/diseno/AudioFondo' // ← desactivado temporalmente
 import PoliticaPrivacidad from './componentes/secciones/PoliticaPrivacidad'
 import PieDePagina from './componentes/diseno/PieDePagina'
-// import BotonWhatsApp from './componentes/diseno/BotonWhatsApp' // ← desactivado temporalmente
+import BotonWhatsApp from './componentes/diseno/BotonWhatsApp'
 import AvatarFlotante from './componentes/diseno/AvatarFlotante'
 
 // import SeccionInicio from './componentes/secciones/SeccionInicio'      // ← fondo oscuro
@@ -86,8 +86,8 @@ export default function App() {
       {/* ── PIE DE PÁGINA ── */}
       <PieDePagina onPolitica={() => setPoliticaAbierta(true)} />
 
-      {/* ── BOTÓN FLOTANTE WHATSAPP — desactivado temporalmente ── */}
-      {/* <BotonWhatsApp /> */}
+      {/* ── BOTÓN FLOTANTE WHATSAPP ── */}
+      <BotonWhatsApp />
 
       {/* ── AVATAR FLOTANTE ── */}
       <AvatarFlotante />
