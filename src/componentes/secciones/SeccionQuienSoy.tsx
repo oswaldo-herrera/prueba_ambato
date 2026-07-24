@@ -1,27 +1,6 @@
 import { useState } from 'react'
 import { seccionQuienSoy } from '../../contenido/textos'
 
-type VideoItem = { titulo: string; url: string }
-
-// Para agregar más videos de la carpeta consejo_consultivo:
-// { titulo: 'Nombre', url: '/imagenes/videos/consejo_consultivo/' + encodeURIComponent('archivo.mp4') }
-
-const videos: VideoItem[] = [
-  //v('Consejo Consultivo de Género','quebrada_los_gallinazos.mp4'),
-  // Descomenta los que quieras agregar:
-  //v('Consejo Consultivo de Jóvenes', 'Consejo Consultivo de Jóvenes _ CCPDA - Consejo de Protección de Derechos de Ambato (720p, h264, youtube).mp4'),
-  // v('Consejo Consultivo de Movilidad Humana', 'Consejo Consultivo de Movilidad Humana _ CCPDA - Consejo de Protección de Derechos de Ambato (720p, h264, youtube).mp4'),
-  // v('Consejo Consultivo de Personas Adultas Mayores', 'Consejo Consultivo de Personas Adultas Mayores _ CCPDA - Consejo de Protección de Derechos de Ambato (720p, h264, youtube).mp4'),
-  // v('Consejo Consultivo de Personas con Discapacidad', 'Consejo Consultivo de Personas con Discapacidad _ CCPDA - Consejo de Protección de Derechos de Ambato (720p, h264, youtube).mp4'),
-  // v('Consejo Consultivo de Pueblos y Nacionalidades', 'Consejo Consultivo de Pueblos y Nacionalidades Indígenas - Consejo de Protección de Derechos de Ambato (720p, h264, youtube).mp4'),
-  // v('Consejo Consultivo del Pueblo Afro y Montubio', 'Consejo Consultivo del Pueblo Afro y Montubio _CCPDA - Consejo de Protección de Derechos de Ambato (720p, h264, youtube).mp4'),
-  // v('Consejo Consultivo LGBTIQ+', 'Consejo Consultivo LGBTIQ+ _ CCPDA - Consejo de Protección de Derechos de Ambato (720p, h264, youtube).mp4'),
-  // v('Colector Quebrada Los Gallinazos y Parque Infantil', 'Colector Quebrada Los Gallinazos y Parque Infantil de Atocha - Rendición de Cuentas 2021 - GAD Municipalidad de Ambato (1080p, h264, youtube).mp4'),
-  // v('Construiremos la Casa de la Música', 'Construiremos la Casa de la Música -  Rendición de Cuentas 2021 - GAD Municipalidad de Ambato (1080p, h264, youtube).mp4'),
-  //v('Hemos ejecutado cerca de 200 obras', 'ejecutado_cerca_de_200_obras-Rendición_de Cuentas_2021.mp4'),
-  { titulo: 'Quebrada los gallinazos', url: '/imagenes/quebrada_los_gallinazos.mp4' },
-]
-
 const galeria = [
   '/imagenes/new_images/j1.jpg',
   //'/imagenes/new_images/j2.jpg',
@@ -43,19 +22,12 @@ export default function SeccionQuienSoy() {
   const [girada, setGirada] = useState(false)
   const [galeriaAbierta, setGaleriaAbierta] = useState(false)
   const [indiceActivo, setIndiceActivo] = useState(0)
-  const [videosAbierto, setVideosAbierto] = useState(false)
-  const [videoActivo, setVideoActivo] = useState(0)
 
   const anterior = () => setIndiceActivo(i => (i - 1 + galeria.length) % galeria.length)
   const siguiente = () => setIndiceActivo(i => (i + 1) % galeria.length)
-  const anteriorVideo = () => setVideoActivo(i => (i - 1 + videos.length) % videos.length)
-  const siguienteVideo = () => setVideoActivo(i => (i + 1) % videos.length)
 
   const cerrar = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) setGaleriaAbierta(false)
-  }
-  const cerrarVideos = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) setVideosAbierto(false)
   }
 
   return (
@@ -118,7 +90,7 @@ export default function SeccionQuienSoy() {
             {/* Nombre destacado */}
             <div className="border-l-4 border-oro pl-4">
               <p className="text-oro font-black text-base leading-snug uppercase tracking-wide">
-                
+
               </p>
               <h3 className="font-titulo font-black text-azul text-xl leading-tight mt-1">
                 Javier Francisco Altamirano Sánchez
@@ -163,8 +135,8 @@ export default function SeccionQuienSoy() {
               </p>
             </div>
 
-            {/* Botones galería y videos */}
-            <div className="pt-1 flex flex-wrap gap-3">
+            {/* Botón galería */}
+            <div className="pt-1 flex flex-wrap gap-3 justify-center">
               <button
                 onClick={() => { setIndiceActivo(0); setGaleriaAbierta(true) }}
                 className="inline-flex items-center gap-3 bg-azul hover:bg-azul-claro text-white font-titulo font-bold px-7 py-4 rounded-full transition-all duration-200 shadow-lg hover:scale-105 hover:shadow-azul/30"
@@ -174,106 +146,10 @@ export default function SeccionQuienSoy() {
                 </svg>
                 Galería
               </button>
-              <button
-                onClick={() => { setVideoActivo(0); setVideosAbierto(true) }}
-                className="inline-flex items-center gap-3 bg-oro hover:bg-oro-oscuro text-azul font-titulo font-bold px-7 py-4 rounded-full transition-all duration-200 shadow-lg hover:scale-105 hover:shadow-oro/30"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Videos
-              </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Modal videos */}
-      {videosAbierto && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center p-4"
-          onClick={cerrarVideos}
-        >
-          <div className="relative w-full max-w-2xl" onClick={e => e.stopPropagation()}>
-
-            {/* Botón cerrar */}
-            <button
-              onClick={() => setVideosAbierto(false)}
-              className="absolute -top-10 right-0 w-9 h-9 rounded-full bg-black/60 hover:bg-oro border border-white/30 hover:border-oro text-white text-base font-bold flex items-center justify-center z-20 transition-all duration-200 shadow-lg"
-            >
-              ✕
-            </button>
-
-            {videos.length === 0 ? (
-              <div className="bg-azul rounded-2xl p-10 text-center">
-                <p className="text-white/60 text-lg">No hay videos disponibles aún.</p>
-              </div>
-            ) : (
-              <>
-                {/* Video principal */}
-                <div className="relative rounded-2xl overflow-hidden bg-black aspect-video">
-                  <video
-                    key={videoActivo}
-                    src={videos[videoActivo].url}
-                    controls
-                    controlsList="nodownload"
-                    disablePictureInPicture
-                    onContextMenu={(e) => e.preventDefault()}
-                    className="w-full h-full"
-                    preload="metadata"
-                  />
-
-                  {/* Flechas */}
-                  {videos.length > 1 && (
-                    <>
-                      <button
-                        onClick={anteriorVideo}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-colors text-xl"
-                      >
-                        ‹
-                      </button>
-                      <button
-                        onClick={siguienteVideo}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-colors text-xl"
-                      >
-                        ›
-                      </button>
-                    </>
-                  )}
-                </div>
-
-                {/* Título y contador */}
-                <div className="flex items-center justify-between mt-3 px-1">
-                  <p className="text-white font-semibold text-sm">{videos[videoActivo].titulo}</p>
-                  <span className="bg-black/50 text-white text-xs px-3 py-1 rounded-full">
-                    {videoActivo + 1} / {videos.length}
-                  </span>
-                </div>
-
-                {/* Miniaturas de títulos */}
-                {videos.length > 1 && (
-                  <div className="flex gap-2 mt-3 justify-center flex-wrap">
-                    {videos.map((v, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setVideoActivo(i)}
-                        className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
-                          i === videoActivo
-                            ? 'bg-oro text-azul border-oro font-bold'
-                            : 'bg-white/10 text-white/60 border-white/20 hover:text-white hover:border-white/40'
-                        }`}
-                      >
-                        {v.titulo}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Modal galería */}
       {galeriaAbierta && (
@@ -286,7 +162,7 @@ export default function SeccionQuienSoy() {
             {/* Imagen principal */}
             <div className="relative rounded-2xl overflow-hidden bg-black aspect-[4/3]">
 
-              {/* Botón cerrar — dentro de la imagen, esquina superior derecha */}
+              {/* Botón cerrar */}
               <button
                 onClick={() => setGaleriaAbierta(false)}
                 className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 hover:bg-oro border border-white/30 hover:border-oro text-white text-base font-bold flex items-center justify-center z-20 transition-all duration-200 shadow-lg"

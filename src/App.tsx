@@ -26,6 +26,7 @@ import SeccionLogros from './componentes/secciones/SeccionLogros'
 import SeccionAgenda from './componentes/secciones/SeccionAgenda'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
 import SeccionMundial from './componentes/secciones/SeccionMundial'
+import SeccionVideoObra from './componentes/secciones/SeccionVideoObra'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
 // import SeccionFacebookLive from './componentes/secciones/SeccionFacebookLive'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
@@ -49,17 +50,20 @@ export default function App() {
         {/* 2. Quién soy / Conóceme */}
         <SeccionQuienSoy />
 
-        {/* 3. Logros 2019-2023 */}
+        {/* 3. Video obra destacada */}
+        <SeccionVideoObra />
+
+        {/* 3.2 Logros 2019-2023 */}
         <SeccionLogros />
 
         {/* 3.5 Agenda de eventos */}
-        <SeccionAgenda />
+        {/* <SeccionAgenda /> */}
 
         {/* 4. Propuestas */}
         <SeccionPropuestasNuevas />
 
         {/* 4.5 Mundial 2026 */}
-        <SeccionMundial />
+        {/* <SeccionMundial /> */}
 
         {/* 5. Trayectoria / Experiencia */}
         <SeccionTrayectoria />

@@ -4,7 +4,6 @@ import { supabase } from '../../lib/supabase'
 
 type CamposFormulario = {
   nombre: string
-  correo: string
   celular: string
   parroquia: string
   propuesta: string
@@ -13,7 +12,6 @@ type CamposFormulario = {
 export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () => void }) {
   const [formulario, setFormulario] = useState<CamposFormulario>({
     nombre: '',
-    correo: '',
     celular: '',
     parroquia: '',
     propuesta: '',
@@ -34,7 +32,6 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
 
     const { error: sbError } = await supabase.from('registros_ambato_formulario').insert([{
       nombre: formulario.nombre,
-      correo: formulario.correo,
       celular: formulario.celular,
       parroquia: formulario.parroquia,
       propuesta: formulario.propuesta,
@@ -48,7 +45,7 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
       console.error(sbError)
     } else {
       setEnviado(true)
-      setFormulario({ nombre: '', correo: '', celular: '', parroquia: '', propuesta: '' })
+      setFormulario({ nombre: '', celular: '', parroquia: '', propuesta: '' })
     }
   }
 
@@ -121,21 +118,6 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
                   />
                 </div>
 
-                {/* Campo Correo */}
-                <div>
-                  <label className="block text-azul/70 text-sm font-medium mb-1.5">
-                    {seccionRegistro.campos.correo.etiqueta}
-                  </label>
-                  <input
-                    type="email"
-                    name="correo"
-                    value={formulario.correo}
-                    onChange={alCambiar}
-                    placeholder={seccionRegistro.campos.correo.placeholder}
-                    className="w-full bg-white border border-azul/20 rounded-xl px-4 py-3 text-sm text-azul placeholder:text-azul/30 focus:outline-none focus:ring-2 focus:ring-oro/50 focus:border-oro transition-all"
-                  />
-                </div>
-
                 {/* Campo Celular */}
                 <div>
                   <label className="block text-azul/70 text-sm font-medium mb-1.5">
@@ -170,14 +152,14 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
                 {/* Campo Propuesta */}
                 <div>
                   <label className="block text-azul/70 text-sm font-medium mb-1.5">
-                    Propuesta
+                    Comentario
                   </label>
                   <input
                     type="text"
                     name="propuesta"
                     value={formulario.propuesta}
                     onChange={alCambiar}
-                    placeholder="Tu propuesta para Ambato"
+                    placeholder="Tu comentario para Ambato"
                     className="w-full bg-white border border-azul/20 rounded-xl px-4 py-3 text-sm text-azul placeholder:text-azul/30 focus:outline-none focus:ring-2 focus:ring-oro/50 focus:border-oro transition-all"
                   />
                 </div>

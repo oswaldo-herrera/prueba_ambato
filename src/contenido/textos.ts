@@ -413,7 +413,7 @@ export const seccionRegistro = {
   campos: {
     nombre: { etiqueta: 'Nombre completo', placeholder: 'Tu nombre y apellido' },
     correo: { etiqueta: 'Correo electrónico', placeholder: 'tu@correo.com' },
-    celular: { etiqueta: 'Número de celular', placeholder: '09XXXXXXXX' },
+    celular: { etiqueta: 'WhatsApp', placeholder: '09XXXXXXXX' },
   },
   botonEnviar: 'Quiero unirme',
   mensajeExito: '¡Gracias por registrarte! Pronto recibirás noticias de los eventos.',
