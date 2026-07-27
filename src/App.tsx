@@ -13,7 +13,7 @@ import IntroAnimacion from './componentes/diseno/IntroAnimacion'
 // import AudioFondo from './componentes/diseno/AudioFondo' // ← desactivado temporalmente
 import PoliticaPrivacidad from './componentes/secciones/PoliticaPrivacidad'
 import PieDePagina from './componentes/diseno/PieDePagina'
-import BotonWhatsApp from './componentes/diseno/BotonWhatsApp'
+// import BotonWhatsApp from './componentes/diseno/BotonWhatsApp'
 import AvatarFlotante from './componentes/diseno/AvatarFlotante'
 
 // import SeccionInicio from './componentes/secciones/SeccionInicio'      // ← fondo oscuro
