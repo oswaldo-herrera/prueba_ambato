@@ -91,7 +91,7 @@ export default function App() {
       <PieDePagina onPolitica={() => setPoliticaAbierta(true)} />
 
       {/* ── BOTÓN FLOTANTE WHATSAPP ── */}
-      <BotonWhatsApp />
+      {/* <BotonWhatsApp /> */}
 
       {/* ── AVATAR FLOTANTE ── */}
       <AvatarFlotante />

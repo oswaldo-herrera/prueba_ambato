@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio · Javier Altamirano</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <style>
+    :root {
+      --azul:#21243D; --azul-lt:#2e3256; --oro:#AC7C3F; --oro-lt:#D4A86A;
+      --cream:#F0E8D8; --bg:#0d0f1e; --surface:#161929; --border:#252a4a;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:#d8daf0;min-height:100vh}
+
+    header{background:var(--azul);border-bottom:3px solid var(--oro);padding:14px 28px;display:flex;align-items:center;gap:14px}
+    header img{height:42px;object-fit:contain}
+    .hd{flex:1}
+    .hd h1{font-size:20px;font-weight:800;color:var(--oro-lt);letter-spacing:.02em}
+    .hd span{font-size:13px;color:#8890b8}
+    .hd-tag{font-size:11px;background:rgba(172,124,63,.18);color:var(--oro-lt);border:1px solid rgba(172,124,63,.3);padding:4px 12px;border-radius:100px;font-weight:600}
+
+    .layout{display:grid;grid-template-columns:400px 1fr;height:calc(100vh - 78px - 1px)}
+    .sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 20px;display:flex;flex-direction:column;gap:18px;overflow-y:auto}
+    .main{padding:24px 28px;display:flex;flex-direction:column;gap:20px;overflow-y:auto}
+
+    label{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--oro-lt);text-transform:uppercase;margin-bottom:7px}
+    .hint{font-size:11px;color:#4a5070;margin-top:5px}
+
+    .upload-zone{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,.015);position:relative;min-height:120px;display:flex;align-items:center;justify-content:center}
+    .upload-zone:hover{border-color:var(--oro);background:rgba(172,124,63,.05)}
+    .upload-zone.has-img{padding:0;overflow:hidden;min-height:0}
+    .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .upload-zone img{width:100%;max-height:220px;object-fit:cover;border-radius:10px;display:block}
+    .up-ph{display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+    .up-ph svg{opacity:.35}
+    .up-ph p{font-size:13px;color:#5560a0}
+
+    textarea{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;color:#d8daf0;font-size:14px;line-height:1.6;padding:12px 14px;resize:vertical;min-height:110px;font-family:inherit;transition:.2s}
+    textarea:focus{outline:none;border-color:var(--oro)}
+    input[type="password"]{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;color:#d8daf0;font-size:13px;padding:10px 14px;font-family:inherit;transition:.2s}
+    input[type="password"]:focus{outline:none;border-color:var(--oro)}
+
+    .btn{padding:13px 20px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-primary{background:linear-gradient(135deg,var(--oro),var(--oro-lt));color:var(--azul);width:100%}
+    .btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .btn-sm{padding:10px 18px;font-size:13px;font-weight:700;border-radius:8px;border:none;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+    .btn-dl-img{background:var(--azul-lt);color:var(--oro-lt);border:1px solid var(--oro)}
+    .btn-dl-img:hover{background:var(--azul)}
+    .btn-dl-vid{background:var(--oro);color:var(--azul)}
+    .btn-dl-vid:hover{filter:brightness(1.08)}
+    .btn-dl-vid:disabled{opacity:.4;cursor:not-allowed}
+
+    .err{background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:#fca5a5;display:none}
+
+    .guion-box{background:rgba(172,124,63,.06);border:1px solid rgba(172,124,63,.2);border-radius:12px;padding:18px;font-size:13px;line-height:1.7;display:none}
+    .guion-box h3{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--oro);margin-bottom:12px;font-weight:700}
+    .gf{margin-bottom:9px}
+    .gf strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:rgba(212,168,106,.7);margin-bottom:2px}
+    .gf span{color:#c8ccec}
+
+    /* Canvas preview area */
+    .preview-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+    #preview-canvas{border-radius:14px;box-shadow:0 16px 56px rgba(0,0,0,.55);cursor:pointer}
+    .canvas-hint{font-size:12px;color:#4a5070;text-align:center}
+
+    .dl-row{display:flex;gap:12px;width:100%;justify-content:center}
+
+    .prog-wrap{width:100%;max-width:380px}
+    .prog-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--oro),var(--oro-lt));transition:width .1s;width:0}
+    .prog-txt{font-size:12px;color:#6670a0;margin-top:6px;text-align:center}
+
+    /* Historial */
+    .hist-section{background:var(--surface);border-top:1px solid var(--border);padding:28px}
+    .hist-section h2{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--oro-lt);margin-bottom:18px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{text-align:left;padding:9px 14px;background:rgba(255,255,255,.02);color:#4a5070;font-weight:600;font-size:11px;letter-spacing:.07em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+    td{padding:11px 14px;border-bottom:1px solid rgba(37,42,74,.4);color:#a0a8d0;vertical-align:middle}
+    tr:hover td{background:rgba(255,255,255,.015)}
+    .tag{display:inline-block;padding:2px 10px;border-radius:100px;font-size:11px;font-weight:600}
+    .tag-ok{background:rgba(22,163,74,.18);color:#4ade80}
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/imagenes/logo_2.png" alt="Logo">
+  <div class="hd">
+    <h1>Studio de Campaña</h1>
+    <span>Genera reels para redes sociales con IA</span>
+  </div>
+  <span class="hd-tag">Javier Altamirano · Ambato 2026</span>
+</header>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <label>1. Imagen de la obra</label>
+      <div class="upload-zone" id="upload-zone">
+        <div class="up-ph" id="up-ph">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#8890b8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <p>Haz clic o arrastra la imagen<br><small>JPG, PNG · máx 15 MB</small></p>
+        </div>
+        <img id="thumb" style="display:none" alt="">
+        <input type="file" id="img-input" accept="image/*">
+      </div>
+    </div>
+
+    <div>
+      <label>2. Describe el reel</label>
+      <textarea id="prompt" placeholder="Ej: Nueva avenida en Izamba terminada, beneficia a 5000 familias. Tono emotivo y esperanzador, mostrar el impacto en la comunidad."></textarea>
+    </div>
+
+    <div>
+      <label>API Key de Groq</label>
+      <input type="password" id="api-key" placeholder="gsk_...">
+      <p class="hint">Gratis en <strong style="color:var(--oro-lt)">console.groq.com</strong> → API Keys → Create · se guarda en tu navegador</p>
+    </div>
+
+    <button class="btn btn-primary" id="btn-gen" onclick="generarReel()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      Generar Reel
+    </button>
+
+    <div class="err" id="err"></div>
+
+    <div class="guion-box" id="guion-box">
+      <h3>Guión generado</h3>
+      <div id="guion-content"></div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="preview-wrap">
+      <canvas id="preview-canvas" width="1080" height="1920" style="height:540px;width:auto" title="Vista previa del reel"></canvas>
+      <p class="canvas-hint" id="canvas-hint">Sube una imagen y genera el reel para ver la vista previa</p>
+
+      <div class="prog-wrap" id="prog-wrap" style="display:none">
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+        <div class="prog-txt" id="prog-txt"></div>
+      </div>
+
+      <div class="dl-row" id="dl-row" style="display:none">
+        <button class="btn-sm btn-dl-img" onclick="descargarImagen()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar imagen
+        </button>
+        <button class="btn-sm btn-dl-vid" id="btn-rec" onclick="iniciarGrabacion()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+          Grabar video
+        </button>
+        <button class="btn-sm btn-dl-img" id="btn-dl-vid" style="display:none" onclick="descargarVideo()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar video
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Historial -->
+<div class="hist-section">
+  <h2>Historial de prompts</h2>
+  <table>
+    <thead><tr><th>Fecha</th><th>Prompt</th><th>Título generado</th><th>Estado</th></tr></thead>
+    <tbody id="hist-body"><tr><td colspan="4" style="text-align:center;padding:24px;color:#4a5070">Cargando...</td></tr></tbody>
+  </table>
+</div>
+
+<script>
+// ── Config ─────────────────────────────────────────────────────────
+const SB_URL  = 'https://innyjxzsskuyfbzjciwj.supabase.co'
+const SB_KEY  = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf'
+const { createClient } = supabase
+const sb = createClient(SB_URL, SB_KEY)
+
+// ── State ──────────────────────────────────────────────────────────
+let imgEl       = null   // loaded Image object
+let guion       = null   // { titulo, subtitulo, texto_principal, cta, hashtags }
+let animRaf     = null
+let animStart   = null
+let recBlob     = null
+const DURACION  = 15     // seconds
+const W = 1080, H = 1920
+
+// ── Logo preload ───────────────────────────────────────────────────
+const logoImg = new Image()
+logoImg.src = '/imagenes/logo_2.png'
+
+// ── API key persistence ────────────────────────────────────────────
+const keyEl = document.getElementById('api-key')
+keyEl.value = localStorage.getItem('xai_key') || ''
+keyEl.addEventListener('change', () => localStorage.setItem('xai_key', keyEl.value.trim()))
+
+// ── Image upload ───────────────────────────────────────────────────
+document.getElementById('img-input').addEventListener('change', e => {
+  if (e.target.files[0]) cargarImg(e.target.files[0])
+})
+const zone = document.getElementById('upload-zone')
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--oro)' })
+zone.addEventListener('dragleave', () => { zone.style.borderColor = '' })
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.style.borderColor = ''
+  const f = e.dataTransfer.files[0]
+  if (f && f.type.startsWith('image/')) cargarImg(f)
+})
+
+function cargarImg(file) {
+  const reader = new FileReader()
+  reader.onload = ev => {
+    const img = new Image()
+    img.onload = () => {
+      imgEl = img
+      document.getElementById('up-ph').style.display = 'none'
+      const t = document.getElementById('thumb')
+      t.src = ev.target.result; t.style.display = 'block'
+      zone.classList.add('has-img')
+      dibujarFrame(null, 0)
+      document.getElementById('canvas-hint').textContent = 'Escribe un prompt y genera el reel'
+    }
+    img.src = ev.target.result
+  }
+  reader.readAsDataURL(file)
+}
+
+// ── Canvas helpers ─────────────────────────────────────────────────
+function easeOut(x) { return 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3) }
+function fade(t, start, dur=0.8) { return easeOut((t - start) / dur) }
+function slide(t, start, dur=0.55, dist=70) { return dist * (1 - easeOut((t - start) / dur)) }
+
+// ── Visual effects ─────────────────────────────────────────────────
+function fxProgressBar(ctx, t) {
+  const p = Math.min(1, t / DURACION)
+  ctx.save()
+  ctx.fillStyle = 'rgba(255,255,255,0.12)'
+  rrect(ctx,40,20,W-80,8,4); ctx.fill()
+  if (p > 0) {
+    const grd = ctx.createLinearGradient(40,0,40+(W-80)*p,0)
+    grd.addColorStop(0,'#AC7C3F'); grd.addColorStop(1,'#D4A86A')
+    ctx.fillStyle=grd; rrect(ctx,40,20,(W-80)*p,8,4); ctx.fill()
+    ctx.shadowBlur=18; ctx.shadowColor='#D4A86A'; ctx.fillStyle='#fff'
+    ctx.beginPath(); ctx.arc(40+(W-80)*p,24,8,0,Math.PI*2); ctx.fill()
+  }
+  ctx.restore()
+}
+
+function fxVignette(ctx) {
+  const grd = ctx.createRadialGradient(W/2,H*0.48,H*0.18,W/2,H*0.48,H*0.78)
+  grd.addColorStop(0,'rgba(0,0,0,0)'); grd.addColorStop(1,'rgba(0,0,0,0.50)')
+  ctx.fillStyle=grd; ctx.fillRect(0,0,W,H)
+}
+
+function fxParticles(ctx, t) {
+  for (let i=0; i<30; i++) {
+    const s=i/30, spd=0.5+s*1.2
+    const px=(Math.sin(s*137.508*Math.PI/180)*0.5+0.5)*W
+    const wave=Math.sin(t*0.6+s*9)*40
+    const py=H-((t*spd*25+s*H)%(H+80))
+    const r=2+s*4.5, al=0.12+Math.abs(Math.sin(t*1.5+s*7))*0.18
+    ctx.save(); ctx.globalAlpha=al
+    ctx.fillStyle=i%3===0?'#D4A86A':(i%3===1?'#AC7C3F':'rgba(255,255,220,0.8)')
+    ctx.shadowBlur=6; ctx.shadowColor='#D4A86A'
+    ctx.beginPath(); ctx.arc(px+wave,py,r,0,Math.PI*2); ctx.fill()
+    ctx.restore()
+  }
+}
+
+function fxLightSweep(ctx, t) {
+  const phase=(t%4.5)/4.5; if(phase>0.4) return
+  const x=-350+(phase/0.4)*(W+700)
+  const grd=ctx.createLinearGradient(x-300,0,x+300,H*0.6)
+  grd.addColorStop(0,'rgba(255,255,255,0)'); grd.addColorStop(0.5,'rgba(255,255,220,0.07)'); grd.addColorStop(1,'rgba(255,255,255,0)')
+  ctx.fillStyle=grd; ctx.fillRect(0,0,W,H)
+}
+
+function fxPulseRings(ctx, cx, cy, t) {
+  for (let i=0; i<3; i++) {
+    const ph=((t*0.65+i/3)%1)
+    ctx.save(); ctx.strokeStyle=`rgba(172,124,63,${(1-ph)*0.38})`
+    ctx.lineWidth=4-ph*3.5; ctx.shadowBlur=12; ctx.shadowColor='#AC7C3F'
+    ctx.beginPath(); ctx.arc(cx,cy,55+ph*280,0,Math.PI*2); ctx.stroke()
+    ctx.restore()
+  }
+}
+
+function wrapText(ctx, text, x, y, maxW, lh) {
+  if (!text) return 0
+  const words = String(text).split(' ')
+  let line = '', lines = []
+  for (const w of words) {
+    const tl = line + w + ' '
+    if (ctx.measureText(tl).width > maxW && line) { lines.push(line.trim()); line = w + ' ' }
+    else line = tl
+  }
+  if (line.trim()) lines.push(line.trim())
+  lines.forEach((l, i) => ctx.fillText(l, x, y + i * lh))
+  return lines.length
+}
+
+function rrect(ctx, x, y, w, h, r) {
+  ctx.beginPath()
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r)
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h)
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r)
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y)
+  ctx.closePath()
+}
+
+function dibujarFrame(ctx, t) {
+  const canvas = document.getElementById('preview-canvas')
+  if (!ctx) ctx = canvas.getContext('2d')
+  const g = guion || {}
+
+  // Background
+  ctx.fillStyle = '#21243D'; ctx.fillRect(0,0,W,H)
+
+  // Image (Ken Burns)
+  if (imgEl) {
+    const prog  = Math.min(1, t / DURACION)
+    const scale = 1 + 0.07 * prog
+    const ir    = imgEl.width / imgEl.height
+    const cr    = W / H
+    let dw, dh
+    if (ir > cr) { dh = H * scale; dw = dh * ir } else { dw = W * scale; dh = dw / ir }
+    const dx = (W - dw) / 2 - 28 * prog
+    const dy = (H - dh) / 2 + 12 * prog
+    ctx.save(); ctx.globalAlpha = Math.min(1, t * 2.5 || 1)
+    ctx.drawImage(imgEl, dx, dy, dw, dh); ctx.restore()
+  }
+
+  // Vignette + particles + light sweep
+  fxVignette(ctx)
+  if (guion) { fxParticles(ctx, t); fxLightSweep(ctx, t) }
+
+  // Top gradient
+  let gr = ctx.createLinearGradient(0,0,0,H*0.26)
+  gr.addColorStop(0,'rgba(33,36,61,.9)'); gr.addColorStop(1,'rgba(33,36,61,0)')
+  ctx.fillStyle=gr; ctx.fillRect(0,0,W,H*0.26)
+
+  // Bottom gradient
+  gr = ctx.createLinearGradient(0,H*0.43,0,H)
+  gr.addColorStop(0,'rgba(33,36,61,0)'); gr.addColorStop(.38,'rgba(33,36,61,.9)'); gr.addColorStop(1,'rgba(33,36,61,1)')
+  ctx.fillStyle=gr; ctx.fillRect(0,H*0.43,W,H*0.57)
+
+  // Progress bar
+  if (guion) fxProgressBar(ctx, t)
+
+  // Top gold line
+  ctx.fillStyle='#AC7C3F'; ctx.fillRect(0,0,W,12)
+
+  // Logo + nombre (top)
+  const la = guion ? fade(t,0.2,0.9) : 1
+  ctx.save(); ctx.globalAlpha = la
+  if (logoImg.complete && logoImg.naturalWidth) ctx.drawImage(logoImg, 54, 28, 90, 90)
+  ctx.font = 'bold 58px system-ui'; ctx.fillStyle = '#D4A86A'
+  ctx.textAlign = 'left'; ctx.textBaseline = 'top'
+  ctx.shadowBlur=8; ctx.shadowColor='rgba(212,168,106,0.4)'
+  ctx.fillText('JAVIER ALTAMIRANO', 164, 34); ctx.shadowBlur=0
+  ctx.font = '38px system-ui'; ctx.fillStyle = 'rgba(212,168,106,.65)'
+  ctx.fillText('Candidato a Alcalde de Ambato', 164, 98)
+  ctx.restore()
+
+  if (!guion) return
+
+  // TITULO con glow + shimmer
+  const ta = fade(t,1.8,0.7)
+  if (ta>0) {
+    ctx.save(); ctx.globalAlpha=ta
+    const ty = H*0.60 + (t<1.8?70:slide(t,1.8,0.55))
+    ctx.font='bold 96px system-ui'; ctx.fillStyle='#D4A86A'
+    ctx.textAlign='center'; ctx.textBaseline='top'
+    ctx.shadowBlur=30; ctx.shadowColor='rgba(172,124,63,0.8)'
+    const nlines = wrapText(ctx, g.titulo||'', W/2, ty, W-120, 112)
+    ctx.shadowBlur=0
+    // Shimmer
+    if (t>2.5) {
+      const sx=((t-2.5)*0.35%2.2)*(W+400)-400
+      const sg=ctx.createLinearGradient(sx,0,sx+400,0)
+      sg.addColorStop(0,'rgba(255,255,255,0)'); sg.addColorStop(0.5,'rgba(255,255,240,0.18)'); sg.addColorStop(1,'rgba(255,255,255,0)')
+      ctx.fillStyle=sg; ctx.fillRect(0,ty-10,W,nlines*112+20)
+    }
+    ctx.restore()
+  }
+
+  // Gold divider (animated draw)
+  const da = Math.min(1, fade(t,3,0.6))
+  if (da>0) {
+    ctx.save(); ctx.globalAlpha=da; ctx.fillStyle='#AC7C3F'
+    ctx.shadowBlur=12; ctx.shadowColor='#D4A86A'
+    ctx.fillRect(W/2-90*da,H*0.722,180*da,5); ctx.shadowBlur=0; ctx.restore()
+  }
+
+  // SUBTITULO
+  const sa = fade(t,3.3,0.7)
+  if (sa>0) {
+    ctx.save(); ctx.globalAlpha=sa
+    const sy = H*0.736 + (t<3.3?60:slide(t,3.3,0.55,60))
+    ctx.font='bold 54px system-ui'; ctx.fillStyle='rgba(240,232,216,.9)'
+    ctx.textAlign='center'; ctx.textBaseline='top'
+    wrapText(ctx, g.subtitulo||'', W/2, sy, W-140, 66)
+    ctx.restore()
+  }
+
+  // TEXTO PRINCIPAL
+  const pra = fade(t,5,0.9)
+  if (pra>0) {
+    ctx.save(); ctx.globalAlpha=pra
+    const py = H*0.795 + (t<5?55:slide(t,5,0.65,55))
+    ctx.font='46px system-ui'; ctx.fillStyle='rgba(220,218,242,.82)'
+    ctx.textAlign='center'; ctx.textBaseline='top'
+    wrapText(ctx, g.texto_principal||'', W/2, py, W-140, 58)
+    ctx.restore()
+  }
+
+  // CTA button
+  const ctaa = fade(t,8.5,0.7)
+  if (ctaa>0 && g.cta) {
+    const cy = H*0.885 + (t<8.5?45:slide(t,8.5,0.55,45))
+    ctx.save(); ctx.globalAlpha=ctaa
+    ctx.font='bold 56px system-ui'
+    const ctaW = Math.min(ctx.measureText(g.cta).width + 90, W-80)
+    const ctaX = W/2 - ctaW/2
+    const ctaCY = cy + 41
+    // Pulse rings behind button
+    fxPulseRings(ctx, W/2, ctaCY, t)
+    // Button glow + fill
+    ctx.shadowBlur=28; ctx.shadowColor='rgba(172,124,63,0.65)'
+    ctx.fillStyle='#AC7C3F'; rrect(ctx,ctaX,cy,ctaW,82,41); ctx.fill()
+    ctx.shadowBlur=0
+    // Top shine
+    const sg=ctx.createLinearGradient(ctaX,cy,ctaX,cy+82)
+    sg.addColorStop(0,'rgba(255,255,255,0.2)'); sg.addColorStop(1,'rgba(255,255,255,0)')
+    ctx.fillStyle=sg; rrect(ctx,ctaX,cy,ctaW,82,41); ctx.fill()
+    ctx.fillStyle='#21243D'; ctx.textAlign='center'; ctx.textBaseline='middle'
+    ctx.fillText(g.cta, W/2, ctaCY)
+    ctx.restore()
+  }
+
+  // HASHTAGS
+  const ha = fade(t,10.5,0.7)
+  if (ha>0 && g.hashtags?.length) {
+    ctx.save(); ctx.globalAlpha=ha*0.72
+    ctx.font='38px system-ui'; ctx.fillStyle='#D4A86A'
+    ctx.textAlign='center'; ctx.textBaseline='top'
+    ctx.fillText(g.hashtags.join('  '), W/2, H*0.940)
+    ctx.restore()
+  }
+
+  // javieraltamirano.org
+  ctx.save(); ctx.globalAlpha=fade(t,12,0.8)*0.55
+  ctx.font='32px system-ui'; ctx.fillStyle='#8890b8'
+  ctx.textAlign='center'; ctx.textBaseline='bottom'
+  ctx.fillText('javieraltamirano.org', W/2, H-28)
+  ctx.restore()
+
+  // Bottom gold line
+  ctx.fillStyle='#AC7C3F'; ctx.fillRect(0,H-12,W,12)
+}
+
+// ── Preview loop ───────────────────────────────────────────────────
+function startPreview() {
+  if (animRaf) cancelAnimationFrame(animRaf)
+  animStart = null
+  function loop(ts) {
+    if (!animStart) animStart = ts
+    const t = ((ts - animStart) / 1000) % (DURACION + 1)
+    dibujarFrame(null, t)
+    animRaf = requestAnimationFrame(loop)
+  }
+  animRaf = requestAnimationFrame(loop)
+}
+
+// ── Groq API (Llama 3) ────────────────────────────────────────────
+async function llamarGrok(prompt) {
+  const key = keyEl.value.trim()
+  if (!key) throw new Error('Ingresa tu API Key de Groq (console.groq.com)')
+
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      temperature: 0.85,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: 'Eres experto en marketing político en Ecuador. Creas guiones concisos e impactantes para reels de Instagram/TikTok (15 seg) para Javier Altamirano, candidato a alcalde de Ambato 2026. Partido: Fuerza Democrática Solidaria. Slogan: Javier en tu Casa. Responde SOLO con JSON válido, sin markdown ni texto extra.' },
+        { role: 'user',   content: `Crea guión para este reel: ${prompt}\n\nResponde solo con:\n{"titulo":"máx 6 palabras impactante","subtitulo":"máx 10 palabras contexto","texto_principal":"25-35 palabras emotivo en primera persona plural","cta":"5-7 palabras llamada a la acción","hashtags":["#JavierEnTuCasa","#Ambato2026","#tag3"]}` }
+      ]
+    })
+  })
+
+  if (!res.ok) {
+    const txt = await res.text()
+    throw new Error(`Error Groq (${res.status}): ${txt.slice(0,300)}`)
+  }
+  const data = await res.json()
+  const raw  = data.choices?.[0]?.message?.content || ''
+  return JSON.parse(raw)
+}
+
+// ── Main generate ──────────────────────────────────────────────────
+async function generarReel() {
+  const prompt = document.getElementById('prompt').value.trim()
+  if (!prompt) return showErr('Escribe la descripción del reel')
+  if (!imgEl)  return showErr('Sube una imagen de la obra primero')
+
+  const btn = document.getElementById('btn-gen')
+  btn.disabled = true; btn.textContent = 'Generando guión...'
+  ocultarErr(); recBlob = null
+  document.getElementById('btn-dl-vid').style.display = 'none'
+  document.getElementById('dl-row').style.display = 'none'
+
+  try {
+    guion = await llamarGrok(prompt)
+    mostrarGuion(guion)
+    startPreview()
+    document.getElementById('dl-row').style.display = 'flex'
+    document.getElementById('canvas-hint').textContent = 'Vista previa animada · el video dura 15 segundos'
+
+    // Save to Supabase (only prompt + guion, no images/videos)
+    await sb.from('generaciones').insert({ prompt, guion, estado: 'completado' })
+    await cargarHistorial()
+  } catch(e) {
+    showErr(e.message)
+  } finally {
+    btn.disabled = false; btn.textContent = '✨ Generar Reel'
+  }
+}
+
+// ── Download image ─────────────────────────────────────────────────
+function descargarImagen() {
+  if (animRaf) { cancelAnimationFrame(animRaf); animRaf = null }
+
+  // Draw at t=8 (all text visible)
+  const oc = document.createElement('canvas')
+  oc.width = W; oc.height = H
+  dibujarFrame(oc.getContext('2d'), 8)
+
+  const a = document.createElement('a')
+  a.download = `reel-javier-${Date.now()}.png`
+  a.href = oc.toDataURL('image/png')
+  a.click()
+
+  setTimeout(startPreview, 300)
+}
+
+// ── Record video ───────────────────────────────────────────────────
+function iniciarGrabacion() {
+  if (animRaf) { cancelAnimationFrame(animRaf); animRaf = null }
+
+  const canvas  = document.getElementById('preview-canvas')
+  const btnRec  = document.getElementById('btn-rec')
+  const progW   = document.getElementById('prog-wrap')
+  const progF   = document.getElementById('prog-fill')
+  const progT   = document.getElementById('prog-txt')
+
+  btnRec.disabled = true
+  progW.style.display = 'block'
+  progF.style.width = '0%'
+  progT.textContent = 'Grabando... 0%'
+
+  const mime    = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm'
+  const stream  = canvas.captureStream(30)
+  const rec     = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 })
+  const chunks  = []
+  rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data) }
+  rec.onstop = () => {
+    recBlob = new Blob(chunks, { type: 'video/webm' })
+    progF.style.width = '100%'
+    progT.textContent = '¡Video listo! Descárgalo abajo.'
+    document.getElementById('btn-dl-vid').style.display = 'flex'
+    btnRec.disabled = false
+    startPreview()
+  }
+
+  rec.start(100)
+  const recStart = performance.now()
+  function recLoop(ts) {
+    const t = (ts - recStart) / 1000
+    const pct = Math.min(100, (t / DURACION) * 100)
+    progF.style.width = pct + '%'
+    progT.textContent = `Grabando... ${Math.round(pct)}%`
+    dibujarFrame(null, t)
+    if (t < DURACION) requestAnimationFrame(recLoop)
+    else rec.stop()
+  }
+  requestAnimationFrame(recLoop)
+}
+
+function descargarVideo() {
+  if (!recBlob) return
+  const a = document.createElement('a')
+  a.download = `reel-javier-${Date.now()}.webm`
+  a.href = URL.createObjectURL(recBlob)
+  a.click()
+}
+
+// ── Historial ──────────────────────────────────────────────────────
+async function cargarHistorial() {
+  const { data } = await sb.from('generaciones').select('*').order('creado_en',{ascending:false}).limit(25)
+  const tbody = document.getElementById('hist-body')
+  if (!data?.length) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:24px;color:#4a5070">Sin registros aún</td></tr>'
+    return
+  }
+  tbody.innerHTML = data.map(r => `
+    <tr>
+      <td style="white-space:nowrap">${new Date(r.creado_en).toLocaleString('es-EC',{dateStyle:'short',timeStyle:'short'})}</td>
+      <td style="max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.prompt}">${r.prompt}</td>
+      <td style="color:var(--oro-lt)">${r.guion?.titulo||'—'}</td>
+      <td><span class="tag tag-ok">${r.estado}</span></td>
+    </tr>
+  `).join('')
+}
+
+// ── UI helpers ─────────────────────────────────────────────────────
+function mostrarGuion(g) {
+  document.getElementById('guion-box').style.display = 'block'
+  document.getElementById('guion-content').innerHTML = [
+    ['Título',    g.titulo],
+    ['Subtítulo', g.subtitulo],
+    ['Texto',     g.texto_principal],
+    ['CTA',       g.cta],
+    ['Hashtags',  (g.hashtags||[]).join(' ')],
+  ].map(([k,v]) => `<div class="gf"><strong>${k}</strong><span>${v||''}</span></div>`).join('')
+}
+function showErr(msg) { const e = document.getElementById('err'); e.textContent = msg; e.style.display = 'block' }
+function ocultarErr() { document.getElementById('err').style.display = 'none' }
+
+// ── Init ───────────────────────────────────────────────────────────
+dibujarFrame(null, 0)
+cargarHistorial()
+</script>
+</body>
+</html>
