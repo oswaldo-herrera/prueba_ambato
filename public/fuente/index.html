@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base de Conocimiento — Javier Altamirano</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f4f4f6;
+      color: #1a1a2e;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #21243D;
+      color: #fff;
+      padding: 32px 24px 28px;
+      text-align: center;
+    }
+    header .ball {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    header p {
+      font-size: 13px;
+      color: #AC7C3F;
+      margin-top: 4px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    nav {
+      background: #191c30;
+      padding: 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      justify-content: center;
+    }
+    nav a {
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      font-size: 12px;
+      padding: 10px 12px;
+      white-space: nowrap;
+      transition: color .2s;
+    }
+    nav a:hover { color: #AC7C3F; }
+
+    .contenido {
+      max-width: 860px;
+      margin: 32px auto;
+      padding: 0 16px 64px;
+    }
+
+    .seccion {
+      margin-bottom: 40px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    }
+
+    .seccion-titulo {
+      background: #21243D;
+      color: #fff;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .seccion-titulo span {
+      background: #AC7C3F;
+      color: #fff;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .qa {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .qa:last-child { border-bottom: none; }
+
+    .pregunta {
+      padding: 14px 24px 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .pregunta::before {
+      content: 'P';
+      background: #e8eaf6;
+      color: #21243D;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 10px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .respuesta {
+      padding: 6px 24px 16px 56px;
+      font-size: 14.5px;
+      color: #1a1a2e;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 18px; }
+      .respuesta { padding-left: 24px; }
+      .pregunta { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="ball">🎱</span>
+  <h1>Base de Conocimiento — Javier Francisco Altamirano Sánchez</h1>
+  <p>Agente de IA · Campaña Alcaldía Ambato</p>
+</header>
+
+<nav>
+  <a href="#identidad">Identidad</a>
+  <a href="#ninez">Niñez y familia</a>
+  <a href="#educacion">Educación</a>
+  <a href="#laboral">Trayectoria laboral</a>
+  <a href="#politica">Trayectoria política</a>
+  <a href="#personal">Vida personal</a>
+  <a href="#eleccion2019">Elección 2019</a>
+  <a href="#gestion">Gestión 2019–2023</a>
+  <a href="#covid">COVID-19 y paros</a>
+  <a href="#intercambiadores">Intercambiadores</a>
+  <a href="#retorno">Retorno electoral</a>
+  <a href="#propuestas">Propuestas</a>
+  <a href="#100dias">Primeros 100 días</a>
+</nav>
+
+<div class="contenido">
+
+  <!-- IDENTIDAD -->
+  <div class="seccion" id="identidad">
+    <div class="seccion-titulo"><span>1</span> Identidad y presentación</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cuál es el nombre completo de Javier Altamirano?</div>
+      <div class="respuesta">Javier Francisco Altamirano Sánchez.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cómo prefiere que lo llamen públicamente?</div>
+      <div class="respuesta">En actos y comunicación pública se lo identifica como Javier Altamirano o Dr. Javier Altamirano.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su fecha y lugar de nacimiento?</div>
+      <div class="respuesta">Nació en Ambato el 18 de agosto de 1970.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué edad tiene actualmente?</div>
+      <div class="respuesta">Tiene 55 años; cumplirá 56 el 18 de agosto de 2026.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿En qué barrio o sector de Ambato creció?</div>
+      <div class="respuesta">En la Parroquia La Merced.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su profesión principal?</div>
+      <div class="respuesta">Es abogado y Doctor en Jurisprudencia, con maestría en Derecho Procesal.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cómo se describe Javier Altamirano en lo personal?</div>
+      <div class="respuesta">Ser humano de principios y valores, dedicado al estudio, a la lectura y al servicio a sus conciudadanos. Estudiante aplicado, responsable, extrovertido y solidario, con participación en actividades artísticas y culturales.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles son los valores que orientan su vida?</div>
+      <div class="respuesta">Honestidad, responsabilidad, solidaridad, dedicación al estudio, servicio a la ciudadanía y esperanza.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué relación mantiene con la fe o la espiritualidad?</div>
+      <div class="respuesta">Mantiene una relación personal con la fe: reza, piensa, reflexiona y procura decidir asuntos personales, familiares y laborales con esperanza.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles son sus canales oficiales de contacto y redes sociales?</div>
+      <div class="respuesta">Portal: javieraltamirano.org</div>
+    </div>
+  </div>
+
+  <!-- NIÑEZ -->
+  <div class="seccion" id="ninez">
+    <div class="seccion-titulo"><span>2</span> Niñez, familia y valores</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cómo fue la niñez de Javier Altamirano?</div>
+      <div class="respuesta">Su niñez transcurrió en Ambato junto a sus tres hermanos. Inició la primaria en la Unidad Educativa León Becerra y la concluyó en la Unidad Educativa Atenas. Fue un estudiante extrovertido y solidario, con una infancia bonita, llena de amigos y juegos.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué dificultades económicas o familiares enfrentó durante su infancia?</div>
+      <div class="respuesta">Desde su infancia apoyó a su familia; comenzó a trabajar a los 12 años en el negocio familiar. Sufrió injusticias, vivió carencias y padeció problemas económicos, laborales, de desigualdad y falta de oportunidades.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es el recuerdo más importante de su niñez?</div>
+      <div class="respuesta">Cuando tenía alrededor de 10 años, sus padres le compraron zapatos negros de suela para un compromiso. Se puso a jugar fútbol en la terraza, dañó los zapatos y terminó yendo con los zapatos viejos.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué enseñanza de su infancia conserva hasta hoy?</div>
+      <div class="respuesta">Responsabilidad, solidaridad, honestidad, estudio y servicio.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cómo se llaman su padre y su madre?</div>
+      <div class="respuesta">Es hijo de Don Jaime Altamirano Chico y Doña Clelia Sánchez Arias.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Su padre y su madre están vivos actualmente?</div>
+      <div class="respuesta">Su madre vive y su padre falleció en 2025.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué palabras de su padre marcaron su vida?</div>
+      <div class="respuesta">La honestidad, la responsabilidad y el trabajo duro no son opcionales: se practican todos los días, sin importar lo difícil que sea la situación.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué enseñanza de su madre influyó más en su carácter?</div>
+      <div class="respuesta">Solidaridad y trabajo en equipo, perseverancia ante la adversidad, responsabilidad y dedicación.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Tiene hermanos y cuántos son?</div>
+      <div class="respuesta">Tres hermanos: Jaime Giovanny, Zoila Jaqueline y Clelia María Altamirano Sánchez. Javier ocupa el cuarto lugar entre los hijos.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su estado civil actual?</div>
+      <div class="respuesta">Actualmente divorciado. Su núcleo familiar lo conforma con sus tres hijos varones.</div>
+    </div>
+  </div>
+
+  <!-- EDUCACIÓN -->
+  <div class="seccion" id="educacion">
+    <div class="seccion-titulo"><span>3</span> Educación y formación</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Dónde estudió la primaria y la secundaria?</div>
+      <div class="respuesta">Primaria: inició en la Unidad Educativa León Becerra y la concluyó en la Unidad Educativa Atenas, Ambato. Secundaria: Unidad Educativa Bolívar de Ambato, donde obtuvo el título de Bachiller Físico Matemático.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Dónde realizó sus estudios universitarios y qué carrera estudió?</div>
+      <div class="respuesta">Estudió Derecho en la Facultad de Jurisprudencia de la Universidad Central del Ecuador, en Quito. Obtuvo los títulos de Abogado de la República y Doctor en Jurisprudencia (1996).</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué estudios de posgrado ha realizado?</div>
+      <div class="respuesta">Maestría en Derecho Procesal en la Universidad Simón Bolívar. Seminario de Derecho Constitucional en Chile.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cómo financió sus estudios universitarios?</div>
+      <div class="respuesta">Cuando viajó a Quito a estudiar, se mudó junto con su hermana Clelia María, compartiendo responsabilidades, recursos y apoyándose mutuamente para cubrir sus gastos de estancia y académicos.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Sobre qué tema realizó su tesis?</div>
+      <div class="respuesta">Para obtener el título de abogado, su tesis fue sobre: El contrato de venta con reserva de dominio.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Ha sido docente universitario?</div>
+      <div class="respuesta">Sí. Docente de la Universidad Técnica de Ambato (mayo–agosto 2013) y de la Universidad Tecnológica Indoamérica (julio 2011–mayo 2019). Fue Decano de la Facultad de Jurisprudencia de Indoamérica.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles son sus principales áreas de especialización?</div>
+      <div class="respuesta">Derecho Procesal, Derecho Constitucional y administración pública (concejal y alcalde).</div>
+    </div>
+  </div>
+
+  <!-- LABORAL -->
+  <div class="seccion" id="laboral">
+    <div class="seccion-titulo"><span>4</span> Trayectoria laboral y profesional</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cuál fue su primer trabajo?</div>
+      <div class="respuesta">Asesor Legal en el Registro de la Propiedad del cantón Ambato, cargo que asumió en marzo de 1997.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿En qué instituciones ha trabajado?</div>
+      <div class="respuesta">Universidad Técnica de Ambato (docente), Universidad Tecnológica Indoamérica (docente y decano), Banco de Guayaquil como abogado externo 2013–2018, y dirige su propia firma: Javier Altamirano Estudio Jurídico &amp; Asociados.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿A qué actividad profesional se dedica actualmente?</div>
+      <div class="respuesta">Retomó el libre ejercicio profesional del Derecho como jurisconsulto en Javier Altamirano Estudio Jurídico &amp; Asociados.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál fue el reto profesional más difícil que enfrentó?</div>
+      <div class="respuesta">Asumir la Alcaldía de Ambato 2019–2023, atravesada por la pandemia de COVID-19 (2020–2021), los Paros Nacionales (2019 y 2022) y la modernización institucional.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué fracaso profesional le dejó la mayor enseñanza?</div>
+      <div class="respuesta">No haber difundido de manera oportuna, masiva y clara el alcance de los proyectos e infraestructura realizadas en su gestión.</div>
+    </div>
+  </div>
+
+  <!-- POLÍTICA -->
+  <div class="seccion" id="politica">
+    <div class="seccion-titulo"><span>5</span> Trayectoria política y cargos públicos</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Por qué decidió participar en política?</div>
+      <div class="respuesta">Para aportar al desarrollo de Ambato, priorizar al ser humano y promover una ciudad moderna, segura, solidaria y planificada.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál fue su primera campaña electoral?</div>
+      <div class="respuesta">En 2004, cuando se postuló para el cargo de Concejal de Ambato.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿En qué periodo fue concejal de Ambato?</div>
+      <div class="respuesta">2004–2008. Sus acciones se centraron en legislación local (ordenanzas) y fiscalización de la gestión municipal. Participó en las Comisiones de Planeamiento Urbano y Obras Públicas, Legislación y Fiscalización, y Asuntos Sociales y Comunitarios.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles fueron las fechas exactas de inicio y fin de su gestión como alcalde?</div>
+      <div class="respuesta">Posesionado públicamente el 14 de mayo de 2019. Periodo legal: 15 de mayo de 2019 al 14 de mayo de 2023.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Con qué alianza participó en la elección de 2019?</div>
+      <div class="respuesta">Alianza Fuerza Social y Solidaria, integrada por Izquierda Democrática (lista 12) y el Movimiento Solidariamente (lista 63).</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Participó en asociaciones de municipios?</div>
+      <div class="respuesta">Sí. A nivel nacional en la Asociación de Municipalidades Ecuatorianas y a nivel internacional en la Asociación INCLUSOCIAL.</div>
+    </div>
+  </div>
+
+  <!-- VIDA PERSONAL -->
+  <div class="seccion" id="personal">
+    <div class="seccion-titulo"><span>6</span> Vida personal, gustos y pasatiempos</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Qué hace en su tiempo libre?</div>
+      <div class="respuesta">Es amante de la lectura y practica actividades artísticas como música y pintura. Toca piano y guitarra, sale a trotar 2–4 días por semana y ocasionalmente juega fútbol.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su comida favorita?</div>
+      <div class="respuesta">Le gustan el plátano, el tostado, el pollo, los huevos y el aguacate. De Ambato: el llapingacho ambateño, el pan de Pinllo y los helados de la catedral.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Le gusta cocinar?</div>
+      <div class="respuesta">No le gusta cocinar.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué tipo de música le gusta y cuál es su cantante favorito?</div>
+      <div class="respuesta">Escucha de todo, especialmente pop latino, pop en inglés y canciones de Luis Miguel, quien es su cantante favorito. Le gusta cantar y toca piano y guitarra desde la niñez. Tiene canciones de su autoría.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su película y libro favoritos?</div>
+      <div class="respuesta">Película favorita: Cuestión de Justicia (drama legal y derechos humanos). Libro favorito: El espíritu de las leyes (Montesquieu). Libro que marcó su vida: El hombre en busca de sentido, de Viktor Frankl.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Consume bebidas alcohólicas?</div>
+      <div class="respuesta">Le gustan las fiestas, pero no toma alcohol.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cómo maneja el estrés y la presión?</div>
+      <div class="respuesta">Se esfuerza por hacer las cosas y hacerlas bien hechas. Sabe que en el camino se cometen errores, pero siempre se enfoca en tener los mayores aciertos posibles.</div>
+    </div>
+  </div>
+
+  <!-- ELECCIÓN 2019 -->
+  <div class="seccion" id="eleccion2019">
+    <div class="seccion-titulo"><span>7</span> Elección de 2019 y llegada a la Alcaldía</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cuál fue el mensaje central de su campaña de 2019?</div>
+      <div class="respuesta">Construir una ciudad moderna, segura, solidaria y planificada, con el ser humano en el centro y el trabajo conjunto entre Municipio, empresa privada, academia, sectores productivos y ciudadanía.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Con cuántos votos ganó y qué porcentaje obtuvo?</div>
+      <div class="respuesta">Ganó con 95,433 votos válidos, alcanzando el 44.10% de la votación válida en Ambato.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles fueron sus principales promesas de campaña en 2019?</div>
+      <div class="respuesta">Cuatro ejes urbanos: trabajo, seguridad, movilidad y cultura. Para la ruralidad: producción agrícola, ambiente, turismo, deporte, cultura, educación y participación.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué acciones realizó durante sus primeros cien días en 2019?</div>
+      <div class="respuesta">Reestructuración administrativa y diagnóstico del Municipio, ordenamiento del espacio público y comercio autónomo, lanzamiento de la visión "Ambato 2050" y Smart City, y revisión y aceleración de obras públicas.</div>
+    </div>
+  </div>
+
+  <!-- GESTIÓN -->
+  <div class="seccion" id="gestion">
+    <div class="seccion-titulo"><span>8</span> Gestión municipal 2019–2023</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cuál fue el modelo de gestión que aplicó?</div>
+      <div class="respuesta">Modelo integral y participativo, con planificación estratégica, gobierno abierto y coordinación entre Municipio, academia, empresa privada y ciudadanía.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles fueron las obras más importantes de su administración?</div>
+      <div class="respuesta">Pasos a desnivel Huachi Chico e Izamba, Centro de Revisión Técnica Vehicular (CRTV), Mercados Interculturales Chibuleo y Pilahuín, sistema de agua Chibuleo–San Francisco, recuperación del Parque del Deporte, estabilización Quebrada Los Gallinazos, Parque Infantil de Atocha y restauración de la Casa de la Música.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál fue el presupuesto administrado?</div>
+      <div class="respuesta">Presupuestos anuales entre 130 y 160 millones de dólares (promedio 150 millones/año). Entre el 45% y 50% se destinó a inversión y obra pública.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué promesas no pudo cumplir?</div>
+      <div class="respuesta">No se logró el reordenamiento definitivo del comercio informal ni la modernización total del transporte público (Smart City), derivado de la emergencia sanitaria, paralizaciones y fricción social y fiscal.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles fueron sus principales errores como alcalde?</div>
+      <div class="respuesta">No haber difundido de manera oportuna, masiva y clara el alcance de los proyectos e infraestructura. La gestión se enfocó intensamente en la ejecución física, descuidando la comunicación.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cómo recibió y cómo entregó la situación financiera del Municipio?</div>
+      <div class="respuesta">Recibió (2019): municipio financieramente estable, pero con presupuesto comprometido, obras heredadas y contrataciones observadas por la Contraloría. Entregó (2023): finanzas con superávit de liquidación presupuestaria, sin sobreendeudamiento crítico y con créditos internacionales gestionados.</div>
+    </div>
+  </div>
+
+  <!-- COVID -->
+  <div class="seccion" id="covid">
+    <div class="seccion-titulo"><span>9</span> COVID-19 y paros nacionales</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Qué decisiones tomó al inicio de la emergencia por COVID-19?</div>
+      <div class="respuesta">Sostenibilidad alimentaria, redistribución presupuestaria para la atención de la emergencia, alivio económico y atención a vulnerables. Coordinó con el COE Cantonal, hospitales y el Gobierno nacional.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué apoyo brindó a sectores vulnerables durante la pandemia?</div>
+      <div class="respuesta">Kits de asistencia, atención prioritaria, espacios de acogida y exoneración de tasas. Resultados: baja mortalidad relativa y apoyo social.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué decisiones tomó durante el paro nacional de octubre de 2019?</div>
+      <div class="respuesta">Mesa de crisis del COE Cantonal, corredores humanitarios, protección del abastecimiento y diálogo local.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué decisiones tomó durante el paro nacional de junio de 2022?</div>
+      <div class="respuesta">Mesa de paz y diálogo, garantía de agua y salud pública, y corredores humanitarios.</div>
+    </div>
+  </div>
+
+  <!-- INTERCAMBIADORES -->
+  <div class="seccion" id="intercambiadores">
+    <div class="seccion-titulo"><span>10</span> Intercambiadores de Huachi Chico e Izamba</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Quién planificó, contrató, financió, ejecutó e inauguró los intercambiadores?</div>
+      <div class="respuesta">Ambos fueron asumidos en su totalidad por el Municipio de Ambato bajo la administración de Javier Altamirano (2019–2023). La consecución del financiamiento con el BDE, la licitación, la contratación, la ejecución física y la inauguración correspondieron íntegramente a su gestión.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuáles son los datos técnicos de cada obra?</div>
+      <div class="respuesta"><strong>Huachi Chico:</strong> Inversión de $3.8 millones, 318 metros de longitud, beneficia a 30 mil habitantes. Inaugurado en 2023. <strong>Izamba:</strong> Inversión de $5.5 millones, 1,200 metros de longitud, beneficia a más de 30 mil habitantes diarios. Habilitado a finales de 2022, inaugurado en 2023.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué hizo la administración anterior (Luis Amoroso)?</div>
+      <div class="respuesta">La administración de Luis Amoroso (2014–2019) impulsó estudios conceptuales, diagnósticos viales y esquemas preliminares, pero no construyó los intercambiadores.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cronología de los proyectos?</div>
+      <div class="respuesta">2019–2020: Planificación técnica, estudios y aprobación del financiamiento. 2021: Licitación pública, adjudicación e inicio de obras. 2022: Habilitación del intercambiador de Izamba. 2023: Entrega definitiva e inauguración oficial de ambos.</div>
+    </div>
+  </div>
+
+  <!-- RETORNO ELECTORAL -->
+  <div class="seccion" id="retorno">
+    <div class="seccion-titulo"><span>11</span> Retorno electoral y evaluación política</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Por qué desea volver a postularse a la Alcaldía de Ambato?</div>
+      <div class="respuesta">Porque no están las cosas bien en Ambato. Ambato necesita seguridad, empleo, salud y movilidad. Se compromete a hacerlo por los ambateños.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Por qué considera que perdió la elección de 2023?</div>
+      <div class="respuesta">El desgaste de la gestión municipal, el impacto coyuntural de los paros nacionales, la pandemia de COVID-19, la fragmentación del voto entre múltiples candidatos y la polarización política.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué responsabilidad personal asume por esa derrota?</div>
+      <div class="respuesta">No haber logrado comunicar de forma efectiva los logros de su gestión. Reconoció fallas en la estrategia de comunicación pública y la dificultad para contrarrestar la narrativa de sus opositores.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Por qué cree que puede ganar una nueva elección?</div>
+      <div class="respuesta">Basándose en tres pilares: obra entregada, gestión de crisis demostrada y aprendizaje político.</div>
+    </div>
+  </div>
+
+  <!-- PROPUESTAS -->
+  <div class="seccion" id="propuestas">
+    <div class="seccion-titulo"><span>12</span> Propuestas por sectores</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su propuesta en seguridad?</div>
+      <div class="respuesta">Repotenciar videovigilancia conectada con el ECU911, iluminación LED en zonas críticas, fortalecer el programa "Barrio Seguro", recuperar espacios públicos mediante deporte y cultura, y reordenar el comercio autónomo.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su propuesta en salud?</div>
+      <div class="respuesta">Potenciar el Hospital Municipal "Nuestra Señora de la Merced", desplegar brigadas médicas móviles hacia parroquias rurales, priorizar atención primaria preventiva y digitalizar trámites para erradicar la burocracia.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su plan para crear empleo formal?</div>
+      <div class="respuesta">Simplificación de tramitología para apertura de negocios, formalización del comercio autónomo en mercados, alianzas con el sector productivo, programas de primer empleo y fondos de capital semilla para emprendedoras.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es su plan integral de movilidad?</div>
+      <div class="respuesta">Modernización de semáforos inteligentes, reestructuración de rutas urbanas e interparroquiales, ampliación de ciclovías, peatonalización del centro histórico y reordenamiento de parqueaderos con plataforma digital.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué propone para las parroquias rurales?</div>
+      <div class="respuesta">Presupuesto participativo equitativo, mantenimiento de vías interparroquiales, centros de acopio con asistencia técnica agrícola, conservación de fuentes hídricas y ampliación de alcantarillado y agua potable rural.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué políticas aplicará para inclusión social?</div>
+      <div class="respuesta">Consejo Cantonal de Protección de Derechos para víctimas de violencia, niños y personas con discapacidad, accesibilidad universal en espacios públicos, programas de equidad de género y redes comunitarias de cuidado.</div>
+    </div>
+  </div>
+
+  <!-- 100 DÍAS -->
+  <div class="seccion" id="100dias">
+    <div class="seccion-titulo"><span>13</span> Primeros 100 días y compromisos</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cuáles serán sus diez acciones prioritarias durante los primeros cien días?</div>
+      <div class="respuesta">
+        1. Plan de choque vial &nbsp;|&nbsp;
+        2. Reordenamiento comercial &nbsp;|&nbsp;
+        3. Puntos seguros &nbsp;|&nbsp;
+        4. Trámites ágiles &nbsp;|&nbsp;
+        5. Salud móvil &nbsp;|&nbsp;
+        6. Centros comunitarios &nbsp;|&nbsp;
+        7. Semaforización &nbsp;|&nbsp;
+        8. Agua potable &nbsp;|&nbsp;
+        9. Transparencia &nbsp;|&nbsp;
+        10. Seguridad vial
+      </div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cómo garantizará transparencia y rendición de cuentas?</div>
+      <div class="respuesta">Publicando metas, presupuesto, cronograma, contratos y avances. Rendición de cuentas periódica y espacios de participación ciudadana. Todo compromiso nuevo requiere un plan oficialmente registrado y mecanismos de seguimiento.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Por qué deberían confiar nuevamente en Javier Altamirano?</div>
+      <div class="respuesta">La confianza no debe pedirse con frases bonitas, sino ganarse con resultados comprobables, reconocimiento de pendientes y compromisos medibles.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Base de Conocimiento — Javier Francisco Altamirano Sánchez · Campaña Alcaldía Ambato · javieraltamirano.org
+</footer>
+
+</body>
+</html>
