@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro de Candidatos — Javier Altamirano</title>
+  <title>Registro de Asistencia de Candidatos — Javier Altamirano</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -199,13 +199,13 @@
 
 <header>
   <img src="/tierra/logo_j.svg" alt="Logo Javier Altamirano" onerror="this.style.display='none'" />
-  <h1>Registro de Candidatos</h1>
-  <p>Javier Altamirano · Alcaldía de Ambato</p>
+  <h1>Registro de Asistencia de Candidatos</h1>
+  <p>Javier en Tu Casa</p>
 </header>
 
 <div class="wrap">
   <div class="card">
-    <div class="card-titulo">📋 Datos del candidato</div>
+    <div class="card-titulo">📋 Registro de Asistencia</div>
 
     <form class="form" id="form">
 
@@ -216,7 +216,7 @@
 
       <div class="field">
         <label for="cargo">Cargo *</label>
-        <input id="cargo" type="text" placeholder="Ej: Candidato a Concejal" required />
+        <input id="cargo" type="text" placeholder="Ej: Candidato a" required />
       </div>
 
       <div class="field">
@@ -266,7 +266,7 @@
         </div>
       </div>
 
-      <button type="submit" class="btn" id="btn">✓ Registrar candidato</button>
+      <button type="submit" class="btn" id="btn">✓ Registrar Asistencia</button>
 
       <div id="toast" style="display:none"></div>
     </form>
@@ -336,11 +336,26 @@
     btn.textContent = 'Guardando...'
     toast.style.display = 'none'
 
+    const celularCompleto = '+593' + celular
+
+    // Verificar duplicado por número de celular
+    const { data: existente } = await sb.from('candidatos')
+      .select('id')
+      .eq('celular', celularCompleto)
+      .limit(1)
+
+    if (existente && existente.length > 0) {
+      mostrarToast('⚠️ Este número de celular ya está registrado.', 'err')
+      btn.disabled = false
+      btn.textContent = '✓ Registrar Asistencia'
+      return
+    }
+
     const { error } = await sb.from('candidatos').insert({
       nombre,
       cargo,
       parroquia,
-      celular: '+593' + celular,
+      celular: celularCompleto,
       creado_en: new Date().toISOString()
     })
 
@@ -348,13 +363,13 @@
       console.error(error)
       mostrarToast('Error al guardar. Intenta nuevamente.', 'err')
     } else {
-      mostrarToast('✅ Candidato registrado correctamente.', 'ok')
+      mostrarToast('✅ Asistencia registrada correctamente.', 'ok')
       form.reset()
       cargarTotal()
     }
 
     btn.disabled = false
-    btn.textContent = '✓ Registrar candidato'
+    btn.textContent = '✓ Registrar Asistencia'
   })
 </script>
 
