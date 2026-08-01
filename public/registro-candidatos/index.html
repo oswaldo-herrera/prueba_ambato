@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Candidatos — Javier Altamirano</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #21243D;
+      --azul-lt: #2e3256;
+      --oro: #AC7C3F;
+      --oro-lt: #D4A86A;
+      --radio: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100dvh;
+    }
+
+    header {
+      background: var(--azul);
+      color: #fff;
+      padding: 28px 20px 24px;
+      text-align: center;
+    }
+    header img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    header p {
+      font-size: 13px;
+      color: var(--oro-lt);
+      margin-top: 4px;
+      letter-spacing: .06em;
+    }
+
+    .wrap {
+      max-width: 520px;
+      margin: 32px auto;
+      padding: 0 16px 64px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radio);
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      padding: 28px 24px;
+    }
+
+    .card-titulo {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--azul);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--oro);
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 15px;
+      background: #fafafa;
+      color: #1a1a2e;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      outline: none;
+    }
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--oro);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(172,124,63,.15);
+    }
+
+    .phone-wrap {
+      display: flex;
+      align-items: stretch;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fafafa;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .phone-wrap:focus-within {
+      border-color: var(--oro);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(172,124,63,.15);
+    }
+    .phone-prefix {
+      padding: 13px 14px;
+      background: #f0f1f5;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--azul);
+      border-right: 1.5px solid #e5e7eb;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .phone-wrap input {
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .btn {
+      padding: 15px;
+      background: var(--azul);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: .04em;
+      transition: background .2s, transform .1s;
+      margin-top: 4px;
+    }
+    .btn:hover:not(:disabled) { background: var(--azul-lt); }
+    .btn:active:not(:disabled) { transform: scale(.98); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+
+    .toast {
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      animation: toastIn .3s ease;
+    }
+    .toast.ok  { background: #f0fdf4; border: 1.5px solid #bbf7d0; color: #15803d; }
+    .toast.err { background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .contador {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .contador strong { color: var(--azul); font-size: 14px; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/tierra/logo_j.svg" alt="Logo Javier Altamirano" onerror="this.style.display='none'" />
+  <h1>Registro de Candidatos</h1>
+  <p>Javier Altamirano · Alcaldía de Ambato</p>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <div class="card-titulo">📋 Datos del candidato</div>
+
+    <form class="form" id="form">
+
+      <div class="field">
+        <label for="nombre">Nombre completo *</label>
+        <input id="nombre" type="text" placeholder="Ej: María García López" autocomplete="name" required />
+      </div>
+
+      <div class="field">
+        <label for="cargo">Cargo *</label>
+        <input id="cargo" type="text" placeholder="Ej: Candidato a Concejal" required />
+      </div>
+
+      <div class="field">
+        <label for="parroquia">Parroquia *</label>
+        <select id="parroquia" required>
+          <option value="">— Selecciona la parroquia —</option>
+          <optgroup label="Parroquias Urbanas">
+            <option>Atocha - Ficoa</option>
+            <option>Celiano Monge</option>
+            <option>Huachi Chico</option>
+            <option>Huachi Loreto</option>
+            <option>La Matriz</option>
+            <option>La Merced</option>
+            <option>La Península</option>
+            <option>Pishilata</option>
+            <option>San Francisco</option>
+          </optgroup>
+          <optgroup label="Parroquias Rurales">
+            <option>Ambatillo</option>
+            <option>Atahualpa</option>
+            <option>Augusto Nicolás Martínez</option>
+            <option>Constantino Fernández</option>
+            <option>Cunchibamba</option>
+            <option>Huachi Grande</option>
+            <option>Izamba</option>
+            <option>Juan Benigno Vela</option>
+            <option>Montalvo</option>
+            <option>Pasa</option>
+            <option>Picaihua</option>
+            <option>Pilahuín</option>
+            <option>Quisapincha</option>
+            <option>San Bartolomé de Pinllo</option>
+            <option>San Fernando</option>
+            <option>Santa Rosa</option>
+            <option>Totoras</option>
+            <option>Unamuncho</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="celular">Número de celular *</label>
+        <div class="phone-wrap">
+          <span class="phone-prefix">🇪🇨 +593</span>
+          <input id="celular" type="tel" placeholder="987654321"
+            inputmode="numeric" maxlength="10" required />
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="btn">✓ Registrar candidato</button>
+
+      <div id="toast" style="display:none"></div>
+    </form>
+
+    <div class="contador" id="contador" style="display:none">
+      Total registrados: <strong id="total">—</strong>
+    </div>
+  </div>
+</div>
+
+<footer>javieraltamirano.org · Campaña Alcaldía Ambato 2025</footer>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+  const SB_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co'
+  const SB_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf'
+  const sb = createClient(SB_URL, SB_KEY)
+
+  const form    = document.getElementById('form')
+  const btn     = document.getElementById('btn')
+  const toast   = document.getElementById('toast')
+  const contDiv = document.getElementById('contador')
+  const total   = document.getElementById('total')
+
+  function limpiar(str) { return str.replace(/\D/g, '').slice(0, 10) }
+
+  document.getElementById('celular').addEventListener('input', e => {
+    e.target.value = limpiar(e.target.value)
+  })
+
+  async function cargarTotal() {
+    const { count } = await sb.from('candidatos').select('*', { count: 'exact', head: true })
+    if (count !== null) {
+      total.textContent = count
+      contDiv.style.display = 'block'
+    }
+  }
+
+  function mostrarToast(msg, tipo) {
+    toast.textContent = msg
+    toast.className = `toast ${tipo}`
+    toast.style.display = 'block'
+    if (tipo === 'ok') setTimeout(() => { toast.style.display = 'none' }, 4000)
+  }
+
+  cargarTotal()
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault()
+
+    const nombre   = document.getElementById('nombre').value.trim()
+    const cargo    = document.getElementById('cargo').value.trim()
+    const parroquia = document.getElementById('parroquia').value
+    const celular  = document.getElementById('celular').value.trim()
+
+    if (!nombre || !cargo || !parroquia || !celular) {
+      mostrarToast('Completa todos los campos obligatorios.', 'err')
+      return
+    }
+    if (celular.length < 9) {
+      mostrarToast('El número de celular debe tener al menos 9 dígitos.', 'err')
+      return
+    }
+
+    btn.disabled = true
+    btn.textContent = 'Guardando...'
+    toast.style.display = 'none'
+
+    const { error } = await sb.from('candidatos').insert({
+      nombre,
+      cargo,
+      parroquia,
+      celular: '+593' + celular,
+      creado_en: new Date().toISOString()
+    })
+
+    if (error) {
+      console.error(error)
+      mostrarToast('Error al guardar. Intenta nuevamente.', 'err')
+    } else {
+      mostrarToast('✅ Candidato registrado correctamente.', 'ok')
+      form.reset()
+      cargarTotal()
+    }
+
+    btn.disabled = false
+    btn.textContent = '✓ Registrar candidato'
+  })
+</script>
+
+</body>
+</html>
