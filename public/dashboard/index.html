@@ -790,7 +790,6 @@
   /* ══════════════════════════════════════════
      CONFIG Y ESTADO
   ══════════════════════════════════════════ */
-  const KOMMO_BASE = 'https://hersaambato.kommo.com/api/v4'
   const LS_TOKEN   = 'kommo_token'
   const LS_PASS    = 'dash_password'
   const LS_MANUAL  = 'dash_manual'
@@ -836,12 +835,10 @@
   /* ══════════════════════════════════════════
      KOMMO API
   ══════════════════════════════════════════ */
-  function headers() {
-    return { 'Authorization': `Bearer ${accessToken}` }
-  }
-
   async function fetchKommo(path) {
-    const res = await fetch(`${KOMMO_BASE}${path}`, { headers: headers() })
+    const res = await fetch(`/api/kommo?url=${encodeURIComponent(path)}`, {
+      headers: { 'x-kommo-token': accessToken }
+    })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return res.json()
   }
