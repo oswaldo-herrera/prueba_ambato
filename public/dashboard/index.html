@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Campaña — Javier Altamirano</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:    #21243D;
+      --azul-lt: #2e3256;
+      --oro:     #AC7C3F;
+      --oro-lt:  #D4A86A;
+      --bg:      #f0f2f7;
+      --card:    #ffffff;
+      --texto:   #1a1a2e;
+      --muted:   #6b7280;
+      --borde:   #e5e7eb;
+      --verde:   #15803d;
+      --rojo:    #dc2626;
+      --radio:   14px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--texto);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      position: fixed; inset: 0;
+      background: var(--azul);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      flex-direction: column;
+      gap: 24px;
+    }
+    #login-screen img {
+      width: 72px; height: 72px;
+      object-fit: contain;
+    }
+    #login-screen h2 {
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+      letter-spacing: .04em;
+    }
+    #login-screen p {
+      color: var(--oro-lt);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .login-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radio);
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .login-card label {
+      color: rgba(255,255,255,.6);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .login-card input {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,.15);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .login-card input:focus { border-color: var(--oro); }
+    .login-card button {
+      padding: 14px;
+      background: var(--oro);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: .06em;
+      transition: background .2s;
+    }
+    .login-card button:hover { background: var(--oro-lt); }
+    #login-error {
+      color: #fca5a5;
+      font-size: 13px;
+      text-align: center;
+      display: none;
+    }
+
+    /* ── HEADER ── */
+    .dash-header {
+      background: var(--azul);
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    .dash-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .dash-header-left img {
+      width: 40px; height: 40px;
+      object-fit: contain;
+    }
+    .dash-header-left h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: .03em;
+    }
+    .dash-header-left span {
+      display: block;
+      font-size: 11px;
+      color: var(--oro-lt);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .dash-header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .last-update {
+      font-size: 11px;
+      color: rgba(255,255,255,.45);
+    }
+    .btn-header {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,.2);
+      background: transparent;
+      color: rgba(255,255,255,.8);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: .04em;
+      transition: background .2s, border-color .2s, color .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-header:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.4);
+      color: #fff;
+    }
+    .btn-header.oro {
+      background: var(--oro);
+      border-color: var(--oro);
+      color: #fff;
+    }
+    .btn-header.oro:hover { background: var(--oro-lt); }
+
+    /* ── MAIN ── */
+    .dash-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    /* ── BANNER TOKEN ── */
+    #banner-token {
+      background: #fef3c7;
+      border: 1.5px solid #fbbf24;
+      border-radius: var(--radio);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    #banner-token .icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    #banner-token h3 { font-size: 14px; font-weight: 700; color: #92400e; margin-bottom: 4px; }
+    #banner-token p { font-size: 12.5px; color: #78350f; line-height: 1.6; }
+    #banner-token a { color: #b45309; font-weight: 700; }
+    #banner-token ol { margin: 8px 0 0 16px; font-size: 12.5px; color: #78350f; line-height: 2; }
+    #banner-token button {
+      margin-top: 12px;
+      padding: 8px 18px;
+      background: #b45309;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ── SECCIÓN TÍTULO ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--borde);
+    }
+
+    /* ── KPI GRID ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border-radius: var(--radio);
+      padding: 22px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      border: 1px solid var(--borde);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--oro);
+    }
+    .kpi-card.verde::before { background: #22c55e; }
+    .kpi-card.rojo::before  { background: #ef4444; }
+    .kpi-card.azul::before  { background: #3b82f6; }
+    .kpi-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--azul);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .kpi-loading { color: #d1d5db; }
+
+    /* ── DOS COLUMNAS ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARD GENERAL ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radio);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      border: 1px solid var(--borde);
+      overflow: hidden;
+    }
+    .card-header {
+      background: var(--azul);
+      color: #fff;
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-body { padding: 20px; }
+
+    /* ── PIPELINE ── */
+    .pipeline-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .pipeline-row:last-child { border-bottom: none; }
+    .pipeline-name {
+      font-size: 13px;
+      color: var(--texto);
+      width: 140px;
+      flex-shrink: 0;
+    }
+    .pipeline-bar-wrap {
+      flex: 1;
+      background: #f3f4f6;
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .pipeline-bar {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--oro);
+      transition: width .6s ease;
+    }
+    .pipeline-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--azul);
+      width: 36px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── ACTIVIDADES ── */
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--oro);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .activity-dot.verde { background: #22c55e; }
+    .activity-dot.azul  { background: #3b82f6; }
+    .activity-dot.rojo  { background: #ef4444; }
+    .activity-text { font-size: 13px; color: var(--texto); line-height: 1.4; }
+    .activity-time { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ── MANUAL CARD (editable) ── */
+    .manual-note {
+      font-size: 10px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 8px;
+    }
+    .editable-field {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .editable-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .editable-row:last-child { border-bottom: none; }
+    .editable-row label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .editable-row input {
+      padding: 6px 12px;
+      border: 1.5px solid var(--borde);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--azul);
+      text-align: right;
+      width: 160px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .editable-row input:focus { border-color: var(--oro); }
+
+    /* ── TABLA LEADS ── */
+    .tabla-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead th {
+      background: var(--azul);
+      color: #fff;
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    tbody td {
+      padding: 11px 16px;
+      border-bottom: 1px solid #f3f4f6;
+      color: var(--texto);
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .badge-oro   { background: #fef3c7; color: #92400e; }
+    .badge-verde { background: #dcfce7; color: #15803d; }
+    .badge-rojo  { background: #fee2e2; color: #b91c1c; }
+    .badge-azul  { background: #dbeafe; color: #1d4ed8; }
+
+    /* ── FOOTER ── */
+    .dash-footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #bbb;
+    }
+
+    /* ── MODAL CONFIGURACIÓN ── */
+    #modal-config {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    #modal-config.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radio);
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    .modal-box h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--azul);
+      margin-bottom: 6px;
+    }
+    .modal-box p {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .modal-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .modal-field label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .modal-field input, .modal-field textarea {
+      padding: 12px 14px;
+      border: 1.5px solid var(--borde);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--texto);
+      outline: none;
+      transition: border-color .2s;
+      font-family: inherit;
+      resize: vertical;
+    }
+    .modal-field input:focus,
+    .modal-field textarea:focus { border-color: var(--oro); }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
+    .btn-cancel {
+      padding: 10px 20px;
+      border: 1.5px solid var(--borde);
+      background: transparent;
+      border-radius: 10px;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+    .btn-save {
+      padding: 10px 20px;
+      background: var(--azul);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-save:hover { background: var(--azul-lt); }
+
+    /* ── PRINT ── */
+    @media print {
+      #login-screen, .btn-header, #banner-token, #modal-config { display: none !important; }
+      .dash-header {
+        position: static;
+        box-shadow: none;
+        border-bottom: 2px solid var(--azul);
+      }
+      body { background: #fff; }
+      .card, .kpi-card { box-shadow: none; border: 1px solid #ddd; }
+      .two-col { grid-template-columns: 1fr 1fr; }
+      .dash-main { padding: 16px; }
+      .kpi-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-header-right .last-update { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN ══════════════ -->
+<div id="login-screen">
+  <img src="/tierra/logo_j.svg" alt="Logo" onerror="this.style.display='none'" />
+  <div>
+    <h2>Dashboard de Campaña</h2>
+    <p>Javier Altamirano · Alcaldía Ambato 2026</p>
+  </div>
+  <div class="login-card">
+    <div>
+      <label>Contraseña de acceso</label>
+      <input id="pw-input" type="password" placeholder="Ingresa la contraseña" autocomplete="current-password" />
+    </div>
+    <button onclick="verificarPassword()">Acceder al Dashboard</button>
+    <div id="login-error">Contraseña incorrecta. Intenta nuevamente.</div>
+  </div>
+</div>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header class="dash-header" id="dash-content" style="display:none">
+  <div class="dash-header-left">
+    <img src="/tierra/logo_j.svg" alt="Logo" onerror="this.style.display='none'" />
+    <div>
+      <h1>Dashboard de Campaña</h1>
+      <span>Javier Altamirano · Alcaldía Ambato 2026</span>
+    </div>
+  </div>
+  <div class="dash-header-right">
+    <span class="last-update" id="last-update">Sin actualizar</span>
+    <button class="btn-header" onclick="cargarDatos()">↻ Actualizar</button>
+    <button class="btn-header" onclick="abrirConfig()">⚙ Configurar</button>
+    <button class="btn-header oro" onclick="window.print()">⎙ Imprimir / PDF</button>
+  </div>
+</header>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main class="dash-main" id="dash-main" style="display:none">
+
+  <!-- Banner: token no configurado -->
+  <div id="banner-token">
+    <div class="icon">🔑</div>
+    <div>
+      <h3>Conecta tu cuenta de Kommo</h3>
+      <p>Para mostrar datos en tiempo real necesitas pegar tu token de acceso de Kommo.<br>
+        <strong>¿Cómo obtenerlo?</strong></p>
+      <ol>
+        <li>Ve a <strong>hersaambato.kommo.com/settings/widgets/</strong> y haz clic en <strong>+ Crear integración</strong></li>
+        <li>Llena el nombre (ej. "Dashboard Web") y en URL de redireccionamiento pon: <code>https://javieraltamirano.org/dashboard/</code></li>
+        <li>Guarda y anota el <strong>ID de integración</strong> y el <strong>Código secreto</strong></li>
+        <li>Autoriza la integración — Kommo te entregará un <strong>access_token</strong></li>
+        <li>Pega ese token en <strong>⚙ Configurar → Token de Kommo</strong></li>
+      </ol>
+      <button onclick="abrirConfig()">⚙ Pegar token ahora</button>
+    </div>
+  </div>
+
+  <!-- ── KPIs PRINCIPALES ── -->
+  <div class="section-label">Resumen General</div>
+  <div class="kpi-grid">
+    <div class="kpi-card verde">
+      <span class="kpi-icon">👥</span>
+      <div class="kpi-label">Total Contactos</div>
+      <div class="kpi-value" id="kpi-contactos"><span class="kpi-loading">—</span></div>
+      <div class="kpi-sub" id="kpi-contactos-sub">personas registradas en Kommo</div>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-icon">📋</span>
+      <div class="kpi-label">Total Leads</div>
+      <div class="kpi-value" id="kpi-leads"><span class="kpi-loading">—</span></div>
+      <div class="kpi-sub" id="kpi-leads-sub">oportunidades en el embudo</div>
+    </div>
+    <div class="kpi-card azul">
+      <span class="kpi-icon">✅</span>
+      <div class="kpi-label">Tareas Abiertas</div>
+      <div class="kpi-value" id="kpi-tareas"><span class="kpi-loading">—</span></div>
+      <div class="kpi-sub">pendientes de completar</div>
+    </div>
+    <div class="kpi-card rojo">
+      <span class="kpi-icon">📣</span>
+      <div class="kpi-label">Actividades Hoy</div>
+      <div class="kpi-value" id="kpi-actividades"><span class="kpi-loading">—</span></div>
+      <div class="kpi-sub">eventos registrados hoy</div>
+    </div>
+  </div>
+
+  <!-- ── PIPELINE + ACTIVIDAD RECIENTE ── -->
+  <div class="section-label">Embudo y Actividad</div>
+  <div class="two-col">
+
+    <div class="card">
+      <div class="card-header">📊 Pipeline — Etapas del Embudo</div>
+      <div class="card-body" id="pipeline-body">
+        <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">
+          Conecta tu token para ver el embudo
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">⚡ Actividad Reciente</div>
+      <div class="card-body" id="actividad-body">
+        <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">
+          Conecta tu token para ver actividad
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── DATOS MANUALES (ROI, WhatsApp) ── -->
+  <div class="section-label">Métricas Manuales · ROI y WhatsApp Business</div>
+  <div class="two-col">
+
+    <div class="card">
+      <div class="card-header">💰 ROI y Resultados Financieros</div>
+      <div class="card-body">
+        <div class="editable-field" id="roi-fields">
+          <div class="editable-row">
+            <label>Inversión total ($)</label>
+            <input type="text" id="m-inversion" placeholder="0.00" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>Ganancias / Retorno ($)</label>
+            <input type="text" id="m-ganancia" placeholder="0.00" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>ROI (%)</label>
+            <input type="text" id="m-roi" placeholder="0%" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>Costo por Lead ($)</label>
+            <input type="text" id="m-cpl" placeholder="0.00" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>Leads ganados</label>
+            <input type="text" id="m-ganados" placeholder="0" oninput="guardarManual()" />
+          </div>
+        </div>
+        <div class="manual-note">✏ Actualiza estos valores desde Kommo → Insights → ROI</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">💬 WhatsApp Business</div>
+      <div class="card-body">
+        <div class="editable-field">
+          <div class="editable-row">
+            <label>Conversaciones totales</label>
+            <input type="text" id="m-wa-total" placeholder="0" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>Mensajes enviados</label>
+            <input type="text" id="m-wa-enviados" placeholder="0" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>Mensajes recibidos</label>
+            <input type="text" id="m-wa-recibidos" placeholder="0" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>Tasa de respuesta (%)</label>
+            <input type="text" id="m-wa-tasa" placeholder="0%" oninput="guardarManual()" />
+          </div>
+          <div class="editable-row">
+            <label>Leads desde WhatsApp</label>
+            <input type="text" id="m-wa-leads" placeholder="0" oninput="guardarManual()" />
+          </div>
+        </div>
+        <div class="manual-note">✏ Actualiza estos valores desde Kommo → Insights → WhatsApp Business</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── TABLA LEADS RECIENTES ── -->
+  <div class="section-label">Leads Recientes</div>
+  <div class="card">
+    <div class="card-header">📋 Últimos Leads Registrados en Kommo</div>
+    <div class="tabla-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Responsable</th>
+            <th>Etapa</th>
+            <th>Presupuesto</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="leads-tbody">
+          <tr>
+            <td colspan="6" style="text-align:center;color:var(--muted);padding:24px">
+              Conecta tu token de Kommo para ver los leads
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<footer class="dash-footer" id="dash-footer" style="display:none">
+  javieraltamirano.org · Dashboard de Campaña 2026 · Generado: <span id="footer-fecha"></span>
+</footer>
+
+<!-- ══════════════ MODAL CONFIGURACIÓN ══════════════ -->
+<div id="modal-config">
+  <div class="modal-box">
+    <h2>⚙ Configuración del Dashboard</h2>
+    <p>El token se guarda solo en este navegador (localStorage). Nadie más puede verlo.</p>
+
+    <div class="modal-field">
+      <label>Token de acceso de Kommo (Bearer Token)</label>
+      <textarea id="cfg-token" rows="3" placeholder="Pega aquí tu access_token de Kommo..."></textarea>
+    </div>
+    <div class="modal-field">
+      <label>Contraseña de acceso al dashboard</label>
+      <input type="password" id="cfg-pass" placeholder="Nueva contraseña (dejar vacío para no cambiar)" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="cerrarConfig()">Cancelar</button>
+      <button class="btn-save" onclick="guardarConfig()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ══════════════════════════════════════════
+     CONFIG Y ESTADO
+  ══════════════════════════════════════════ */
+  const KOMMO_BASE = 'https://hersaambato.kommo.com/api/v4'
+  const LS_TOKEN   = 'kommo_token'
+  const LS_PASS    = 'dash_password'
+  const LS_MANUAL  = 'dash_manual'
+  const DEFAULT_PW = 'Hersa2026'
+
+  let accessToken = localStorage.getItem(LS_TOKEN) || ''
+  let dashPass    = localStorage.getItem(LS_PASS)  || DEFAULT_PW
+
+  /* ══════════════════════════════════════════
+     LOGIN
+  ══════════════════════════════════════════ */
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verificarPassword()
+  })
+
+  function verificarPassword() {
+    const val = document.getElementById('pw-input').value
+    if (val === dashPass) {
+      document.getElementById('login-screen').style.display = 'none'
+      document.getElementById('dash-content').style.display = 'flex'
+      document.getElementById('dash-main').style.display   = 'block'
+      document.getElementById('dash-footer').style.display = 'block'
+      document.getElementById('footer-fecha').textContent  = new Date().toLocaleString('es-EC')
+      cargarManual()
+      if (accessToken) cargarDatos()
+      else actualizarBannerToken()
+    } else {
+      const err = document.getElementById('login-error')
+      err.style.display = 'block'
+      document.getElementById('pw-input').value = ''
+      setTimeout(() => err.style.display = 'none', 3000)
+    }
+  }
+
+  /* ══════════════════════════════════════════
+     BANNER TOKEN
+  ══════════════════════════════════════════ */
+  function actualizarBannerToken() {
+    const banner = document.getElementById('banner-token')
+    banner.style.display = accessToken ? 'none' : 'flex'
+  }
+
+  /* ══════════════════════════════════════════
+     KOMMO API
+  ══════════════════════════════════════════ */
+  function headers() {
+    return { 'Authorization': `Bearer ${accessToken}` }
+  }
+
+  async function fetchKommo(path) {
+    const res = await fetch(`${KOMMO_BASE}${path}`, { headers: headers() })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  }
+
+  function setText(id, val) {
+    document.getElementById(id).innerHTML = val
+  }
+
+  async function cargarDatos() {
+    if (!accessToken) { actualizarBannerToken(); return }
+    actualizarBannerToken()
+    setText('last-update', 'Cargando...')
+
+    try {
+      await Promise.all([
+        cargarContactos(),
+        cargarLeads(),
+        cargarTareas(),
+        cargarActividadesHoy(),
+        cargarPipelines(),
+        cargarActividades(),
+      ])
+      setText('last-update', '↻ Actualizado: ' + new Date().toLocaleTimeString('es-EC'))
+      document.getElementById('footer-fecha').textContent = new Date().toLocaleString('es-EC')
+    } catch(e) {
+      setText('last-update', '⚠ Error al conectar con Kommo')
+      console.error(e)
+    }
+  }
+
+  async function cargarContactos() {
+    try {
+      const d = await fetchKommo('/contacts?limit=1')
+      const total = d?._page?.total_items ?? '?'
+      setText('kpi-contactos', total)
+    } catch { setText('kpi-contactos', '—') }
+  }
+
+  async function cargarLeads() {
+    try {
+      const d = await fetchKommo('/leads?limit=250')
+      const leads = d?._embedded?.leads ?? []
+      const total = d?._page?.total_items ?? leads.length
+      setText('kpi-leads', total)
+      setText('kpi-leads-sub', `${leads.length} cargados · total: ${total}`)
+      renderLeadsTabla(leads)
+    } catch { setText('kpi-leads', '—') }
+  }
+
+  async function cargarTareas() {
+    try {
+      const d = await fetchKommo('/tasks?filter[is_completed]=0&limit=1')
+      const total = d?._page?.total_items ?? '?'
+      setText('kpi-tareas', total)
+    } catch { setText('kpi-tareas', '—') }
+  }
+
+  async function cargarActividadesHoy() {
+    try {
+      const desde = Math.floor(new Date().setHours(0,0,0,0) / 1000)
+      const d = await fetchKommo(`/events?filter[created_at][from]=${desde}&limit=250`)
+      const eventos = d?._embedded?.events ?? []
+      setText('kpi-actividades', eventos.length)
+    } catch { setText('kpi-actividades', '—') }
+  }
+
+  async function cargarPipelines() {
+    try {
+      const d = await fetchKommo('/leads/pipelines')
+      const pipelines = d?._embedded?.pipelines ?? []
+      if (!pipelines.length) return
+
+      const body = document.getElementById('pipeline-body')
+      body.innerHTML = ''
+      let maxLeads = 1
+
+      // Primero obtenemos leads por etapa
+      const leadsD = await fetchKommo('/leads?limit=250&with=pipeline')
+      const leads = leadsD?._embedded?.leads ?? []
+
+      const conteoPorEtapa = {}
+      leads.forEach(l => {
+        const id = l.status_id
+        conteoPorEtapa[id] = (conteoPorEtapa[id] || 0) + 1
+      })
+
+      const allStatuses = []
+      pipelines.forEach(p => {
+        ;(p._embedded?.statuses ?? []).forEach(s => {
+          if (s.type !== 142) { // excluye "Cerrado"
+            allStatuses.push({ name: s.name, count: conteoPorEtapa[s.id] || 0 })
+            maxLeads = Math.max(maxLeads, conteoPorEtapa[s.id] || 0)
+          }
+        })
+      })
+
+      allStatuses.forEach(st => {
+        const pct = Math.round((st.count / maxLeads) * 100)
+        body.insertAdjacentHTML('beforeend', `
+          <div class="pipeline-row">
+            <span class="pipeline-name">${st.name}</span>
+            <div class="pipeline-bar-wrap">
+              <div class="pipeline-bar" style="width:${pct}%"></div>
+            </div>
+            <span class="pipeline-count">${st.count}</span>
+          </div>
+        `)
+      })
+    } catch(e) {
+      document.getElementById('pipeline-body').innerHTML =
+        '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">Error al cargar el embudo</div>'
+    }
+  }
+
+  const TIPO_EVENTO = {
+    1: { label: 'Lead creado',        color: 'verde' },
+    2: { label: 'Contacto creado',    color: 'verde' },
+    3: { label: 'Lead actualizado',   color: 'azul'  },
+    4: { label: 'Lead eliminado',     color: 'rojo'  },
+    10: { label: 'Nota agregada',     color: ''      },
+    11: { label: 'Tarea completada',  color: 'verde' },
+    12: { label: 'Llamada',           color: 'azul'  },
+    13: { label: 'Email enviado',     color: 'azul'  },
+  }
+
+  async function cargarActividades() {
+    try {
+      const d = await fetchKommo('/events?limit=20')
+      const eventos = d?._embedded?.events ?? []
+      const body = document.getElementById('actividad-body')
+      if (!eventos.length) {
+        body.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">Sin actividad reciente</div>'
+        return
+      }
+      body.innerHTML = eventos.map(ev => {
+        const tipo = TIPO_EVENTO[ev.type] ?? { label: `Evento #${ev.type}`, color: '' }
+        const fecha = new Date(ev.created_at * 1000).toLocaleString('es-EC', {
+          month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        })
+        return `
+          <div class="activity-item">
+            <div class="activity-dot ${tipo.color}"></div>
+            <div>
+              <div class="activity-text">${tipo.label}</div>
+              <div class="activity-time">${fecha}</div>
+            </div>
+          </div>
+        `
+      }).join('')
+    } catch {
+      document.getElementById('actividad-body').innerHTML =
+        '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">Error al cargar actividad</div>'
+    }
+  }
+
+  function renderLeadsTabla(leads) {
+    const tbody = document.getElementById('leads-tbody')
+    if (!leads.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Sin leads disponibles</td></tr>'
+      return
+    }
+    tbody.innerHTML = leads.slice(0, 30).map((l, i) => {
+      const fecha = new Date(l.created_at * 1000).toLocaleDateString('es-EC', {
+        day: '2-digit', month: 'short', year: 'numeric'
+      })
+      const responsable = l._embedded?.users?.[0]?.name ?? '—'
+      const presupuesto = l.price ? `$${l.price.toLocaleString('es-EC')}` : '—'
+      const etapa = l.status_id ?? '—'
+      let badgeClass = 'badge-azul'
+      if (l.status_id === 142) badgeClass = 'badge-rojo'
+      if (l.status_id === 143) badgeClass = 'badge-verde'
+      return `
+        <tr>
+          <td>${i + 1}</td>
+          <td><strong>${l.name || '(sin nombre)'}</strong></td>
+          <td>${responsable}</td>
+          <td><span class="badge ${badgeClass}">Etapa ${etapa}</span></td>
+          <td>${presupuesto}</td>
+          <td>${fecha}</td>
+        </tr>
+      `
+    }).join('')
+  }
+
+  /* ══════════════════════════════════════════
+     DATOS MANUALES (ROI, WhatsApp)
+  ══════════════════════════════════════════ */
+  const CAMPOS_MANUAL = [
+    'm-inversion','m-ganancia','m-roi','m-cpl','m-ganados',
+    'm-wa-total','m-wa-enviados','m-wa-recibidos','m-wa-tasa','m-wa-leads'
+  ]
+
+  function guardarManual() {
+    const data = {}
+    CAMPOS_MANUAL.forEach(id => {
+      data[id] = document.getElementById(id)?.value || ''
+    })
+    localStorage.setItem(LS_MANUAL, JSON.stringify(data))
+  }
+
+  function cargarManual() {
+    try {
+      const data = JSON.parse(localStorage.getItem(LS_MANUAL) || '{}')
+      CAMPOS_MANUAL.forEach(id => {
+        const el = document.getElementById(id)
+        if (el && data[id]) el.value = data[id]
+      })
+    } catch {}
+  }
+
+  /* ══════════════════════════════════════════
+     MODAL CONFIGURACIÓN
+  ══════════════════════════════════════════ */
+  function abrirConfig() {
+    document.getElementById('cfg-token').value = accessToken
+    document.getElementById('cfg-pass').value  = ''
+    document.getElementById('modal-config').classList.add('open')
+  }
+  function cerrarConfig() {
+    document.getElementById('modal-config').classList.remove('open')
+  }
+  function guardarConfig() {
+    const tok  = document.getElementById('cfg-token').value.trim()
+    const pass = document.getElementById('cfg-pass').value.trim()
+
+    if (tok) {
+      accessToken = tok
+      localStorage.setItem(LS_TOKEN, tok)
+    }
+    if (pass) {
+      dashPass = pass
+      localStorage.setItem(LS_PASS, pass)
+    }
+    cerrarConfig()
+    cargarDatos()
+  }
+
+  // Cerrar modal al hacer clic fuera
+  document.getElementById('modal-config').addEventListener('click', function(e) {
+    if (e.target === this) cerrarConfig()
+  })
+</script>
+
+</body>
+</html>
