@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biografía y Preguntas Frecuentes — Javier Altamirano</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f4f4f6;
+      color: #1a1a2e;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #21243D;
+      color: #fff;
+      padding: 32px 24px 28px;
+      text-align: center;
+    }
+    header img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 12px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    header p {
+      font-size: 13px;
+      color: #AC7C3F;
+      margin-top: 4px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    nav {
+      background: #191c30;
+      padding: 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      justify-content: center;
+    }
+    nav a {
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      font-size: 12px;
+      padding: 10px 12px;
+      white-space: nowrap;
+      transition: color .2s;
+    }
+    nav a:hover { color: #AC7C3F; }
+
+    .contenido {
+      max-width: 860px;
+      margin: 32px auto;
+      padding: 0 16px 64px;
+    }
+
+    .seccion {
+      margin-bottom: 40px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    }
+
+    .seccion-titulo {
+      background: #21243D;
+      color: #fff;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .seccion-titulo span {
+      background: #AC7C3F;
+      color: #fff;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .qa {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .qa:last-child { border-bottom: none; }
+
+    .pregunta {
+      padding: 14px 24px 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .pregunta::before {
+      content: 'P';
+      background: #e8eaf6;
+      color: #21243D;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 10px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .respuesta {
+      padding: 6px 24px 16px 56px;
+      font-size: 14.5px;
+      color: #1a1a2e;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 18px; }
+      .respuesta { padding-left: 24px; }
+      .pregunta { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/tierra/logo_j.svg" alt="Logo Javier Altamirano" onerror="this.style.display='none'" />
+  <h1>Javier Altamirano — Biografía y Preguntas Frecuentes</h1>
+  <p>Agente de IA · Campaña Alcaldía Ambato</p>
+</header>
+
+<nav>
+  <a href="#familia">Familia</a>
+  <a href="#obra">Obra pública</a>
+  <a href="#sobre">Sobre Javier</a>
+</nav>
+
+<div class="contenido">
+
+  <!-- FAMILIA -->
+  <div class="seccion" id="familia">
+    <div class="seccion-titulo"><span>1</span> Familia</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cuántos hermanos tiene Javier Altamirano?</div>
+      <div class="respuesta">Javier es el cuarto de cuatro hermanos. Sus hermanos son Jaime Giovanny, Zoila Jaqueline y Clelia María Altamirano Sánchez.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Sus padres están vivos?</div>
+      <div class="respuesta">Su papá falleció en el año 2025. Su mamá está viva.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Cuál es el estado civil de Javier?</div>
+      <div class="respuesta">Javier está divorciado.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Tiene hijos?</div>
+      <div class="respuesta">Sí, tiene 3 hijos, los tres varones.</div>
+    </div>
+  </div>
+
+  <!-- OBRA PÚBLICA -->
+  <div class="seccion" id="obra">
+    <div class="seccion-titulo"><span>2</span> Obra pública</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Quién construyó el paso a desnivel de Huachi Chico?</div>
+      <div class="respuesta">El paso a desnivel de Huachi Chico lo construyó Javier Altamirano durante su gestión como Alcalde de Ambato.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Quién construyó el paso a desnivel de Izamba?</div>
+      <div class="respuesta">El paso a desnivel de Izamba lo construyó Javier Altamirano durante su gestión como Alcalde de Ambato.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué pasos a desnivel hizo Javier Altamirano?</div>
+      <div class="respuesta">Javier Altamirano construyó dos pasos a desnivel en Ambato: el de Huachi Chico y el de Izamba, obras de infraestructura vial orientadas a mejorar la movilidad urbana.</div>
+    </div>
+  </div>
+
+  <!-- SOBRE JAVIER -->
+  <div class="seccion" id="sobre">
+    <div class="seccion-titulo"><span>3</span> Sobre Javier</div>
+
+    <div class="qa">
+      <div class="pregunta">¿Cómo es Javier Altamirano como persona y líder?</div>
+      <div class="respuesta">Javier Altamirano es una persona cercana a la comunidad de Ambato, comprometida con el desarrollo de la ciudad a través de obra pública y gestión enfocada en resultados. A lo largo de su trayectoria ha impulsado proyectos de infraestructura vial pensados para mejorar la movilidad y la calidad de vida de los ciudadanos.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿En qué se enfoca la gestión de Javier Altamirano?</div>
+      <div class="respuesta">Su gestión se enfoca en resultados concretos para Ambato: obra pública, infraestructura vial y proyectos que mejoren directamente la movilidad y calidad de vida de los ambateños.</div>
+    </div>
+    <div class="qa">
+      <div class="pregunta">¿Qué relación tiene Javier con la comunidad?</div>
+      <div class="respuesta">Es reconocido por su cercanía a la comunidad de Ambato y su compromiso con el desarrollo de la ciudad. Su enfoque está en el contacto directo con la ciudadanía y en la ejecución de proyectos que respondan a sus necesidades reales.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>javieraltamirano.org · Campaña Alcaldía Ambato 2026</footer>
+
+</body>
+</html>
