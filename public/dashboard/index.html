@@ -779,8 +779,10 @@
       <input type="password" id="cfg-pass" placeholder="Nueva contraseña (dejar vacío para no cambiar)" />
     </div>
 
+    <div id="test-result" style="display:none;padding:12px 14px;border-radius:10px;font-size:13px;margin-top:4px;"></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="cerrarConfig()">Cancelar</button>
+      <button class="btn-cancel" onclick="probarConexion()" id="btn-test" style="color:#92400e;border-color:#fbbf24;">🔍 Probar conexión</button>
       <button class="btn-save" onclick="guardarConfig()">Guardar cambios</button>
     </div>
   </div>
@@ -1052,9 +1054,62 @@
   /* ══════════════════════════════════════════
      MODAL CONFIGURACIÓN
   ══════════════════════════════════════════ */
+  async function probarConexion() {
+    const tok = document.getElementById('cfg-token').value.trim() || accessToken
+    const res = document.getElementById('test-result')
+    const btn = document.getElementById('btn-test')
+    if (!tok) {
+      res.style.display = 'block'
+      res.style.background = '#fef3c7'
+      res.style.border = '1.5px solid #fbbf24'
+      res.style.color = '#92400e'
+      res.textContent = '⚠ Primero pega el token en el campo de arriba.'
+      return
+    }
+    btn.textContent = 'Probando...'
+    btn.disabled = true
+    res.style.display = 'none'
+    try {
+      const r = await fetch('/api/kommo?test=1', {
+        headers: { 'x-kommo-token': tok }
+      })
+      const d = await r.json()
+      res.style.display = 'block'
+      if (d.ok) {
+        res.style.background = '#dcfce7'
+        res.style.border = '1.5px solid #86efac'
+        res.style.color = '#15803d'
+        res.textContent = `✅ Conexión exitosa — Cuenta: ${d.cuenta || 'hersaambato'} · Token: ${d.token_len} caracteres`
+      } else if (d.error === 'SIN_TOKEN') {
+        res.style.background = '#fee2e2'
+        res.style.border = '1.5px solid #fca5a5'
+        res.style.color = '#b91c1c'
+        res.textContent = '❌ El token no llegó al servidor. Intenta guardar y recargar la página.'
+      } else if (d.error === 'TOKEN_INVALIDO') {
+        res.style.background = '#fee2e2'
+        res.style.border = '1.5px solid #fca5a5'
+        res.style.color = '#b91c1c'
+        res.textContent = `❌ Token rechazado por Kommo (${d.kommo_status}). Genera un nuevo token de larga duración.`
+      } else {
+        res.style.background = '#fee2e2'
+        res.style.border = '1.5px solid #fca5a5'
+        res.style.color = '#b91c1c'
+        res.textContent = `❌ Error: ${d.msg || d.error}`
+      }
+    } catch(e) {
+      res.style.display = 'block'
+      res.style.background = '#fee2e2'
+      res.style.color = '#b91c1c'
+      res.textContent = '❌ Error de red al probar la conexión.'
+    }
+    btn.textContent = '🔍 Probar conexión'
+    btn.disabled = false
+  }
+
   function abrirConfig() {
     document.getElementById('cfg-token').value = accessToken
     document.getElementById('cfg-pass').value  = ''
+    document.getElementById('test-result').style.display = 'none'
     document.getElementById('modal-config').classList.add('open')
   }
   function cerrarConfig() {
