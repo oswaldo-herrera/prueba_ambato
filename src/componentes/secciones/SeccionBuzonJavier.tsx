@@ -76,8 +76,8 @@ export default function SeccionBuzonJavier() {
         {/* Layout principal */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          {/* ── Columna izquierda: imagen + mensaje ── */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
+          {/* ── Columna izquierda: video + mensaje ── */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1">
 
             {/* Video con marco decorativo */}
             <div className="relative mb-8 w-full max-w-sm mx-auto lg:mx-0">
@@ -99,25 +99,25 @@ export default function SeccionBuzonJavier() {
                   <video
                     ref={videoRef}
                     src="/imagenes/buzon_javier_video.mp4"
-                    loop
                     playsInline
                     className="w-full object-contain block"
                     style={{ maxHeight: '420px' }}
                     onPlay={() => setReproduciendo(true)}
-                    onPause={() => setReproduciendo(false)}
+                    onEnded={() => setReproduciendo(false)}
                   />
-                  {/* Botón play/pausa */}
-                  <button
-                    onClick={() => {
-                      const v = videoRef.current
-                      if (!v) return
-                      if (v.paused) { v.muted = false; v.play() }
-                      else v.pause()
-                    }}
-                    className="absolute inset-0 flex items-center justify-center group"
-                    style={{ background: reproduciendo ? 'transparent' : 'rgba(0,0,0,0.28)' }}
-                  >
-                    {!reproduciendo && (
+                  {/* Botón replay — aparece cuando el video termina o está pausado */}
+                  {!reproduciendo && (
+                    <button
+                      onClick={() => {
+                        const v = videoRef.current
+                        if (!v) return
+                        v.muted = false
+                        v.currentTime = 0
+                        v.play()
+                      }}
+                      className="absolute inset-0 flex items-center justify-center group"
+                      style={{ background: 'rgba(0,0,0,0.28)' }}
+                    >
                       <span
                         className="flex items-center justify-center w-16 h-16 rounded-full shadow-2xl transition-transform group-hover:scale-110"
                         style={{ background: 'linear-gradient(135deg,#D4A86A,#AC7C3F)' }}
@@ -126,8 +126,8 @@ export default function SeccionBuzonJavier() {
                           <path d="M8 5v14l11-7z"/>
                         </svg>
                       </span>
-                    )}
-                  </button>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -161,7 +161,7 @@ export default function SeccionBuzonJavier() {
           </div>
 
           {/* ── Columna derecha: formulario ── */}
-          <div className="order-1 lg:order-2">
+          <div className="order-2 lg:order-2">
             <div className="bg-[#21243D] rounded-3xl p-7 sm:p-9 shadow-2xl">
 
               {enviado ? (

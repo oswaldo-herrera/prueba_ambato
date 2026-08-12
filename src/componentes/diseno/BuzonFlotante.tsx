@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 
 const PARROQUIAS_URBANAS = [
@@ -15,7 +15,13 @@ const PARROQUIAS_RURALES = [
 function limpiarTel(v: string) { return v.replace(/\D/g, '').slice(0, 10) }
 
 export default function BuzonFlotante() {
+  const [visible, setVisible] = useState(false)
   const [abierto, setAbierto] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 4400)
+    return () => clearTimeout(t)
+  }, [])
   const [propuesta, setPropuesta] = useState('')
   const [parroquia, setParroquia] = useState('')
   const [whatsapp,  setWhatsapp]  = useState('')
@@ -62,7 +68,7 @@ export default function BuzonFlotante() {
         }
       `}</style>
 
-      {/* ── Botón flotante ── */}
+      {/* ── Botón flotante (aparece después de la intro) ── */}
       <button
         className="buzon-btn"
         onClick={() => setAbierto(true)}
@@ -76,7 +82,9 @@ export default function BuzonFlotante() {
           padding: 0,
           cursor: 'pointer',
           filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.25))',
-          transition: 'filter .2s',
+          opacity: visible ? 1 : 0,
+          pointerEvents: visible ? 'auto' : 'none',
+          transition: 'opacity 0.6s ease',
         }}
       >
         <img
