@@ -48,8 +48,8 @@ export default function IntroAnimacion() {
 
         {/* Título principal */}
         <h1 className="font-titulo font-black text-white leading-tight">
-          <span className="block text-5xl sm:text-6xl xl:text-7xl">Unidos X el</span>
-          <span className="block text-5xl sm:text-7xl xl:text-8xl text-oro mt-1">Futuro</span>
+          <span className="block text-5xl sm:text-6xl xl:text-7xl">Ambato Nos Une</span>
+          <span className="block text-4xl sm:text-5xl xl:text-6xl text-oro mt-1">Todos por Tungurahua</span>
         </h1>
 
         {/* Línea decorativa */}

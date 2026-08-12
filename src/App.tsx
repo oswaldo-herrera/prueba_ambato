@@ -15,6 +15,7 @@ import PoliticaPrivacidad from './componentes/secciones/PoliticaPrivacidad'
 import PieDePagina from './componentes/diseno/PieDePagina'
 // import BotonWhatsApp from './componentes/diseno/BotonWhatsApp'
 import AvatarFlotante from './componentes/diseno/AvatarFlotante'
+import BuzonFlotante from './componentes/diseno/BuzonFlotante'
 
 // import SeccionInicio from './componentes/secciones/SeccionInicio'      // ← fondo oscuro
 // import SeccionInicioClaro from './componentes/secciones/SeccionInicioClaro' // ← fondo claro (oculta)
@@ -31,6 +32,7 @@ import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
 // import SeccionFacebookLive from './componentes/secciones/SeccionFacebookLive'
 import SeccionRegistro from './componentes/secciones/SeccionRegistro'
 import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
+import SeccionBuzonJavier from './componentes/secciones/SeccionBuzonJavier'
 
 export default function App() {
   const [politicaAbierta, setPoliticaAbierta] = useState(false)
@@ -65,6 +67,9 @@ export default function App() {
         {/* 4.5 Mundial 2026 */}
         {/* <SeccionMundial /> */}
 
+        {/* 9. Buzón de Javier */}
+        <SeccionBuzonJavier />
+
         {/* 5. Trayectoria / Experiencia */}
         <SeccionTrayectoria />
 
@@ -95,6 +100,9 @@ export default function App() {
 
       {/* ── AVATAR FLOTANTE ── */}
       <AvatarFlotante />
+
+      {/* ── BUZÓN FLOTANTE — Javier te escucha ── */}
+      <BuzonFlotante />
 
       {/* ── INTRO ANIMACIÓN ── */}
       <IntroAnimacion />
