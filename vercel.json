@@ -3,8 +3,9 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/region-1",   "destination": "/tierra/index.html" },
-    { "source": "/region-1/",  "destination": "/tierra/index.html" },
-    { "source": "/region-1/(.*)", "destination": "/tierra/$1" }
+    { "source": "/region-1", "destination": "/region-1/index.html" },
+    { "source": "/region-2", "destination": "/region-2/index.html" },
+    { "source": "/region-3", "destination": "/region-3/index.html" },
+    { "source": "/region-4", "destination": "/region-4/index.html" }
   ]
 }
