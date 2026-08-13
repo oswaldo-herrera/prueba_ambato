@@ -148,7 +148,7 @@ export default function BuzonFlotante() {
                   <div style={{ fontSize: '52px', marginBottom: '12px' }}>🙌</div>
                   <h3 style={{ color: '#fff', fontWeight: 800, fontSize: '20px', marginBottom: '8px' }}>¡Gracias!</h3>
                   <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px', lineHeight: 1.6 }}>
-                    Tu propuesta fue recibida. Javier y su equipo la leerán personalmente.
+                    Tu propuesta fue recibida. Javier te escucha.
                   </p>
                   <button
                     onClick={() => { setEnviado(false); setPropuesta(''); setParroquia(''); setWhatsapp('') }}
