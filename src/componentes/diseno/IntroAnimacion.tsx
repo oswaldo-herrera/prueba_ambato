@@ -43,7 +43,7 @@ export default function IntroAnimacion() {
 
         {/* Etiqueta */}
         <p className="text-oro/80 font-semibold text-xs tracking-[0.3em] uppercase mb-4">
-          Ambato 2026
+          Ambato 2027 - 2031
         </p>
 
         {/* Título principal */}

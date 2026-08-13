@@ -147,11 +147,10 @@ export default function SeccionBuzonJavier() {
                 Mándanos tu <span className="text-[#AC7C3F]">propuesta</span>
               </h3>
               <p className="text-gray-500 leading-relaxed text-sm sm:text-base">
-                Tu opinión construye Ambato. Cuéntanos qué necesita tu parroquia
-                y cómo podemos trabajar juntos por Tungurahua.
+                Tu opinión construye Ambato, cuéntanos qué necesita tu parroquia y cómo podemos trabajar juntos.
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
-                {['🏗 Infraestructura', '🏥 Salud', '🎓 Educación', '💼 Empleo'].map(t => (
+                {['🏗 Seguridad', '🏥 Salud', '💼 Empleo', '🎓 Educación', '💼 Movilidad', '🏗 Infraestructura' ].map(t => (
                   <span key={t} className="text-xs font-semibold bg-[#21243D]/6 text-[#21243D] rounded-full px-3 py-1.5 border border-[#21243D]/10">
                     {t}
                   </span>
@@ -171,7 +170,7 @@ export default function SeccionBuzonJavier() {
                   </div>
                   <h3 className="font-titulo font-black text-white text-2xl">¡Gracias!</h3>
                   <p className="text-white/60 text-sm leading-relaxed max-w-xs mx-auto">
-                    Tu propuesta fue recibida. Javier y su equipo la leerán personalmente.
+                    Tu propuesta fue recibida. Javier te escucha.
                   </p>
                   <button
                     onClick={() => setEnviado(false)}
