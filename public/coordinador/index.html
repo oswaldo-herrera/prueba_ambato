@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#21243D" />
+  <title>Reporte Coordinador — Javier Altamirano</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #21243D;
+      --azul-lt: #2e3256;
+      --oro: #AC7C3F;
+      --oro-lt: #D4A86A;
+      --verde: #16a34a;
+      --rojo: #dc2626;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100dvh;
+    }
+
+    .app { max-width: 500px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; }
+
+    /* ── Header ── */
+    .header {
+      background: var(--azul);
+      padding: 20px 20px 0;
+      color: #fff;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .header-logo {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--oro), var(--oro-lt));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(172,124,63,0.4);
+    }
+    .header-info { flex: 1; }
+    .header-title { font-size: 16px; font-weight: 700; color: #fff; line-height: 1.2; }
+    .header-region {
+      font-size: 12px; font-weight: 700;
+      color: var(--oro-lt);
+      letter-spacing: .1em; text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .header-badge {
+      background: rgba(172,124,63,0.18);
+      border: 1px solid rgba(172,124,63,0.35);
+      color: var(--oro-lt);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .header-nav {
+      display: flex; gap: 4px;
+    }
+    .nav-btn {
+      flex: 1; padding: 10px;
+      background: transparent; border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .nav-btn.active { color: var(--oro-lt); border-bottom-color: var(--oro-lt); }
+
+    /* ── Main ── */
+    .main { flex: 1; padding: 20px 16px; }
+
+    /* ── Form ── */
+    .form-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 2px 16px rgba(33,36,61,0.08);
+    }
+    .form-title {
+      font-size: 15px; font-weight: 800;
+      color: var(--azul); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .form-title::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, rgba(172,124,63,0.3), transparent);
+    }
+
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 11px; font-weight: 700;
+      color: #6b7280;
+      letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .field input[type="text"],
+    .field input[type="number"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 15px; color: #1a1a2e;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      -moz-appearance: textfield;
+    }
+    .field input[type="number"]::-webkit-outer-spin-button,
+    .field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .field input:focus {
+      border-color: var(--oro);
+      box-shadow: 0 0 0 3px rgba(172,124,63,0.12);
+    }
+
+    .region-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--azul); color: #fff;
+      border-radius: 10px; padding: 12px 16px;
+      font-size: 15px; font-weight: 700;
+      width: 100%;
+    }
+    .region-badge span { color: var(--oro-lt); font-size: 12px; }
+
+    .stat-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 16px;
+    }
+    .stat-field label { font-size: 10px; }
+
+    .btn-enviar {
+      width: 100%; padding: 15px;
+      background: linear-gradient(135deg, var(--oro) 0%, var(--oro-lt) 50%, var(--oro) 100%);
+      background-size: 200% 100%;
+      border: none; border-radius: 12px;
+      color: #fff; font-size: 15px; font-weight: 700;
+      cursor: pointer; letter-spacing: .04em;
+      transition: opacity .2s, transform .1s;
+      margin-top: 8px;
+    }
+    .btn-enviar:hover { opacity: .92; }
+    .btn-enviar:active { transform: scale(.98); }
+    .btn-enviar:disabled { opacity: .6; cursor: not-allowed; }
+
+    .toast {
+      margin-top: 14px; padding: 12px 16px;
+      background: #f0fdf4; border: 1px solid #86efac;
+      border-radius: 10px; color: var(--verde);
+      font-size: 13px; font-weight: 600;
+      text-align: center;
+    }
+    .toast-err {
+      background: #fef2f2; border-color: #fca5a5; color: var(--rojo);
+    }
+
+    /* ── Historial ── */
+    .historial { display: none; }
+    .historial.visible { display: block; }
+    .hist-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .hist-count { font-size: 13px; color: #6b7280; font-weight: 600; }
+    .btn-refresh {
+      background: none; border: 1px solid #e5e7eb;
+      border-radius: 8px; padding: 6px 12px;
+      font-size: 12px; cursor: pointer; color: var(--azul); font-weight: 600;
+    }
+    .card {
+      background: #fff; border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 10px;
+      box-shadow: 0 1px 6px rgba(33,36,61,0.06);
+      border-left: 3px solid var(--oro);
+    }
+    .card-nombre { font-size: 15px; font-weight: 700; color: var(--azul); }
+    .card-fecha { font-size: 11px; color: #9ca3af; margin-top: 4px; margin-bottom: 10px; }
+    .card-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .card-stat {
+      background: #f8f9fa; border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .card-stat-val { font-size: 18px; font-weight: 800; color: var(--azul); line-height: 1; }
+    .card-stat-lbl { font-size: 10px; color: #6b7280; margin-top: 2px; letter-spacing: .04em; }
+    .empty { text-align: center; color: #9ca3af; padding: 40px 20px; font-size: 14px; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <header class="header">
+    <div class="header-top">
+      <div class="header-logo" id="logoLetra">J</div>
+      <div class="header-info">
+        <div class="header-title">Reporte de Coordinador</div>
+        <div class="header-region" id="regionLabel">Cargando...</div>
+      </div>
+      <div class="header-badge" id="regionNum">#</div>
+    </div>
+    <nav class="header-nav">
+      <button class="nav-btn active" id="btnForm" onclick="mostrarVista('form')">📋 Registrar</button>
+      <button class="nav-btn" id="btnHist" onclick="mostrarVista('hist')">📊 Historial</button>
+    </nav>
+  </header>
+
+  <main class="main">
+
+    <!-- FORMULARIO -->
+    <div id="vistaForm">
+      <div class="form-card">
+        <div class="form-title">📝 Datos del período</div>
+
+        <div class="field">
+          <label>Número de región</label>
+          <div class="region-badge" id="regionBadge">
+            Región <span id="regionBadgeNum">—</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Nombre del coordinador *</label>
+          <input type="text" id="nombre" placeholder="Nombre completo del coordinador" autocomplete="name" />
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-field field">
+            <label>Reuniones semanales</label>
+            <input type="number" id="reuniones" placeholder="0" min="0" />
+          </div>
+          <div class="stat-field field">
+            <label>Personas informadas</label>
+            <input type="number" id="personas" placeholder="0" min="0" />
+          </div>
+          <div class="stat-field field">
+            <label>Videos "J" enviados</label>
+            <input type="number" id="videos" placeholder="0" min="0" />
+          </div>
+          <div class="stat-field field">
+            <label>Lecturas de QR web</label>
+            <input type="number" id="qr" placeholder="0" min="0" />
+          </div>
+        </div>
+
+        <button class="btn-enviar" id="btnEnviar" onclick="enviarFormulario()">
+          ✅ Enviar reporte
+        </button>
+        <div id="toast" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div id="vistaHist" class="historial">
+      <div class="hist-header">
+        <span class="hist-count" id="histCount">0 reportes</span>
+        <button class="btn-refresh" onclick="cargarHistorial()">↻ Actualizar</button>
+      </div>
+      <div id="listaReportes"><div class="empty">Cargando...</div></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://psveoeanrjqncxyhmvfh.supabase.co'
+  const SUPABASE_KEY = 'sb_publishable_xZMKZgaKDubOw4TddwQlpQ_zp8XyQZn'
+
+  const REGIONES = {
+    '1': 'Región Rural 1',
+    '2': 'Región Rural 2',
+    '3': 'Región Rural 3',
+    '4': 'Región 4 Zona Urbana',
+  }
+
+  // Detectar región desde la URL
+  const match = window.location.pathname.match(/coordinador-(\d)/)
+  const region = match ? match[1] : '1'
+  const tabla  = `coordinador_${region}`
+  const label  = REGIONES[region] || `Región ${region}`
+
+  // Aplicar al DOM
+  document.getElementById('regionLabel').textContent   = label
+  document.getElementById('regionNum').textContent     = `#${region}`
+  document.getElementById('regionBadge').innerHTML     = `Región <span>${label}</span>`
+  document.title = `Reporte — ${label}`
+
+  function mostrarVista(v) {
+    const isForm = v === 'form'
+    document.getElementById('vistaForm').style.display = isForm ? '' : 'none'
+    document.getElementById('vistaHist').style.display = isForm ? 'none' : 'block'
+    document.getElementById('btnForm').classList.toggle('active', isForm)
+    document.getElementById('btnHist').classList.toggle('active', !isForm)
+    if (!isForm) cargarHistorial()
+  }
+
+  async function enviarFormulario() {
+    const nombre    = document.getElementById('nombre').value.trim()
+    const reuniones = parseInt(document.getElementById('reuniones').value) || 0
+    const personas  = parseInt(document.getElementById('personas').value)  || 0
+    const videos    = parseInt(document.getElementById('videos').value)    || 0
+    const qr        = parseInt(document.getElementById('qr').value)        || 0
+
+    if (!nombre) {
+      mostrarToast('Por favor ingresa el nombre del coordinador.', true)
+      return
+    }
+
+    const btn = document.getElementById('btnEnviar')
+    btn.disabled = true
+    btn.textContent = 'Enviando...'
+
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${tabla}`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal',
+      },
+      body: JSON.stringify({ region: parseInt(region), nombre_coordinador: nombre, reuniones_semanales: reuniones, personas_informadas: personas, videos_j_enviados: videos, lecturas_qr: qr }),
+    })
+
+    btn.disabled = false
+    btn.textContent = '✅ Enviar reporte'
+
+    if (res.ok) {
+      mostrarToast('✅ Reporte enviado correctamente.')
+      document.getElementById('nombre').value    = ''
+      document.getElementById('reuniones').value = ''
+      document.getElementById('personas').value  = ''
+      document.getElementById('videos').value    = ''
+      document.getElementById('qr').value        = ''
+    } else {
+      mostrarToast('❌ Error al enviar. Verifica tu conexión e intenta de nuevo.', true)
+    }
+  }
+
+  function mostrarToast(msg, err = false) {
+    const t = document.getElementById('toast')
+    t.textContent = msg
+    t.className = err ? 'toast toast-err' : 'toast'
+    t.style.display = 'block'
+    setTimeout(() => t.style.display = 'none', 4000)
+  }
+
+  async function cargarHistorial() {
+    document.getElementById('listaReportes').innerHTML = '<div class="empty">Cargando...</div>'
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${tabla}?select=*&order=creado_en.desc&limit=30`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      })
+      const data = await res.json()
+      document.getElementById('histCount').textContent = `${data.length} reportes`
+      if (!data.length) {
+        document.getElementById('listaReportes').innerHTML = '<div class="empty">Aún no hay reportes registrados</div>'
+        return
+      }
+      document.getElementById('listaReportes').innerHTML = data.map(r => `
+        <div class="card">
+          <div class="card-nombre">${r.nombre_coordinador}</div>
+          <div class="card-fecha">${new Date(r.creado_en).toLocaleString('es-EC', { dateStyle:'medium', timeStyle:'short' })}</div>
+          <div class="card-stats">
+            <div class="card-stat"><div class="card-stat-val">${r.reuniones_semanales}</div><div class="card-stat-lbl">Reuniones</div></div>
+            <div class="card-stat"><div class="card-stat-val">${r.personas_informadas}</div><div class="card-stat-lbl">Personas informadas</div></div>
+            <div class="card-stat"><div class="card-stat-val">${r.videos_j_enviados}</div><div class="card-stat-lbl">Videos "J"</div></div>
+            <div class="card-stat"><div class="card-stat-val">${r.lecturas_qr}</div><div class="card-stat-lbl">Lecturas QR</div></div>
+          </div>
+        </div>
+      `).join('')
+    } catch {
+      document.getElementById('listaReportes').innerHTML = '<div class="empty">Error al cargar historial</div>'
+    }
+  }
+</script>
+</body>
+</html>

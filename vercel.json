@@ -6,6 +6,14 @@
     { "source": "/region-1", "destination": "/region-1/index.html" },
     { "source": "/region-2", "destination": "/region-2/index.html" },
     { "source": "/region-3", "destination": "/region-3/index.html" },
-    { "source": "/region-4", "destination": "/region-4/index.html" }
+    { "source": "/region-4", "destination": "/region-4/index.html" },
+    { "source": "/coordinador-1", "destination": "/coordinador/index.html" },
+    { "source": "/coordinador-2", "destination": "/coordinador/index.html" },
+    { "source": "/coordinador-3", "destination": "/coordinador/index.html" },
+    { "source": "/coordinador-4", "destination": "/coordinador/index.html" },
+    { "source": "/coordinador-1/", "destination": "/coordinador/index.html" },
+    { "source": "/coordinador-2/", "destination": "/coordinador/index.html" },
+    { "source": "/coordinador-3/", "destination": "/coordinador/index.html" },
+    { "source": "/coordinador-4/", "destination": "/coordinador/index.html" }
   ]
 }
