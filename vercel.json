@@ -1,5 +1,10 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/region-1",   "destination": "/tierra/index.html" },
+    { "source": "/region-1/",  "destination": "/tierra/index.html" },
+    { "source": "/region-1/(.*)", "destination": "/tierra/$1" }
+  ]
 }
