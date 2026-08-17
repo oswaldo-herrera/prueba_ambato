@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#21243D"/>
+  <text x="256" y="300" font-size="260" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" fill="#AC7C3F">F</text>
+  <text x="256" y="440" font-size="90" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" fill="#D4A86A" letter-spacing="8">FDS</text>
+</svg>

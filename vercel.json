@@ -7,6 +7,7 @@
     { "source": "/region-2", "destination": "/region-2/index.html" },
     { "source": "/region-3", "destination": "/region-3/index.html" },
     { "source": "/region-4", "destination": "/region-4/index.html" },
+    { "source": "/region-5", "destination": "/region-5/index.html" },
     { "source": "/coordinador-1", "destination": "/coordinador/index.html" },
     { "source": "/coordinador-2", "destination": "/coordinador/index.html" },
     { "source": "/coordinador-3", "destination": "/coordinador/index.html" },
