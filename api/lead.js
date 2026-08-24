@@ -33,11 +33,9 @@ export default async function handler(req, res) {
         Prefer: 'return=minimal',
       },
       body: JSON.stringify({
-        nombre: nombre || null,
         propuesta,
         parroquia,
         whatsapp: whatsapp || null,
-        fuente,
         creado_en: new Date().toISOString(),
       }),
     })
@@ -76,9 +74,6 @@ export default async function handler(req, res) {
             },
           ],
         },
-        custom_fields_values: [
-          { field_code: 'SOURCE', values: [{ value: fuente }] },
-        ],
       },
     ]
 
