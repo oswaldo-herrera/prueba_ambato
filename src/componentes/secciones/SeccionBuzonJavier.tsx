@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-import { supabase } from '../../lib/supabase'
 
 const PARROQUIAS_URBANAS = [
   'Atocha - Ficoa', 'Celiano Monge', 'Huachi Chico', 'Huachi Loreto',
@@ -30,18 +29,28 @@ export default function SeccionBuzonJavier() {
     setEnviando(true)
     setError(null)
 
-    const { error: sbErr } = await supabase.from('buzon_propuestas').insert([{
-      propuesta: propuesta.trim(),
-      parroquia,
-      whatsapp: '+593' + whatsapp.trim(),
-    }])
-
-    setEnviando(false)
-    if (sbErr) {
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          propuesta: propuesta.trim(),
+          parroquia,
+          whatsapp: whatsapp.trim() ? '+593' + whatsapp.trim() : '',
+          fuente: 'Buzón Web',
+        }),
+      })
+      const data = await res.json()
+      setEnviando(false)
+      if (data.ok || data.supabase === 'ok') {
+        setEnviado(true)
+        setPropuesta(''); setParroquia(''); setWhatsapp('')
+      } else {
+        setError('Ocurrió un error al enviar. Intenta nuevamente.')
+      }
+    } catch {
+      setEnviando(false)
       setError('Ocurrió un error al enviar. Intenta nuevamente.')
-    } else {
-      setEnviado(true)
-      setPropuesta(''); setParroquia(''); setWhatsapp('')
     }
   }
 
