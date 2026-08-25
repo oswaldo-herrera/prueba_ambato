@@ -18,8 +18,14 @@ export default function BuzonFlotante() {
   const [abierto, setAbierto] = useState(false)
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 4400)
-    return () => clearTimeout(t)
+    const desdeQR = new URLSearchParams(window.location.search).has('buzon')
+    if (desdeQR) {
+      setVisible(true)
+      setAbierto(true)
+    } else {
+      const t = setTimeout(() => setVisible(true), 4400)
+      return () => clearTimeout(t)
+    }
   }, [])
   const [propuesta, setPropuesta] = useState('')
   const [parroquia, setParroquia] = useState('')
