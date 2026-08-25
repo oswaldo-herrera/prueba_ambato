@@ -38,6 +38,19 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
       acepta_politica: aceptaPolitica,
     }])
 
+    // Crear lead en Kommo (en paralelo, sin bloquear si falla)
+    fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre: formulario.nombre,
+        propuesta: formulario.propuesta || formulario.parroquia,
+        parroquia: formulario.parroquia,
+        whatsapp: formulario.celular,
+        fuente: 'Registro Web',
+      }),
+    }).catch(() => {})
+
     setEnviando(false)
 
     if (sbError) {
