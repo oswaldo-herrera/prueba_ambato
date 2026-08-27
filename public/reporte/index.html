@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte — Javier en Tu Casa</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #21243D;
+      --azul-lt: #2e3256;
+      --oro: #AC7C3F;
+      --oro-lt: #D4A86A;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px 80px;
+    }
+
+    header {
+      background: var(--azul);
+      color: #fff;
+      width: 100%;
+      max-width: 700px;
+      border-radius: 16px;
+      padding: 28px 28px 24px;
+      text-align: center;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 24px rgba(33,36,61,0.18);
+    }
+    header img {
+      width: 56px; height: 56px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      display: block; margin-left: auto; margin-right: auto;
+    }
+    header h1 {
+      font-size: 22px; font-weight: 800;
+      letter-spacing: .02em;
+    }
+    header p {
+      font-size: 13px;
+      color: var(--oro-lt);
+      margin-top: 4px;
+      letter-spacing: .06em;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.08);
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .stat {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 16px 28px;
+      text-align: center;
+      border-left: 4px solid var(--oro);
+    }
+    .stat-num {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--azul);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .btn-excel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 360px;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, var(--azul) 0%, var(--azul-lt) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: .04em;
+      transition: opacity .2s, transform .1s;
+      box-shadow: 0 4px 16px rgba(33,36,61,0.25);
+    }
+    .btn-excel:hover { opacity: .9; }
+    .btn-excel:active { transform: scale(.97); }
+    .btn-excel:disabled { opacity: .55; cursor: not-allowed; }
+
+    .btn-excel .excel-icon {
+      width: 28px; height: 28px;
+      background: #1d6f42;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900; color: #fff;
+      flex-shrink: 0;
+    }
+
+    .badge-region {
+      background: linear-gradient(135deg, var(--oro) 0%, var(--oro-lt) 100%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    #status {
+      font-size: 13px;
+      color: var(--azul);
+      font-weight: 600;
+      min-height: 20px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 11px;
+      color: #bbb;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/tierra/logo_j.svg" alt="Javier" onerror="this.style.display='none'" />
+  <h1>Javier en Tu Casa</h1>
+  <p>REPORTE DE REGISTROS · TODAS LAS PARROQUIAS</p>
+</header>
+
+<div class="card">
+
+  <span class="badge-region">Región 5 — Todas las Parroquias</span>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num" id="totalNum">—</div>
+      <div class="stat-lbl">Total registros</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="hoy">—</div>
+      <div class="stat-lbl">Hoy</div>
+    </div>
+  </div>
+
+  <div id="status">Cargando datos...</div>
+
+  <button class="btn-excel" id="btnDescargar" onclick="descargarExcel()" disabled>
+    <span class="excel-icon">XL</span>
+    Javier en Tu Casa — Descargar Excel
+  </button>
+
+  <p class="hint">Incluye: Número, Nombre, WhatsApp, Parroquia, Javier te escucha, Fecha</p>
+</div>
+
+<footer>javieraltamirano.org · Campaña Alcaldía Ambato 2026</footer>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+  const SB_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co'
+  const SB_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf'
+
+  let registros = []
+
+  async function cargarDatos() {
+    try {
+      const res = await fetch(`${SB_URL}/rest/v1/region_5?select=*&order=id.asc&limit=10000`, {
+        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+      })
+      registros = await res.json()
+
+      document.getElementById('totalNum').textContent = registros.length
+
+      const hoy = new Date().toDateString()
+      const registrosHoy = registros.filter(r => new Date(r.creado_en).toDateString() === hoy).length
+      document.getElementById('hoy').textContent = registrosHoy
+
+      document.getElementById('status').textContent = `${registros.length} registros listos para exportar`
+      document.getElementById('btnDescargar').disabled = false
+    } catch (e) {
+      document.getElementById('status').textContent = 'Error al cargar datos. Recarga la página.'
+    }
+  }
+
+  function descargarExcel() {
+    if (!registros.length) return
+
+    const btn = document.getElementById('btnDescargar')
+    btn.disabled = true
+    btn.innerHTML = '<span class="excel-icon">XL</span> Generando...'
+
+    const filas = registros.map((r, i) => ({
+      'Numero':            i + 1,
+      'Nombre':            r.nombre || '',
+      'WhatsApp':          r.whatsapp || '',
+      'Parroquia':         r.parroquia || '',
+      'Javier te escucha': r.necesidad || '',
+      'Creado en':         r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
+    }))
+
+    const ws = XLSX.utils.json_to_sheet(filas)
+
+    // Anchos de columna
+    ws['!cols'] = [
+      { wch: 8 },   // Numero
+      { wch: 30 },  // Nombre
+      { wch: 16 },  // WhatsApp
+      { wch: 28 },  // Parroquia
+      { wch: 50 },  // Necesidad
+      { wch: 22 },  // Fecha
+    ]
+
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Región 5')
+
+    const fecha = new Date().toISOString().slice(0, 10)
+    XLSX.writeFile(wb, `javier_en_tu_casa_region5_${fecha}.xlsx`)
+
+    btn.disabled = false
+    btn.innerHTML = '<span class="excel-icon">XL</span> Javier en Tu Casa — Descargar Excel'
+  }
+
+  cargarDatos()
+</script>
+
+</body>
+</html>
