@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candidatos — Javier Altamirano</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:    #21243D;
+      --azul-lt: #2e3256;
+      --oro:     #AC7C3F;
+      --oro-lt:  #D4A86A;
+      --bg:      #f0f2f5;
+      --card-bg: #ffffff;
+      --text:    #1a1a2e;
+      --muted:   #6b7280;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 36px 16px 80px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--azul);
+      color: #fff;
+      width: 100%;
+      max-width: 900px;
+      border-radius: 18px;
+      padding: 28px 28px 22px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 28px rgba(33,36,61,0.20);
+    }
+    header img {
+      width: 52px; height: 52px;
+      object-fit: contain;
+      display: block; margin: 0 auto 10px;
+    }
+    header h1 { font-size: 22px; font-weight: 800; letter-spacing: .02em; }
+    header p  { font-size: 12px; color: var(--oro-lt); margin-top: 4px; letter-spacing: .08em; }
+
+    /* ── CONTROLES ── */
+    .controles {
+      width: 100%; max-width: 900px;
+      display: flex; flex-wrap: wrap;
+      gap: 12px; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .filtros {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .filtro-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      background: var(--card-bg);
+      color: var(--azul);
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      transition: all .18s;
+      box-shadow: 0 1px 6px rgba(0,0,0,.07);
+    }
+    .filtro-btn:hover  { border-color: var(--oro); }
+    .filtro-btn.active { background: var(--azul); color: #fff; border-color: var(--azul); }
+
+    .btn-excel {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 22px;
+      background: linear-gradient(135deg, var(--azul) 0%, var(--azul-lt) 100%);
+      color: #fff;
+      border: none; border-radius: 12px;
+      font-size: 14px; font-weight: 800;
+      cursor: pointer;
+      letter-spacing: .03em;
+      box-shadow: 0 3px 14px rgba(33,36,61,0.22);
+      transition: opacity .2s, transform .1s;
+    }
+    .btn-excel:hover   { opacity: .88; }
+    .btn-excel:active  { transform: scale(.97); }
+    .btn-excel:disabled{ opacity: .5; cursor: not-allowed; }
+    .excel-ico {
+      width: 24px; height: 24px;
+      background: #1d6f42; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      width: 100%; max-width: 900px;
+      display: flex; gap: 14px; flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .stat {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 14px 22px;
+      border-left: 4px solid var(--oro);
+      box-shadow: 0 1px 8px rgba(0,0,0,.07);
+      flex: 1 1 120px;
+      text-align: center;
+    }
+    .stat-num { font-size: 32px; font-weight: 900; color: var(--azul); line-height: 1; }
+    .stat-lbl { font-size: 10px; color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-top: 4px; }
+
+    /* ── STATUS LINE ── */
+    #status {
+      width: 100%; max-width: 900px;
+      font-size: 13px; color: var(--azul);
+      font-weight: 600; min-height: 20px;
+      margin-bottom: 16px; text-align: center;
+    }
+
+    /* ── GRID DE CARDS ── */
+    .grid {
+      width: 100%; max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      display: flex; flex-direction: column; gap: 10px;
+      transition: transform .15s, box-shadow .15s;
+      border-top: 3px solid transparent;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,0,0,.12);
+    }
+
+    /* color top por cargo */
+    .card[data-cargo="Candidato"]                        { border-top-color: #1d4ed8; }
+    .card[data-cargo="Coordinador"]                      { border-top-color: var(--oro); }
+    .card[data-cargo="Consejal"],
+    .card[data-cargo="Concejal"]                         { border-top-color: #7c3aed; }
+    .card[data-cargo="Candidato principal al Gad Parroquial"] { border-top-color: #0891b2; }
+    .card[data-cargo="simpatizante"],
+    .card[data-cargo="Simpatizante"]                     { border-top-color: #16a34a; }
+
+    .card-num {
+      font-size: 10px; font-weight: 700; color: var(--muted);
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .card-nombre {
+      font-size: 16px; font-weight: 800; color: var(--azul);
+      line-height: 1.2;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .05em;
+      align-self: flex-start;
+    }
+    .badge-candidato   { background: #dbeafe; color: #1e3a8a; }
+    .badge-coordinador { background: #fef3c7; color: #92400e; }
+    .badge-consejal    { background: #ede9fe; color: #4c1d95; }
+    .badge-gad         { background: #cffafe; color: #164e63; }
+    .badge-simpatizante{ background: #dcfce7; color: #14532d; }
+    .badge-otro        { background: #f3f4f6; color: #374151; }
+
+    .card-detalle {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .card-row {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: #4b5563;
+    }
+    .card-icon { width: 16px; text-align: center; flex-shrink: 0; opacity: .6; }
+    .card-fecha {
+      font-size: 11px; color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    /* vacío */
+    .grid-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 48px;
+      font-size: 11px; color: #bbb; text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/tierra/logo_j.svg" alt="Javier" onerror="this.style.display='none'" />
+  <h1>Javier Altamirano — Candidatos</h1>
+  <p>DIRECTORIO DE CANDIDATOS Y COORDINADORES · AMBATO 2026</p>
+</header>
+
+<!-- Controles -->
+<div class="controles">
+  <div class="filtros" id="filtros">
+    <button class="filtro-btn active" data-cargo="" onclick="filtrar(this)">Todos</button>
+  </div>
+  <button class="btn-excel" id="btnExcel" onclick="descargarExcel()" disabled>
+    <span class="excel-ico">XL</span>
+    Descargar Excel
+  </button>
+</div>
+
+<!-- Stats -->
+<div class="stats" id="stats"></div>
+
+<!-- Status -->
+<div id="status">Cargando datos...</div>
+
+<!-- Grid de cards -->
+<div class="grid" id="grid">
+  <div class="grid-empty">Cargando...</div>
+</div>
+
+<footer>javieraltamirano.org · Campaña Alcaldía Ambato 2026</footer>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+  const SB_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co'
+  const SB_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf'
+
+  let todos = []
+  let filtroActivo = ''
+
+  /* ── Carga ── */
+  async function cargar() {
+    try {
+      const res = await fetch(`${SB_URL}/rest/v1/candidatos?select=*&order=id.asc&limit=5000`, {
+        headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+      })
+      todos = await res.json()
+      construirFiltros()
+      construirStats()
+      renderGrid()
+      document.getElementById('status').textContent = `${todos.length} registros cargados`
+      document.getElementById('btnExcel').disabled = false
+    } catch {
+      document.getElementById('status').textContent = 'Error al cargar. Recarga la página.'
+    }
+  }
+
+  /* ── Filtros dinámicos por cargo ── */
+  function construirFiltros() {
+    const cargos = [...new Set(todos.map(r => r.cargo || '—'))].sort()
+    const cont = document.getElementById('filtros')
+    cargos.forEach(c => {
+      const btn = document.createElement('button')
+      btn.className = 'filtro-btn'
+      btn.dataset.cargo = c
+      btn.textContent = `${c} (${todos.filter(r => (r.cargo||'—') === c).length})`
+      btn.onclick = () => filtrar(btn)
+      cont.appendChild(btn)
+    })
+  }
+
+  function filtrar(btn) {
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'))
+    btn.classList.add('active')
+    filtroActivo = btn.dataset.cargo
+    renderGrid()
+    document.getElementById('status').textContent =
+      filtroActivo
+        ? `Mostrando: ${filtroActivo} · ${filtrados().length} registros`
+        : `${todos.length} registros cargados`
+  }
+
+  function filtrados() {
+    return filtroActivo ? todos.filter(r => (r.cargo || '—') === filtroActivo) : todos
+  }
+
+  /* ── Stats ── */
+  function construirStats() {
+    const cargos = [...new Set(todos.map(r => r.cargo || '—'))]
+    const statsEl = document.getElementById('stats')
+
+    // total
+    statsEl.innerHTML = `
+      <div class="stat">
+        <div class="stat-num">${todos.length}</div>
+        <div class="stat-lbl">Total</div>
+      </div>`
+
+    cargos.forEach(c => {
+      const n = todos.filter(r => (r.cargo || '—') === c).length
+      statsEl.innerHTML += `
+        <div class="stat">
+          <div class="stat-num">${n}</div>
+          <div class="stat-lbl">${c}</div>
+        </div>`
+    })
+  }
+
+  /* ── Badge por cargo ── */
+  function badgeClass(cargo = '') {
+    const c = cargo.toLowerCase()
+    if (c.includes('candidato principal') || c.includes('gad')) return 'badge badge-gad'
+    if (c === 'candidato') return 'badge badge-candidato'
+    if (c === 'coordinador') return 'badge badge-coordinador'
+    if (c.includes('consej')) return 'badge badge-consejal'
+    if (c.includes('simpatizante')) return 'badge badge-simpatizante'
+    return 'badge badge-otro'
+  }
+
+  /* ── Render cards ── */
+  function renderGrid() {
+    const lista = filtrados()
+    const grid = document.getElementById('grid')
+
+    if (!lista.length) {
+      grid.innerHTML = '<div class="grid-empty">No hay registros con ese filtro.</div>'
+      return
+    }
+
+    grid.innerHTML = lista.map((r, i) => `
+      <div class="card" data-cargo="${(r.cargo||'').trim()}">
+        <span class="card-num"># ${i + 1}</span>
+        <div class="card-nombre">${r.nombre || '—'}</div>
+        <span class="${badgeClass(r.cargo)}">${r.cargo || '—'}</span>
+        <div class="card-detalle">
+          <div class="card-row">
+            <span class="card-icon">📍</span>
+            <span>${r.parroquia || '—'}</span>
+          </div>
+          ${r.celular ? `<div class="card-row">
+            <span class="card-icon">📱</span>
+            <span>${r.celular}</span>
+          </div>` : ''}
+        </div>
+        ${r.creado_en ? `<div class="card-fecha">${new Date(r.creado_en).toLocaleString('es-EC', { dateStyle:'short', timeStyle:'short' })}</div>` : ''}
+      </div>`
+    ).join('')
+  }
+
+  /* ── Excel ── */
+  function descargarExcel() {
+    const lista = filtrados()
+    if (!lista.length) return
+
+    const btn = document.getElementById('btnExcel')
+    btn.disabled = true
+    btn.innerHTML = '<span class="excel-ico">XL</span> Generando...'
+
+    const filas = lista.map((r, i) => ({
+      'Numero':    i + 1,
+      'Nombre':    r.nombre    || '',
+      'Cargo':     r.cargo     || '',
+      'Parroquia': r.parroquia || '',
+      'Celular':   r.celular   || '',
+      'Creado en': r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
+    }))
+
+    const ws = XLSX.utils.json_to_sheet(filas)
+    ws['!cols'] = [
+      { wch: 8  },  // Numero
+      { wch: 34 },  // Nombre
+      { wch: 30 },  // Cargo
+      { wch: 26 },  // Parroquia
+      { wch: 18 },  // Celular
+      { wch: 22 },  // Creado en
+    ]
+
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Candidatos')
+
+    const sufijo = filtroActivo ? `_${filtroActivo.replace(/\s+/g,'_')}` : ''
+    const fecha = new Date().toISOString().slice(0, 10)
+    XLSX.writeFile(wb, `candidatos_altamirano${sufijo}_${fecha}.xlsx`)
+
+    btn.disabled = false
+    btn.innerHTML = '<span class="excel-ico">XL</span> Descargar Excel'
+  }
+
+  cargar()
+</script>
+
+</body>
+</html>
