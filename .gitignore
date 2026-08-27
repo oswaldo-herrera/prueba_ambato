@@ -7,3 +7,6 @@ dist
 public/imagenes/videos/
 !public/imagenes/videos/ambato/AMBATO_LA_GRAN_CIUDAD.mp4
 !public/imagenes/videos/consejo_consultivo/quebrada_los_gallinazos.mp4
+
+.vercel
+.env*
