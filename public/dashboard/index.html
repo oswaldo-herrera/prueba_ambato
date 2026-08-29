@@ -495,7 +495,7 @@
         </div>
 
         <div class="kk kk-azul">
-          <div class="kk-label">Total leads en Kommo</div>
+          <div class="kk-label">Total leads en VotoBox</div>
           <div class="kk-value" id="kk-total">—</div>
           <div class="kk-sub">todos los pipelines</div>
           <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.5)">
@@ -669,7 +669,7 @@ function iniciarApp() {
    NAVEGACIÓN
 ══════════════════════════════════════════════════════════════ */
 const TITLES = {
-  leads:    { title: 'Leads & Kommo', sub: 'Embudo de ventas y contactos' },
+  leads:    { title: 'Leads & VotoBox', sub: 'Embudo de ventas y contactos' },
   reportes: { title: 'Reportes',      sub: 'Descarga de registros en Excel' },
   usuarios: { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
   permisos: { title: 'Permisos',      sub: 'Control de visibilidad por usuario' },
@@ -996,6 +996,22 @@ async function cargarLeadsKommo() {
   }
 }
 
+// Etapas a renombrar (nombre en Kommo → nombre visible)
+const STAGE_RENAME = {
+  'Contacto nuevo': 'Leads Nuevos',
+}
+
+// Etapas ocultas (se muestran cuando el usuario lo active)
+const STAGES_OCULTAS = new Set([
+  'Perfil ciudadano',
+  'Ciudadano comprometido',
+  'Promotor activo',
+  'Simpatizante confirmado',
+  'Militante',
+  'Ventas Perdidos',
+  'Perdidos',
+])
+
 async function cargarPipelines() {
   try {
     const d     = await fetchKommo('/leads/pipelines')
@@ -1008,9 +1024,10 @@ async function cargarPipelines() {
     const allStatuses = []
     pipes.forEach(p => {
       ;(p._embedded?.statuses ?? []).forEach(s => {
-        if (s.type !== 142) {
+        if (s.type !== 142 && !STAGES_OCULTAS.has(s.name)) {
           const cnt = conteoPorEtapa[s.id] || 0
-          allStatuses.push({ name: s.name, count: cnt })
+          const nombre = STAGE_RENAME[s.name] || s.name
+          allStatuses.push({ name: nombre, count: cnt })
           maxLeads = Math.max(maxLeads, cnt)
         }
       })
