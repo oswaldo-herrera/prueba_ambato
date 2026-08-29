@@ -375,8 +375,8 @@
   </div>
   <div class="login-card">
     <div>
-      <label>Correo electrónico</label>
-      <input id="inp-email" type="email" placeholder="usuario@correo.com" autocomplete="email" />
+      <label>Usuario</label>
+      <input id="inp-email" type="text" placeholder="Ej: admin, juan, maria" autocomplete="username" />
     </div>
     <div>
       <label>Contraseña</label>
@@ -547,8 +547,8 @@
         <h3>➕ Crear nuevo usuario</h3>
         <div class="form-row">
           <div class="field">
-            <label>Correo electrónico</label>
-            <input type="email" id="nu-email" placeholder="usuario@correo.com" />
+            <label>Usuario</label>
+            <input type="text" id="nu-email" placeholder="Ej: juan, maria123" />
           </div>
           <div class="field">
             <label>Contraseña</label>
@@ -564,7 +564,7 @@
 
       <div class="users-table-wrap">
         <table>
-          <thead><tr><th>#</th><th>Correo</th><th>Nombre</th><th>Rol</th><th>Acciones</th></tr></thead>
+          <thead><tr><th>#</th><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Acciones</th></tr></thead>
           <tbody id="users-tbody"></tbody>
         </table>
       </div>
@@ -645,7 +645,7 @@ document.querySelectorAll('#inp-email, #inp-pass').forEach(el => {
 })
 
 function verificarLogin() {
-  const email = document.getElementById('inp-email').value.trim().toLowerCase()
+  const email = document.getElementById('inp-email').value.trim()
   const pass  = document.getElementById('inp-pass').value
 
   // Admin
@@ -657,7 +657,7 @@ function verificarLogin() {
 
   // Usuario registrado
   const users = getUsers()
-  const user  = users.find(u => u.email.toLowerCase() === email && u.pass === pass)
+  const user  = users.find(u => u.email === email && u.pass === pass)
   if (user) {
     sesionActual = { email: user.email, nombre: user.nombre || user.email, rol: 'usuario', menus: user.menus || [] }
     iniciarApp()
