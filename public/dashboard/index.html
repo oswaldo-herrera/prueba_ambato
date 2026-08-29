@@ -73,7 +73,7 @@
     #login-error { color: #fca5a5; font-size: 13px; text-align: center; display: none; }
 
     /* ══════════ LAYOUT CRM ══════════ */
-    #app { display: none; height: 100vh; }
+    #app { display: none; height: 100vh; width: 100%; overflow: hidden; }
 
     /* ── SIDEBAR ── */
     .sidebar {
@@ -139,8 +139,10 @@
     /* ── CONTENT AREA ── */
     .content {
       margin-left: var(--sidebar);
-      min-height: 100vh;
+      flex: 1;
+      height: 100vh;
       display: flex; flex-direction: column;
+      overflow: hidden;
     }
 
     /* ── TOP BAR ── */
@@ -169,7 +171,7 @@
     .btn-sm.oro:hover { background: var(--oro-lt); }
 
     /* ── PAGE CONTENT ── */
-    .page { flex: 1; padding: 28px; display: none; }
+    .page { flex: 1; padding: 28px; display: none; overflow-y: auto; height: calc(100vh - 65px); }
     .page.active { display: block; }
 
     /* ══════════ MÓDULO LEADS ══════════ */
@@ -684,6 +686,7 @@ function cerrarSesion() {
 function iniciarApp() {
   document.getElementById('login-screen').style.display = 'none'
   document.getElementById('app').style.display = 'flex'
+  document.getElementById('app').style.width  = '100vw'
 
   // Info del usuario en sidebar
   const av = sesionActual.email.charAt(0).toUpperCase()
