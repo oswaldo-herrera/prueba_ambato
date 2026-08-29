@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Campaña — Javier Altamirano</title>
+  <title>CRM Campaña — Javier Altamirano</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --azul:    #21243D;
       --azul-lt: #2e3256;
+      --azul-hs: #1a1d30;
       --oro:     #AC7C3F;
       --oro-lt:  #D4A86A;
       --bg:      #f0f2f7;
@@ -19,7 +20,8 @@
       --borde:   #e5e7eb;
       --verde:   #15803d;
       --rojo:    #dc2626;
-      --radio:   14px;
+      --radio:   12px;
+      --sidebar: 230px;
     }
 
     body {
@@ -29,7 +31,7 @@
       min-height: 100vh;
     }
 
-    /* ── LOGIN ── */
+    /* ══════════ LOGIN ══════════ */
     #login-screen {
       position: fixed; inset: 0;
       background: var(--azul);
@@ -38,522 +40,327 @@
       justify-content: center;
       z-index: 1000;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
     }
-    #login-screen img {
-      width: 72px; height: 72px;
-      object-fit: contain;
-    }
-    #login-screen h2 {
-      color: #fff;
-      font-size: 20px;
-      text-align: center;
-      letter-spacing: .04em;
-    }
-    #login-screen p {
-      color: var(--oro-lt);
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      text-align: center;
-    }
+    #login-screen img { width: 68px; height: 68px; object-fit: contain; }
+    #login-screen h2 { color: #fff; font-size: 20px; letter-spacing: .04em; }
+    #login-screen p  { color: var(--oro-lt); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
     .login-card {
       background: rgba(255,255,255,.07);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: var(--radio);
-      padding: 32px 28px;
-      width: 100%;
-      max-width: 360px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      padding: 30px 28px;
+      width: 100%; max-width: 360px;
+      display: flex; flex-direction: column; gap: 14px;
     }
     .login-card label {
-      color: rgba(255,255,255,.6);
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 6px;
+      color: rgba(255,255,255,.55); font-size: 11px; letter-spacing: .08em;
+      text-transform: uppercase; display: block; margin-bottom: 5px;
     }
     .login-card input {
-      width: 100%;
-      padding: 13px 16px;
-      border-radius: 10px;
+      width: 100%; padding: 12px 15px; border-radius: 10px;
       border: 1.5px solid rgba(255,255,255,.15);
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      font-size: 15px;
-      outline: none;
-      transition: border-color .2s;
+      background: rgba(255,255,255,.08); color: #fff; font-size: 14px;
+      outline: none; transition: border-color .2s;
     }
     .login-card input:focus { border-color: var(--oro); }
     .login-card button {
-      padding: 14px;
-      background: var(--oro);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: .06em;
-      transition: background .2s;
+      padding: 13px; background: var(--oro); color: #fff; border: none;
+      border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer;
+      letter-spacing: .04em; transition: background .2s;
     }
     .login-card button:hover { background: var(--oro-lt); }
-    #login-error {
-      color: #fca5a5;
-      font-size: 13px;
-      text-align: center;
-      display: none;
-    }
+    #login-error { color: #fca5a5; font-size: 13px; text-align: center; display: none; }
 
-    /* ── HEADER ── */
-    .dash-header {
+    /* ══════════ LAYOUT CRM ══════════ */
+    #app { display: none; height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0;
+      width: var(--sidebar);
       background: var(--azul);
-      color: #fff;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+      display: flex; flex-direction: column;
+      z-index: 100;
+      box-shadow: 2px 0 16px rgba(0,0,0,.2);
+      transition: transform .25s;
     }
-    .dash-header-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    .sidebar-logo {
+      padding: 22px 20px 16px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .dash-header-left img {
-      width: 40px; height: 40px;
-      object-fit: contain;
-    }
-    .dash-header-left h1 {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: .03em;
-    }
-    .dash-header-left span {
-      display: block;
-      font-size: 11px;
-      color: var(--oro-lt);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-    .dash-header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .last-update {
-      font-size: 11px;
-      color: rgba(255,255,255,.45);
-    }
-    .btn-header {
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: 1.5px solid rgba(255,255,255,.2);
-      background: transparent;
-      color: rgba(255,255,255,.8);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      letter-spacing: .04em;
-      transition: background .2s, border-color .2s, color .2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-header:hover {
-      background: rgba(255,255,255,.1);
-      border-color: rgba(255,255,255,.4);
-      color: #fff;
-    }
-    .btn-header.oro {
-      background: var(--oro);
-      border-color: var(--oro);
-      color: #fff;
-    }
-    .btn-header.oro:hover { background: var(--oro-lt); }
+    .sidebar-logo img { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+    .sidebar-logo-text { line-height: 1.2; }
+    .sidebar-logo-text strong { color: #fff; font-size: 13px; font-weight: 800; display: block; }
+    .sidebar-logo-text span   { color: var(--oro-lt); font-size: 10px; letter-spacing: .06em; }
 
-    /* ── MAIN ── */
-    .dash-main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 28px 20px 60px;
+    .sidebar-nav { flex: 1; padding: 12px 10px; overflow-y: auto; }
+    .nav-section-label {
+      font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.3); padding: 12px 10px 6px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 11px 12px; border-radius: 10px;
+      color: rgba(255,255,255,.65); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background .18s, color .18s;
+      margin-bottom: 2px; border: none; background: none; width: 100%;
+      text-align: left;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .nav-item.active { background: rgba(172,124,63,.25); color: var(--oro-lt); }
+    .nav-item .nav-ico { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-item .nav-badge {
+      margin-left: auto; background: var(--oro); color: #fff;
+      font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
     }
 
-    /* ── BANNER TOKEN ── */
+    .sidebar-user {
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .sidebar-user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .user-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--oro); display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .user-email { color: rgba(255,255,255,.75); font-size: 11px; word-break: break-all; }
+    .user-role  { color: var(--oro-lt); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .btn-logout {
+      width: 100%; padding: 8px; border-radius: 8px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.55); font-size: 12px; cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .btn-logout:hover { background: rgba(220,38,38,.2); color: #fca5a5; border-color: #fca5a5; }
+
+    /* ── CONTENT AREA ── */
+    .content {
+      margin-left: var(--sidebar);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--borde);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+      box-shadow: 0 1px 8px rgba(0,0,0,.06);
+    }
+    .topbar-title { font-size: 16px; font-weight: 800; color: var(--azul); }
+    .topbar-sub   { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .topbar-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-sm {
+      padding: 7px 14px; border-radius: 8px;
+      border: 1.5px solid var(--borde); background: transparent;
+      color: var(--texto); font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all .18s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-sm:hover { background: var(--bg); border-color: #d1d5db; }
+    .btn-sm.primary { background: var(--azul); color: #fff; border-color: var(--azul); }
+    .btn-sm.primary:hover { background: var(--azul-lt); }
+    .btn-sm.oro { background: var(--oro); color: #fff; border-color: var(--oro); }
+    .btn-sm.oro:hover { background: var(--oro-lt); }
+
+    /* ── PAGE CONTENT ── */
+    .page { flex: 1; padding: 28px; display: none; }
+    .page.active { display: block; }
+
+    /* ══════════ MÓDULO LEADS ══════════ */
     #banner-token {
-      background: #fef3c7;
-      border: 1.5px solid #fbbf24;
-      border-radius: var(--radio);
-      padding: 16px 20px;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
+      background: #fef3c7; border: 1.5px solid #fbbf24;
+      border-radius: var(--radio); padding: 16px 20px; margin-bottom: 24px;
+      display: flex; align-items: flex-start; gap: 14px;
     }
     #banner-token .icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
     #banner-token h3 { font-size: 14px; font-weight: 700; color: #92400e; margin-bottom: 4px; }
-    #banner-token p { font-size: 12.5px; color: #78350f; line-height: 1.6; }
-    #banner-token a { color: #b45309; font-weight: 700; }
-    #banner-token ol { margin: 8px 0 0 16px; font-size: 12.5px; color: #78350f; line-height: 2; }
+    #banner-token p, #banner-token ol { font-size: 12.5px; color: #78350f; line-height: 1.8; }
+    #banner-token ol { margin-left: 16px; }
     #banner-token button {
-      margin-top: 12px;
-      padding: 8px 18px;
-      background: #b45309;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
+      margin-top: 12px; padding: 8px 16px; background: #b45309; color: #fff;
+      border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
     }
 
-    /* ── SECCIÓN TÍTULO ── */
     .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 28px 0 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); margin: 24px 0 14px;
+      display: flex; align-items: center; gap: 8px;
     }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--borde);
-    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--borde); }
 
-    /* ── KPI GRID ── */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
     .kpi-card {
-      background: var(--card);
-      border-radius: var(--radio);
-      padding: 22px 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-      border: 1px solid var(--borde);
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border-radius: var(--radio);
+      padding: 20px 18px; box-shadow: 0 1px 8px rgba(0,0,0,.06);
+      border: 1px solid var(--borde); position: relative; overflow: hidden;
     }
     .kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--oro);
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--oro);
     }
     .kpi-card.verde::before { background: #22c55e; }
     .kpi-card.rojo::before  { background: #ef4444; }
     .kpi-card.azul::before  { background: #3b82f6; }
-    .kpi-icon {
-      font-size: 22px;
-      margin-bottom: 10px;
-      display: block;
-    }
-    .kpi-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .kpi-value {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--azul);
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-    }
-    .kpi-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-    }
-    .kpi-loading { color: #d1d5db; }
+    .kpi-icon  { font-size: 20px; margin-bottom: 8px; display: block; }
+    .kpi-label { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .kpi-value { font-size: 30px; font-weight: 800; color: var(--azul); line-height: 1; font-variant-numeric: tabular-nums; }
+    .kpi-sub   { font-size: 11px; color: var(--muted); margin-top: 5px; }
 
-    /* ── DOS COLUMNAS ── */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 768px) {
-      .two-col { grid-template-columns: 1fr; }
-    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 
-    /* ── CARD GENERAL ── */
-    .card {
-      background: var(--card);
-      border-radius: var(--radio);
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-      border: 1px solid var(--borde);
-      overflow: hidden;
-    }
-    .card-header {
-      background: var(--azul);
-      color: #fff;
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .04em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .card-body { padding: 20px; }
+    .card { background: var(--card); border-radius: var(--radio); box-shadow: 0 1px 8px rgba(0,0,0,.06); border: 1px solid var(--borde); overflow: hidden; }
+    .card-header { background: var(--azul); color: #fff; padding: 12px 18px; font-size: 13px; font-weight: 700; letter-spacing: .03em; display: flex; align-items: center; gap: 8px; }
+    .card-body { padding: 18px; }
 
-    /* ── PIPELINE ── */
-    .pipeline-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid #f3f4f6;
-    }
+    .pipeline-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid #f3f4f6; }
     .pipeline-row:last-child { border-bottom: none; }
-    .pipeline-name {
-      font-size: 13px;
-      color: var(--texto);
-      width: 140px;
-      flex-shrink: 0;
-    }
-    .pipeline-bar-wrap {
-      flex: 1;
-      background: #f3f4f6;
-      border-radius: 999px;
-      height: 8px;
-      overflow: hidden;
-    }
-    .pipeline-bar {
-      height: 100%;
-      border-radius: 999px;
-      background: var(--oro);
-      transition: width .6s ease;
-    }
-    .pipeline-count {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--azul);
-      width: 36px;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-    }
+    .pipeline-name { font-size: 12px; color: var(--texto); width: 130px; flex-shrink: 0; }
+    .pipeline-bar-wrap { flex: 1; background: #f3f4f6; border-radius: 999px; height: 7px; overflow: hidden; }
+    .pipeline-bar { height: 100%; border-radius: 999px; background: var(--oro); transition: width .6s ease; }
+    .pipeline-count { font-size: 13px; font-weight: 700; color: var(--azul); width: 34px; text-align: right; font-variant-numeric: tabular-nums; }
 
-    /* ── ACTIVIDADES ── */
-    .activity-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid #f3f4f6;
-    }
+    .activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid #f3f4f6; }
     .activity-item:last-child { border-bottom: none; }
-    .activity-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--oro);
-      flex-shrink: 0;
-      margin-top: 5px;
-    }
+    .activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--oro); flex-shrink: 0; margin-top: 5px; }
     .activity-dot.verde { background: #22c55e; }
     .activity-dot.azul  { background: #3b82f6; }
     .activity-dot.rojo  { background: #ef4444; }
-    .activity-text { font-size: 13px; color: var(--texto); line-height: 1.4; }
-    .activity-time { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .activity-text { font-size: 12px; color: var(--texto); line-height: 1.4; }
+    .activity-time { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
-    /* ── MANUAL CARD (editable) ── */
-    .manual-note {
-      font-size: 10px;
-      color: var(--muted);
-      text-align: right;
-      margin-top: 8px;
-    }
-    .editable-field {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .editable-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #f3f4f6;
-    }
+    .editable-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #f3f4f6; }
     .editable-row:last-child { border-bottom: none; }
-    .editable-row label {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 600;
-    }
+    .editable-row label { font-size: 12px; color: var(--muted); font-weight: 600; }
     .editable-row input {
-      padding: 6px 12px;
-      border: 1.5px solid var(--borde);
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--azul);
-      text-align: right;
-      width: 160px;
-      outline: none;
-      transition: border-color .2s;
+      padding: 5px 10px; border: 1.5px solid var(--borde); border-radius: 8px;
+      font-size: 13px; font-weight: 700; color: var(--azul); text-align: right;
+      width: 140px; outline: none; transition: border-color .2s;
     }
     .editable-row input:focus { border-color: var(--oro); }
+    .manual-note { font-size: 10px; color: var(--muted); text-align: right; margin-top: 8px; }
 
-    /* ── TABLA LEADS ── */
     .tabla-wrap { overflow-x: auto; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    thead th {
-      background: var(--azul);
-      color: #fff;
-      padding: 11px 16px;
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th { background: var(--azul); color: #fff; padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
     tbody tr:nth-child(even) { background: #f9fafb; }
-    tbody td {
-      padding: 11px 16px;
-      border-bottom: 1px solid #f3f4f6;
-      color: var(--texto);
-    }
-    .badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .04em;
-    }
+    tbody td { padding: 10px 14px; border-bottom: 1px solid #f3f4f6; }
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: .04em; }
     .badge-oro   { background: #fef3c7; color: #92400e; }
     .badge-verde { background: #dcfce7; color: #15803d; }
     .badge-rojo  { background: #fee2e2; color: #b91c1c; }
     .badge-azul  { background: #dbeafe; color: #1d4ed8; }
 
-    /* ── FOOTER ── */
-    .dash-footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 11px;
-      color: #bbb;
+    /* ══════════ MÓDULO REPORTES ══════════ */
+    .rep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .rep-card {
+      background: var(--card); border-radius: var(--radio);
+      padding: 20px 18px; box-shadow: 0 1px 8px rgba(0,0,0,.06);
+      border: 1px solid var(--borde); border-top: 4px solid var(--oro);
+      display: flex; flex-direction: column; gap: 14px;
     }
+    .rep-card[data-color="azul"]   { border-top-color: var(--azul); }
+    .rep-card[data-color="oro"]    { border-top-color: var(--oro); }
+    .rep-card[data-color="verde"]  { border-top-color: #16a34a; }
+    .rep-card[data-color="morado"] { border-top-color: #7c3aed; }
+    .rep-card-head { display: flex; align-items: center; gap: 12px; }
+    .rep-ico { width: 38px; height: 38px; border-radius: 10px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .rep-titulo    { font-size: 14px; font-weight: 800; color: var(--azul); }
+    .rep-subtitulo { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .rep-stats { display: flex; gap: 10px; }
+    .rep-stat { flex: 1; background: var(--bg); border-radius: 10px; padding: 10px 12px; text-align: center; }
+    .rep-stat-num { font-size: 26px; font-weight: 900; color: var(--azul); line-height: 1; }
+    .rep-stat-lbl { font-size: 9px; color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
+    .rep-status { font-size: 11px; color: var(--muted); text-align: center; min-height: 14px; }
+    .btn-xl {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 11px 14px;
+      background: linear-gradient(135deg, var(--azul) 0%, var(--azul-lt) 100%);
+      color: #fff; border: none; border-radius: 10px;
+      font-size: 12px; font-weight: 800; cursor: pointer; letter-spacing: .03em;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn-xl:hover   { opacity: .88; }
+    .btn-xl:active  { transform: scale(.97); }
+    .btn-xl:disabled { opacity: .45; cursor: not-allowed; }
+    .xl-ico { width: 20px; height: 20px; background: #1d6f42; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #fff; flex-shrink: 0; }
 
-    /* ── MODAL CONFIGURACIÓN ── */
+    /* ══════════ MÓDULO USUARIOS ══════════ */
+    .form-card { background: var(--card); border-radius: var(--radio); padding: 24px; box-shadow: 0 1px 8px rgba(0,0,0,.06); border: 1px solid var(--borde); margin-bottom: 24px; }
+    .form-card h3 { font-size: 15px; font-weight: 800; color: var(--azul); margin-bottom: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; }
+    @media (max-width: 700px) { .form-row { grid-template-columns: 1fr 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .field input {
+      padding: 10px 12px; border: 1.5px solid var(--borde); border-radius: 10px;
+      font-size: 13px; color: var(--texto); outline: none; transition: border-color .2s;
+    }
+    .field input:focus { border-color: var(--oro); }
+    .btn-add { padding: 10px 20px; background: var(--azul); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .btn-add:hover { background: var(--azul-lt); }
+
+    .users-table-wrap { background: var(--card); border-radius: var(--radio); box-shadow: 0 1px 8px rgba(0,0,0,.06); border: 1px solid var(--borde); overflow: hidden; }
+    .users-table-wrap table thead th { background: var(--azul); }
+
+    /* ══════════ MÓDULO PERMISOS ══════════ */
+    .permisos-list { display: flex; flex-direction: column; gap: 12px; }
+    .perm-row {
+      background: var(--card); border-radius: var(--radio);
+      padding: 16px 20px; box-shadow: 0 1px 8px rgba(0,0,0,.06);
+      border: 1px solid var(--borde);
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .perm-user { flex: 0 0 200px; }
+    .perm-email { font-size: 13px; font-weight: 700; color: var(--azul); }
+    .perm-tag   { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .perm-menus { display: flex; gap: 10px; flex-wrap: wrap; flex: 1; }
+    .perm-toggle {
+      display: flex; align-items: center; gap: 7px;
+      padding: 6px 14px; border-radius: 20px; cursor: pointer;
+      border: 1.5px solid var(--borde); font-size: 12px; font-weight: 600;
+      color: var(--muted); transition: all .18s; user-select: none;
+    }
+    .perm-toggle input { display: none; }
+    .perm-toggle.on { background: rgba(33,36,61,.08); border-color: var(--azul); color: var(--azul); }
+    .perm-btn-save { padding: 7px 16px; background: var(--oro); color: #fff; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; margin-left: auto; }
+
+    /* ══════════ MODAL CONFIGURACIÓN ══════════ */
     #modal-config {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.55); z-index: 500;
+      align-items: center; justify-content: center;
     }
     #modal-config.open { display: flex; }
-    .modal-box {
-      background: #fff;
-      border-radius: var(--radio);
-      padding: 32px 28px;
-      width: 100%;
-      max-width: 440px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.25);
-    }
-    .modal-box h2 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--azul);
-      margin-bottom: 6px;
-    }
-    .modal-box p {
-      font-size: 12.5px;
-      color: var(--muted);
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-    .modal-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-    .modal-field label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+    .modal-box { background: #fff; border-radius: var(--radio); padding: 30px 26px; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+    .modal-box h2 { font-size: 16px; font-weight: 700; color: var(--azul); margin-bottom: 6px; }
+    .modal-box p  { font-size: 12px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+    .modal-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .modal-field label { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
     .modal-field input, .modal-field textarea {
-      padding: 12px 14px;
-      border: 1.5px solid var(--borde);
-      border-radius: 10px;
-      font-size: 14px;
-      color: var(--texto);
-      outline: none;
-      transition: border-color .2s;
-      font-family: inherit;
-      resize: vertical;
+      padding: 11px 13px; border: 1.5px solid var(--borde); border-radius: 10px;
+      font-size: 13px; color: var(--texto); outline: none; transition: border-color .2s; font-family: inherit; resize: vertical;
     }
-    .modal-field input:focus,
-    .modal-field textarea:focus { border-color: var(--oro); }
-    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px; }
-    .btn-cancel {
-      padding: 10px 20px;
-      border: 1.5px solid var(--borde);
-      background: transparent;
-      border-radius: 10px;
-      font-size: 13px;
-      cursor: pointer;
-      color: var(--muted);
-    }
-    .btn-save {
-      padding: 10px 20px;
-      background: var(--azul);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-    }
+    .modal-field input:focus, .modal-field textarea:focus { border-color: var(--oro); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
+    .btn-cancel { padding: 9px 18px; border: 1.5px solid var(--borde); background: transparent; border-radius: 10px; font-size: 12px; cursor: pointer; color: var(--muted); }
+    .btn-save   { padding: 9px 18px; background: var(--azul); color: #fff; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-save:hover { background: var(--azul-lt); }
 
-    /* ── PRINT ── */
-    @media print {
-      #login-screen, .btn-header, #banner-token, #modal-config { display: none !important; }
-      .dash-header {
-        position: static;
-        box-shadow: none;
-        border-bottom: 2px solid var(--azul);
-      }
-      body { background: #fff; }
-      .card, .kpi-card { box-shadow: none; border: 1px solid #ddd; }
-      .two-col { grid-template-columns: 1fr 1fr; }
-      .dash-main { padding: 16px; }
-      .kpi-grid { grid-template-columns: repeat(4, 1fr); }
-    }
+    /* ══════════ TOAST ══════════ */
+    #toast { position: fixed; bottom: 24px; right: 24px; z-index: 600; transform: translateY(80px); opacity: 0; transition: all .3s; }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    .toast-inner { background: var(--azul); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
 
-    @media (max-width: 600px) {
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .dash-header-right .last-update { display: none; }
+    @media print {
+      .sidebar, .topbar, #modal-config, #banner-token { display: none !important; }
+      .content { margin-left: 0; }
+      .page { display: block !important; }
     }
   </style>
 </head>
@@ -562,580 +369,775 @@
 <!-- ══════════════ LOGIN ══════════════ -->
 <div id="login-screen">
   <img src="/tierra/logo_j.svg" alt="Logo" onerror="this.style.display='none'" />
-  <div>
-    <h2>Dashboard de Campaña</h2>
-    <p>Javier Altamirano · Alcaldía Ambato 2027 - 2031</p>
+  <div style="text-align:center">
+    <h2>CRM de Campaña</h2>
+    <p style="margin-top:4px">Javier Altamirano · Alcaldía Ambato 2027 - 2031</p>
   </div>
   <div class="login-card">
     <div>
-      <label>Contraseña de acceso</label>
-      <input id="pw-input" type="password" placeholder="Ingresa la contraseña" autocomplete="current-password" />
+      <label>Correo electrónico</label>
+      <input id="inp-email" type="email" placeholder="usuario@correo.com" autocomplete="email" />
     </div>
-    <button onclick="verificarPassword()">Acceder al Dashboard</button>
-    <div id="login-error">Contraseña incorrecta. Intenta nuevamente.</div>
+    <div>
+      <label>Contraseña</label>
+      <input id="inp-pass" type="password" placeholder="Contraseña" autocomplete="current-password" />
+    </div>
+    <button onclick="verificarLogin()">Ingresar al CRM</button>
+    <div id="login-error">Correo o contraseña incorrectos.</div>
   </div>
 </div>
 
-<!-- ══════════════ HEADER ══════════════ -->
-<header class="dash-header" id="dash-content" style="display:none">
-  <div class="dash-header-left">
-    <img src="/tierra/logo_j.svg" alt="Logo" onerror="this.style.display='none'" />
-    <div>
-      <h1>Dashboard de Campaña</h1>
-      <span>Javier Altamirano · Alcaldía Ambato 2027 - 2031</span>
-    </div>
-  </div>
-  <div class="dash-header-right">
-    <span class="last-update" id="last-update">Sin actualizar</span>
-    <button class="btn-header" onclick="cargarDatos()">↻ Actualizar</button>
-    <button class="btn-header" onclick="abrirConfig()">⚙ Configurar</button>
-    <button class="btn-header oro" onclick="window.print()">⎙ Imprimir / PDF</button>
-  </div>
-</header>
+<!-- ══════════════ APP ══════════════ -->
+<div id="app">
 
-<!-- ══════════════ MAIN ══════════════ -->
-<main class="dash-main" id="dash-main" style="display:none">
-
-  <!-- Banner: token no configurado -->
-  <div id="banner-token">
-    <div class="icon">🔑</div>
-    <div>
-      <h3>Conecta tu cuenta de Kommo</h3>
-      <p>Para mostrar datos en tiempo real necesitas pegar tu token de acceso de Kommo.<br>
-        <strong>¿Cómo obtenerlo?</strong></p>
-      <ol>
-        <li>Ve a <strong>hersaambato.kommo.com/settings/widgets/</strong> y haz clic en <strong>+ Crear integración</strong></li>
-        <li>Llena el nombre (ej. "Dashboard Web") y en URL de redireccionamiento pon: <code>https://javieraltamirano.org/dashboard/</code></li>
-        <li>Guarda y anota el <strong>ID de integración</strong> y el <strong>Código secreto</strong></li>
-        <li>Autoriza la integración — Kommo te entregará un <strong>access_token</strong></li>
-        <li>Pega ese token en <strong>⚙ Configurar → Token de Kommo</strong></li>
-      </ol>
-      <button onclick="abrirConfig()">⚙ Pegar token ahora</button>
-    </div>
-  </div>
-
-  <!-- ── KPIs PRINCIPALES ── -->
-  <div class="section-label">Resumen General</div>
-  <div class="kpi-grid">
-    <div class="kpi-card verde">
-      <span class="kpi-icon">👥</span>
-      <div class="kpi-label">Total Contactos</div>
-      <div class="kpi-value" id="kpi-contactos"><span class="kpi-loading">—</span></div>
-      <div class="kpi-sub" id="kpi-contactos-sub">personas registradas en Kommo</div>
-    </div>
-    <div class="kpi-card">
-      <span class="kpi-icon">📋</span>
-      <div class="kpi-label">Total Leads</div>
-      <div class="kpi-value" id="kpi-leads"><span class="kpi-loading">—</span></div>
-      <div class="kpi-sub" id="kpi-leads-sub">oportunidades en el embudo</div>
-    </div>
-    <div class="kpi-card azul">
-      <span class="kpi-icon">✅</span>
-      <div class="kpi-label">Tareas Abiertas</div>
-      <div class="kpi-value" id="kpi-tareas"><span class="kpi-loading">—</span></div>
-      <div class="kpi-sub">pendientes de completar</div>
-    </div>
-    <div class="kpi-card rojo">
-      <span class="kpi-icon">📣</span>
-      <div class="kpi-label">Actividades Hoy</div>
-      <div class="kpi-value" id="kpi-actividades"><span class="kpi-loading">—</span></div>
-      <div class="kpi-sub">eventos registrados hoy</div>
-    </div>
-  </div>
-
-  <!-- ── PIPELINE + ACTIVIDAD RECIENTE ── -->
-  <div class="section-label">Embudo y Actividad</div>
-  <div class="two-col">
-
-    <div class="card">
-      <div class="card-header">📊 Pipeline — Etapas del Embudo</div>
-      <div class="card-body" id="pipeline-body">
-        <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">
-          Conecta tu token para ver el embudo
-        </div>
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="/tierra/logo_j.svg" alt="J" onerror="this.style.display='none'" />
+      <div class="sidebar-logo-text">
+        <strong>CRM Campaña</strong>
+        <span>Altamirano 2027</span>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">⚡ Actividad Reciente</div>
-      <div class="card-body" id="actividad-body">
-        <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">
-          Conecta tu token para ver actividad
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <!-- se construye por JS según permisos -->
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-info">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div>
+          <div class="user-email" id="user-email-label">—</div>
+          <div class="user-role"  id="user-role-label">—</div>
         </div>
+      </div>
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- ── CONTENT ── -->
+  <div class="content">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-sub"  id="topbar-sub">Campaña Javier Altamirano · Ambato 2027-2031</div>
+      </div>
+      <div class="topbar-actions" id="topbar-actions"></div>
+    </div>
+
+    <!-- ── PÁGINA: LEADS ── -->
+    <div class="page" id="page-leads">
+
+      <div id="banner-token">
+        <div class="icon">🔑</div>
+        <div>
+          <h3>Conecta tu cuenta de Kommo</h3>
+          <p>Para mostrar datos en tiempo real necesitas pegar tu token de acceso de Kommo.</p>
+          <ol>
+            <li>Ve a <strong>hersaambato.kommo.com/settings/widgets/</strong> → <strong>+ Crear integración</strong></li>
+            <li>En URL de redireccionamiento pon: <code>https://javieraltamirano.org/dashboard/</code></li>
+            <li>Guarda y autoriza la integración — copia el <strong>access_token</strong></li>
+            <li>Pégalo en <strong>⚙ Configurar → Token de Kommo</strong></li>
+          </ol>
+          <button onclick="abrirConfig()">⚙ Pegar token ahora</button>
+        </div>
+      </div>
+
+      <div class="section-label">Resumen General</div>
+      <div class="kpi-grid">
+        <div class="kpi-card verde">
+          <span class="kpi-icon">👥</span>
+          <div class="kpi-label">Total Contactos</div>
+          <div class="kpi-value" id="kpi-contactos">—</div>
+          <div class="kpi-sub" id="kpi-contactos-sub">personas registradas en Kommo</div>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-icon">📋</span>
+          <div class="kpi-label">Total Leads</div>
+          <div class="kpi-value" id="kpi-leads">—</div>
+          <div class="kpi-sub" id="kpi-leads-sub">oportunidades en el embudo</div>
+        </div>
+        <div class="kpi-card azul">
+          <span class="kpi-icon">✅</span>
+          <div class="kpi-label">Tareas Abiertas</div>
+          <div class="kpi-value" id="kpi-tareas">—</div>
+          <div class="kpi-sub">pendientes de completar</div>
+        </div>
+        <div class="kpi-card rojo">
+          <span class="kpi-icon">📣</span>
+          <div class="kpi-label">Actividades Hoy</div>
+          <div class="kpi-value" id="kpi-actividades">—</div>
+          <div class="kpi-sub">eventos registrados hoy</div>
+        </div>
+      </div>
+
+      <div class="section-label">Embudo y Actividad</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">📊 Pipeline — Etapas del Embudo</div>
+          <div class="card-body" id="pipeline-body">
+            <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Conecta tu token para ver el embudo</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">⚡ Actividad Reciente</div>
+          <div class="card-body" id="actividad-body">
+            <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Conecta tu token para ver actividad</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Métricas Manuales · ROI y WhatsApp Business</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">💰 ROI y Resultados Financieros</div>
+          <div class="card-body">
+            <div class="editable-row"><label>Inversión total ($)</label><input type="text" id="m-inversion" placeholder="0.00" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>Ganancias / Retorno ($)</label><input type="text" id="m-ganancia" placeholder="0.00" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>ROI (%)</label><input type="text" id="m-roi" placeholder="0%" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>Costo por Lead ($)</label><input type="text" id="m-cpl" placeholder="0.00" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>Leads ganados</label><input type="text" id="m-ganados" placeholder="0" oninput="guardarManual()" /></div>
+            <div class="manual-note">✏ Actualiza desde Kommo → Insights → ROI</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">💬 WhatsApp Business</div>
+          <div class="card-body">
+            <div class="editable-row"><label>Conversaciones totales</label><input type="text" id="m-wa-total" placeholder="0" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>Mensajes enviados</label><input type="text" id="m-wa-enviados" placeholder="0" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>Mensajes recibidos</label><input type="text" id="m-wa-recibidos" placeholder="0" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>Tasa de respuesta (%)</label><input type="text" id="m-wa-tasa" placeholder="0%" oninput="guardarManual()" /></div>
+            <div class="editable-row"><label>Leads desde WhatsApp</label><input type="text" id="m-wa-leads" placeholder="0" oninput="guardarManual()" /></div>
+            <div class="manual-note">✏ Actualiza desde Kommo → Insights → WhatsApp Business</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Leads Recientes</div>
+      <div class="card">
+        <div class="card-header">📋 Últimos Leads Registrados en Kommo</div>
+        <div class="tabla-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Nombre</th><th>Responsable</th><th>Etapa</th><th>Presupuesto</th><th>Fecha</th></tr></thead>
+            <tbody id="leads-tbody">
+              <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Conecta tu token de Kommo para ver los leads</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;font-size:11px;color:#ccc;text-align:center">
+        javieraltamirano.org · Dashboard de Campaña 2027 - 2031 · <span id="footer-fecha"></span>
       </div>
     </div>
 
-  </div>
-
-  <!-- ── DATOS MANUALES (ROI, WhatsApp) ── -->
-  <div class="section-label">Métricas Manuales · ROI y WhatsApp Business</div>
-  <div class="two-col">
-
-    <div class="card">
-      <div class="card-header">💰 ROI y Resultados Financieros</div>
-      <div class="card-body">
-        <div class="editable-field" id="roi-fields">
-          <div class="editable-row">
-            <label>Inversión total ($)</label>
-            <input type="text" id="m-inversion" placeholder="0.00" oninput="guardarManual()" />
-          </div>
-          <div class="editable-row">
-            <label>Ganancias / Retorno ($)</label>
-            <input type="text" id="m-ganancia" placeholder="0.00" oninput="guardarManual()" />
-          </div>
-          <div class="editable-row">
-            <label>ROI (%)</label>
-            <input type="text" id="m-roi" placeholder="0%" oninput="guardarManual()" />
-          </div>
-          <div class="editable-row">
-            <label>Costo por Lead ($)</label>
-            <input type="text" id="m-cpl" placeholder="0.00" oninput="guardarManual()" />
-          </div>
-          <div class="editable-row">
-            <label>Leads ganados</label>
-            <input type="text" id="m-ganados" placeholder="0" oninput="guardarManual()" />
-          </div>
-        </div>
-        <div class="manual-note">✏ Actualiza estos valores desde Kommo → Insights → ROI</div>
+    <!-- ── PÁGINA: REPORTES ── -->
+    <div class="page" id="page-reportes">
+      <div class="rep-grid" id="rep-grid">
+        <!-- se construye por JS -->
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">💬 WhatsApp Business</div>
-      <div class="card-body">
-        <div class="editable-field">
-          <div class="editable-row">
-            <label>Conversaciones totales</label>
-            <input type="text" id="m-wa-total" placeholder="0" oninput="guardarManual()" />
+    <!-- ── PÁGINA: USUARIOS (solo admin) ── -->
+    <div class="page" id="page-usuarios">
+      <div class="form-card">
+        <h3>➕ Crear nuevo usuario</h3>
+        <div class="form-row">
+          <div class="field">
+            <label>Correo electrónico</label>
+            <input type="email" id="nu-email" placeholder="usuario@correo.com" />
           </div>
-          <div class="editable-row">
-            <label>Mensajes enviados</label>
-            <input type="text" id="m-wa-enviados" placeholder="0" oninput="guardarManual()" />
+          <div class="field">
+            <label>Contraseña</label>
+            <input type="password" id="nu-pass" placeholder="Contraseña" />
           </div>
-          <div class="editable-row">
-            <label>Mensajes recibidos</label>
-            <input type="text" id="m-wa-recibidos" placeholder="0" oninput="guardarManual()" />
+          <div class="field">
+            <label>Nombre (opcional)</label>
+            <input type="text" id="nu-nombre" placeholder="Nombre visible" />
           </div>
-          <div class="editable-row">
-            <label>Tasa de respuesta (%)</label>
-            <input type="text" id="m-wa-tasa" placeholder="0%" oninput="guardarManual()" />
-          </div>
-          <div class="editable-row">
-            <label>Leads desde WhatsApp</label>
-            <input type="text" id="m-wa-leads" placeholder="0" oninput="guardarManual()" />
-          </div>
+          <button class="btn-add" onclick="crearUsuario()">Crear</button>
         </div>
-        <div class="manual-note">✏ Actualiza estos valores desde Kommo → Insights → WhatsApp Business</div>
+      </div>
+
+      <div class="users-table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Correo</th><th>Nombre</th><th>Rol</th><th>Acciones</th></tr></thead>
+          <tbody id="users-tbody"></tbody>
+        </table>
       </div>
     </div>
 
-  </div>
-
-  <!-- ── TABLA LEADS RECIENTES ── -->
-  <div class="section-label">Leads Recientes</div>
-  <div class="card">
-    <div class="card-header">📋 Últimos Leads Registrados en Kommo</div>
-    <div class="tabla-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Responsable</th>
-            <th>Etapa</th>
-            <th>Presupuesto</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody id="leads-tbody">
-          <tr>
-            <td colspan="6" style="text-align:center;color:var(--muted);padding:24px">
-              Conecta tu token de Kommo para ver los leads
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- ── PÁGINA: PERMISOS (solo admin) ── -->
+    <div class="page" id="page-permisos">
+      <div style="margin-bottom:16px;font-size:13px;color:var(--muted)">
+        Decide qué módulos puede ver cada usuario. Los módulos <strong>Usuarios</strong> y <strong>Permisos</strong> son exclusivos del administrador.
+      </div>
+      <div class="permisos-list" id="permisos-list">
+        <!-- se construye por JS -->
+      </div>
     </div>
-  </div>
 
-</main>
-
-<footer class="dash-footer" id="dash-footer" style="display:none">
-  javieraltamirano.org · Dashboard de Campaña 2027 - 2031 · Generado: <span id="footer-fecha"></span>
-</footer>
+  </div><!-- /content -->
+</div><!-- /app -->
 
 <!-- ══════════════ MODAL CONFIGURACIÓN ══════════════ -->
 <div id="modal-config">
   <div class="modal-box">
     <h2>⚙ Configuración del Dashboard</h2>
-    <p>El token se guarda solo en este navegador (localStorage). Nadie más puede verlo.</p>
-
+    <p>El token se guarda solo en este navegador. Nadie más puede verlo.</p>
     <div class="modal-field">
-      <label>Token de acceso de Kommo (Bearer Token)</label>
+      <label>Token de Kommo (Bearer Token)</label>
       <textarea id="cfg-token" rows="3" placeholder="Pega aquí tu access_token de Kommo..."></textarea>
     </div>
-    <div class="modal-field">
-      <label>Contraseña de acceso al dashboard</label>
-      <input type="password" id="cfg-pass" placeholder="Nueva contraseña (dejar vacío para no cambiar)" />
-    </div>
-
-    <div id="test-result" style="display:none;padding:12px 14px;border-radius:10px;font-size:13px;margin-top:4px;"></div>
+    <div id="test-result" style="display:none;padding:12px;border-radius:10px;font-size:13px;margin-bottom:12px;"></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="cerrarConfig()">Cancelar</button>
-      <button class="btn-cancel" onclick="probarConexion()" id="btn-test" style="color:#92400e;border-color:#fbbf24;">🔍 Probar conexión</button>
-      <button class="btn-save" onclick="guardarConfig()">Guardar cambios</button>
+      <button class="btn-cancel" onclick="probarConexion()" id="btn-test" style="color:#92400e;border-color:#fbbf24;">🔍 Probar</button>
+      <button class="btn-save" onclick="guardarConfig()">Guardar</button>
     </div>
   </div>
 </div>
 
+<!-- ══════════════ TOAST ══════════════ -->
+<div id="toast"><div class="toast-inner" id="toast-msg"></div></div>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
-  /* ══════════════════════════════════════════
-     CONFIG Y ESTADO
-  ══════════════════════════════════════════ */
-  const LS_TOKEN   = 'kommo_token'
-  const LS_PASS    = 'dash_password'
-  const LS_MANUAL  = 'dash_manual'
-  const DEFAULT_PW = 'Hersa2026'
+/* ══════════════════════════════════════════════════════════════
+   CONSTANTES Y ESTADO
+══════════════════════════════════════════════════════════════ */
+const LS_TOKEN   = 'kommo_token'
+const LS_MANUAL  = 'dash_manual'
+const LS_USERS   = 'crm_users'
 
-  let accessToken = localStorage.getItem(LS_TOKEN) || ''
-  let dashPass    = localStorage.getItem(LS_PASS)  || DEFAULT_PW
+const ADMIN_EMAIL = 'admin'
+const DEFAULT_PW  = 'Hersa2026'
 
-  /* ══════════════════════════════════════════
-     LOGIN
-  ══════════════════════════════════════════ */
-  document.getElementById('pw-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') verificarPassword()
+const MENUS_DISPONIBLES = [
+  { id: 'leads',    label: 'Leads',    ico: '📋' },
+  { id: 'reportes', label: 'Reportes', ico: '📊' },
+]
+const MENUS_ADMIN = [
+  ...MENUS_DISPONIBLES,
+  { id: 'usuarios', label: 'Usuarios', ico: '👥' },
+  { id: 'permisos', label: 'Permisos', ico: '🔐' },
+]
+
+let accessToken = localStorage.getItem(LS_TOKEN) || ''
+let sesionActual = null  // { email, nombre, rol: 'admin'|'usuario', menus: [] }
+
+/* ══════════════════════════════════════════════════════════════
+   USUARIOS (localStorage)
+══════════════════════════════════════════════════════════════ */
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem(LS_USERS) || '[]') } catch { return [] }
+}
+function saveUsers(arr) { localStorage.setItem(LS_USERS, JSON.stringify(arr)) }
+
+/* ══════════════════════════════════════════════════════════════
+   LOGIN
+══════════════════════════════════════════════════════════════ */
+document.querySelectorAll('#inp-email, #inp-pass').forEach(el => {
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') verificarLogin() })
+})
+
+function verificarLogin() {
+  const email = document.getElementById('inp-email').value.trim().toLowerCase()
+  const pass  = document.getElementById('inp-pass').value
+
+  // Admin
+  if ((email === 'admin' || email === '') && pass === DEFAULT_PW) {
+    sesionActual = { email: 'admin', nombre: 'Admin', rol: 'admin', menus: MENUS_ADMIN.map(m => m.id) }
+    iniciarApp()
+    return
+  }
+
+  // Usuario registrado
+  const users = getUsers()
+  const user  = users.find(u => u.email.toLowerCase() === email && u.pass === pass)
+  if (user) {
+    sesionActual = { email: user.email, nombre: user.nombre || user.email, rol: 'usuario', menus: user.menus || [] }
+    iniciarApp()
+    return
+  }
+
+  const err = document.getElementById('login-error')
+  err.style.display = 'block'
+  document.getElementById('inp-pass').value = ''
+  setTimeout(() => err.style.display = 'none', 3000)
+}
+
+function cerrarSesion() {
+  sesionActual = null
+  document.getElementById('app').style.display = 'none'
+  document.getElementById('login-screen').style.display = 'flex'
+  document.getElementById('inp-email').value = ''
+  document.getElementById('inp-pass').value  = ''
+}
+
+/* ══════════════════════════════════════════════════════════════
+   INICIAR APP
+══════════════════════════════════════════════════════════════ */
+function iniciarApp() {
+  document.getElementById('login-screen').style.display = 'none'
+  document.getElementById('app').style.display = 'flex'
+
+  // Info del usuario en sidebar
+  const av = sesionActual.email.charAt(0).toUpperCase()
+  document.getElementById('user-avatar').textContent     = av
+  document.getElementById('user-email-label').textContent = sesionActual.nombre
+  document.getElementById('user-role-label').textContent  = sesionActual.rol === 'admin' ? 'ADMINISTRADOR' : 'USUARIO'
+
+  construirNav()
+  cargarManual()
+
+  const firstMenu = sesionActual.menus[0] || 'leads'
+  navegarA(firstMenu)
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NAVEGACIÓN
+══════════════════════════════════════════════════════════════ */
+const TITLES = {
+  leads:    { title: 'Leads & Kommo', sub: 'Embudo de ventas y contactos' },
+  reportes: { title: 'Reportes',      sub: 'Descarga de registros en Excel' },
+  usuarios: { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
+  permisos: { title: 'Permisos',      sub: 'Control de visibilidad por usuario' },
+}
+
+function construirNav() {
+  const nav = document.getElementById('sidebar-nav')
+  const menus = sesionActual.rol === 'admin' ? MENUS_ADMIN : MENUS_DISPONIBLES.filter(m => sesionActual.menus.includes(m.id))
+
+  nav.innerHTML = '<div class="nav-section-label">Menú</div>'
+  menus.forEach(m => {
+    const btn = document.createElement('button')
+    btn.className = 'nav-item'
+    btn.id = `nav-${m.id}`
+    btn.innerHTML = `<span class="nav-ico">${m.ico}</span>${m.label}`
+    btn.onclick = () => navegarA(m.id)
+    nav.appendChild(btn)
   })
+}
 
-  function verificarPassword() {
-    const val = document.getElementById('pw-input').value
-    if (val === dashPass) {
-      document.getElementById('login-screen').style.display = 'none'
-      document.getElementById('dash-content').style.display = 'flex'
-      document.getElementById('dash-main').style.display   = 'block'
-      document.getElementById('dash-footer').style.display = 'block'
-      document.getElementById('footer-fecha').textContent  = new Date().toLocaleString('es-EC')
-      cargarManual()
-      if (accessToken) cargarDatos()
-      else actualizarBannerToken()
-    } else {
-      const err = document.getElementById('login-error')
-      err.style.display = 'block'
-      document.getElementById('pw-input').value = ''
-      setTimeout(() => err.style.display = 'none', 3000)
-    }
-  }
+function navegarA(id) {
+  // Verificar acceso
+  if (!sesionActual.menus.includes(id) && sesionActual.rol !== 'admin') return
 
-  /* ══════════════════════════════════════════
-     BANNER TOKEN
-  ══════════════════════════════════════════ */
-  function actualizarBannerToken() {
-    const banner = document.getElementById('banner-token')
-    banner.style.display = accessToken ? 'none' : 'flex'
-  }
+  // Actualizar nav activo
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'))
+  const navBtn = document.getElementById(`nav-${id}`)
+  if (navBtn) navBtn.classList.add('active')
 
-  /* ══════════════════════════════════════════
-     KOMMO API
-  ══════════════════════════════════════════ */
-  async function fetchKommo(path) {
-    const res = await fetch(`/api/kommo?url=${encodeURIComponent(path)}`, {
-      headers: { 'x-kommo-token': accessToken }
-    })
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    return res.json()
-  }
+  // Mostrar página
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
+  const page = document.getElementById(`page-${id}`)
+  if (page) page.classList.add('active')
 
-  function setText(id, val) {
-    document.getElementById(id).innerHTML = val
-  }
+  // Topbar
+  const t = TITLES[id] || {}
+  document.getElementById('topbar-title').textContent = t.title || id
+  document.getElementById('topbar-sub').textContent   = t.sub   || ''
 
-  async function cargarDatos() {
-    if (!accessToken) { actualizarBannerToken(); return }
+  // Acciones topbar
+  const actions = document.getElementById('topbar-actions')
+  actions.innerHTML = ''
+  if (id === 'leads') {
+    actions.innerHTML = `
+      <button class="btn-sm" onclick="cargarDatos()">↻ Actualizar</button>
+      <button class="btn-sm" onclick="abrirConfig()">⚙ Configurar</button>
+      <button class="btn-sm oro" onclick="window.print()">⎙ PDF</button>`
     actualizarBannerToken()
-    setText('last-update', 'Cargando...')
-
-    try {
-      await Promise.all([
-        cargarContactos(),
-        cargarLeads(),
-        cargarTareas(),
-        cargarActividadesHoy(),
-        cargarPipelines(),
-        cargarActividades(),
-      ])
-      setText('last-update', '↻ Actualizado: ' + new Date().toLocaleTimeString('es-EC'))
-      document.getElementById('footer-fecha').textContent = new Date().toLocaleString('es-EC')
-    } catch(e) {
-      setText('last-update', '⚠ Error al conectar con Kommo')
-      console.error(e)
-    }
+    if (accessToken) cargarDatos()
   }
+  if (id === 'reportes') construirReportes()
+  if (id === 'usuarios') renderUsuarios()
+  if (id === 'permisos') renderPermisos()
+}
 
-  async function cargarContactos() {
-    try {
-      const d = await fetchKommo('/contacts?limit=1')
-      const total = d?._page?.total_items ?? '?'
-      setText('kpi-contactos', total)
-    } catch { setText('kpi-contactos', '—') }
-  }
+/* ══════════════════════════════════════════════════════════════
+   MÓDULO: REPORTES
+══════════════════════════════════════════════════════════════ */
+const SB_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co'
+const SB_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf'
 
-  async function cargarLeads() {
-    try {
-      const d = await fetchKommo('/leads?limit=250')
-      const leads = d?._embedded?.leads ?? []
-      const total = d?._page?.total_items ?? leads.length
-      setText('kpi-leads', total)
-      setText('kpi-leads-sub', `${leads.length} cargados · total: ${total}`)
-      renderLeadsTabla(leads)
-    } catch { setText('kpi-leads', '—') }
-  }
+const REPORTES = [
+  {
+    id: 'region5', titulo: 'Javier en Tu Casa', subtitulo: 'Región 5 · Todas las parroquias',
+    tabla: 'region_5', icono: '🏘️', color: 'azul', hoy: true,
+    columnas: r => ({
+      'Numero': '___i___', 'Nombre': r.nombre || '', 'WhatsApp': r.whatsapp || '',
+      'Parroquia': r.parroquia || '', 'Javier te escucha': r.necesidad || '',
+      'Creado en': r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
+    }),
+    anchos: [8, 30, 16, 28, 50, 22], hoja: 'Región 5',
+    archivo: () => `javier_en_tu_casa_region5_${hoy()}.xlsx`,
+  },
+  {
+    id: 'candidatos', titulo: 'Candidatos y Simpatizantes', subtitulo: 'Directorio · Coordinadores',
+    tabla: 'candidatos', icono: '⭐', color: 'oro', hoy: false,
+    columnas: r => ({
+      'Numero': '___i___', 'Nombre': r.nombre || '', 'Cargo': r.cargo || '',
+      'Parroquia': r.parroquia || '', 'Celular': r.celular || '',
+      'Creado en': r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
+    }),
+    anchos: [8, 34, 30, 26, 18, 22], hoja: 'Candidatos',
+    archivo: () => `candidatos_altamirano_${hoy()}.xlsx`,
+  },
+]
 
-  async function cargarTareas() {
-    try {
-      const d = await fetchKommo('/tasks?filter[is_completed]=0&limit=1')
-      const total = d?._page?.total_items ?? '?'
-      setText('kpi-tareas', total)
-    } catch { setText('kpi-tareas', '—') }
-  }
+const repDatos = {}
+function hoy() { return new Date().toISOString().slice(0, 10) }
 
-  async function cargarActividadesHoy() {
-    try {
-      const desde = Math.floor(new Date().setHours(0,0,0,0) / 1000)
-      const d = await fetchKommo(`/events?filter[created_at][from]=${desde}&limit=250`)
-      const eventos = d?._embedded?.events ?? []
-      setText('kpi-actividades', eventos.length)
-    } catch { setText('kpi-actividades', '—') }
-  }
+function construirReportes() {
+  const grid = document.getElementById('rep-grid')
+  grid.innerHTML = REPORTES.map(r => `
+    <div class="rep-card" data-color="${r.color}">
+      <div class="rep-card-head">
+        <div class="rep-ico">${r.icono}</div>
+        <div>
+          <div class="rep-titulo">${r.titulo}</div>
+          <div class="rep-subtitulo">${r.subtitulo}</div>
+        </div>
+      </div>
+      <div class="rep-stats">
+        <div class="rep-stat">
+          <div class="rep-stat-num" id="rtotal-${r.id}">—</div>
+          <div class="rep-stat-lbl">Total</div>
+        </div>
+        ${r.hoy ? `<div class="rep-stat">
+          <div class="rep-stat-num" id="rhoy-${r.id}">—</div>
+          <div class="rep-stat-lbl">Hoy</div>
+        </div>` : ''}
+      </div>
+      <div class="rep-status" id="rstatus-${r.id}">Cargando...</div>
+      <button class="btn-xl" id="rbtn-${r.id}" onclick="descargarReporte('${r.id}')" disabled>
+        <span class="xl-ico">XL</span> Descargar Excel
+      </button>
+    </div>`).join('')
 
-  async function cargarPipelines() {
-    try {
-      const d = await fetchKommo('/leads/pipelines')
-      const pipelines = d?._embedded?.pipelines ?? []
-      if (!pipelines.length) return
+  REPORTES.forEach(cargarReporte)
+}
 
-      const body = document.getElementById('pipeline-body')
-      body.innerHTML = ''
-      let maxLeads = 1
-
-      // Primero obtenemos leads por etapa
-      const leadsD = await fetchKommo('/leads?limit=250&with=pipeline')
-      const leads = leadsD?._embedded?.leads ?? []
-
-      const conteoPorEtapa = {}
-      leads.forEach(l => {
-        const id = l.status_id
-        conteoPorEtapa[id] = (conteoPorEtapa[id] || 0) + 1
-      })
-
-      const allStatuses = []
-      pipelines.forEach(p => {
-        ;(p._embedded?.statuses ?? []).forEach(s => {
-          if (s.type !== 142) { // excluye "Cerrado"
-            allStatuses.push({ name: s.name, count: conteoPorEtapa[s.id] || 0 })
-            maxLeads = Math.max(maxLeads, conteoPorEtapa[s.id] || 0)
-          }
-        })
-      })
-
-      allStatuses.forEach(st => {
-        const pct = Math.round((st.count / maxLeads) * 100)
-        body.insertAdjacentHTML('beforeend', `
-          <div class="pipeline-row">
-            <span class="pipeline-name">${st.name}</span>
-            <div class="pipeline-bar-wrap">
-              <div class="pipeline-bar" style="width:${pct}%"></div>
-            </div>
-            <span class="pipeline-count">${st.count}</span>
-          </div>
-        `)
-      })
-    } catch(e) {
-      document.getElementById('pipeline-body').innerHTML =
-        '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">Error al cargar el embudo</div>'
-    }
-  }
-
-  const TIPO_EVENTO = {
-    1: { label: 'Lead creado',        color: 'verde' },
-    2: { label: 'Contacto creado',    color: 'verde' },
-    3: { label: 'Lead actualizado',   color: 'azul'  },
-    4: { label: 'Lead eliminado',     color: 'rojo'  },
-    10: { label: 'Nota agregada',     color: ''      },
-    11: { label: 'Tarea completada',  color: 'verde' },
-    12: { label: 'Llamada',           color: 'azul'  },
-    13: { label: 'Email enviado',     color: 'azul'  },
-  }
-
-  async function cargarActividades() {
-    try {
-      const d = await fetchKommo('/events?limit=20')
-      const eventos = d?._embedded?.events ?? []
-      const body = document.getElementById('actividad-body')
-      if (!eventos.length) {
-        body.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">Sin actividad reciente</div>'
-        return
-      }
-      body.innerHTML = eventos.map(ev => {
-        const tipo = TIPO_EVENTO[ev.type] ?? { label: `Evento #${ev.type}`, color: '' }
-        const fecha = new Date(ev.created_at * 1000).toLocaleString('es-EC', {
-          month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-        })
-        return `
-          <div class="activity-item">
-            <div class="activity-dot ${tipo.color}"></div>
-            <div>
-              <div class="activity-text">${tipo.label}</div>
-              <div class="activity-time">${fecha}</div>
-            </div>
-          </div>
-        `
-      }).join('')
-    } catch {
-      document.getElementById('actividad-body').innerHTML =
-        '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">Error al cargar actividad</div>'
-    }
-  }
-
-  function renderLeadsTabla(leads) {
-    const tbody = document.getElementById('leads-tbody')
-    if (!leads.length) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Sin leads disponibles</td></tr>'
-      return
-    }
-    tbody.innerHTML = leads.slice(0, 30).map((l, i) => {
-      const fecha = new Date(l.created_at * 1000).toLocaleDateString('es-EC', {
-        day: '2-digit', month: 'short', year: 'numeric'
-      })
-      const responsable = l._embedded?.users?.[0]?.name ?? '—'
-      const presupuesto = l.price ? `$${l.price.toLocaleString('es-EC')}` : '—'
-      const etapa = l.status_id ?? '—'
-      let badgeClass = 'badge-azul'
-      if (l.status_id === 142) badgeClass = 'badge-rojo'
-      if (l.status_id === 143) badgeClass = 'badge-verde'
-      return `
-        <tr>
-          <td>${i + 1}</td>
-          <td><strong>${l.name || '(sin nombre)'}</strong></td>
-          <td>${responsable}</td>
-          <td><span class="badge ${badgeClass}">Etapa ${etapa}</span></td>
-          <td>${presupuesto}</td>
-          <td>${fecha}</td>
-        </tr>
-      `
-    }).join('')
-  }
-
-  /* ══════════════════════════════════════════
-     DATOS MANUALES (ROI, WhatsApp)
-  ══════════════════════════════════════════ */
-  const CAMPOS_MANUAL = [
-    'm-inversion','m-ganancia','m-roi','m-cpl','m-ganados',
-    'm-wa-total','m-wa-enviados','m-wa-recibidos','m-wa-tasa','m-wa-leads'
-  ]
-
-  function guardarManual() {
-    const data = {}
-    CAMPOS_MANUAL.forEach(id => {
-      data[id] = document.getElementById(id)?.value || ''
+async function cargarReporte(r) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/${r.tabla}?select=*&order=id.asc&limit=10000`, {
+      headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
     })
-    localStorage.setItem(LS_MANUAL, JSON.stringify(data))
-  }
-
-  function cargarManual() {
-    try {
-      const data = JSON.parse(localStorage.getItem(LS_MANUAL) || '{}')
-      CAMPOS_MANUAL.forEach(id => {
-        const el = document.getElementById(id)
-        if (el && data[id]) el.value = data[id]
-      })
-    } catch {}
-  }
-
-  /* ══════════════════════════════════════════
-     MODAL CONFIGURACIÓN
-  ══════════════════════════════════════════ */
-  async function probarConexion() {
-    const tok = document.getElementById('cfg-token').value.trim() || accessToken
-    const res = document.getElementById('test-result')
-    const btn = document.getElementById('btn-test')
-    if (!tok) {
-      res.style.display = 'block'
-      res.style.background = '#fef3c7'
-      res.style.border = '1.5px solid #fbbf24'
-      res.style.color = '#92400e'
-      res.textContent = '⚠ Primero pega el token en el campo de arriba.'
-      return
+    const lista = await res.json()
+    repDatos[r.id] = lista
+    document.getElementById(`rtotal-${r.id}`).textContent = lista.length
+    if (r.hoy) {
+      const hoyStr = new Date().toDateString()
+      const n = lista.filter(x => new Date(x.creado_en).toDateString() === hoyStr).length
+      document.getElementById(`rhoy-${r.id}`).textContent = n
     }
-    btn.textContent = 'Probando...'
-    btn.disabled = true
-    res.style.display = 'none'
-    try {
-      const r = await fetch('/api/kommo?test=1', {
-        headers: { 'x-kommo-token': tok }
-      })
-      const d = await r.json()
-      res.style.display = 'block'
-      if (d.ok) {
-        res.style.background = '#dcfce7'
-        res.style.border = '1.5px solid #86efac'
-        res.style.color = '#15803d'
-        res.textContent = `✅ Conexión exitosa — Cuenta: ${d.cuenta || 'hersaambato'} · Token: ${d.token_len} caracteres`
-      } else if (d.error === 'SIN_TOKEN') {
-        res.style.background = '#fee2e2'
-        res.style.border = '1.5px solid #fca5a5'
-        res.style.color = '#b91c1c'
-        res.textContent = '❌ El token no llegó al servidor. Intenta guardar y recargar la página.'
-      } else if (d.error === 'TOKEN_INVALIDO') {
-        res.style.background = '#fee2e2'
-        res.style.border = '1.5px solid #fca5a5'
-        res.style.color = '#b91c1c'
-        res.textContent = `❌ Token rechazado por Kommo (${d.kommo_status}). Genera un nuevo token de larga duración.`
-      } else {
-        res.style.background = '#fee2e2'
-        res.style.border = '1.5px solid #fca5a5'
-        res.style.color = '#b91c1c'
-        res.textContent = `❌ Error: ${d.msg || d.error}`
-      }
-    } catch(e) {
-      res.style.display = 'block'
-      res.style.background = '#fee2e2'
-      res.style.color = '#b91c1c'
-      res.textContent = '❌ Error de red al probar la conexión.'
-    }
-    btn.textContent = '🔍 Probar conexión'
-    btn.disabled = false
+    document.getElementById(`rstatus-${r.id}`).textContent = `${lista.length} registros listos`
+    document.getElementById(`rbtn-${r.id}`).disabled = false
+  } catch {
+    document.getElementById(`rstatus-${r.id}`).textContent = 'Error al cargar'
   }
+}
 
-  function abrirConfig() {
-    document.getElementById('cfg-token').value = accessToken
-    document.getElementById('cfg-pass').value  = ''
-    document.getElementById('test-result').style.display = 'none'
-    document.getElementById('modal-config').classList.add('open')
-  }
-  function cerrarConfig() {
-    document.getElementById('modal-config').classList.remove('open')
-  }
-  function guardarConfig() {
-    const tok  = document.getElementById('cfg-token').value.trim()
-    const pass = document.getElementById('cfg-pass').value.trim()
-
-    if (tok) {
-      accessToken = tok
-      localStorage.setItem(LS_TOKEN, tok)
-    }
-    if (pass) {
-      dashPass = pass
-      localStorage.setItem(LS_PASS, pass)
-    }
-    cerrarConfig()
-    cargarDatos()
-  }
-
-  // Cerrar modal al hacer clic fuera
-  document.getElementById('modal-config').addEventListener('click', function(e) {
-    if (e.target === this) cerrarConfig()
+function descargarReporte(id) {
+  const r = REPORTES.find(x => x.id === id)
+  const lista = repDatos[id] || []
+  if (!lista.length) return
+  const btn = document.getElementById(`rbtn-${id}`)
+  btn.disabled = true
+  btn.innerHTML = '<span class="xl-ico">XL</span> Generando...'
+  const filas = lista.map((row, i) => {
+    const obj = r.columnas(row)
+    Object.keys(obj).forEach(k => { if (obj[k] === '___i___') obj[k] = i + 1 })
+    return obj
   })
-</script>
+  const ws = XLSX.utils.json_to_sheet(filas)
+  ws['!cols'] = r.anchos.map(w => ({ wch: w }))
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, r.hoja)
+  XLSX.writeFile(wb, r.archivo())
+  btn.disabled = false
+  btn.innerHTML = '<span class="xl-ico">XL</span> Descargar Excel'
+}
 
+/* ══════════════════════════════════════════════════════════════
+   MÓDULO: USUARIOS
+══════════════════════════════════════════════════════════════ */
+function crearUsuario() {
+  const email  = document.getElementById('nu-email').value.trim().toLowerCase()
+  const pass   = document.getElementById('nu-pass').value.trim()
+  const nombre = document.getElementById('nu-nombre').value.trim()
+
+  if (!email || !pass) { toast('Correo y contraseña son requeridos'); return }
+  if (email === 'admin') { toast('No puedes usar "admin" como correo'); return }
+
+  const users = getUsers()
+  if (users.find(u => u.email.toLowerCase() === email)) { toast('Ese correo ya existe'); return }
+
+  users.push({ email, pass, nombre, menus: [] })
+  saveUsers(users)
+  document.getElementById('nu-email').value  = ''
+  document.getElementById('nu-pass').value   = ''
+  document.getElementById('nu-nombre').value = ''
+  renderUsuarios()
+  renderPermisos()
+  toast('✅ Usuario creado')
+}
+
+function eliminarUsuario(email) {
+  if (!confirm(`¿Eliminar al usuario ${email}?`)) return
+  saveUsers(getUsers().filter(u => u.email !== email))
+  renderUsuarios()
+  renderPermisos()
+  toast('Usuario eliminado')
+}
+
+function renderUsuarios() {
+  const tbody = document.getElementById('users-tbody')
+  const users = getUsers()
+  if (!users.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px">Sin usuarios registrados</td></tr>'
+    return
+  }
+  tbody.innerHTML = users.map((u, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${u.email}</td>
+      <td>${u.nombre || '—'}</td>
+      <td><span class="badge badge-azul">Usuario</span></td>
+      <td>
+        <button onclick="eliminarUsuario('${u.email}')" style="padding:4px 12px;background:#fee2e2;color:#b91c1c;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">
+          Eliminar
+        </button>
+      </td>
+    </tr>`).join('')
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MÓDULO: PERMISOS
+══════════════════════════════════════════════════════════════ */
+function renderPermisos() {
+  const lista = document.getElementById('permisos-list')
+  const users = getUsers()
+  if (!users.length) {
+    lista.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:20px 0">No hay usuarios. Crea uno en el módulo Usuarios.</div>'
+    return
+  }
+  lista.innerHTML = users.map(u => `
+    <div class="perm-row">
+      <div class="perm-user">
+        <div class="perm-email">${u.nombre || u.email}</div>
+        <div class="perm-tag">${u.email}</div>
+      </div>
+      <div class="perm-menus" id="perm-menus-${u.email.replace('@','_').replace('.','_')}">
+        ${MENUS_DISPONIBLES.map(m => {
+          const activo = (u.menus || []).includes(m.id) ? 'on' : ''
+          return `<label class="perm-toggle ${activo}" id="pt-${u.email.replace(/[@.]/g,'_')}-${m.id}">
+            <input type="checkbox" ${activo ? 'checked' : ''} onchange="togglePerm(this,'${u.email}','${m.id}')"/>
+            ${m.ico} ${m.label}
+          </label>`
+        }).join('')}
+      </div>
+      <button class="perm-btn-save" onclick="guardarPermisos('${u.email}')">Guardar</button>
+    </div>`).join('')
+}
+
+function togglePerm(cb, email, menuId) {
+  const lbl = cb.closest('.perm-toggle')
+  lbl.classList.toggle('on', cb.checked)
+}
+
+function guardarPermisos(email) {
+  const users  = getUsers()
+  const user   = users.find(u => u.email === email)
+  if (!user) return
+  user.menus = MENUS_DISPONIBLES
+    .filter(m => {
+      const safeId = email.replace(/[@.]/g,'_')
+      const lbl = document.getElementById(`pt-${safeId}-${m.id}`)
+      return lbl && lbl.classList.contains('on')
+    })
+    .map(m => m.id)
+  saveUsers(users)
+  toast(`✅ Permisos guardados para ${email}`)
+}
+
+/* ══════════════════════════════════════════════════════════════
+   KOMMO API
+══════════════════════════════════════════════════════════════ */
+function actualizarBannerToken() {
+  document.getElementById('banner-token').style.display = accessToken ? 'none' : 'flex'
+}
+
+async function fetchKommo(path) {
+  const res = await fetch(`/api/kommo?url=${encodeURIComponent(path)}`, {
+    headers: { 'x-kommo-token': accessToken }
+  })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}
+
+function setText(id, val) {
+  const el = document.getElementById(id)
+  if (el) el.innerHTML = val
+}
+
+async function cargarDatos() {
+  if (!accessToken) { actualizarBannerToken(); return }
+  actualizarBannerToken()
+  try {
+    await Promise.all([cargarContactos(), cargarLeads(), cargarTareas(), cargarActividadesHoy(), cargarPipelines(), cargarActividades()])
+    document.getElementById('footer-fecha').textContent = 'Actualizado: ' + new Date().toLocaleString('es-EC')
+  } catch(e) { console.error(e) }
+}
+
+async function cargarContactos() {
+  try { const d = await fetchKommo('/contacts?limit=1'); setText('kpi-contactos', d?._page?.total_items ?? '?') } catch { setText('kpi-contactos','—') }
+}
+async function cargarLeads() {
+  try {
+    const d = await fetchKommo('/leads?limit=250')
+    const leads = d?._embedded?.leads ?? []
+    const total = d?._page?.total_items ?? leads.length
+    setText('kpi-leads', total)
+    setText('kpi-leads-sub', `${leads.length} cargados · total: ${total}`)
+    renderLeadsTabla(leads)
+  } catch { setText('kpi-leads','—') }
+}
+async function cargarTareas() {
+  try { const d = await fetchKommo('/tasks?filter[is_completed]=0&limit=1'); setText('kpi-tareas', d?._page?.total_items ?? '?') } catch { setText('kpi-tareas','—') }
+}
+async function cargarActividadesHoy() {
+  try {
+    const desde = Math.floor(new Date().setHours(0,0,0,0) / 1000)
+    const d = await fetchKommo(`/events?filter[created_at][from]=${desde}&limit=250`)
+    setText('kpi-actividades', (d?._embedded?.events ?? []).length)
+  } catch { setText('kpi-actividades','—') }
+}
+
+async function cargarPipelines() {
+  try {
+    const d     = await fetchKommo('/leads/pipelines')
+    const pipes = d?._embedded?.pipelines ?? []
+    const leadsD = await fetchKommo('/leads?limit=250&with=pipeline')
+    const leads  = leadsD?._embedded?.leads ?? []
+    const conteoPorEtapa = {}
+    leads.forEach(l => { conteoPorEtapa[l.status_id] = (conteoPorEtapa[l.status_id] || 0) + 1 })
+    let maxLeads = 1
+    const allStatuses = []
+    pipes.forEach(p => {
+      ;(p._embedded?.statuses ?? []).forEach(s => {
+        if (s.type !== 142) { allStatuses.push({ name: s.name, count: conteoPorEtapa[s.id] || 0 }); maxLeads = Math.max(maxLeads, conteoPorEtapa[s.id] || 0) }
+      })
+    })
+    const body = document.getElementById('pipeline-body')
+    body.innerHTML = allStatuses.map(st => {
+      const pct = Math.round((st.count / maxLeads) * 100)
+      return `<div class="pipeline-row"><span class="pipeline-name">${st.name}</span><div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:${pct}%"></div></div><span class="pipeline-count">${st.count}</span></div>`
+    }).join('')
+  } catch {
+    document.getElementById('pipeline-body').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar el embudo</div>'
+  }
+}
+
+const TIPO_EVENTO = { 1:{label:'Lead creado',color:'verde'}, 2:{label:'Contacto creado',color:'verde'}, 3:{label:'Lead actualizado',color:'azul'}, 4:{label:'Lead eliminado',color:'rojo'}, 10:{label:'Nota agregada',color:''}, 11:{label:'Tarea completada',color:'verde'}, 12:{label:'Llamada',color:'azul'}, 13:{label:'Email enviado',color:'azul'} }
+
+async function cargarActividades() {
+  try {
+    const d = await fetchKommo('/events?limit=20')
+    const eventos = d?._embedded?.events ?? []
+    const body = document.getElementById('actividad-body')
+    body.innerHTML = eventos.length ? eventos.map(ev => {
+      const tipo = TIPO_EVENTO[ev.type] ?? { label: `Evento #${ev.type}`, color: '' }
+      const fecha = new Date(ev.created_at * 1000).toLocaleString('es-EC', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+      return `<div class="activity-item"><div class="activity-dot ${tipo.color}"></div><div><div class="activity-text">${tipo.label}</div><div class="activity-time">${fecha}</div></div></div>`
+    }).join('') : '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Sin actividad reciente</div>'
+  } catch { document.getElementById('actividad-body').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar</div>' }
+}
+
+function renderLeadsTabla(leads) {
+  const tbody = document.getElementById('leads-tbody')
+  tbody.innerHTML = leads.length ? leads.slice(0,30).map((l, i) => {
+    const fecha = new Date(l.created_at * 1000).toLocaleDateString('es-EC', { day:'2-digit', month:'short', year:'numeric' })
+    const resp  = l._embedded?.users?.[0]?.name ?? '—'
+    const precio = l.price ? `$${l.price.toLocaleString('es-EC')}` : '—'
+    let bc = 'badge-azul'
+    if (l.status_id === 142) bc = 'badge-rojo'
+    if (l.status_id === 143) bc = 'badge-verde'
+    return `<tr><td>${i+1}</td><td><strong>${l.name||'(sin nombre)'}</strong></td><td>${resp}</td><td><span class="badge ${bc}">Etapa ${l.status_id??'—'}</span></td><td>${precio}</td><td>${fecha}</td></tr>`
+  }).join('') : '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Sin leads disponibles</td></tr>'
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DATOS MANUALES
+══════════════════════════════════════════════════════════════ */
+const CAMPOS_MANUAL = ['m-inversion','m-ganancia','m-roi','m-cpl','m-ganados','m-wa-total','m-wa-enviados','m-wa-recibidos','m-wa-tasa','m-wa-leads']
+function guardarManual() {
+  const data = {}
+  CAMPOS_MANUAL.forEach(id => { data[id] = document.getElementById(id)?.value || '' })
+  localStorage.setItem(LS_MANUAL, JSON.stringify(data))
+}
+function cargarManual() {
+  try {
+    const data = JSON.parse(localStorage.getItem(LS_MANUAL) || '{}')
+    CAMPOS_MANUAL.forEach(id => { const el = document.getElementById(id); if (el && data[id]) el.value = data[id] })
+  } catch {}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MODAL CONFIG (KOMMO TOKEN)
+══════════════════════════════════════════════════════════════ */
+async function probarConexion() {
+  const tok = document.getElementById('cfg-token').value.trim() || accessToken
+  const res = document.getElementById('test-result')
+  const btn = document.getElementById('btn-test')
+  if (!tok) { mostrarTestRes(res,'warn','⚠ Primero pega el token.'); return }
+  btn.textContent = 'Probando...'; btn.disabled = true; res.style.display = 'none'
+  try {
+    const r = await fetch('/api/kommo?test=1', { headers: { 'x-kommo-token': tok } })
+    const d = await r.json()
+    if (d.ok) mostrarTestRes(res,'ok',`✅ Conexión exitosa — Token: ${d.token_len} chars`)
+    else if (d.error === 'SIN_TOKEN') mostrarTestRes(res,'err','❌ El token no llegó al servidor.')
+    else if (d.error === 'TOKEN_INVALIDO') mostrarTestRes(res,'err',`❌ Token rechazado por Kommo (${d.kommo_status})`)
+    else mostrarTestRes(res,'err',`❌ Error: ${d.msg || d.error}`)
+  } catch { mostrarTestRes(res,'err','❌ Error de red.') }
+  btn.textContent = '🔍 Probar'; btn.disabled = false
+}
+function mostrarTestRes(el, tipo, txt) {
+  el.style.display = 'block'
+  const map = { ok:'#dcfce7|#86efac|#15803d', warn:'#fef3c7|#fbbf24|#92400e', err:'#fee2e2|#fca5a5|#b91c1c' }
+  const [bg, bdr, clr] = (map[tipo]||map.warn).split('|')
+  Object.assign(el.style, { background:bg, border:`1.5px solid ${bdr}`, color:clr })
+  el.textContent = txt
+}
+function abrirConfig() {
+  document.getElementById('cfg-token').value = accessToken
+  document.getElementById('test-result').style.display = 'none'
+  document.getElementById('modal-config').classList.add('open')
+}
+function cerrarConfig() { document.getElementById('modal-config').classList.remove('open') }
+function guardarConfig() {
+  const tok = document.getElementById('cfg-token').value.trim()
+  if (tok) { accessToken = tok; localStorage.setItem(LS_TOKEN, tok) }
+  cerrarConfig()
+  if (accessToken) cargarDatos()
+}
+document.getElementById('modal-config').addEventListener('click', e => { if (e.target === e.currentTarget) cerrarConfig() })
+
+/* ══════════════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════════════ */
+let toastTimer
+function toast(msg) {
+  const el = document.getElementById('toast')
+  document.getElementById('toast-msg').textContent = msg
+  el.classList.add('show')
+  clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800)
+}
+</script>
 </body>
 </html>
