@@ -406,6 +406,66 @@
       body[data-print="leads"]    #page-leads    { display: block !important; }
       body[data-print="reportes"] #page-reportes { display: block !important; }
     }
+
+    /* ══════════ MOBILE ══════════ */
+    .hamburger {
+      display: none;
+      background: none; border: none;
+      font-size: 22px; cursor: pointer;
+      color: var(--azul); padding: 2px 6px;
+      line-height: 1; border-radius: 6px;
+      transition: background .15s;
+    }
+    .hamburger:hover { background: var(--bg); }
+
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.45); z-index: 99;
+    }
+    .sidebar-overlay.open { display: block; }
+
+    @media (max-width: 720px) {
+      .hamburger { display: block; }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        z-index: 200;
+        width: 240px;
+      }
+      .sidebar.open { transform: translateX(0); }
+
+      .content { margin-left: 0; }
+
+      .topbar { padding: 12px 14px; }
+      .topbar-title { font-size: 14px; }
+      .topbar-sub   { font-size: 10px; }
+
+      .page { padding: 14px 12px; height: calc(100vh - 60px); }
+
+      /* KPIs en columna única */
+      .kommo-grid { grid-template-columns: 1fr !important; }
+
+      /* reportes en columna única */
+      .rep-grid { grid-template-columns: 1fr !important; }
+
+      /* form usuarios en columna */
+      .form-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+      /* pipeline más compacto */
+      .pipeline-name { width: 110px; font-size: 11px; }
+      .pipeline-count { font-size: 12px; width: 28px; }
+
+      /* tabla usuarios scroll horizontal */
+      .tabla-wrap, .users-table-wrap { overflow-x: auto; }
+
+      .kk       { min-height: 110px; padding: 16px; }
+      .kk-value { font-size: 38px; }
+
+      .section-label { margin: 18px 0 10px; }
+
+      .topbar-actions .btn-sm span { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -460,14 +520,19 @@
     </div>
   </aside>
 
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
   <!-- ── CONTENT ── -->
   <div class="content">
 
     <!-- TOP BAR -->
     <div class="topbar">
-      <div>
-        <div class="topbar-title" id="topbar-title">Dashboard</div>
-        <div class="topbar-sub"  id="topbar-sub">Campaña Javier Altamirano · Ambato 2027-2031</div>
+      <div style="display:flex;align-items:center;gap:10px;min-width:0">
+        <button class="hamburger" onclick="toggleSidebar()" aria-label="Menú">☰</button>
+        <div style="min-width:0">
+          <div class="topbar-title" id="topbar-title">Dashboard</div>
+          <div class="topbar-sub"  id="topbar-sub">Campaña Javier Altamirano · Ambato 2027-2031</div>
+        </div>
       </div>
       <div class="topbar-actions" id="topbar-actions"></div>
     </div>
@@ -695,6 +760,9 @@ function construirNav() {
 function navegarA(id) {
   // Verificar acceso
   if (!sesionActual.menus.includes(id) && sesionActual.rol !== 'admin') return
+
+  // En mobile cerrar el sidebar al navegar
+  closeSidebar()
 
   // Actualizar nav activo
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'))
@@ -1117,6 +1185,16 @@ async function cargarPipelines() {
   } catch {
     document.getElementById('pipeline-body').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar el embudo</div>'
   }
+}
+
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('open')
+  document.getElementById('sidebar-overlay').classList.toggle('open')
+}
+
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open')
+  document.getElementById('sidebar-overlay').classList.remove('open')
 }
 
 async function actualizarLeads() {
