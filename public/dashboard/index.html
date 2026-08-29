@@ -400,9 +400,11 @@
     .toast-inner { background: var(--azul); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
 
     @media print {
-      .sidebar, .topbar, #modal-config, #banner-token { display: none !important; }
+      .sidebar, .topbar, #modal-config, #banner-token, #toast { display: none !important; }
       .content { margin-left: 0; }
-      .page { display: block !important; }
+      .page { display: none !important; }
+      body[data-print="leads"]    #page-leads    { display: block !important; }
+      body[data-print="reportes"] #page-reportes { display: block !important; }
     }
   </style>
 </head>
@@ -714,11 +716,14 @@ function navegarA(id) {
   actions.innerHTML = ''
   if (id === 'leads') {
     actions.innerHTML = `
-      <button class="btn-sm" onclick="cargarDatos()">↻ Actualizar</button>
-      <button class="btn-sm oro" onclick="window.print()">⎙ PDF</button>`
+      <button class="btn-sm" id="btn-actualizar" onclick="actualizarLeads()">↻ Actualizar</button>
+      <button class="btn-sm oro" onclick="imprimirPagina('leads')">⎙ PDF</button>`
     cargarDatos()
   }
-  if (id === 'reportes') construirReportes()
+  if (id === 'reportes') {
+    actions.innerHTML = `<button class="btn-sm oro" onclick="imprimirPagina('reportes')">⎙ PDF</button>`
+    construirReportes()
+  }
   if (id === 'usuarios') renderUsuarios()
   if (id === 'permisos') renderPermisos()
 }
@@ -1001,15 +1006,12 @@ const STAGE_RENAME = {
   'Contacto nuevo': 'Leads Nuevos',
 }
 
-// Etapas ocultas (se muestran cuando el usuario lo active)
-const STAGES_OCULTAS = new Set([
-  'Perfil ciudadano',
-  'Ciudadano comprometido',
-  'Promotor activo',
-  'Simpatizante confirmado',
-  'Militante',
-  'Ventas Perdidos',
-  'Perdidos',
+// Solo estas etapas son visibles (whitelist por nombre original en Kommo)
+const STAGES_VISIBLES = new Set([
+  'Leads Entrantes',
+  'Contacto nuevo',
+  'Javier en tu Casa',
+  'Pagina Web',
 ])
 
 async function cargarPipelines() {
@@ -1024,7 +1026,7 @@ async function cargarPipelines() {
     const allStatuses = []
     pipes.forEach(p => {
       ;(p._embedded?.statuses ?? []).forEach(s => {
-        if (s.type !== 142 && !STAGES_OCULTAS.has(s.name)) {
+        if (s.type !== 142 && STAGES_VISIBLES.has(s.name)) {
           const cnt = conteoPorEtapa[s.id] || 0
           const nombre = STAGE_RENAME[s.name] || s.name
           allStatuses.push({ name: nombre, count: cnt })
@@ -1046,6 +1048,19 @@ async function cargarPipelines() {
   } catch {
     document.getElementById('pipeline-body').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar el embudo</div>'
   }
+}
+
+async function actualizarLeads() {
+  const btn = document.getElementById('btn-actualizar')
+  if (btn) { btn.disabled = true; btn.textContent = '↻ Cargando...' }
+  await cargarDatos()
+  if (btn) { btn.disabled = false; btn.innerHTML = '↻ Actualizar' }
+}
+
+function imprimirPagina(id) {
+  document.body.dataset.print = id
+  window.print()
+  delete document.body.dataset.print
 }
 
 /* métricas manuales eliminadas */
