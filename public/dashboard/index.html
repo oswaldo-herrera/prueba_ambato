@@ -473,111 +473,48 @@
     <!-- ── PÁGINA: LEADS ── -->
     <div class="page" id="page-leads">
 
-      <!-- KPIs estilo Kommo -->
-      <div class="kommo-grid">
+      <!-- KPIs: 3 cards limpias -->
+      <div class="kommo-grid" style="grid-template-columns:repeat(3,1fr)">
 
-        <!-- Mensajes entrantes -->
         <div class="kk kk-verde">
-          <div class="kk-label">Mensajes entrantes</div>
-          <div class="kk-value" id="kk-msg">—</div>
-          <div class="kk-hoy" style="color:#4ade80" id="kk-msg-hoy"></div>
-          <ul class="kk-list" id="kk-msg-list">
-            <li><span class="row-name"><span class="dot" style="background:#4ade80"></span>Cargando...</span><span class="row-num">—</span></li>
-          </ul>
-        </div>
-
-        <!-- Javier en Tu Casa Total -->
-        <div class="kk kk-morado">
-          <div class="kk-label">Javier en Tu Casa · Total</div>
-          <div class="kk-value" id="kk-total">—</div>
-          <div class="kk-money">leads en el pipeline</div>
-          <div style="margin-top:8px">
-            <div class="kk-sub">Hoy: <span id="kk-total-hoy" style="color:#a78bfa;font-weight:700">—</span></div>
-          </div>
-        </div>
-
-        <!-- Javier en Tu Casa Hoy -->
-        <div class="kk kk-azul">
-          <div class="kk-label">Leads registrados hoy</div>
+          <div class="kk-label">Nuevos hoy</div>
           <div class="kk-value" id="kk-hoy">—</div>
-          <div class="kk-sub" id="kk-hoy-sub">nuevos contactos hoy</div>
-          <div style="margin-top:8px">
-            <div class="kk-sub">Esta semana: <span id="kk-semana" style="color:#60a5fa;font-weight:700">—</span></div>
+          <div class="kk-sub">leads creados hoy</div>
+          <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.5)">
+            Ayer: <span id="kk-ayer" style="color:#4ade80;font-weight:700">—</span>
           </div>
         </div>
 
-        <!-- Fuentes de leads -->
-        <div class="kk" style="background:#0d1b2a">
-          <div class="kk-label">Fuentes de leads</div>
-          <div class="kk-donut">
-            <svg class="donut" width="90" height="90" viewBox="0 0 90 90">
-              <circle cx="45" cy="45" r="35" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="12"/>
-              <circle id="donut-arc" cx="45" cy="45" r="35" fill="none" stroke="#4ade80" stroke-width="12"
-                stroke-dasharray="220 220" stroke-dashoffset="0" stroke-linecap="round"/>
-            </svg>
+        <div class="kk kk-morado">
+          <div class="kk-label">Nuevos / Ayer</div>
+          <div class="kk-value" id="kk-hoy-ayer">— / —</div>
+          <div class="kk-sub">comparativa diaria</div>
+          <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.5)">
+            Esta semana: <span id="kk-semana" style="color:#a78bfa;font-weight:700">—</span>
           </div>
-          <div style="font-size:11px;color:rgba(255,255,255,.6);text-align:center" id="kk-fuente-label">Javier Altamirano</div>
+        </div>
+
+        <div class="kk kk-azul">
+          <div class="kk-label">Total leads en Kommo</div>
+          <div class="kk-value" id="kk-total">—</div>
+          <div class="kk-sub">todos los pipelines</div>
+          <div style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.5)">
+            Contactos: <span id="kk-contactos" style="color:#60a5fa;font-weight:700">—</span>
+          </div>
         </div>
 
       </div>
 
-      <div class="section-label">Embudo y Actividad</div>
-      <div class="two-col">
-        <div class="card">
-          <div class="card-header">📊 Pipeline — Etapas del Embudo</div>
-          <div class="card-body" id="pipeline-body">
-            <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Conecta tu token para ver el embudo</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">⚡ Actividad Reciente</div>
-          <div class="card-body" id="actividad-body">
-            <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Conecta tu token para ver actividad</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-label">Métricas Manuales · ROI y WhatsApp Business</div>
-      <div class="two-col">
-        <div class="card">
-          <div class="card-header">💰 ROI y Resultados Financieros</div>
-          <div class="card-body">
-            <div class="editable-row"><label>Inversión total ($)</label><input type="text" id="m-inversion" placeholder="0.00" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>Ganancias / Retorno ($)</label><input type="text" id="m-ganancia" placeholder="0.00" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>ROI (%)</label><input type="text" id="m-roi" placeholder="0%" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>Costo por Lead ($)</label><input type="text" id="m-cpl" placeholder="0.00" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>Leads ganados</label><input type="text" id="m-ganados" placeholder="0" oninput="guardarManual()" /></div>
-            <div class="manual-note">✏ Actualiza desde Kommo → Insights → ROI</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">💬 WhatsApp Business</div>
-          <div class="card-body">
-            <div class="editable-row"><label>Conversaciones totales</label><input type="text" id="m-wa-total" placeholder="0" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>Mensajes enviados</label><input type="text" id="m-wa-enviados" placeholder="0" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>Mensajes recibidos</label><input type="text" id="m-wa-recibidos" placeholder="0" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>Tasa de respuesta (%)</label><input type="text" id="m-wa-tasa" placeholder="0%" oninput="guardarManual()" /></div>
-            <div class="editable-row"><label>Leads desde WhatsApp</label><input type="text" id="m-wa-leads" placeholder="0" oninput="guardarManual()" /></div>
-            <div class="manual-note">✏ Actualiza desde Kommo → Insights → WhatsApp Business</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-label">Leads Recientes</div>
+      <div class="section-label">Pipeline — Conversión Ciudadana Electoral</div>
       <div class="card">
-        <div class="card-header">📋 Últimos Leads Registrados en Kommo</div>
-        <div class="tabla-wrap">
-          <table>
-            <thead><tr><th>#</th><th>Nombre</th><th>Responsable</th><th>Etapa</th><th>Presupuesto</th><th>Fecha</th></tr></thead>
-            <tbody id="leads-tbody">
-              <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Conecta tu token de Kommo para ver los leads</td></tr>
-            </tbody>
-          </table>
+        <div class="card-header">📊 Etapas del Embudo</div>
+        <div class="card-body" id="pipeline-body">
+          <div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Cargando...</div>
         </div>
       </div>
 
       <div style="margin-top:20px;font-size:11px;color:#ccc;text-align:center">
-        javieraltamirano.org · Dashboard de Campaña 2027 - 2031 · <span id="footer-fecha"></span>
+        javieraltamirano.org · <span id="footer-fecha"></span>
       </div>
     </div>
 
@@ -1015,79 +952,55 @@ function semanaTimestamp() {
 
 async function cargarDatos() {
   try {
-    await Promise.all([
-      cargarMensajes(),
-      cargarLeadsKommo(),
-      cargarPipelines(),
-      cargarActividades(),
-    ])
+    await Promise.all([ cargarLeadsKommo(), cargarPipelines() ])
     const el = document.getElementById('footer-fecha')
     if (el) el.textContent = 'Actualizado: ' + new Date().toLocaleString('es-EC')
   } catch(e) { console.error('Kommo error:', e) }
 }
 
-async function cargarMensajes() {
-  try {
-    // Eventos de hoy (contactos nuevos/mensajes)
-    const desde = hoyTimestamp()
-    const d = await fetchKommo(`/events?filter[created_at][from]=${desde}&limit=250`)
-    const eventos = d?._embedded?.events ?? []
-
-    // Agrupar por tipo para simular fuentes
-    const porTipo = {}
-    eventos.forEach(e => { porTipo[e.type] = (porTipo[e.type] || 0) + 1 })
-
-    const totalHoy = eventos.length
-    setText('kk-msg', totalHoy)
-    setText('kk-msg-hoy', 'hoy')
-
-    // Mini lista con los tipos más frecuentes
-    const NOMBRES = { 1:'Lead creado', 2:'Contacto nuevo', 3:'Lead actualizado', 10:'Nota', 11:'Tarea resuelta', 12:'Llamada', 13:'Email' }
-    const COLORES = { 1:'#4ade80', 2:'#34d399', 3:'#60a5fa', 10:'#fbbf24', 11:'#a3e635', 12:'#22d3ee', 13:'#818cf8' }
-    const top = Object.entries(porTipo).sort((a,b) => b[1]-a[1]).slice(0,4)
-    const list = document.getElementById('kk-msg-list')
-    list.innerHTML = top.length ? top.map(([tipo, cnt]) => `
-      <li>
-        <span class="row-name"><span class="dot" style="background:${COLORES[tipo]||'#94a3b8'}"></span>${NOMBRES[tipo]||'Evento #'+tipo}</span>
-        <span class="row-num">${cnt}</span>
-      </li>`).join('') : '<li><span class="row-name">Sin actividad hoy</span><span class="row-num">0</span></li>'
-  } catch { setText('kk-msg', '—') }
-}
-
 async function cargarLeadsKommo() {
   try {
-    const [dTotal, dHoy, dSemana] = await Promise.all([
-      fetchKommo('/leads?limit=1'),
-      fetchKommo(`/leads?filter[created_at][from]=${hoyTimestamp()}&limit=1`),
-      fetchKommo(`/leads?filter[created_at][from]=${semanaTimestamp()}&limit=1`),
+    // Traer 250 leads más recientes para contar hoy/ayer en el cliente
+    const [dRecientes, dContactos] = await Promise.all([
+      fetchKommo('/leads?limit=250&order[id]=desc'),
+      fetchKommo('/contacts?limit=1'),
     ])
 
-    const total   = dTotal?._page?.total_items ?? '?'
-    const hoy     = dHoy?._page?.total_items   ?? '?'
-    const semana  = dSemana?._page?.total_items ?? '?'
+    const leads  = dRecientes?._embedded?.leads ?? []
+    const total  = dRecientes?._page?.total_items ?? leads.length
+    const contac = dContactos?._page?.total_items ?? '—'
 
-    setText('kk-total',     total)
-    setText('kk-total-hoy', hoy)
-    setText('kk-hoy',       hoy)
-    setText('kk-hoy-sub',   'nuevos contactos hoy')
-    setText('kk-semana',    semana)
+    // Contar hoy y ayer por created_at (unix timestamp)
+    const ahora  = new Date()
+    const iniciHoy  = new Date(ahora); iniciHoy.setHours(0,0,0,0)
+    const iniciAyer = new Date(iniciHoy); iniciAyer.setDate(iniciHoy.getDate() - 1)
+    const iniciSem  = new Date(iniciHoy); iniciSem.setDate(iniciHoy.getDate() - 7)
 
-    // Donut: 100% Javier Altamirano
-    const arc = document.getElementById('donut-arc')
-    if (arc) { arc.setAttribute('stroke-dasharray', '220 220'); arc.setAttribute('stroke-dashoffset', '0') }
-    setText('kk-fuente-label', `Javier Altamirano · ${total} leads`)
+    const tsHoy  = iniciHoy.getTime()  / 1000
+    const tsAyer = iniciAyer.getTime() / 1000
+    const tsSem  = iniciSem.getTime()  / 1000
 
-    // Tabla de leads recientes
-    const dRecientes = await fetchKommo('/leads?limit=30&order[id]=desc')
-    renderLeadsTabla(dRecientes?._embedded?.leads ?? [])
-  } catch { setText('kk-total','—'); setText('kk-hoy','—') }
+    const nHoy   = leads.filter(l => l.created_at >= tsHoy).length
+    const nAyer  = leads.filter(l => l.created_at >= tsAyer && l.created_at < tsHoy).length
+    const nSemana= leads.filter(l => l.created_at >= tsSem).length
+
+    setText('kk-total',    total)
+    setText('kk-contactos', contac)
+    setText('kk-hoy',       nHoy)
+    setText('kk-ayer',      nAyer)
+    setText('kk-hoy-ayer',  `${nHoy} / ${nAyer}`)
+    setText('kk-semana',    nSemana)
+  } catch(e) {
+    console.error('leads:', e)
+    setText('kk-total','—'); setText('kk-hoy','—')
+  }
 }
 
 async function cargarPipelines() {
   try {
     const d     = await fetchKommo('/leads/pipelines')
     const pipes = d?._embedded?.pipelines ?? []
-    const leadsD = await fetchKommo('/leads?limit=250&with=pipeline')
+    const leadsD = await fetchKommo('/leads?limit=250&order[id]=desc')
     const leads  = leadsD?._embedded?.leads ?? []
     const conteoPorEtapa = {}
     leads.forEach(l => { conteoPorEtapa[l.status_id] = (conteoPorEtapa[l.status_id] || 0) + 1 })
@@ -1095,62 +1008,31 @@ async function cargarPipelines() {
     const allStatuses = []
     pipes.forEach(p => {
       ;(p._embedded?.statuses ?? []).forEach(s => {
-        if (s.type !== 142) { allStatuses.push({ name: s.name, count: conteoPorEtapa[s.id] || 0 }); maxLeads = Math.max(maxLeads, conteoPorEtapa[s.id] || 0) }
+        if (s.type !== 142) {
+          const cnt = conteoPorEtapa[s.id] || 0
+          allStatuses.push({ name: s.name, count: cnt })
+          maxLeads = Math.max(maxLeads, cnt)
+        }
       })
     })
     const body = document.getElementById('pipeline-body')
     body.innerHTML = allStatuses.map(st => {
       const pct = Math.round((st.count / maxLeads) * 100)
-      return `<div class="pipeline-row"><span class="pipeline-name">${st.name}</span><div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:${pct}%"></div></div><span class="pipeline-count">${st.count}</span></div>`
+      return `
+        <div class="pipeline-row">
+          <span class="pipeline-name">${st.name}</span>
+          <div class="pipeline-bar-wrap"><div class="pipeline-bar" style="width:${pct}%"></div></div>
+          <span class="pipeline-count">${st.count}</span>
+        </div>`
     }).join('')
+    if (!allStatuses.length) body.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Sin etapas en el pipeline</div>'
   } catch {
     document.getElementById('pipeline-body').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar el embudo</div>'
   }
 }
 
-const TIPO_EVENTO = { 1:{label:'Lead creado',color:'verde'}, 2:{label:'Contacto creado',color:'verde'}, 3:{label:'Lead actualizado',color:'azul'}, 4:{label:'Lead eliminado',color:'rojo'}, 10:{label:'Nota agregada',color:''}, 11:{label:'Tarea completada',color:'verde'}, 12:{label:'Llamada',color:'azul'}, 13:{label:'Email enviado',color:'azul'} }
-
-async function cargarActividades() {
-  try {
-    const d = await fetchKommo('/events?limit=20')
-    const eventos = d?._embedded?.events ?? []
-    const body = document.getElementById('actividad-body')
-    body.innerHTML = eventos.length ? eventos.map(ev => {
-      const tipo = TIPO_EVENTO[ev.type] ?? { label: `Evento #${ev.type}`, color: '' }
-      const fecha = new Date(ev.created_at * 1000).toLocaleString('es-EC', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
-      return `<div class="activity-item"><div class="activity-dot ${tipo.color}"></div><div><div class="activity-text">${tipo.label}</div><div class="activity-time">${fecha}</div></div></div>`
-    }).join('') : '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Sin actividad reciente</div>'
-  } catch { document.getElementById('actividad-body').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar</div>' }
-}
-
-function renderLeadsTabla(leads) {
-  const tbody = document.getElementById('leads-tbody')
-  tbody.innerHTML = leads.length ? leads.slice(0,30).map((l, i) => {
-    const fecha = new Date(l.created_at * 1000).toLocaleDateString('es-EC', { day:'2-digit', month:'short', year:'numeric' })
-    const resp  = l._embedded?.users?.[0]?.name ?? '—'
-    const precio = l.price ? `$${l.price.toLocaleString('es-EC')}` : '—'
-    let bc = 'badge-azul'
-    if (l.status_id === 142) bc = 'badge-rojo'
-    if (l.status_id === 143) bc = 'badge-verde'
-    return `<tr><td>${i+1}</td><td><strong>${l.name||'(sin nombre)'}</strong></td><td>${resp}</td><td><span class="badge ${bc}">Etapa ${l.status_id??'—'}</span></td><td>${precio}</td><td>${fecha}</td></tr>`
-  }).join('') : '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Sin leads disponibles</td></tr>'
-}
-
-/* ══════════════════════════════════════════════════════════════
-   DATOS MANUALES
-══════════════════════════════════════════════════════════════ */
-const CAMPOS_MANUAL = ['m-inversion','m-ganancia','m-roi','m-cpl','m-ganados','m-wa-total','m-wa-enviados','m-wa-recibidos','m-wa-tasa','m-wa-leads']
-function guardarManual() {
-  const data = {}
-  CAMPOS_MANUAL.forEach(id => { data[id] = document.getElementById(id)?.value || '' })
-  localStorage.setItem(LS_MANUAL, JSON.stringify(data))
-}
-function cargarManual() {
-  try {
-    const data = JSON.parse(localStorage.getItem(LS_MANUAL) || '{}')
-    CAMPOS_MANUAL.forEach(id => { const el = document.getElementById(id); if (el && data[id]) el.value = data[id] })
-  } catch {}
-}
+/* métricas manuales eliminadas */
+function cargarManual() {}
 
 /* modal-config eliminado — token fijo en servidor */
 
