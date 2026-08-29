@@ -645,7 +645,6 @@
    CONSTANTES Y ESTADO
 ══════════════════════════════════════════════════════════════ */
 const LS_MANUAL  = 'dash_manual'
-const LS_USERS   = 'crm_users'
 
 const ADMIN_EMAIL = 'admin'
 const DEFAULT_PW  = 'Hersa2026'
@@ -663,12 +662,27 @@ const MENUS_ADMIN = [
 let sesionActual = null  // { email, nombre, rol: 'admin'|'usuario', menus: [] }
 
 /* ══════════════════════════════════════════════════════════════
-   USUARIOS (localStorage)
+   USUARIOS (Supabase crm_users)
 ══════════════════════════════════════════════════════════════ */
-function getUsers() {
-  try { return JSON.parse(localStorage.getItem(LS_USERS) || '[]') } catch { return [] }
+function sbH() {
+  return {
+    apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`,
+    'Content-Type': 'application/json', Prefer: 'return=representation',
+  }
 }
-function saveUsers(arr) { localStorage.setItem(LS_USERS, JSON.stringify(arr)) }
+
+async function getUsers() {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/crm_users?order=id.asc`, { headers: sbH() })
+    return res.ok ? res.json() : []
+  } catch { return [] }
+}
+
+async function sbUpdateUser(email, updates) {
+  return fetch(`${SB_URL}/rest/v1/crm_users?email=eq.${encodeURIComponent(email)}`, {
+    method: 'PATCH', headers: sbH(), body: JSON.stringify(updates),
+  })
+}
 
 /* ══════════════════════════════════════════════════════════════
    LOGIN
@@ -677,25 +691,27 @@ document.querySelectorAll('#inp-email, #inp-pass').forEach(el => {
   el.addEventListener('keydown', e => { if (e.key === 'Enter') verificarLogin() })
 })
 
-function verificarLogin() {
+async function verificarLogin() {
   const email = document.getElementById('inp-email').value.trim()
   const pass  = document.getElementById('inp-pass').value
 
-  // Admin
+  // Admin hardcodeado (no necesita red)
   if ((email === 'admin' || email === '') && pass === DEFAULT_PW) {
     sesionActual = { email: 'admin', nombre: 'Admin', rol: 'admin', menus: MENUS_ADMIN.map(m => m.id) }
     iniciarApp()
     return
   }
 
-  // Usuario registrado
-  const users = getUsers()
-  const user  = users.find(u => u.email === email && u.pass === pass)
-  if (user) {
-    sesionActual = { email: user.email, nombre: user.nombre || user.email, rol: 'usuario', menus: user.menus || [] }
-    iniciarApp()
-    return
-  }
+  // Usuario en Supabase
+  try {
+    const users = await getUsers()
+    const user  = users.find(u => u.email === email && u.pass === pass)
+    if (user) {
+      sesionActual = { email: user.email, nombre: user.nombre || user.email, rol: 'usuario', menus: user.menus || [] }
+      iniciarApp()
+      return
+    }
+  } catch(e) { console.error('login error:', e) }
 
   const err = document.getElementById('login-error')
   err.style.display = 'block'
@@ -904,38 +920,53 @@ function descargarReporte(id) {
 /* ══════════════════════════════════════════════════════════════
    MÓDULO: USUARIOS
 ══════════════════════════════════════════════════════════════ */
-function crearUsuario() {
+async function crearUsuario() {
   const email  = document.getElementById('nu-email').value.trim().toLowerCase()
   const pass   = document.getElementById('nu-pass').value.trim()
   const nombre = document.getElementById('nu-nombre').value.trim()
 
-  if (!email || !pass) { toast('Correo y contraseña son requeridos'); return }
-  if (email === 'admin') { toast('No puedes usar "admin" como correo'); return }
+  if (!email || !pass) { toast('Usuario y contraseña son requeridos'); return }
+  if (email === 'admin') { toast('No puedes usar "admin" como usuario'); return }
 
-  const users = getUsers()
-  if (users.find(u => u.email.toLowerCase() === email)) { toast('Ese correo ya existe'); return }
+  const users = await getUsers()
+  if (users.find(u => u.email.toLowerCase() === email)) { toast('Ese usuario ya existe'); return }
 
-  users.push({ email, pass, nombre, menus: [] })
-  saveUsers(users)
-  document.getElementById('nu-email').value  = ''
-  document.getElementById('nu-pass').value   = ''
-  document.getElementById('nu-nombre').value = ''
-  renderUsuarios()
-  renderPermisos()
-  toast('✅ Usuario creado')
+  const res = await fetch(`${SB_URL}/rest/v1/crm_users`, {
+    method: 'POST', headers: sbH(),
+    body: JSON.stringify({ email, pass, nombre, menus: [] }),
+  })
+  if (res.ok || res.status === 201) {
+    document.getElementById('nu-email').value  = ''
+    document.getElementById('nu-pass').value   = ''
+    document.getElementById('nu-nombre').value = ''
+    await renderUsuarios()
+    await renderPermisos()
+    toast('✅ Usuario creado')
+  } else {
+    const err = await res.text()
+    toast('Error al crear: ' + err.slice(0, 60))
+  }
 }
 
-function eliminarUsuario(email) {
+async function eliminarUsuario(email) {
   if (!confirm(`¿Eliminar al usuario ${email}?`)) return
-  saveUsers(getUsers().filter(u => u.email !== email))
-  renderUsuarios()
-  renderPermisos()
-  toast('Usuario eliminado')
+  const res = await fetch(`${SB_URL}/rest/v1/crm_users?email=eq.${encodeURIComponent(email)}`, {
+    method: 'DELETE', headers: sbH(),
+  })
+  if (res.ok) {
+    await renderUsuarios()
+    await renderPermisos()
+    toast('Usuario eliminado')
+  } else {
+    toast('Error al eliminar')
+  }
 }
 
-function renderUsuarios() {
+async function renderUsuarios() {
   const tbody = document.getElementById('users-tbody')
-  const users = getUsers()
+  if (!tbody) return
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Cargando...</td></tr>'
+  const users = await getUsers()
   if (!users.length) {
     tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Sin usuarios registrados</td></tr>'
     return
@@ -998,7 +1029,6 @@ function togglePass(i) {
 }
 
 function abrirCambioPass(i, email) {
-  // cerrar cualquier fila de edición abierta
   document.querySelectorAll('[id^="edit-row-"]').forEach(r => r.style.display = 'none')
   const row = document.getElementById(`edit-row-${i}`)
   if (row) { row.style.display = ''; document.getElementById(`newpass-${i}`).focus() }
@@ -1009,26 +1039,28 @@ function cerrarCambioPass(i) {
   if (row) row.style.display = 'none'
 }
 
-function guardarPass(i, email) {
+async function guardarPass(i, email) {
   const input = document.getElementById(`newpass-${i}`)
   const nueva = input.value.trim()
   if (!nueva) { toast('Escribe una contraseña'); return }
-  const users = getUsers()
-  const user  = users.find(u => u.email === email)
-  if (!user) return
-  user.pass = nueva
-  saveUsers(users)
-  cerrarCambioPass(i)
-  renderUsuarios()
-  toast(`✅ Contraseña de ${email} actualizada`)
+  const res = await sbUpdateUser(email, { pass: nueva })
+  if (res && res.ok) {
+    cerrarCambioPass(i)
+    await renderUsuarios()
+    toast(`✅ Contraseña de ${email} actualizada`)
+  } else {
+    toast('Error al actualizar contraseña')
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
    MÓDULO: PERMISOS
 ══════════════════════════════════════════════════════════════ */
-function renderPermisos() {
+async function renderPermisos() {
   const lista = document.getElementById('permisos-list')
-  const users = getUsers()
+  if (!lista) return
+  lista.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:20px 0">Cargando...</div>'
+  const users = await getUsers()
   if (!users.length) {
     lista.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:20px 0">No hay usuarios. Crea uno en el módulo Usuarios.</div>'
     return
@@ -1039,7 +1071,7 @@ function renderPermisos() {
         <div class="perm-email">${u.nombre || u.email}</div>
         <div class="perm-tag">${u.email}</div>
       </div>
-      <div class="perm-menus" id="perm-menus-${u.email.replace('@','_').replace('.','_')}">
+      <div class="perm-menus" id="perm-menus-${u.email.replace(/[@.]/g,'_')}">
         ${MENUS_DISPONIBLES.map(m => {
           const activo = (u.menus || []).includes(m.id) ? 'on' : ''
           return `<label class="perm-toggle ${activo}" id="pt-${u.email.replace(/[@.]/g,'_')}-${m.id}">
@@ -1053,23 +1085,23 @@ function renderPermisos() {
 }
 
 function togglePerm(cb, email, menuId) {
-  const lbl = cb.closest('.perm-toggle')
-  lbl.classList.toggle('on', cb.checked)
+  cb.closest('.perm-toggle').classList.toggle('on', cb.checked)
 }
 
-function guardarPermisos(email) {
-  const users  = getUsers()
-  const user   = users.find(u => u.email === email)
-  if (!user) return
-  user.menus = MENUS_DISPONIBLES
+async function guardarPermisos(email) {
+  const safeId   = email.replace(/[@.]/g,'_')
+  const newMenus = MENUS_DISPONIBLES
     .filter(m => {
-      const safeId = email.replace(/[@.]/g,'_')
       const lbl = document.getElementById(`pt-${safeId}-${m.id}`)
       return lbl && lbl.classList.contains('on')
     })
     .map(m => m.id)
-  saveUsers(users)
-  toast(`✅ Permisos guardados para ${email}`)
+  const res = await sbUpdateUser(email, { menus: newMenus })
+  if (res && res.ok) {
+    toast(`✅ Permisos guardados para ${email}`)
+  } else {
+    toast('Error al guardar permisos')
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
