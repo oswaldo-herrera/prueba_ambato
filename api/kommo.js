@@ -5,14 +5,14 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end()
 
-  const token = req.headers['x-kommo-token']
+  // Token: header del cliente O variable de entorno del servidor
+  const token = (req.headers['x-kommo-token'] || '').trim() || (process.env.KOMMO_TOKEN || '').trim()
 
-  // Modo diagnóstico: /api/kommo?test=1
   if (req.query.test) {
-    if (!token) return res.status(200).json({ ok: false, error: 'SIN_TOKEN', msg: 'El token no llegó al proxy' })
+    if (!token) return res.status(200).json({ ok: false, error: 'SIN_TOKEN' })
     try {
       const r = await fetch('https://hersaambato.kommo.com/api/v4/account', {
-        headers: { Authorization: `Bearer ${token.trim()}` }
+        headers: { Authorization: `Bearer ${token}` }
       })
       if (r.ok) {
         const d = await r.json()
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
   try {
     const kommoUrl = `https://hersaambato.kommo.com/api/v4${url}`
     const response = await fetch(kommoUrl, {
-      headers: { Authorization: `Bearer ${token.trim()}` }
+      headers: { Authorization: `Bearer ${token}` }
     })
     const data = await response.json()
     res.status(response.status).json(data)
