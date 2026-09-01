@@ -422,7 +422,7 @@
 
     .sidebar-overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.45); z-index: 99;
+      background: rgba(0,0,0,.45); z-index: 1100;
     }
     .sidebar-overlay.open { display: block; }
 
@@ -432,7 +432,7 @@
       .sidebar {
         transform: translateX(-100%);
         transition: transform .25s ease;
-        z-index: 200;
+        z-index: 1200;
         width: 240px;
       }
       .sidebar.open { transform: translateX(0); }
