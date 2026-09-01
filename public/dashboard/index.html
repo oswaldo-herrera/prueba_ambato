@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CRM Campaña — Javier Altamirano</title>
+  <!-- Leaflet para mapa de calor -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -466,6 +468,37 @@
 
       .topbar-actions .btn-sm span { display: none; }
     }
+
+    /* ══ MAPA DE CALOR ══ */
+    #map-ambato { height: 480px; border-radius: var(--radio); overflow: hidden; }
+    .mapa-grid { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; }
+    .mapa-panel {
+      background: var(--card); border-radius: var(--radio);
+      border: 1px solid var(--borde); padding: 20px;
+    }
+    .mapa-panel h3 { font-size: 13px; font-weight: 700; color: var(--azul); margin-bottom: 14px; letter-spacing: .04em; text-transform: uppercase; }
+    .semaforo-legend { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .sem-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--texto); }
+    .sem-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+    .mapa-lista { display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; }
+    .mapa-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 10px; border-radius: 8px;
+      background: var(--bg); font-size: 12px;
+      cursor: pointer; transition: background .15s;
+    }
+    .mapa-row:hover { background: var(--borde); }
+    .mapa-row-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .mapa-row-name { flex: 1; font-weight: 600; color: var(--texto); }
+    .mapa-row-count { font-weight: 700; color: var(--azul); }
+    .mapa-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .mapa-kpi { background: var(--bg); border-radius: 10px; padding: 12px; text-align: center; }
+    .mapa-kpi-val { font-size: 24px; font-weight: 800; color: var(--azul); }
+    .mapa-kpi-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    @media (max-width: 720px) {
+      .mapa-grid { grid-template-columns: 1fr; }
+      #map-ambato { height: 320px; }
+    }
   </style>
 </head>
 <body>
@@ -631,6 +664,33 @@
       </div>
     </div>
 
+    <!-- ── PÁGINA: MAPA DE CALOR ── -->
+    <div class="page" id="page-mapa">
+      <div class="mapa-kpis" id="mapa-kpis">
+        <div class="mapa-kpi"><div class="mapa-kpi-val" id="mk-total">—</div><div class="mapa-kpi-lbl">Registros totales</div></div>
+        <div class="mapa-kpi"><div class="mapa-kpi-val" id="mk-parroquias">—</div><div class="mapa-kpi-lbl">Parroquias con contactos</div></div>
+      </div>
+      <div class="mapa-grid">
+        <div class="mapa-panel">
+          <div id="map-ambato"></div>
+        </div>
+        <div class="mapa-panel">
+          <h3>Semaforización</h3>
+          <div class="semaforo-legend">
+            <div class="sem-item"><div class="sem-dot" style="background:#6b7280"></div>Sin registros (0)</div>
+            <div class="sem-item"><div class="sem-dot" style="background:#16a34a"></div>Bajo: 1 – 25</div>
+            <div class="sem-item"><div class="sem-dot" style="background:#ca8a04"></div>Medio: 26 – 75</div>
+            <div class="sem-item"><div class="sem-dot" style="background:#ea580c"></div>Alto: 76 – 150</div>
+            <div class="sem-item"><div class="sem-dot" style="background:#dc2626"></div>Crítico: 151+</div>
+          </div>
+          <h3>Ranking de parroquias</h3>
+          <div class="mapa-lista" id="mapa-lista">
+            <div style="color:var(--muted);font-size:12px;padding:12px 0">Cargando...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div><!-- /content -->
 </div><!-- /app -->
 
@@ -640,6 +700,7 @@
 <div id="toast"><div class="toast-inner" id="toast-msg"></div></div>
 
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════
    CONSTANTES Y ESTADO
@@ -655,6 +716,7 @@ const MENUS_DISPONIBLES = [
 ]
 const MENUS_ADMIN = [
   ...MENUS_DISPONIBLES,
+  { id: 'mapa',     label: 'Mapa',     ico: '🗺️' },
   { id: 'usuarios', label: 'Usuarios', ico: '👥' },
   { id: 'permisos', label: 'Permisos', ico: '🔐' },
 ]
@@ -754,6 +816,7 @@ function iniciarApp() {
 const TITLES = {
   leads:    { title: 'Leads & VotoBox', sub: 'Embudo de ventas y contactos' },
   reportes: { title: 'Reportes',      sub: 'Descarga de registros en Excel' },
+  mapa:     { title: 'Mapa de calor', sub: 'Registros por parroquia — Ambato' },
   usuarios: { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
   permisos: { title: 'Permisos',      sub: 'Control de visibilidad por usuario' },
 }
@@ -810,6 +873,7 @@ function navegarA(id) {
   }
   if (id === 'usuarios') renderUsuarios()
   if (id === 'permisos') renderPermisos()
+  if (id === 'mapa')     iniciarMapa()
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1246,6 +1310,138 @@ function imprimirPagina(id) {
 function cargarManual() {}
 
 /* modal-config eliminado — token fijo en servidor */
+
+/* ══════════════════════════════════════════════════════════════
+   MÓDULO: MAPA DE CALOR — Parroquias Cantón Ambato
+══════════════════════════════════════════════════════════════ */
+const PARROQUIAS_GEO = {
+  // Urbanas
+  'Atocha - Ficoa':             [-1.2380, -78.6190],
+  'Celiano Monge':              [-1.2290, -78.6250],
+  'Huachi Chico':               [-1.2700, -78.6070],
+  'Huachi Loreto':              [-1.2620, -78.6140],
+  'La Matriz':                  [-1.2490, -78.6240],
+  'La Merced':                  [-1.2540, -78.6200],
+  'La Península':               [-1.2460, -78.6350],
+  'Pishilata':                  [-1.2590, -78.6090],
+  'San Francisco':              [-1.2570, -78.6260],
+  // Rurales
+  'Ambatillo':                  [-1.2980, -78.6680],
+  'Atahualpa':                  [-1.3500, -78.7200],
+  'Augusto Nicolás Martínez':   [-1.2800, -78.5400],
+  'Constantino Fernández':      [-1.3200, -78.6900],
+  'Cunchibamba':                [-1.2000, -78.5600],
+  'Huachi Grande':              [-1.2900, -78.6100],
+  'Izamba':                     [-1.2200, -78.6100],
+  'Juan Benigno Vela':          [-1.3600, -78.6400],
+  'Montalvo':                   [-1.2650, -78.6500],
+  'Pasa':                       [-1.3100, -78.7600],
+  'Picaihua':                   [-1.2750, -78.5900],
+  'Pilahuín':                   [-1.3400, -78.7900],
+  'Quisapincha':                [-1.2800, -78.7100],
+  'San Bartolomé de Pinllo':    [-1.2200, -78.6380],
+  'San Fernando':               [-1.3000, -78.6200],
+  'Santa Rosa':                 [-1.1900, -78.6900],
+  'Totoras':                    [-1.2350, -78.5900],
+  'Unamuncho':                  [-1.2600, -78.6800],
+}
+
+function semaforoColor(n) {
+  if (n === 0)   return '#6b7280'
+  if (n <= 25)   return '#16a34a'
+  if (n <= 75)   return '#ca8a04'
+  if (n <= 150)  return '#ea580c'
+  return '#dc2626'
+}
+
+let mapaLeaflet = null
+let mapaYaCargado = false
+
+async function iniciarMapa() {
+  if (mapaYaCargado) return
+  mapaYaCargado = true
+
+  // Fetch desde Supabase — tabla region_5
+  let registros = []
+  try {
+    const res = await fetch(
+      `${SB_URL}/rest/v1/region_5?select=parroquia&limit=5000`,
+      { headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` } }
+    )
+    registros = await res.json()
+  } catch(e) {
+    document.getElementById('mapa-lista').innerHTML =
+      '<div style="color:var(--rojo);font-size:12px;padding:8px 0">Error al cargar datos</div>'
+    return
+  }
+
+  // Contar por parroquia
+  const conteo = {}
+  for (const r of registros) {
+    const p = (r.parroquia || '').trim()
+    if (!p) continue
+    conteo[p] = (conteo[p] || 0) + 1
+  }
+
+  // KPIs
+  const total = registros.length
+  const parroquiasConDatos = Object.keys(conteo).length
+  document.getElementById('mk-total').textContent = total
+  document.getElementById('mk-parroquias').textContent = parroquiasConDatos
+
+  // Ranking lista
+  const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1])
+  const listaEl = document.getElementById('mapa-lista')
+  if (!sorted.length) {
+    listaEl.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px 0">Sin datos aún</div>'
+  } else {
+    listaEl.innerHTML = sorted.map(([p, n]) => `
+      <div class="mapa-row" onclick="mapaFocusParroquia('${p.replace(/'/g,"\\'")}')">
+        <div class="mapa-row-dot" style="background:${semaforoColor(n)}"></div>
+        <div class="mapa-row-name">${p}</div>
+        <div class="mapa-row-count">${n}</div>
+      </div>`).join('')
+  }
+
+  // Inicializar mapa Leaflet
+  if (!mapaLeaflet) {
+    mapaLeaflet = L.map('map-ambato', { center: [-1.2542, -78.6220], zoom: 12 })
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+      maxZoom: 18,
+    }).addTo(mapaLeaflet)
+  }
+
+  // Dibujar marcadores por parroquia
+  window._mapaMarkers = window._mapaMarkers || []
+  window._mapaMarkers.forEach(m => m.remove())
+  window._mapaMarkers = []
+  window._mapaMarkersByName = {}
+
+  for (const [nombre, coords] of Object.entries(PARROQUIAS_GEO)) {
+    const n = conteo[nombre] || 0
+    const color = semaforoColor(n)
+    const radius = n === 0 ? 8 : Math.min(8 + Math.sqrt(n) * 3, 40)
+    const circle = L.circleMarker(coords, {
+      radius, color, fillColor: color,
+      fillOpacity: n === 0 ? 0.25 : 0.65,
+      weight: 2, opacity: 0.9,
+    })
+    .bindPopup(`<strong>${nombre}</strong><br>${n} registro${n !== 1 ? 's' : ''}`)
+    .addTo(mapaLeaflet)
+    window._mapaMarkers.push(circle)
+    window._mapaMarkersByName[nombre] = circle
+  }
+}
+
+function mapaFocusParroquia(nombre) {
+  const coords = PARROQUIAS_GEO[nombre]
+  const marker = window._mapaMarkersByName && window._mapaMarkersByName[nombre]
+  if (mapaLeaflet && coords) {
+    mapaLeaflet.setView(coords, 14)
+    if (marker) marker.openPopup()
+  }
+}
 
 /* ══════════════════════════════════════════════════════════════
    TOAST
