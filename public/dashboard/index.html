@@ -667,7 +667,7 @@
             <div class="graf-kpi-delta" id="gkpi-activos-delta">—</div>
           </div>
           <div class="graf-kpi">
-            <div class="graf-kpi-label">Diálogos Vigentes</div>
+            <div class="graf-kpi-label">Nuevos esta semana</div>
             <div class="graf-kpi-val verde" id="gkpi-dialogos">—</div>
             <div class="graf-kpi-sub">&nbsp;</div>
             <div class="graf-kpi-delta" id="gkpi-dialogos-delta">—</div>
@@ -1304,9 +1304,13 @@ async function cargarGraficaHoras() {
     const signo     = delta >= 0 ? '+' : ''
 
     // KPIs: total real de Kommo y contactos
+    const nSemana = _kommoLeads.filter(l => {
+      const iniciSem = new Date(); iniciSem.setDate(iniciSem.getDate() - 7); iniciSem.setHours(0,0,0,0)
+      return l.created_at >= iniciSem.getTime() / 1000
+    }).length
     document.getElementById('gkpi-activos').textContent        = _kommoTotal || totalHoy
     document.getElementById('gkpi-activos-delta').textContent  = `+${totalHoy} hoy`
-    document.getElementById('gkpi-dialogos').textContent       = _kommoContactos || totalHoy
+    document.getElementById('gkpi-dialogos').textContent       = nSemana
     document.getElementById('gkpi-dialogos-delta').textContent = `${signo}${delta} vs ayer`
     document.getElementById('graf-titulo').textContent         = 'ACTIVIDAD HORARIA — LEADS'
 
@@ -1386,15 +1390,26 @@ let _kommoContactos = 0
 
 async function cargarLeadsKommo() {
   try {
-    const [dRecientes, dContactos] = await Promise.all([
-      fetchKommo('/leads?limit=250&order[id]=desc'),
+    // Kommo no devuelve total_count — hay que paginar (máx 250/página)
+    const [d1, dContactos] = await Promise.all([
+      fetchKommo('/leads?limit=250&order[id]=desc&page=1'),
       fetchKommo('/contacts?limit=1'),
     ])
 
-    const leads  = dRecientes?._embedded?.leads ?? []
-    console.log('[Kommo] leads response keys:', Object.keys(dRecientes || {}), dRecientes)
-    const total  = dRecientes?._total_count ?? dRecientes?._page?.total_items ?? dRecientes?._page_count ?? leads.length
-    const contac = dContactos?._total_count ?? dContactos?._page?.total_items ?? 0
+    let leads = d1?._embedded?.leads ?? []
+
+    // Si hay página siguiente, traer páginas 2 y 3 en paralelo
+    if (d1?._links?.next) {
+      const [d2, d3] = await Promise.allSettled([
+        fetchKommo('/leads?limit=250&order[id]=desc&page=2'),
+        fetchKommo('/leads?limit=250&order[id]=desc&page=3'),
+      ])
+      if (d2.status === 'fulfilled') leads = leads.concat(d2.value?._embedded?.leads ?? [])
+      if (d3.status === 'fulfilled') leads = leads.concat(d3.value?._embedded?.leads ?? [])
+    }
+
+    const total  = leads.length
+    const contac = dContactos?._links ? 0 : 0  // contactos no devuelve total tampoco
 
     // Guardar globalmente para reusar en gráfica
     _kommoLeads      = leads
