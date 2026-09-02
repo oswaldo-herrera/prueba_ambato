@@ -436,15 +436,25 @@
         page-break-inside: avoid;
       }
       body[data-print="leads"] .graf-section {
-        display: grid !important;
-        grid-template-columns: 1fr 200px !important;
-        gap: 12px !important; margin-top: 14px;
+        display: block !important;
+        margin-top: 14px;
         page-break-inside: avoid;
       }
-      body[data-print="leads"] .graf-card { padding: 14px !important; border-radius: 10px !important; }
-      body[data-print="leads"] .graf-canvas-wrap { height: 200px !important; }
-      body[data-print="leads"] .graf-kpis { display: flex !important; flex-direction: column !important; gap: 10px !important; }
-      body[data-print="leads"] .graf-kpi { border-radius: 10px !important; padding: 12px 14px !important; page-break-inside: avoid; }
+      body[data-print="leads"] .graf-card {
+        padding: 14px !important; border-radius: 10px !important;
+        margin-bottom: 12px;
+        display: block !important;
+      }
+      body[data-print="leads"] .graf-canvas-wrap { height: 140px !important; }
+      body[data-print="leads"] .graf-kpis {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+      }
+      body[data-print="leads"] .graf-kpi {
+        border-radius: 10px !important; padding: 12px 16px !important;
+        page-break-inside: avoid; display: block !important;
+      }
 
       /* ── REPORTES ── */
       body[data-print="reportes"] #page-reportes { display: block !important; }
