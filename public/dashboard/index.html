@@ -36,7 +36,7 @@
     /* ══════════ LOGIN ══════════ */
     #login-screen {
       position: fixed; inset: 0;
-      background: var(--azul);
+      background: var(--azul) url('/imagenes/crm_1_pc.jpg') center/cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -44,16 +44,31 @@
       flex-direction: column;
       gap: 20px;
     }
+    #login-screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(15, 17, 38, 0.62);
+    }
+    #login-screen > * { position: relative; z-index: 1; }
+    @media (max-width: 600px) {
+      #login-screen {
+        background-image: url('/imagenes/crm_movil.jpeg');
+        background-position: center top;
+      }
+    }
     #login-screen img { width: 68px; height: 68px; object-fit: contain; }
     #login-screen h2 { color: #fff; font-size: 20px; letter-spacing: .04em; }
     #login-screen p  { color: var(--oro-lt); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
     .login-card {
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(15, 17, 42, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.18);
       border-radius: var(--radio);
       padding: 30px 28px;
       width: 100%; max-width: 360px;
       display: flex; flex-direction: column; gap: 14px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.45);
     }
     .login-card label {
       color: rgba(255,255,255,.55); font-size: 11px; letter-spacing: .08em;
