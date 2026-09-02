@@ -873,7 +873,10 @@ function navegarA(id) {
   }
   if (id === 'usuarios') renderUsuarios()
   if (id === 'permisos') renderPermisos()
-  if (id === 'mapa')     iniciarMapa()
+  if (id === 'mapa') {
+    actions.innerHTML = `<button class="btn-sm oro" onclick="descargarMapaPDF()">⎙ PDF Ranking</button>`
+    iniciarMapa()
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1329,6 +1332,7 @@ const PARROQUIAS_GEO = {
   'Ambatillo':                  [-1.2980, -78.6680],
   'Atahualpa':                  [-1.3500, -78.7200],
   'Augusto Nicolás Martínez':   [-1.2800, -78.5400],
+  'Augusto N. Martínez':        [-1.2800, -78.5400],
   'Constantino Fernández':      [-1.3200, -78.6900],
   'Cunchibamba':                [-1.2000, -78.5600],
   'Huachi Grande':              [-1.2900, -78.6100],
@@ -1432,6 +1436,90 @@ async function iniciarMapa() {
     window._mapaMarkers.push(circle)
     window._mapaMarkersByName[nombre] = circle
   }
+}
+
+function descargarMapaPDF() {
+  const filas = Array.from(document.querySelectorAll('#mapa-lista .mapa-row'))
+  if (!filas.length) { toast('Carga el mapa primero'); return }
+
+  const total  = document.getElementById('mk-total').textContent
+  const parroquias = document.getElementById('mk-parroquias').textContent
+  const fecha  = new Date().toLocaleDateString('es-EC', { day:'2-digit', month:'long', year:'numeric' })
+
+  const filasSem = (n) => {
+    if (n === 0)  return { color: '#6b7280', label: 'Sin registros' }
+    if (n <= 25)  return { color: '#16a34a', label: 'Bajo' }
+    if (n <= 75)  return { color: '#ca8a04', label: 'Medio' }
+    if (n <= 150) return { color: '#ea580c', label: 'Alto' }
+    return { color: '#dc2626', label: 'Crítico' }
+  }
+
+  const rows = filas.map((row, i) => {
+    const nombre = row.querySelector('.mapa-row-name').textContent
+    const count  = parseInt(row.querySelector('.mapa-row-count').textContent) || 0
+    const sem    = filasSem(count)
+    return `<tr>
+      <td style="text-align:center;color:#6b7280">${i + 1}</td>
+      <td>${nombre}</td>
+      <td style="text-align:center">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${sem.color};margin-right:6px;vertical-align:middle"></span>
+        ${sem.label}
+      </td>
+      <td style="text-align:center;font-weight:700;color:#21243D">${count}</td>
+    </tr>`
+  }).join('')
+
+  const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+  <title>Ranking Parroquias — Mapa de Calor Ambato</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a2e; padding: 32px; }
+    .header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; border-bottom: 3px solid #AC7C3F; padding-bottom: 16px; }
+    .header h1 { font-size: 20px; font-weight: 800; color: #21243D; }
+    .header p  { font-size: 12px; color: #6b7280; margin-top: 4px; }
+    .kpis { display: flex; gap: 20px; margin-bottom: 24px; }
+    .kpi  { background: #f8f9fa; border-radius: 10px; padding: 14px 20px; flex: 1; }
+    .kpi-val { font-size: 28px; font-weight: 800; color: #21243D; }
+    .kpi-lbl { font-size: 11px; color: #6b7280; margin-top: 2px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead { background: #21243D; color: #fff; }
+    thead th { padding: 10px 12px; text-align: left; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+    tbody tr:nth-child(even) { background: #f8f9fa; }
+    tbody td { padding: 9px 12px; border-bottom: 1px solid #e5e7eb; }
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+    .lem { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #374151; }
+    .led { width: 12px; height: 12px; border-radius: 50%; }
+    .footer { margin-top: 24px; font-size: 10px; color: #9ca3af; text-align: center; }
+    @media print { body { padding: 16px; } }
+  </style></head><body>
+  <div class="header">
+    <div>
+      <h1>Mapa de Calor — Ranking de Parroquias</h1>
+      <p>Cantón Ambato · Javier en Tu Casa · Generado: ${fecha}</p>
+    </div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-val">${total}</div><div class="kpi-lbl">Registros totales</div></div>
+    <div class="kpi"><div class="kpi-val">${parroquias}</div><div class="kpi-lbl">Parroquias con contactos</div></div>
+  </div>
+  <div class="legend">
+    <div class="lem"><div class="led" style="background:#6b7280"></div>Sin registros (0)</div>
+    <div class="lem"><div class="led" style="background:#16a34a"></div>Bajo: 1–25</div>
+    <div class="lem"><div class="led" style="background:#ca8a04"></div>Medio: 26–75</div>
+    <div class="lem"><div class="led" style="background:#ea580c"></div>Alto: 76–150</div>
+    <div class="lem"><div class="led" style="background:#dc2626"></div>Crítico: 151+</div>
+  </div>
+  <table>
+    <thead><tr><th>#</th><th>Parroquia</th><th>Nivel</th><th>Registros</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="footer">javieraltamirano.org · CRM Campaña Altamirano 2027</div>
+  <script>window.onload = () => { window.print() }; window.onafterprint = () => { window.close() }<\/script>
+  </body></html>`
+
+  const win = window.open('', '_blank')
+  win.document.write(html)
+  win.document.close()
 }
 
 function mapaFocusParroquia(nombre) {
