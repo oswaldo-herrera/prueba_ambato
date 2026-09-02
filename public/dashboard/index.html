@@ -495,7 +495,7 @@
       font-size: 10px; font-weight: 700; letter-spacing: .1em;
       color: rgba(255,255,255,.4); text-transform: uppercase; margin-bottom: 14px;
     }
-    .graf-canvas-wrap { position: relative; height: 180px; }
+    .graf-canvas-wrap { position: relative; height: 180px; width: 100%; }
     .graf-kpis { display: flex; flex-direction: column; gap: 12px; }
     .graf-kpi {
       background: #0f1226; border-radius: var(--radio);
@@ -656,7 +656,7 @@
         <div class="graf-card">
           <div class="graf-label" id="graf-titulo">REELS</div>
           <div class="graf-canvas-wrap">
-            <canvas id="graf-canvas"></canvas>
+            <canvas id="graf-canvas" style="display:block;width:100%;height:180px"></canvas>
           </div>
         </div>
         <div class="graf-kpis">
@@ -1266,7 +1266,9 @@ function semanaTimestamp() {
 
 async function cargarDatos() {
   try {
-    await Promise.all([ cargarLeadsKommo(), cargarPipelines(), cargarGraficaHoras() ])
+    // Primero leads (guarda datos globales), luego el resto los reutiliza
+    await cargarLeadsKommo()
+    await Promise.all([ cargarPipelines(), cargarGraficaHoras() ])
     const el = document.getElementById('footer-fecha')
     if (el) el.textContent = 'Actualizado: ' + new Date().toLocaleString('es-EC')
   } catch(e) { console.error('Kommo error:', e) }
@@ -1277,22 +1279,16 @@ let grafChart = null
 
 async function cargarGraficaHoras() {
   try {
-    const ahora      = new Date()
-    const inicioHoy  = Math.floor(new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).getTime() / 1000)
-    const inicioAyer = inicioHoy - 86400
-    const finAyer    = inicioHoy - 1
+    const ahora     = new Date()
+    const iniciHoy  = new Date(ahora); iniciHoy.setHours(0,0,0,0)
+    const iniciAyer = new Date(iniciHoy); iniciAyer.setDate(iniciHoy.getDate() - 1)
 
-    const [dHoy, dAyer, dTalks] = await Promise.allSettled([
-      fetchKommo(`/leads?filter[created_at][from]=${inicioHoy}&limit=500`),
-      fetchKommo(`/leads?filter[created_at][from]=${inicioAyer}&filter[created_at][to]=${finAyer}&limit=500`),
-      fetchKommo(`/talks?limit=1`),
-    ])
+    const tsHoy  = iniciHoy.getTime()  / 1000
+    const tsAyer = iniciAyer.getTime() / 1000
 
-    const leadsHoy  = dHoy.status  === 'fulfilled' ? (dHoy.value?._embedded?.leads  ?? []) : []
-    const leadsAyer = dAyer.status === 'fulfilled' ? (dAyer.value?._embedded?.leads ?? []) : []
-    const totalTalks = dTalks.status === 'fulfilled'
-      ? (dTalks.value?._page?.total_items ?? dTalks.value?._embedded?.talks?.length ?? 0)
-      : 0
+    // Usar leads ya descargados globalmente por cargarLeadsKommo
+    const leadsHoy  = _kommoLeads.filter(l => l.created_at >= tsHoy)
+    const leadsAyer = _kommoLeads.filter(l => l.created_at >= tsAyer && l.created_at < tsHoy)
 
     // Agrupar por hora (0–23)
     const porHoraHoy  = Array(24).fill(0)
@@ -1300,22 +1296,19 @@ async function cargarGraficaHoras() {
     leadsHoy.forEach(l  => { const h = new Date(l.created_at * 1000).getHours(); porHoraHoy[h]++ })
     leadsAyer.forEach(l => { const h = new Date(l.created_at * 1000).getHours(); porHoraAyer[h]++ })
 
-    const horaActual = ahora.getHours()
     const labels = Array.from({ length: 24 }, (_, i) => i % 3 === 0 ? `${String(i).padStart(2,'0')}:00` : '')
 
-    // KPIs gráfica
     const totalHoy  = leadsHoy.length
     const totalAyer = leadsAyer.length
     const delta     = totalHoy - totalAyer
     const signo     = delta >= 0 ? '+' : ''
 
-    // Leads activos (de la API general si está disponible)
-    const activos = parseInt(document.getElementById('kk-total').textContent) || totalHoy
-    document.getElementById('gkpi-activos').textContent       = activos
-    document.getElementById('gkpi-activos-delta').textContent = `+${totalHoy} hoy`
-    document.getElementById('gkpi-dialogos').textContent      = totalTalks || totalHoy
-    document.getElementById('gkpi-dialogos-delta').textContent = `${signo}${delta} hoy`
-    document.getElementById('graf-titulo').textContent        = 'ACTIVIDAD HORARIA — LEADS'
+    // KPIs: total real de Kommo y contactos
+    document.getElementById('gkpi-activos').textContent        = _kommoTotal || totalHoy
+    document.getElementById('gkpi-activos-delta').textContent  = `+${totalHoy} hoy`
+    document.getElementById('gkpi-dialogos').textContent       = _kommoContactos || totalHoy
+    document.getElementById('gkpi-dialogos-delta').textContent = `${signo}${delta} vs ayer`
+    document.getElementById('graf-titulo').textContent         = 'ACTIVIDAD HORARIA — LEADS'
 
     // Renderizar Chart.js
     const canvas = document.getElementById('graf-canvas')
@@ -1386,9 +1379,13 @@ async function cargarGraficaHoras() {
   }
 }
 
+// Datos globales reutilizados por la gráfica
+let _kommoLeads = []
+let _kommoTotal = 0
+let _kommoContactos = 0
+
 async function cargarLeadsKommo() {
   try {
-    // Traer 250 leads más recientes para contar hoy/ayer en el cliente
     const [dRecientes, dContactos] = await Promise.all([
       fetchKommo('/leads?limit=250&order[id]=desc'),
       fetchKommo('/contacts?limit=1'),
@@ -1396,9 +1393,13 @@ async function cargarLeadsKommo() {
 
     const leads  = dRecientes?._embedded?.leads ?? []
     const total  = dRecientes?._page?.total_items ?? leads.length
-    const contac = dContactos?._page?.total_items ?? '—'
+    const contac = dContactos?._page?.total_items ?? 0
 
-    // Contar hoy y ayer por created_at (unix timestamp)
+    // Guardar globalmente para reusar en gráfica
+    _kommoLeads      = leads
+    _kommoTotal      = total
+    _kommoContactos  = contac
+
     const ahora  = new Date()
     const iniciHoy  = new Date(ahora); iniciHoy.setHours(0,0,0,0)
     const iniciAyer = new Date(iniciHoy); iniciAyer.setDate(iniciHoy.getDate() - 1)
@@ -1413,7 +1414,7 @@ async function cargarLeadsKommo() {
     const nSemana= leads.filter(l => l.created_at >= tsSem).length
 
     setText('kk-total',    total)
-    setText('kk-contactos', contac)
+    setText('kk-contactos', contac || '—')
     setText('kk-hoy',       nHoy)
     setText('kk-ayer',      nAyer)
     setText('kk-hoy-ayer',  `${nHoy} / ${nAyer}`)
