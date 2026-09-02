@@ -484,6 +484,37 @@
       .topbar-actions .btn-sm span { display: none; }
     }
 
+    /* ══ GRÁFICA HORARIA ══ */
+    .graf-section { display: grid; grid-template-columns: 1fr 220px; gap: 14px; margin-top: 16px; }
+    .graf-card {
+      background: #0f1226;
+      border-radius: var(--radio); padding: 18px 20px;
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .graf-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      color: rgba(255,255,255,.4); text-transform: uppercase; margin-bottom: 14px;
+    }
+    .graf-canvas-wrap { position: relative; height: 180px; }
+    .graf-kpis { display: flex; flex-direction: column; gap: 12px; }
+    .graf-kpi {
+      background: #0f1226; border-radius: var(--radio);
+      border: 1px solid rgba(255,255,255,.07);
+      padding: 16px 18px; flex: 1;
+    }
+    .graf-kpi-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      color: rgba(255,255,255,.4); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .graf-kpi-val { font-size: 34px; font-weight: 800; color: #a78bfa; line-height: 1; }
+    .graf-kpi-val.verde { color: #4ade80; }
+    .graf-kpi-sub { font-size: 11px; color: rgba(255,255,255,.3); margin-top: 6px; }
+    .graf-kpi-delta { font-size: 13px; font-weight: 700; color: #4ade80; margin-top: 8px; }
+    @media (max-width: 720px) {
+      .graf-section { grid-template-columns: 1fr; }
+      .graf-kpis { flex-direction: row; }
+    }
+
     /* ══ MAPA DE CALOR ══ */
     #map-ambato { height: 480px; border-radius: var(--radio); overflow: hidden; }
     .mapa-grid { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; }
@@ -620,6 +651,30 @@
 
       </div>
 
+      <!-- Gráfica horaria -->
+      <div class="graf-section" id="graf-section">
+        <div class="graf-card">
+          <div class="graf-label" id="graf-titulo">REELS</div>
+          <div class="graf-canvas-wrap">
+            <canvas id="graf-canvas"></canvas>
+          </div>
+        </div>
+        <div class="graf-kpis">
+          <div class="graf-kpi">
+            <div class="graf-kpi-label">Leads Activos</div>
+            <div class="graf-kpi-val" id="gkpi-activos">—</div>
+            <div class="graf-kpi-sub">$0</div>
+            <div class="graf-kpi-delta" id="gkpi-activos-delta">—</div>
+          </div>
+          <div class="graf-kpi">
+            <div class="graf-kpi-label">Diálogos Vigentes</div>
+            <div class="graf-kpi-val verde" id="gkpi-dialogos">—</div>
+            <div class="graf-kpi-sub">&nbsp;</div>
+            <div class="graf-kpi-delta" id="gkpi-dialogos-delta">—</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Pipeline oculto temporalmente
       <div class="section-label">Pipeline — Conversión Ciudadana Electoral</div>
       <div class="card">
@@ -717,6 +772,7 @@
 <div id="toast"><div class="toast-inner" id="toast-msg"></div></div>
 
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════
@@ -1210,10 +1266,124 @@ function semanaTimestamp() {
 
 async function cargarDatos() {
   try {
-    await Promise.all([ cargarLeadsKommo(), cargarPipelines() ])
+    await Promise.all([ cargarLeadsKommo(), cargarPipelines(), cargarGraficaHoras() ])
     const el = document.getElementById('footer-fecha')
     if (el) el.textContent = 'Actualizado: ' + new Date().toLocaleString('es-EC')
   } catch(e) { console.error('Kommo error:', e) }
+}
+
+/* ── Gráfica horaria hoy vs ayer ── */
+let grafChart = null
+
+async function cargarGraficaHoras() {
+  try {
+    const ahora      = new Date()
+    const inicioHoy  = Math.floor(new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()).getTime() / 1000)
+    const inicioAyer = inicioHoy - 86400
+    const finAyer    = inicioHoy - 1
+
+    const [dHoy, dAyer, dTalks] = await Promise.allSettled([
+      fetchKommo(`/leads?filter[created_at][from]=${inicioHoy}&limit=500`),
+      fetchKommo(`/leads?filter[created_at][from]=${inicioAyer}&filter[created_at][to]=${finAyer}&limit=500`),
+      fetchKommo(`/talks?limit=1`),
+    ])
+
+    const leadsHoy  = dHoy.status  === 'fulfilled' ? (dHoy.value?._embedded?.leads  ?? []) : []
+    const leadsAyer = dAyer.status === 'fulfilled' ? (dAyer.value?._embedded?.leads ?? []) : []
+    const totalTalks = dTalks.status === 'fulfilled'
+      ? (dTalks.value?._page?.total_items ?? dTalks.value?._embedded?.talks?.length ?? 0)
+      : 0
+
+    // Agrupar por hora (0–23)
+    const porHoraHoy  = Array(24).fill(0)
+    const porHoraAyer = Array(24).fill(0)
+    leadsHoy.forEach(l  => { const h = new Date(l.created_at * 1000).getHours(); porHoraHoy[h]++ })
+    leadsAyer.forEach(l => { const h = new Date(l.created_at * 1000).getHours(); porHoraAyer[h]++ })
+
+    const horaActual = ahora.getHours()
+    const labels = Array.from({ length: 24 }, (_, i) => i % 3 === 0 ? `${String(i).padStart(2,'0')}:00` : '')
+
+    // KPIs gráfica
+    const totalHoy  = leadsHoy.length
+    const totalAyer = leadsAyer.length
+    const delta     = totalHoy - totalAyer
+    const signo     = delta >= 0 ? '+' : ''
+
+    // Leads activos (de la API general si está disponible)
+    const activos = parseInt(document.getElementById('kk-total').textContent) || totalHoy
+    document.getElementById('gkpi-activos').textContent       = activos
+    document.getElementById('gkpi-activos-delta').textContent = `+${totalHoy} hoy`
+    document.getElementById('gkpi-dialogos').textContent      = totalTalks || totalHoy
+    document.getElementById('gkpi-dialogos-delta').textContent = `${signo}${delta} hoy`
+    document.getElementById('graf-titulo').textContent        = 'ACTIVIDAD HORARIA — LEADS'
+
+    // Renderizar Chart.js
+    const canvas = document.getElementById('graf-canvas')
+    if (!canvas) return
+    if (grafChart) { grafChart.destroy(); grafChart = null }
+
+    grafChart = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Hoy',
+            data: porHoraHoy,
+            borderColor: '#a78bfa',
+            backgroundColor: 'rgba(167,139,250,.15)',
+            borderWidth: 2.5,
+            pointRadius: 0,
+            tension: 0.4,
+            fill: true,
+          },
+          {
+            label: 'Ayer',
+            data: porHoraAyer,
+            borderColor: 'rgba(255,255,255,.25)',
+            backgroundColor: 'transparent',
+            borderWidth: 1.5,
+            pointRadius: 0,
+            tension: 0.4,
+            fill: false,
+            borderDash: [4, 3],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(15,18,38,.95)',
+            titleColor: '#a78bfa',
+            bodyColor: '#fff',
+            borderColor: 'rgba(167,139,250,.3)',
+            borderWidth: 1,
+            callbacks: {
+              title: ctx => `${ctx[0].label || String(ctx[0].dataIndex).padStart(2,'0') + ':00'}`,
+              label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} leads`,
+            },
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255,255,255,.05)', drawBorder: false },
+            ticks: { color: 'rgba(255,255,255,.35)', font: { size: 10 }, maxRotation: 0 },
+          },
+          y: {
+            grid: { color: 'rgba(255,255,255,.05)', drawBorder: false },
+            ticks: { color: 'rgba(255,255,255,.35)', font: { size: 10 }, stepSize: 1 },
+            beginAtZero: true,
+          },
+        },
+      },
+    })
+  } catch(e) {
+    console.warn('Gráfica horaria error:', e)
+  }
 }
 
 async function cargarLeadsKommo() {
