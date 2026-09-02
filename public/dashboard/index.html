@@ -1392,8 +1392,9 @@ async function cargarLeadsKommo() {
     ])
 
     const leads  = dRecientes?._embedded?.leads ?? []
-    const total  = dRecientes?._page?.total_items ?? leads.length
-    const contac = dContactos?._page?.total_items ?? 0
+    console.log('[Kommo] leads response keys:', Object.keys(dRecientes || {}), dRecientes)
+    const total  = dRecientes?._total_count ?? dRecientes?._page?.total_items ?? dRecientes?._page_count ?? leads.length
+    const contac = dContactos?._total_count ?? dContactos?._page?.total_items ?? 0
 
     // Guardar globalmente para reusar en gráfica
     _kommoLeads      = leads
@@ -1459,6 +1460,7 @@ async function cargarPipelines() {
       })
     })
     const body = document.getElementById('pipeline-body')
+    if (!body) return
     body.innerHTML = allStatuses.map(st => {
       const pct = Math.round((st.count / maxLeads) * 100)
       return `
@@ -1470,7 +1472,8 @@ async function cargarPipelines() {
     }).join('')
     if (!allStatuses.length) body.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Sin etapas en el pipeline</div>'
   } catch {
-    document.getElementById('pipeline-body').innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar el embudo</div>'
+    const b = document.getElementById('pipeline-body')
+    if (b) b.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">Error al cargar el embudo</div>'
   }
 }
 
