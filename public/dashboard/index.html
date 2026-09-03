@@ -348,6 +348,10 @@
     .btn-xl:active  { transform: scale(.97); }
     .btn-xl:disabled { opacity: .45; cursor: not-allowed; }
     .xl-ico { width: 20px; height: 20px; background: #1d6f42; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #fff; flex-shrink: 0; }
+    .rep-btns { display: flex; gap: 8px; }
+    .rep-btns .btn-xl { flex: 1; }
+    .btn-pdf-rep { background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important; }
+    .pdf-ico { width: 20px; height: 20px; background: #991b1b; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #fff; flex-shrink: 0; }
 
     /* ══════════ MÓDULO USUARIOS ══════════ */
     .form-card { background: var(--card); border-radius: var(--radio); padding: 24px; box-shadow: 0 1px 8px rgba(0,0,0,.06); border: 1px solid var(--borde); margin-bottom: 24px; }
@@ -923,7 +927,7 @@ function iniciarApp() {
    NAVEGACIÓN
 ══════════════════════════════════════════════════════════════ */
 const TITLES = {
-  leads:    { title: 'Leads & VotoBox', sub: 'Embudo de ventas y contactos' },
+  leads:    { title: 'VotoBox', sub: 'Embudo Electoral' },
   reportes: { title: 'Reportes',      sub: 'Descarga de registros en Excel' },
   mapa:     { title: 'Mapa de calor', sub: 'Registros por parroquia — Ambato' },
   usuarios: { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
@@ -1044,9 +1048,14 @@ function construirReportes() {
         </div>` : ''}
       </div>
       <div class="rep-status" id="rstatus-${r.id}">Cargando...</div>
-      <button class="btn-xl" id="rbtn-${r.id}" onclick="descargarReporte('${r.id}')" disabled>
-        <span class="xl-ico">XL</span> Descargar Excel
-      </button>
+      <div class="rep-btns">
+        <button class="btn-xl" id="rbtn-${r.id}" onclick="descargarReporte('${r.id}')" disabled>
+          <span class="xl-ico">XL</span> Excel
+        </button>
+        <button class="btn-xl btn-pdf-rep" id="rbtn-pdf-${r.id}" onclick="descargarReportePDF('${r.id}')" disabled>
+          <span class="pdf-ico">PDF</span> PDF
+        </button>
+      </div>
     </div>`).join('')
 
   REPORTES.forEach(cargarReporte)
@@ -1067,6 +1076,7 @@ async function cargarReporte(r) {
     }
     document.getElementById(`rstatus-${r.id}`).textContent = `${lista.length} registros listos`
     document.getElementById(`rbtn-${r.id}`).disabled = false
+    document.getElementById(`rbtn-pdf-${r.id}`).disabled = false
   } catch {
     document.getElementById(`rstatus-${r.id}`).textContent = 'Error al cargar'
   }
@@ -1091,6 +1101,65 @@ function descargarReporte(id) {
   XLSX.writeFile(wb, r.archivo())
   btn.disabled = false
   btn.innerHTML = '<span class="xl-ico">XL</span> Descargar Excel'
+}
+
+function descargarReportePDF(id) {
+  const r     = REPORTES.find(x => x.id === id)
+  const lista = repDatos[id] || []
+  if (!lista.length) return
+
+  const fecha  = new Date().toLocaleDateString('es-EC', { day: '2-digit', month: 'long', year: 'numeric' })
+  const hoyStr = new Date().toDateString()
+  const nHoy   = r.hoy ? lista.filter(function(x) { return new Date(x.creado_en).toDateString() === hoyStr }).length : null
+
+  const claves = Object.keys(r.columnas(lista[0] || {}))
+  const cabeceras = claves.map(function(k) { return '<th>' + k + '</th>' }).join('')
+
+  const filas = lista.map(function(row, i) {
+    const obj = r.columnas(row)
+    claves.forEach(function(k) { if (obj[k] === '___i___') obj[k] = i + 1 })
+    return '<tr>' + claves.map(function(k) { return '<td>' + (obj[k] != null ? obj[k] : '') + '</td>' }).join('') + '</tr>'
+  }).join('')
+
+  const kpiHoy = nHoy !== null
+    ? '<div class="kpi"><div class="kpi-val">' + nHoy + '</div><div class="kpi-lbl">Hoy</div></div>'
+    : ''
+
+  const css = [
+    '* { box-sizing: border-box; margin: 0; padding: 0; }',
+    'body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif; color: #1a1a2e; padding: 28px; font-size: 12px; }',
+    '.header { border-bottom: 3px solid #AC7C3F; padding-bottom: 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: flex-end; }',
+    '.header h1 { font-size: 18px; font-weight: 800; color: #21243D; }',
+    '.header p  { font-size: 11px; color: #6b7280; margin-top: 3px; }',
+    '.kpis { display: flex; gap: 14px; margin-bottom: 18px; }',
+    '.kpi  { background: #f8f9fa; border-radius: 8px; padding: 12px 18px; }',
+    '.kpi-val { font-size: 26px; font-weight: 800; color: #21243D; }',
+    '.kpi-lbl { font-size: 10px; color: #6b7280; margin-top: 2px; }',
+    'table { width: 100%; border-collapse: collapse; font-size: 11px; }',
+    'thead { background: #21243D; color: #fff; }',
+    'th { padding: 8px 10px; text-align: left; font-size: 10px; letter-spacing:.05em; text-transform:uppercase; }',
+    'tbody tr:nth-child(even) { background: #f8f9fa; }',
+    'td { padding: 7px 10px; border-bottom: 1px solid #e5e7eb; }',
+    '.footer { margin-top: 20px; font-size: 10px; color: #9ca3af; text-align: center; }',
+    '@media print { body { padding: 16px; } }',
+  ].join(' ')
+
+  const win = window.open('', '_blank')
+  win.document.write(
+    '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">' +
+    '<title>' + r.titulo + ' — PDF</title>' +
+    '<style>' + css + '</style></head><body>' +
+    '<div class="header"><div><h1>' + r.titulo + '</h1>' +
+    '<p>' + r.subtitulo + ' &middot; Generado: ' + fecha + '</p></div>' +
+    '<div style="text-align:right;font-size:11px;color:#6b7280">javieraltamirano.org</div></div>' +
+    '<div class="kpis"><div class="kpi"><div class="kpi-val">' + lista.length + '</div><div class="kpi-lbl">Total registros</div></div>' + kpiHoy + '</div>' +
+    '<table><thead><tr>' + cabeceras + '</tr></thead><tbody>' + filas + '</tbody></table>' +
+    '<div class="footer">CRM Campaña Altamirano 2027 · javieraltamirano.org</div>' +
+    '</body></html>'
+  )
+  win.document.close()
+  win.focus()
+  setTimeout(function() { win.print(); win.close() }, 400)
 }
 
 /* ══════════════════════════════════════════════════════════════
