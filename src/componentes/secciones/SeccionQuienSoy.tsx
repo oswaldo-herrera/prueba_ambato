@@ -6,7 +6,7 @@ const galeria = [
   //'/imagenes/new_images/j2.jpg',
   //'/imagenes/new_images/j3.jpg',
   //'/imagenes/new_images/j4.PNG',
-  '/imagenes/new_images/30.jpg',
+  //'/imagenes/new_images/30.jpg',
   //'/imagenes/new_images/j6.jpg',
   //'/imagenes/new_images/j7.jpg',
   '/imagenes/new_images/j5.PNG',
