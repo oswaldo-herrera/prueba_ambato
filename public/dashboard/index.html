@@ -353,6 +353,15 @@
     .btn-pdf-rep { background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important; }
     .pdf-ico { width: 20px; height: 20px; background: #991b1b; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #fff; flex-shrink: 0; }
 
+    .buzon-bars { display: flex; flex-direction: column; gap: 8px; }
+    .buzon-bar-row { display: flex; flex-direction: column; gap: 3px; }
+    .buzon-bar-meta { display: flex; justify-content: space-between; align-items: center; }
+    .buzon-bar-label { font-size: 12px; font-weight: 700; color: var(--azul); }
+    .buzon-bar-pct   { font-size: 13px; font-weight: 900; color: var(--oro); font-variant-numeric: tabular-nums; }
+    .buzon-bar-track { height: 7px; background: var(--bg); border-radius: 99px; overflow: hidden; }
+    .buzon-bar-fill  { height: 100%; background: var(--azul); border-radius: 99px; transition: width .6s ease; }
+    .buzon-total     { font-size: 11px; color: var(--muted); text-align: center; }
+
     /* ══════════ MÓDULO USUARIOS ══════════ */
     .form-card { background: var(--card); border-radius: var(--radio); padding: 24px; box-shadow: 0 1px 8px rgba(0,0,0,.06); border: 1px solid var(--borde); margin-bottom: 24px; }
     .form-card h3 { font-size: 15px; font-weight: 800; color: var(--azul); margin-bottom: 16px; }
@@ -1011,25 +1020,10 @@ const REPORTES = [
     archivo: () => `javier_en_tu_casa_region5_${hoy()}.xlsx`,
   },
   {
-    id: 'buzon', titulo: 'Javier te escucha', subtitulo: 'Propuestas ciudadanas',
-    tabla: 'buzon_propuestas', icono: '📬', color: 'azul', hoy: true,
+    id: 'buzon', titulo: 'Javier te escucha', subtitulo: 'Preocupaciones de Ambato',
+    tabla: 'buzon_propuestas', icono: '📬', color: 'azul', tipo: 'stats',
     sbUrl: 'https://psveoeanrjqncxyhmvfh.supabase.co',
     sbKey: 'sb_publishable_xZMKZgaKDubOw4TddwQlpQ_zp8XyQZn',
-    columnas: r => ({
-      'Numero': '___i___',
-      'Parroquia': r.parroquia || '',
-      'Seguridad':        r.seguridad        ? 'Sí' : '',
-      'Empleo':           r.empleo           ? 'Sí' : '',
-      'Movilidad':        r.movilidad        ? 'Sí' : '',
-      'Salud':            r.salud            ? 'Sí' : '',
-      'Agua / Servicios': r.agua_servicios   ? 'Sí' : '',
-      'Otra':             r.otra             || '',
-      'WhatsApp': r.whatsapp || '',
-      'Creado en': r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
-    }),
-    anchos: [8, 28, 12, 12, 12, 12, 16, 30, 16, 22],
-    hoja: 'Javier te escucha',
-    archivo: () => 'javier_te_escucha_' + hoy() + '.xlsx',
   },
   {
     id: 'candidatos', titulo: 'Capacitación', subtitulo: 'Directorio · Coordinadores',
@@ -1049,35 +1043,52 @@ function hoy() { return new Date().toISOString().slice(0, 10) }
 
 function construirReportes() {
   const grid = document.getElementById('rep-grid')
-  grid.innerHTML = REPORTES.map(r => `
-    <div class="rep-card" data-color="${r.color}">
-      <div class="rep-card-head">
-        <div class="rep-ico">${r.icono}</div>
-        <div>
-          <div class="rep-titulo">${r.titulo}</div>
-          <div class="rep-subtitulo">${r.subtitulo}</div>
+  grid.innerHTML = REPORTES.map(r => {
+    if (r.tipo === 'stats') return `
+      <div class="rep-card" data-color="${r.color}">
+        <div class="rep-card-head">
+          <div class="rep-ico">${r.icono}</div>
+          <div>
+            <div class="rep-titulo">${r.titulo}</div>
+            <div class="rep-subtitulo">${r.subtitulo}</div>
+          </div>
         </div>
-      </div>
-      <div class="rep-stats">
-        <div class="rep-stat">
-          <div class="rep-stat-num" id="rtotal-${r.id}">—</div>
-          <div class="rep-stat-lbl">Total</div>
+        <div class="buzon-bars" id="buzon-bars">
+          <div class="rep-status">Cargando...</div>
         </div>
-        ${r.hoy ? `<div class="rep-stat">
-          <div class="rep-stat-num" id="rhoy-${r.id}">—</div>
-          <div class="rep-stat-lbl">Hoy</div>
-        </div>` : ''}
-      </div>
-      <div class="rep-status" id="rstatus-${r.id}">Cargando...</div>
-      <div class="rep-btns">
-        <button class="btn-xl" id="rbtn-${r.id}" onclick="descargarReporte('${r.id}')" disabled>
-          <span class="xl-ico">XL</span> Excel
-        </button>
-        <button class="btn-xl btn-pdf-rep" id="rbtn-pdf-${r.id}" onclick="descargarReportePDF('${r.id}')" disabled>
-          <span class="pdf-ico">PDF</span> PDF
-        </button>
-      </div>
-    </div>`).join('')
+        <div class="rep-btns">
+          <button class="btn-xl btn-pdf-rep" id="rbtn-pdf-${r.id}" onclick="descargarBuzonPDF()" disabled>
+            <span class="pdf-ico">PDF</span> PDF
+          </button>
+        </div>
+      </div>`
+    return `
+      <div class="rep-card" data-color="${r.color}">
+        <div class="rep-card-head">
+          <div class="rep-ico">${r.icono}</div>
+          <div>
+            <div class="rep-titulo">${r.titulo}</div>
+            <div class="rep-subtitulo">${r.subtitulo}</div>
+          </div>
+        </div>
+        <div class="rep-stats">
+          <div class="rep-stat">
+            <div class="rep-stat-num" id="rtotal-${r.id}">—</div>
+            <div class="rep-stat-lbl">Total</div>
+          </div>
+          ${r.hoy ? '<div class="rep-stat"><div class="rep-stat-num" id="rhoy-' + r.id + '">—</div><div class="rep-stat-lbl">Hoy</div></div>' : ''}
+        </div>
+        <div class="rep-status" id="rstatus-${r.id}">Cargando...</div>
+        <div class="rep-btns">
+          <button class="btn-xl" id="rbtn-${r.id}" onclick="descargarReporte('${r.id}')" disabled>
+            <span class="xl-ico">XL</span> Excel
+          </button>
+          <button class="btn-xl btn-pdf-rep" id="rbtn-pdf-${r.id}" onclick="descargarReportePDF('${r.id}')" disabled>
+            <span class="pdf-ico">PDF</span> PDF
+          </button>
+        </div>
+      </div>`
+  }).join('')
 
   REPORTES.forEach(cargarReporte)
 }
@@ -1091,17 +1102,54 @@ async function cargarReporte(r) {
     })
     const lista = await res.json()
     repDatos[r.id] = lista
-    document.getElementById(`rtotal-${r.id}`).textContent = lista.length
-    if (r.hoy) {
-      const hoyStr = new Date().toDateString()
-      const n = lista.filter(x => new Date(x.creado_en).toDateString() === hoyStr).length
-      document.getElementById(`rhoy-${r.id}`).textContent = n
+
+    if (r.tipo === 'stats') {
+      const counts = [
+        { label: 'Seguridad',       v: lista.filter(x => x.seguridad).length },
+        { label: 'Empleo',           v: lista.filter(x => x.empleo).length },
+        { label: 'Movilidad',        v: lista.filter(x => x.movilidad).length },
+        { label: 'Salud',            v: lista.filter(x => x.salud).length },
+        { label: 'Agua / Servicios', v: lista.filter(x => x.agua_servicios).length },
+        { label: 'Otra',             v: lista.filter(x => x.otra && x.otra.trim()).length },
+      ]
+      const totalSel = counts.reduce(function(s, c) { return s + c.v }, 0)
+      const conEx = counts.map(function(c, i) {
+        var ex = totalSel ? (c.v / totalSel) * 100 : 0
+        return { label: c.label, v: c.v, exacto: ex, pct: Math.floor(ex), resto: ex - Math.floor(ex), i: i }
+      })
+      var falt = 100 - conEx.reduce(function(s, c) { return s + c.pct }, 0)
+      var ord = conEx.slice().sort(function(a, b) { return b.resto - a.resto })
+      for (var i = 0; i < falt; i++) ord[i].pct++
+      conEx.sort(function(a, b) { return b.pct - a.pct })
+
+      var barsEl = document.getElementById('buzon-bars')
+      barsEl.innerHTML = conEx.map(function(c, idx) {
+        return '<div class="buzon-bar-row">' +
+          '<div class="buzon-bar-meta">' +
+            '<span class="buzon-bar-label">' + (idx + 1) + '. ' + c.label + '</span>' +
+            '<span class="buzon-bar-pct">' + c.pct + '%</span>' +
+          '</div>' +
+          '<div class="buzon-bar-track"><div class="buzon-bar-fill" style="width:' + c.pct + '%"></div></div>' +
+        '</div>'
+      }).join('') +
+      '<div class="buzon-total">' + lista.length + ' participaciones registradas</div>'
+
+      document.getElementById('rbtn-pdf-buzon').disabled = false
+      return
     }
-    document.getElementById(`rstatus-${r.id}`).textContent = `${lista.length} registros listos`
-    document.getElementById(`rbtn-${r.id}`).disabled = false
-    document.getElementById(`rbtn-pdf-${r.id}`).disabled = false
-  } catch {
-    document.getElementById(`rstatus-${r.id}`).textContent = 'Error al cargar'
+
+    document.getElementById('rtotal-' + r.id).textContent = lista.length
+    if (r.hoy) {
+      var hoyStr = new Date().toDateString()
+      var n = lista.filter(function(x) { return new Date(x.creado_en).toDateString() === hoyStr }).length
+      document.getElementById('rhoy-' + r.id).textContent = n
+    }
+    document.getElementById('rstatus-' + r.id).textContent = lista.length + ' registros listos'
+    document.getElementById('rbtn-' + r.id).disabled = false
+    document.getElementById('rbtn-pdf-' + r.id).disabled = false
+  } catch(e) {
+    if (document.getElementById('rstatus-' + r.id))
+      document.getElementById('rstatus-' + r.id).textContent = 'Error al cargar'
   }
 }
 
@@ -1183,6 +1231,60 @@ function descargarReportePDF(id) {
   win.document.close()
   win.focus()
   setTimeout(function() { win.print(); win.close() }, 400)
+}
+
+function descargarBuzonPDF() {
+  var lista = repDatos['buzon'] || []
+  var fecha = new Date().toLocaleDateString('es-EC', { day: '2-digit', month: 'long', year: 'numeric' })
+  var counts = [
+    { label: 'Seguridad',       v: lista.filter(function(x){ return x.seguridad }).length },
+    { label: 'Empleo',           v: lista.filter(function(x){ return x.empleo }).length },
+    { label: 'Movilidad',        v: lista.filter(function(x){ return x.movilidad }).length },
+    { label: 'Salud',            v: lista.filter(function(x){ return x.salud }).length },
+    { label: 'Agua / Servicios', v: lista.filter(function(x){ return x.agua_servicios }).length },
+    { label: 'Otra',             v: lista.filter(function(x){ return x.otra && x.otra.trim() }).length },
+  ]
+  var totalSel = counts.reduce(function(s,c){ return s + c.v }, 0)
+  var conEx = counts.map(function(c){
+    var ex = totalSel ? (c.v / totalSel) * 100 : 0
+    return { label: c.label, v: c.v, pct: Math.floor(ex), resto: ex - Math.floor(ex) }
+  })
+  var falt = 100 - conEx.reduce(function(s,c){ return s + c.pct }, 0)
+  conEx.slice().sort(function(a,b){ return b.resto - a.resto }).forEach(function(c,i){ if(i < falt) c.pct++ })
+  conEx.sort(function(a,b){ return b.pct - a.pct })
+
+  var barras = conEx.map(function(c, i){
+    return '<div style="margin-bottom:14px">' +
+      '<div style="display:flex;justify-content:space-between;margin-bottom:5px">' +
+        '<span style="font-weight:700;font-size:13px">' + (i+1) + '. ' + c.label + '</span>' +
+        '<span style="font-weight:900;font-size:15px;color:#AC7C3F">' + c.pct + '%</span>' +
+      '</div>' +
+      '<div style="background:#e5e7eb;border-radius:99px;height:10px;overflow:hidden">' +
+        '<div style="width:' + c.pct + '%;height:100%;background:#21243D;border-radius:99px"></div>' +
+      '</div>' +
+    '</div>'
+  }).join('')
+
+  var win = window.open('', '_blank')
+  win.document.write(
+    '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Javier te escucha — PDF</title>' +
+    '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#1a1a2e;padding:36px;font-size:13px}' +
+    '.header{border-bottom:3px solid #AC7C3F;padding-bottom:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end}' +
+    'h1{font-size:22px;font-weight:800;color:#21243D}.sub{font-size:12px;color:#6b7280;margin-top:4px}' +
+    '.kpi{background:#f8f9fa;border-radius:8px;padding:12px 18px;display:inline-block;margin-bottom:24px}' +
+    '.kpi-v{font-size:28px;font-weight:900;color:#21243D}.kpi-l{font-size:10px;color:#6b7280}' +
+    '.footer{margin-top:28px;font-size:10px;color:#9ca3af;text-align:center}' +
+    '@media print{body{padding:20px}}</style></head><body>' +
+    '<div class="header"><div><h1>&#128236; Javier te escucha</h1><p class="sub">Preocupaciones de Ambato &middot; Generado: ' + fecha + '</p></div>' +
+    '<div style="text-align:right;font-size:11px;color:#6b7280">javieraltamirano.org</div></div>' +
+    '<div class="kpi"><div class="kpi-v">' + lista.length + '</div><div class="kpi-l">Participaciones registradas</div></div>' +
+    '<div>' + barras + '</div>' +
+    '<div class="footer">CRM Campa&#241;a Altamirano 2027 &middot; javieraltamirano.org</div>' +
+    '</body></html>'
+  )
+  win.document.close()
+  win.focus()
+  setTimeout(function(){ win.print(); win.close() }, 400)
 }
 
 /* ══════════════════════════════════════════════════════════════
