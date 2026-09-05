@@ -160,8 +160,8 @@ export default function SeccionBuzonJavier() {
               <div className="absolute -bottom-5 -right-5 bg-[#21243D] text-white rounded-2xl px-4 py-3 shadow-xl flex items-center gap-2 z-10">
                 <span className="text-2xl">📬</span>
                 <div>
-                  <div className="font-bold text-sm leading-tight">Javier</div>
-                  <div className="text-[#D4A86A] text-xs font-semibold">te escucha</div>
+                  <div className="font-bold text-sm leading-tight">Buzón de</div>
+                  <div className="text-[#D4A86A] text-xs font-semibold">Javier</div>
                 </div>
               </div>
             </div>
