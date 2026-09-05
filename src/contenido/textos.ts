@@ -43,9 +43,7 @@ export const seccionInicio = {
   imagenAlt: 'Fotografía del candidato',
   // Números destacados debajo del hero
   estadisticas: [
-    { numero: '15+', descripcion: 'Años de experiencia' },
-    { numero: '50K', descripcion: 'Vecinos comprometidos' },
-    { numero: '',  descripcion: '' },
+    { numero: '90K', descripcion: 'Ciudadanos comprometidos' },
   ],
 }
 

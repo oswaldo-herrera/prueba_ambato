@@ -189,12 +189,14 @@ export default function SeccionLogros() {
 
         {/* Encabezado */}
         <div className="text-center mb-16">
-          <span className="inline-block text-oro font-semibold text-sm tracking-widest uppercase mb-3">
-            {seccionLogros.etiqueta}
-          </span>
-          <h2 className="font-titulo font-black text-4xl sm:text-5xl text-white">
-            {seccionLogros.titulo}{' '}
-            <span className="text-oro">{seccionLogros.tituloDestacado}</span>
+          <p className="font-black text-sm tracking-widest uppercase mb-1" style={{ color: '#f5c97a', textShadow: '0 0 18px rgba(245,201,122,0.8), 0 0 6px rgba(245,201,122,0.5)' }}>Cuando gobernamos hicimos esto</p>
+          <p className="font-black text-base tracking-widest mb-2" style={{ color: '#f5c97a', textShadow: '0 0 18px rgba(245,201,122,0.8), 0 0 6px rgba(245,201,122,0.5)' }}>2019-2023</p>
+          <h2 className="font-titulo font-black text-3xl sm:text-5xl text-white flex flex-wrap items-center justify-center gap-3">
+            <span>Evidencias</span>
+            <span className="text-oro/50 text-2xl sm:text-3xl">→</span>
+            <span>Soluciones</span>
+            <span className="text-oro/50 text-2xl sm:text-3xl">→</span>
+            <span className="text-oro">Resultados</span>
           </h2>
         </div>
 

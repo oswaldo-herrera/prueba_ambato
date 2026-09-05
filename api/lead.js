@@ -14,9 +14,10 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { nombre, propuesta, parroquia, whatsapp, fuente = 'Web' } = req.body || {}
+  const { nombre, propuesta, parroquia, whatsapp, fuente = 'Web',
+          seguridad, empleo, movilidad, salud, agua_servicios, otra } = req.body || {}
 
-  if (!propuesta || !parroquia) {
+  if (!parroquia) {
     return res.status(400).json({ error: 'Faltan campos obligatorios' })
   }
 
@@ -33,9 +34,15 @@ export default async function handler(req, res) {
         Prefer: 'return=minimal',
       },
       body: JSON.stringify({
-        propuesta,
+        propuesta: propuesta || null,
         parroquia,
         whatsapp: whatsapp || null,
+        seguridad:      seguridad      ?? false,
+        empleo:         empleo         ?? false,
+        movilidad:      movilidad      ?? false,
+        salud:          salud          ?? false,
+        agua_servicios: agua_servicios ?? false,
+        otra:           otra           || null,
         creado_en: new Date().toISOString(),
       }),
     })

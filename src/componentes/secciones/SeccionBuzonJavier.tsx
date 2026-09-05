@@ -13,8 +13,11 @@ const PARROQUIAS_RURALES = [
 
 function limpiarTel(v: string) { return v.replace(/\D/g, '').slice(0, 10) }
 
+const TEMAS = ['Seguridad', 'Empleo', 'Movilidad', 'Salud', 'Agua / Servicios']
+
 export default function SeccionBuzonJavier() {
-  const [propuesta, setPropuesta]   = useState('')
+  const [temas,     setTemas]       = useState<string[]>([])
+  const [otra,      setOtra]        = useState('')
   const [parroquia, setParroquia]   = useState('')
   const [whatsapp,  setWhatsapp]    = useState('')
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -23,9 +26,16 @@ export default function SeccionBuzonJavier() {
   const [enviado,   setEnviado]     = useState(false)
   const [error,     setError]       = useState<string | null>(null)
 
+  const toggleTema = (t: string) =>
+    setTemas(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!propuesta.trim() || !parroquia) return
+    if ((temas.length === 0 && !otra.trim()) || !parroquia) return
+    const propuesta = [
+      temas.length ? temas.join(', ') : '',
+      otra.trim() ? otra.trim() : '',
+    ].filter(Boolean).join(' | ')
     setEnviando(true)
     setError(null)
 
@@ -34,17 +44,23 @@ export default function SeccionBuzonJavier() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          propuesta: propuesta.trim(),
+          propuesta,
           parroquia,
           whatsapp: whatsapp.trim() ? '+593' + whatsapp.trim() : '',
           fuente: 'Buzón Web',
+          seguridad:      temas.includes('Seguridad'),
+          empleo:         temas.includes('Empleo'),
+          movilidad:      temas.includes('Movilidad'),
+          salud:          temas.includes('Salud'),
+          agua_servicios: temas.includes('Agua / Servicios'),
+          otra:           otra.trim() || null,
         }),
       })
       const data = await res.json()
       setEnviando(false)
       if (data.ok || data.supabase === 'ok') {
         setEnviado(true)
-        setPropuesta(''); setParroquia(''); setWhatsapp('')
+        setTemas([]); setOtra(''); setParroquia(''); setWhatsapp('')
       } else {
         setError('Ocurrió un error al enviar. Intenta nuevamente.')
       }
@@ -55,7 +71,7 @@ export default function SeccionBuzonJavier() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-white py-20 sm:py-28">
+    <section className="relative overflow-hidden bg-white py-20 sm:py-28 -mt-px">
 
       {/* Fondo decorativo */}
       <div className="absolute inset-0 pointer-events-none">
@@ -85,8 +101,8 @@ export default function SeccionBuzonJavier() {
         {/* Layout principal */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-          {/* ── Columna izquierda: video + mensaje ── */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-1">
+          {/* ── Columna derecha: video + mensaje ── */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:order-2">
 
             {/* Video con marco decorativo */}
             <div className="relative mb-8 w-full max-w-sm mx-auto lg:mx-0">
@@ -107,7 +123,7 @@ export default function SeccionBuzonJavier() {
                 <div className="rounded-[22px] overflow-hidden bg-[#21243D] relative">
                   <video
                     ref={videoRef}
-                    src="/imagenes/buzon_javier_video.mp4"
+                    src="/imagenes/video_buzon_javier.mp4"
                     playsInline
                     className="w-full object-contain block"
                     style={{ maxHeight: '420px' }}
@@ -169,7 +185,7 @@ export default function SeccionBuzonJavier() {
           </div>
 
           {/* ── Columna derecha: formulario ── */}
-          <div className="order-2 lg:order-2">
+          <div className="order-2 lg:order-1">
             <div className="bg-[#21243D] rounded-3xl p-7 sm:p-9 shadow-2xl">
 
               {enviado ? (
@@ -192,22 +208,45 @@ export default function SeccionBuzonJavier() {
                 <form onSubmit={handleSubmit} className="space-y-5">
 
                   <div className="mb-6">
-                    <h3 className="font-titulo font-bold text-white text-lg">¿Qué propones?</h3>
+                    <h3 className="font-titulo font-bold text-white text-lg">Javier te escucha</h3>
                     <div className="w-10 h-0.5 bg-[#AC7C3F] mt-2" />
                   </div>
 
-                  {/* Propuesta */}
+                  {/* Temas */}
+                  <div>
+                    <label className="block text-white/60 text-xs font-bold uppercase tracking-widest mb-3">
+                      ¿Qué te preocupa? *
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {TEMAS.map(t => (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => toggleTema(t)}
+                          className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200 ${
+                            temas.includes(t)
+                              ? 'bg-[#AC7C3F] border-[#AC7C3F] text-white shadow-md scale-105'
+                              : 'bg-white/6 border-white/20 text-white/70 hover:border-[#AC7C3F]/60 hover:text-white'
+                          }`}
+                          style={{ background: temas.includes(t) ? '#AC7C3F' : 'rgba(255,255,255,0.06)' }}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Otra */}
                   <div>
                     <label className="block text-white/60 text-xs font-bold uppercase tracking-widest mb-2">
-                      Propuesta *
+                      Otra
                     </label>
                     <textarea
-                      value={propuesta}
-                      onChange={e => setPropuesta(e.target.value)}
-                      placeholder="Describe tu idea o necesidad para Ambato..."
-                      required
-                      rows={4}
-                      className="w-full bg-white/8 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-[#AC7C3F]/60 focus:border-[#AC7C3F] transition-all resize-none"
+                      value={otra}
+                      onChange={e => setOtra(e.target.value)}
+                      placeholder="Describe otra idea o necesidad para Ambato..."
+                      rows={3}
+                      className="w-full border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-[#AC7C3F]/60 focus:border-[#AC7C3F] transition-all resize-none"
                       style={{ background: 'rgba(255,255,255,0.06)' }}
                     />
                   </div>

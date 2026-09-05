@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { seccionQuienSoy } from '../../contenido/textos'
 
 const galeria = [
-  '/imagenes/new_images/j1.jpg',
+  '/imagenes/new_images/j5.PNG',
   //'/imagenes/new_images/j2.jpg',
   //'/imagenes/new_images/j3.jpg',
   //'/imagenes/new_images/j4.PNG',
-  '/imagenes/new_images/j5.PNG',
+  '/imagenes/new_images/30.jpg',
   //'/imagenes/new_images/j6.jpg',
   //'/imagenes/new_images/j7.jpg',
   '/imagenes/new_images/22.jpeg',
@@ -135,17 +135,93 @@ export default function SeccionQuienSoy() {
               </p>
             </div>
 
-            {/* Botón galería */}
-            <div className="pt-1 flex flex-wrap gap-3 justify-center">
-              <button
-                onClick={() => { setIndiceActivo(0); setGaleriaAbierta(true) }}
-                className="inline-flex items-center gap-3 bg-azul hover:bg-azul-claro text-white font-titulo font-bold px-7 py-4 rounded-full transition-all duration-200 shadow-lg hover:scale-105 hover:shadow-azul/30"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Galería
-              </button>
+            {/* Carrusel inline */}
+            <div className="pt-2 w-full select-none">
+              <div className="relative flex items-center gap-2 w-full">
+
+                {/* Flecha izquierda */}
+                <button
+                  onClick={anterior}
+                  className="absolute left-0 z-10 -translate-x-1/2 w-9 h-9 rounded-full bg-azul hover:bg-oro text-white flex items-center justify-center shadow-lg transition-all duration-200 text-lg font-bold"
+                  aria-label="Anterior"
+                >
+                  ‹
+                </button>
+
+                {/* Imagen izquierda */}
+                <button
+                  onClick={anterior}
+                  className="shrink-0 w-[22%] aspect-[3/4] rounded-xl overflow-hidden opacity-40 hover:opacity-60 transition-all duration-300 scale-95"
+                  aria-label="Anterior"
+                >
+                  <img
+                    src={galeria[(indiceActivo - 1 + galeria.length) % galeria.length]}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+
+                {/* Imagen central — clic abre galería */}
+                <button
+                  onClick={() => setGaleriaAbierta(true)}
+                  className="relative flex-1 aspect-[3/4] rounded-2xl overflow-hidden ring-2 ring-oro shadow-xl transition-all duration-300 group"
+                  aria-label="Ver galería"
+                >
+                  <img
+                    key={indiceActivo}
+                    src={galeria[indiceActivo]}
+                    alt={`Foto ${indiceActivo + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-1">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                    </svg>
+                    <span className="text-white text-xs font-semibold tracking-wide">Ver galería</span>
+                  </div>
+                  <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full">
+                    {indiceActivo + 1} / {galeria.length}
+                  </div>
+                </button>
+
+                {/* Imagen derecha */}
+                <button
+                  onClick={siguiente}
+                  className="shrink-0 w-[22%] aspect-[3/4] rounded-xl overflow-hidden opacity-40 hover:opacity-60 transition-all duration-300 scale-95"
+                  aria-label="Siguiente"
+                >
+                  <img
+                    src={galeria[(indiceActivo + 1) % galeria.length]}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+
+                {/* Flecha derecha */}
+                <button
+                  onClick={siguiente}
+                  className="absolute right-0 z-10 translate-x-1/2 w-9 h-9 rounded-full bg-azul hover:bg-oro text-white flex items-center justify-center shadow-lg transition-all duration-200 text-lg font-bold"
+                  aria-label="Siguiente"
+                >
+                  ›
+                </button>
+              </div>
+
+              {/* Puntos de navegación */}
+              <div className="flex justify-center gap-1.5 mt-3">
+                {galeria.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setIndiceActivo(i)}
+                    className={`rounded-full transition-all duration-200 ${
+                      i === indiceActivo
+                        ? 'w-5 h-1.5 bg-oro'
+                        : 'w-1.5 h-1.5 bg-azul/20 hover:bg-azul/40'
+                    }`}
+                    aria-label={`Foto ${i + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

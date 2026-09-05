@@ -98,7 +98,7 @@ export default function SeccionInicioNueva() {
 
             {/* Frase de apoyo */}
             <p className="text-azul/70 text-lg leading-relaxed max-w-xl">
-              ¡Ya lo hicimos! <strong className="text-azul font-semibold">continuemos el trabajo...</strong>
+              Experiencia para escuchar, carácter para corregir, <strong className="text-azul font-semibold">capacidad para ejecutar.</strong>
             </p>
 
             {/* Botones */}
@@ -118,8 +118,8 @@ export default function SeccionInicioNueva() {
               </a>
             </div>
 
-            {/* Estadísticas */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-azul/10 w-full">
+            {/* Estadística centrada bajo los botones */}
+            <div className="flex justify-center w-full">
               {seccionInicio.estadisticas.map((stat) => (
                 <div key={stat.descripcion} className="text-center">
                   <div className="font-titulo font-black text-3xl text-oro">{stat.numero}</div>
@@ -177,7 +177,7 @@ export default function SeccionInicioNueva() {
 
               {/* Badge flotante */}
               <div className="absolute -bottom-4 -left-4 bg-azul text-oro font-titulo font-black text-sm px-4 py-2 rounded-2xl shadow-lg">
-                Ambato 2026
+                Ambato 2027 - 2031
               </div>
             </div>
           </div>

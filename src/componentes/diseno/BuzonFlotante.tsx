@@ -11,43 +11,66 @@ const PARROQUIAS_RURALES = [
   'San Fernando', 'Santa Rosa', 'Totoras', 'Unamuncho',
 ]
 
+const TEMAS = ['Seguridad', 'Empleo', 'Movilidad', 'Salud', 'Agua / Servicios']
+
 function limpiarTel(v: string) { return v.replace(/\D/g, '').slice(0, 10) }
 
 export default function BuzonFlotante() {
-  const [visible, setVisible] = useState(false)
-  const [abierto, setAbierto] = useState(false)
+  const [visible,  setVisible]  = useState(false)
+  const [abierto,  setAbierto]  = useState(false)
+  const [temas,    setTemas]    = useState<string[]>([])
+  const [otra,     setOtra]     = useState('')
+  const [parroquia,setParroquia]= useState('')
+  const [whatsapp, setWhatsapp] = useState('')
+  const [enviando, setEnviando] = useState(false)
+  const [enviado,  setEnviado]  = useState(false)
+  const [error,    setError]    = useState<string | null>(null)
 
   useEffect(() => {
     const desdeQR = new URLSearchParams(window.location.search).has('buzon')
     if (desdeQR) {
-      setVisible(true)
-      setAbierto(true)
+      setVisible(true); setAbierto(true)
     } else {
       const t = setTimeout(() => setVisible(true), 4400)
       return () => clearTimeout(t)
     }
   }, [])
-  const [propuesta, setPropuesta] = useState('')
-  const [parroquia, setParroquia] = useState('')
-  const [whatsapp,  setWhatsapp]  = useState('')
-  const [enviando,  setEnviando]  = useState(false)
-  const [enviado,   setEnviado]   = useState(false)
-  const [error,     setError]     = useState<string | null>(null)
+
+  const toggleTema = (t: string) =>
+    setTemas(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
+
+  const resetForm = () => {
+    setTemas([]); setOtra(''); setParroquia(''); setWhatsapp(''); setError(null)
+  }
+
+  const cerrar = () => {
+    setAbierto(false)
+    if (enviado) setTimeout(() => { setEnviado(false); resetForm() }, 400)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!propuesta.trim() || !parroquia) return
-    setEnviando(true)
-    setError(null)
+    if ((temas.length === 0 && !otra.trim()) || !parroquia) return
+    const propuesta = [
+      temas.length ? temas.join(', ') : '',
+      otra.trim() ? otra.trim() : '',
+    ].filter(Boolean).join(' | ')
+    setEnviando(true); setError(null)
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          propuesta: propuesta.trim(),
+          propuesta,
           parroquia,
           whatsapp: whatsapp.trim() ? '+593' + whatsapp.trim() : '',
           fuente: 'Buzón Flotante',
+          seguridad:      temas.includes('Seguridad'),
+          empleo:         temas.includes('Empleo'),
+          movilidad:      temas.includes('Movilidad'),
+          salud:          temas.includes('Salud'),
+          agua_servicios: temas.includes('Agua / Servicios'),
+          otra:           otra.trim() || null,
         }),
       })
       const data = await res.json()
@@ -60,57 +83,35 @@ export default function BuzonFlotante() {
     }
   }
 
-  const cerrar = () => {
-    setAbierto(false)
-    if (enviado) {
-      setTimeout(() => {
-        setEnviado(false); setPropuesta(''); setParroquia(''); setWhatsapp(''); setError(null)
-      }, 400)
-    }
-  }
-
   return (
     <>
       <style>{`
-        .buzon-btn {
-          right: 20px;
-        }
+        .buzon-btn { right: 20px; }
         .buzon-btn img { width: 100px; }
         @media (max-width: 768px) {
-          .buzon-btn {
-            right: 95px;
-          }
+          .buzon-btn { right: 95px; }
           .buzon-btn img { width: 38px; }
         }
       `}</style>
 
-      {/* ── Botón flotante (aparece después de la intro) ── */}
+      {/* Botón flotante */}
       <button
         className="buzon-btn"
         onClick={() => setAbierto(true)}
         title="Javier te escucha — Mándanos tu propuesta"
         style={{
-          position: 'fixed',
-          top: 0,
-          zIndex: 900,
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          cursor: 'pointer',
+          position: 'fixed', top: 0, zIndex: 900,
+          background: 'none', border: 'none', padding: 0, cursor: 'pointer',
           filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.25))',
           opacity: visible ? 1 : 0,
           pointerEvents: visible ? 'auto' : 'none',
           transition: 'opacity 0.6s ease',
         }}
       >
-        <img
-          src="/imagenes/buzon_javier_imagen.png"
-          alt="Javier te escucha"
-          style={{ height: 'auto', display: 'block' }}
-        />
+        <img src="/imagenes/buzon_nuevo.png" alt="Javier te escucha" style={{ height: 'auto', display: 'block' }} />
       </button>
 
-      {/* ── Modal con formulario ── */}
+      {/* Modal */}
       {abierto && (
         <div
           onClick={e => { if (e.target === e.currentTarget) cerrar() }}
@@ -122,28 +123,22 @@ export default function BuzonFlotante() {
           }}
         >
           <div style={{
-            background: '#21243D',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            width: '100%',
-            maxWidth: '440px',
-            maxHeight: '92dvh',
-            display: 'flex',
-            flexDirection: 'column',
+            background: '#21243D', borderRadius: '20px', overflow: 'hidden',
+            width: '100%', maxWidth: '440px', maxHeight: '92dvh',
+            display: 'flex', flexDirection: 'column',
             boxShadow: '0 24px 64px rgba(0,0,0,0.45)',
           }}>
 
             {/* Barra superior */}
             <div style={{
-              padding: '14px 20px',
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              borderBottom: '1px solid rgba(255,255,255,0.08)',
-              flexShrink: 0,
+              padding: '14px 20px', display: 'flex', alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: '1px solid rgba(255,255,255,0.08)', flexShrink: 0,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <img src="/imagenes/buzon_javier_imagen.png" alt="" style={{ width: '36px', borderRadius: '6px' }} />
+                <img src="/imagenes/buzon_nuevo.png" alt="" style={{ width: '36px', borderRadius: '6px' }} />
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '14px', color: '#fff' }}>Buzón de Javier</div>
+                  <div style={{ fontWeight: 700, fontSize: '14px', color: '#fff' }}>Javier te escucha</div>
                   <div style={{ fontSize: '11px', color: '#D4A86A', letterSpacing: '.06em' }}>MÁNDANOS TU PROPUESTA</div>
                 </div>
               </div>
@@ -167,7 +162,7 @@ export default function BuzonFlotante() {
                     Tu propuesta fue recibida. Javier te escucha.
                   </p>
                   <button
-                    onClick={() => { setEnviado(false); setPropuesta(''); setParroquia(''); setWhatsapp('') }}
+                    onClick={() => { setEnviado(false); resetForm() }}
                     style={{ marginTop: '20px', color: '#D4A86A', background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', textDecoration: 'underline' }}
                   >
                     Enviar otra propuesta
@@ -176,17 +171,42 @@ export default function BuzonFlotante() {
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-                  {/* Propuesta */}
+                  {/* Temas */}
+                  <div>
+                    <label style={{ display: 'block', color: 'rgba(255,255,255,0.5)', fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: '10px' }}>
+                      ¿Qué te preocupa? *
+                    </label>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {TEMAS.map(t => (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => toggleTema(t)}
+                          style={{
+                            padding: '8px 14px', borderRadius: '999px', fontSize: '13px', fontWeight: 600,
+                            border: temas.includes(t) ? '1px solid #AC7C3F' : '1px solid rgba(255,255,255,0.2)',
+                            background: temas.includes(t) ? '#AC7C3F' : 'rgba(255,255,255,0.06)',
+                            color: temas.includes(t) ? '#fff' : 'rgba(255,255,255,0.7)',
+                            cursor: 'pointer', transition: 'all 0.15s',
+                            transform: temas.includes(t) ? 'scale(1.05)' : 'scale(1)',
+                          }}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Otra */}
                   <div>
                     <label style={{ display: 'block', color: 'rgba(255,255,255,0.5)', fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: '8px' }}>
-                      ¿Qué propones? *
+                      Otra
                     </label>
                     <textarea
-                      value={propuesta}
-                      onChange={e => setPropuesta(e.target.value)}
-                      placeholder="Describe tu idea o necesidad para Ambato..."
-                      required
-                      rows={4}
+                      value={otra}
+                      onChange={e => setOtra(e.target.value)}
+                      placeholder="Describe otra idea o necesidad para Ambato..."
+                      rows={3}
                       style={{
                         width: '100%', background: 'rgba(255,255,255,0.06)',
                         border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px',
@@ -259,8 +279,7 @@ export default function BuzonFlotante() {
                       border: 'none', borderRadius: '12px',
                       color: '#fff', fontWeight: 700, fontSize: '14px',
                       cursor: enviando ? 'not-allowed' : 'pointer',
-                      opacity: enviando ? 0.65 : 1,
-                      letterSpacing: '.04em',
+                      opacity: enviando ? 0.65 : 1, letterSpacing: '.04em',
                     }}
                   >
                     {enviando ? 'Enviando...' : '📬 Enviar propuesta a Javier'}

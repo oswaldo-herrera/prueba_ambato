@@ -24,6 +24,8 @@ import SeccionQuienSoy from './componentes/secciones/SeccionQuienSoy'
 import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
 import SeccionValores from './componentes/secciones/SeccionValores'
 import SeccionLogros from './componentes/secciones/SeccionLogros'
+import SeccionJavierEnTuCasa from './componentes/secciones/SeccionJavierEnTuCasa'
+import SeccionTop5 from './componentes/secciones/SeccionTop5'
 // import SeccionAgenda from './componentes/secciones/SeccionAgenda'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
 // import SeccionMundial from './componentes/secciones/SeccionMundial'
@@ -55,7 +57,16 @@ export default function App() {
         {/* 3. Video obra destacada */}
         <SeccionVideoObra />
 
-        {/* 3.2 Logros 2019-2023 */}
+        {/* 3.2 Javier en Tu Casa */}
+        <SeccionJavierEnTuCasa />
+
+        {/* 3.25 Top 5 preocupaciones */}
+        <SeccionTop5 />
+
+        {/* 3.26 Buzón de Javier */}
+        <SeccionBuzonJavier />
+
+        {/* 3.3 Logros 2019-2023 */}
         <SeccionLogros />
 
         {/* 3.5 Agenda de eventos */}
@@ -66,9 +77,6 @@ export default function App() {
 
         {/* 4.5 Mundial 2026 */}
         {/* <SeccionMundial /> */}
-
-        {/* 9. Buzón de Javier */}
-        <SeccionBuzonJavier />
 
         {/* 5. Trayectoria / Experiencia */}
         <SeccionTrayectoria />
