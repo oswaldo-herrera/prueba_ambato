@@ -1020,12 +1020,6 @@ const REPORTES = [
     archivo: () => `javier_en_tu_casa_region5_${hoy()}.xlsx`,
   },
   {
-    id: 'buzon', titulo: 'Javier te escucha', subtitulo: 'Preocupaciones de Ambato',
-    tabla: 'buzon_propuestas', icono: '📬', color: 'azul', tipo: 'stats',
-    sbUrl: 'https://psveoeanrjqncxyhmvfh.supabase.co',
-    sbKey: 'sb_publishable_xZMKZgaKDubOw4TddwQlpQ_zp8XyQZn',
-  },
-  {
     id: 'candidatos', titulo: 'Capacitación', subtitulo: 'Directorio · Coordinadores',
     tabla: 'candidatos', icono: '⭐', color: 'oro', hoy: false,
     columnas: r => ({
@@ -1035,6 +1029,12 @@ const REPORTES = [
     }),
     anchos: [8, 34, 30, 26, 18, 22], hoja: 'Candidatos',
     archivo: () => `candidatos_altamirano_${hoy()}.xlsx`,
+  },
+  {
+    id: 'buzon', titulo: 'Javier te escucha', subtitulo: 'Preocupaciones de Ambato',
+    tabla: 'buzon_propuestas', icono: '📬', color: 'azul', tipo: 'stats',
+    sbUrl: 'https://psveoeanrjqncxyhmvfh.supabase.co',
+    sbKey: 'sb_publishable_xZMKZgaKDubOw4TddwQlpQ_zp8XyQZn',
   },
 ]
 
@@ -1055,11 +1055,6 @@ function construirReportes() {
         </div>
         <div class="buzon-bars" id="buzon-bars">
           <div class="rep-status">Cargando...</div>
-        </div>
-        <div class="rep-btns">
-          <button class="btn-xl btn-pdf-rep" id="rbtn-pdf-${r.id}" onclick="descargarBuzonPDF()" disabled>
-            <span class="pdf-ico">PDF</span> PDF
-          </button>
         </div>
       </div>`
     return `
@@ -1131,10 +1126,7 @@ async function cargarReporte(r) {
           '</div>' +
           '<div class="buzon-bar-track"><div class="buzon-bar-fill" style="width:' + c.pct + '%"></div></div>' +
         '</div>'
-      }).join('') +
-      '<div class="buzon-total">' + lista.length + ' participaciones registradas</div>'
-
-      document.getElementById('rbtn-pdf-buzon').disabled = false
+      }).join('')
       return
     }
 
