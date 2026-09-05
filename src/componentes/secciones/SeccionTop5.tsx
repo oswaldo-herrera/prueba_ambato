@@ -6,12 +6,12 @@ const SB_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string
 type Item = { num: number; label: string; pct: number }
 
 const STATIC: Item[] = [
-  { num: 1, label: 'Seguridad',       pct: 31 },
-  { num: 2, label: 'Empleo',           pct: 24 },
-  { num: 3, label: 'Movilidad',        pct: 18 },
-  { num: 4, label: 'Salud',            pct: 14 },
-  { num: 5, label: 'Agua / Servicios', pct: 13 },
-  { num: 6, label: 'Otra',             pct:  8 },
+  { num: 1, label: 'Seguridad',       pct: 29 },
+  { num: 2, label: 'Empleo',           pct: 22 },
+  { num: 3, label: 'Movilidad',        pct: 17 },
+  { num: 4, label: 'Salud',            pct: 13 },
+  { num: 5, label: 'Agua / Servicios', pct: 12 },
+  { num: 6, label: 'Otra',             pct:  7 },
 ]
 
 type Row = {
@@ -36,24 +36,31 @@ export default function SeccionTop5() {
       .then(r => r.json())
       .then((rows: Row[]) => {
         if (!Array.isArray(rows) || rows.length === 0) return
-        const total = rows.length
-        const pct = (key: keyof Row) =>
-          Math.round((rows.filter(r => r[key]).length / total) * 100)
 
-        const pctOtra = Math.round(
-          (rows.filter(r => r.otra && r.otra.trim() !== '').length / total) * 100
-        )
-
-        const computed = [
-          { label: 'Seguridad',       pct: pct('seguridad') },
-          { label: 'Empleo',           pct: pct('empleo') },
-          { label: 'Movilidad',        pct: pct('movilidad') },
-          { label: 'Salud',            pct: pct('salud') },
-          { label: 'Agua / Servicios', pct: pct('agua_servicios') },
-          { label: 'Otra',             pct: pctOtra },
+        const counts = [
+          { label: 'Seguridad',       votos: rows.filter(r => r.seguridad).length },
+          { label: 'Empleo',           votos: rows.filter(r => r.empleo).length },
+          { label: 'Movilidad',        votos: rows.filter(r => r.movilidad).length },
+          { label: 'Salud',            votos: rows.filter(r => r.salud).length },
+          { label: 'Agua / Servicios', votos: rows.filter(r => r.agua_servicios).length },
+          { label: 'Otra',             votos: rows.filter(r => r.otra && r.otra.trim() !== '').length },
         ]
+
+        const totalSelecciones = counts.reduce((s, c) => s + c.votos, 0)
+        if (totalSelecciones === 0) return
+
+        // Largest Remainder Method — garantiza que la suma siempre sea exactamente 100%
+        const conExacto = counts.map((c, index) => {
+          const exacto = (c.votos / totalSelecciones) * 100
+          return { ...c, index, exacto, pct: Math.floor(exacto), resto: exacto - Math.floor(exacto) }
+        })
+        let faltantes = 100 - conExacto.reduce((s, c) => s + c.pct, 0)
+        const ordenadosPorResto = [...conExacto].sort((a, b) => b.resto - a.resto)
+        for (let i = 0; i < faltantes; i++) ordenadosPorResto[i].pct++
+
+        const computed = conExacto
           .sort((a, b) => b.pct - a.pct)
-          .map((item, i) => ({ num: i + 1, ...item }))
+          .map((item, i) => ({ num: i + 1, label: item.label, pct: item.pct }))
 
         if (computed.every(i => i.pct === 0)) return
         setItems(computed)
