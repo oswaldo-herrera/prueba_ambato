@@ -94,7 +94,7 @@ export default function SeccionBuzonJavier() {
             Participa · Tu voz importa
           </span>
           <h2 className="font-titulo font-black text-4xl sm:text-5xl text-[#21243D] leading-tight">
-            Buzón de <span className="text-[#AC7C3F]">Javier</span>
+            Javier <span className="text-[#AC7C3F]">te escucha</span>
           </h2>
         </div>
 
