@@ -226,9 +226,9 @@ export const seccionAgenda = {
 
 // ── SECCIÓN PROPUESTAS NUEVAS (antes de Trayectoria) ─────────
 export const seccionPropuestasNuevas = {
-  etiqueta: 'Propuestas y Compromisos',
+  etiqueta: 'Experiencia + Obras = Resultados',
   titulo: 'Lo que',
-  tituloDestacado: 'lograremos',
+  tituloDestacado: 'sigue',
   galeria: [
     { frente: '/imagenes/new_images/20.jpeg', reverso: '/imagenes/new_images/20_2.jpeg' },
     { frente: '/imagenes/new_images/4_2.jpg',  reverso: '/imagenes/new_images/4.jpeg' },
