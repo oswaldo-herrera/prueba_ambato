@@ -1011,6 +1011,27 @@ const REPORTES = [
     archivo: () => `javier_en_tu_casa_region5_${hoy()}.xlsx`,
   },
   {
+    id: 'buzon', titulo: 'Javier te escucha', subtitulo: 'Propuestas ciudadanas',
+    tabla: 'buzon_propuestas', icono: '📬', color: 'azul', hoy: true,
+    sbUrl: 'https://psveoeanrjqncxyhmvfh.supabase.co',
+    sbKey: 'sb_publishable_xZMKZgaKDubOw4TddwQlpQ_zp8XyQZn',
+    columnas: r => ({
+      'Numero': '___i___',
+      'Parroquia': r.parroquia || '',
+      'Seguridad':        r.seguridad        ? 'Sí' : '',
+      'Empleo':           r.empleo           ? 'Sí' : '',
+      'Movilidad':        r.movilidad        ? 'Sí' : '',
+      'Salud':            r.salud            ? 'Sí' : '',
+      'Agua / Servicios': r.agua_servicios   ? 'Sí' : '',
+      'Otra':             r.otra             || '',
+      'WhatsApp': r.whatsapp || '',
+      'Creado en': r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
+    }),
+    anchos: [8, 28, 12, 12, 12, 12, 16, 30, 16, 22],
+    hoja: 'Javier te escucha',
+    archivo: () => 'javier_te_escucha_' + hoy() + '.xlsx',
+  },
+  {
     id: 'candidatos', titulo: 'Capacitación', subtitulo: 'Directorio · Coordinadores',
     tabla: 'candidatos', icono: '⭐', color: 'oro', hoy: false,
     columnas: r => ({
@@ -1063,8 +1084,10 @@ function construirReportes() {
 
 async function cargarReporte(r) {
   try {
-    const res = await fetch(`${SB_URL}/rest/v1/${r.tabla}?select=*&order=id.asc&limit=10000`, {
-      headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+    const url = r.sbUrl || SB_URL
+    const key = r.sbKey || SB_KEY
+    const res = await fetch(url + '/rest/v1/' + r.tabla + '?select=*&order=id.asc&limit=10000', {
+      headers: { apikey: key, Authorization: 'Bearer ' + key }
     })
     const lista = await res.json()
     repDatos[r.id] = lista
