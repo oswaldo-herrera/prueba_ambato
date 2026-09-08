@@ -77,7 +77,7 @@ export default function SeccionTop5() {
           {/* Imagen */}
           <div className="flex justify-center">
             <img
-              src="/imagenes/new_images/top_5.jpeg"
+              src="/imagenes/new_images/top_5_necesidades.jpeg"
               alt="Top 5 preocupaciones de Ambato"
               className="w-full max-w-sm rounded-3xl shadow-2xl object-cover"
             />
