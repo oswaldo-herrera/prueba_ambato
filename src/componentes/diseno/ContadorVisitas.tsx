@@ -79,7 +79,7 @@ export default function ContadorVisitas({ variante = 'claro' }: Props) {
         {/* Etiqueta derecha */}
         <div className="text-right">
           <p className={`font-black text-sm leading-tight ${oscuro ? 'text-white' : 'text-azul'}`}>
-            Continuamos con Javier
+            Personas que Continuamos con Javier
           </p>
         </div>
       </div>

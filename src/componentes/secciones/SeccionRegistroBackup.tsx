@@ -234,10 +234,10 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
 
             <div className="pt-4 space-y-3">
               <p className="text-oro font-semibold text-xl italic leading-snug">
-                Seguridad, Salud y Empleo.
+                + Seguridad  + Salud + Empleo.
               </p>
               <p className="text-white/70 text-lg leading-relaxed">
-                ¡Ya lo hicimos! <strong className="text-white font-semibold">continuemos el trabajo...</strong>
+                <strong className="text-white font-semibold">Experiencia</strong> para escuchar, <strong className="text-white font-semibold">Carácter</strong> para corregir, capacidad para <strong className="text-white font-semibold">Ejecutar</strong> 
               </p>
             </div>
           </div>

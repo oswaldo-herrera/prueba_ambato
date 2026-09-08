@@ -44,7 +44,7 @@ export default function SeccionValores() {
         <div className="text-center mb-10 flex flex-col items-center gap-2">
           <div className="flex items-center gap-4 justify-center">
             <div className="w-16 h-px bg-gradient-to-r from-transparent to-oro/60" />
-            <span className="text-white/30 text-[10px] tracking-[0.4em] uppercase font-medium">Ambato · 2026</span>
+            <span className="text-white/30 text-[10px] tracking-[0.4em] uppercase font-medium">Ambato · 2027 - 2031</span>
             <div className="w-16 h-px bg-gradient-to-l from-transparent to-oro/60" />
           </div>
           <span

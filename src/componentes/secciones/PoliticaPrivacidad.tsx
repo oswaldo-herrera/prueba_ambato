@@ -13,7 +13,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
             <h1 className="font-titulo font-black text-white text-lg leading-tight">
               Política de Privacidad y Protección de Datos Personales
             </h1>
-            <p className="text-oro text-xs mt-0.5">Javier Altamirano — Ambato 2026</p>
+            <p className="text-oro text-xs mt-0.5">Javier Altamirano — Ambato 2027 - 2031</p>
           </div>
           <button
             onClick={onCerrar}
@@ -36,7 +36,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
             <h2 className="font-titulo font-bold text-azul text-base mb-2">2. Responsable del Tratamiento de Datos</h2>
             <ul className="space-y-1 text-gray-600">
               <li><span className="font-semibold text-azul">Nombre:</span>Javier Francisco Altamirano Sánchez</li>
-              <li><span className="font-semibold text-azul">Cargo:</span> PreCandidato a la Alcaldía de Ambato 2026</li>
+              <li><span className="font-semibold text-azul">Cargo:</span> Candidato a la Alcaldía de Ambato 2027-2031</li>
               <li><span className="font-semibold text-azul">Sitio Web:</span> https://javieraltamirano.org/</li>
               <li><span className="font-semibold text-azul">Correo:</span> yoporambato@gmail.com</li>
               <li><span className="font-semibold text-azul">Dirección:</span> Ambato, Tungurahua, Ecuador</li>
@@ -162,7 +162,7 @@ export default function PoliticaPrivacidad({ onCerrar }: Props) {
               <li><span className="font-semibold text-azul">Teléfono:</span> 963 197 900</li>
               <li><span className="font-semibold text-azul">Sitio Web:</span> https://javieraltamirano.org/</li>
             </ul>
-            <p className="mt-2 text-gray-500 text-xs">Última actualización: junio 2026</p>
+            <p className="mt-2 text-gray-500 text-xs">Última actualización: Septiembre 2026</p>
           </section>
 
           {/* Cierre */}

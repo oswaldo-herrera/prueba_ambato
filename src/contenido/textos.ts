@@ -238,7 +238,7 @@ export const seccionPropuestasNuevas = {
   tarjetas: [
     {
       icono: '🏙️',
-      titulo: 'Seguridad',
+      titulo: '+ Seguridad',
       resumen: 'La seguridad en Ambato puede fortalecerse mediante prevención del delito, control del espacio público y tecnología. Estas acciones deben ejecutarse conforme a las competencias establecidas por el COOTAD para los GAD.',
       puntos: [
         'Modernización de las Salas de Monitoreo e Integración con Inteligencia Artificial',
@@ -248,7 +248,7 @@ export const seccionPropuestasNuevas = {
     },
     {
       icono: '🛡️',
-      titulo: 'Salud',
+      titulo: '+ Salud',
       resumen: 'La salud en Ambato debe fortalecerse mediante la prevención y la mejora de los servicios locales. Aunque el MSP dirige el sistema de salud, el municipio cumple un papel importante a través del hospital municipal.',
       puntos: [
         'Unidades Médicas Móviles para Parroquias Rurales y Zonas Periféricas',
@@ -258,7 +258,7 @@ export const seccionPropuestasNuevas = {
     },
     {
       icono: '💡',
-      titulo: 'Empleo',
+      titulo: '+ Empleo',
       resumen: 'Tomando como referencia las competencias de desarrollo productivo local que el COOTAD otorga a los municipios, las propuestas estratégicas en materia de empleo y reactivación económica para el cantón:',
       puntos: [
         'Generación de empleo a través de la obra pública realizada por el GAD municipio de Ambato',
@@ -268,7 +268,7 @@ export const seccionPropuestasNuevas = {
     },
     {
       icono: '🌱',
-      titulo: 'Movilidad',
+      titulo: '+ Movilidad',
       resumen: 'Para abordar la movilidad en Ambato se deben considerar sus desafíos particulares: la alta congestión en los "días de feria", la compleja topografía de la ciudad, la necesidad de conectar las parroquias rurales con el casco urbano y el acelerado crecimiento del parque automotor.',
       puntos: [
         'Plan Maestro de Movilidad',
@@ -444,7 +444,7 @@ export const seccionWhatsApp = {
 export const pieDePagina = {
   logo: 'HERSA',
   eslogan: 'Ambato',
-  descripcion: 'Seguridad, Salud y Empleo',
+  descripcion: '+ Seguridad + Salud  + Empleo',
   // Derechos de autor — el año se actualiza automáticamente
   derechos: 'HERSA',
   enlacesRapidos: [
