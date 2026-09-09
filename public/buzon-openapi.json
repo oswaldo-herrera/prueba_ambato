@@ -1,0 +1,83 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Buzón Javier — API de estadísticas",
+    "description": "Lee los datos agregados del Buzón de Javier: propuestas ciudadanas de Ambato por tema, parroquia, evolución diaria y textos libres.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "https://javieraltamirano.org" }
+  ],
+  "paths": {
+    "/api/buzon-stats": {
+      "get": {
+        "operationId": "getBuzonStats",
+        "summary": "Estadísticas completas del Buzón de Javier",
+        "description": "Devuelve totales de participación, porcentajes por tema (Seguridad, Empleo, Movilidad, Salud, Agua/Servicios, Otra), registros por parroquia, evolución diaria de los últimos 30 días y textos del campo libre 'Otra'.",
+        "responses": {
+          "200": {
+            "description": "Datos del buzón",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "generado_en":       { "type": "string", "description": "Fecha y hora de generación en ISO 8601" },
+                    "total_registros":   { "type": "integer", "description": "Total de personas que enviaron una propuesta" },
+                    "total_selecciones": { "type": "integer", "description": "Total de selecciones de temas (multi-selección)" },
+                    "temas": {
+                      "type": "array",
+                      "description": "Ranking de temas ordenado por votos",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "tema":       { "type": "string" },
+                          "votos":      { "type": "integer" },
+                          "porcentaje": { "type": "integer", "description": "Porcentaje sobre total de selecciones (suma 100)" }
+                        }
+                      }
+                    },
+                    "parroquias": {
+                      "type": "array",
+                      "description": "Registros por parroquia ordenados de mayor a menor",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "parroquia":  { "type": "string" },
+                          "registros":  { "type": "integer" }
+                        }
+                      }
+                    },
+                    "evolucion_diaria": {
+                      "type": "array",
+                      "description": "Registros por día, últimos 30 días",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "fecha":     { "type": "string", "description": "YYYY-MM-DD" },
+                          "registros": { "type": "integer" }
+                        }
+                      }
+                    },
+                    "propuestas_otra": {
+                      "type": "array",
+                      "description": "Textos del campo libre 'Otra propuesta'",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "texto":     { "type": "string" },
+                          "parroquia": { "type": "string" },
+                          "fecha":     { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
