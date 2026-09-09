@@ -30,7 +30,7 @@ const pasos = [
     texto: (
       <>
          Súmate y construyamos juntos el Ambato que merecemos{' '}
-        <strong className="text-azul">+Seguridad +Salud + Empleo + y por eso “YO CONTINÚO CON JAVIER”</strong>
+        <strong className="text-azul">+ Seguridad + Salud + Empleo por eso “YO CONTINÚO CON JAVIER”</strong>
       </>
     ),
   },
