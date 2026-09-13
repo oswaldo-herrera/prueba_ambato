@@ -15,7 +15,8 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
   const { nombre, propuesta, parroquia, whatsapp, fuente = 'Web',
-          seguridad, empleo, movilidad, salud, agua_servicios, otra } = req.body || {}
+          seguridad, empleo, movilidad, salud, agua_servicios, otra,
+          skip_buzon } = req.body || {}
 
   if (!parroquia) {
     return res.status(400).json({ error: 'Faltan campos obligatorios' })
@@ -23,8 +24,8 @@ export default async function handler(req, res) {
 
   const resultados = { supabase: null, kommo: null }
 
-  // 1. Guardar en Supabase
-  try {
+  // 1. Guardar en Supabase (omitir si el promotor ya lo hizo directamente)
+  if (!skip_buzon) try {
     const sbRes = await fetch(`${SUPABASE_URL}/rest/v1/buzon_propuestas`, {
       method: 'POST',
       headers: {
