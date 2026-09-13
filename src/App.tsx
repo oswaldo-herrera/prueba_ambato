@@ -28,6 +28,7 @@ import SeccionJavierEnTuCasa from './componentes/secciones/SeccionJavierEnTuCasa
 import SeccionTop5 from './componentes/secciones/SeccionTop5'
 // import SeccionAgenda from './componentes/secciones/SeccionAgenda'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
+import SeccionYaViene from './componentes/secciones/SeccionYaViene'
 // import SeccionMundial from './componentes/secciones/SeccionMundial'
 import SeccionVideoObra from './componentes/secciones/SeccionVideoObra'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
@@ -74,6 +75,9 @@ export default function App() {
 
         {/* 4. Propuestas */}
         <SeccionPropuestasNuevas />
+
+        {/* 4.1 Ya viene 2050 */}
+        <SeccionYaViene />
 
         {/* 4.5 Mundial 2026 */}
         {/* <SeccionMundial /> */}
