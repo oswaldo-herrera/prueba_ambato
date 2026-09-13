@@ -16,6 +16,7 @@ function limpiarTel(v: string) { return v.replace(/\D/g, '').slice(0, 10) }
 const TEMAS = ['Seguridad', 'Empleo', 'Movilidad', 'Salud', 'Agua / Servicios']
 
 export default function SeccionBuzonJavier() {
+  const [nombre,    setNombre]      = useState('')
   const [temas,     setTemas]       = useState<string[]>([])
   const [otra,      setOtra]        = useState('')
   const [parroquia, setParroquia]   = useState('')
@@ -44,6 +45,7 @@ export default function SeccionBuzonJavier() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          nombre: nombre.trim() || undefined,
           propuesta,
           parroquia,
           whatsapp: whatsapp.trim() ? '+593' + whatsapp.trim() : '',
@@ -60,7 +62,7 @@ export default function SeccionBuzonJavier() {
       setEnviando(false)
       if (data.ok || data.supabase === 'ok') {
         setEnviado(true)
-        setTemas([]); setOtra(''); setParroquia(''); setWhatsapp('')
+        setNombre(''); setTemas([]); setOtra(''); setParroquia(''); setWhatsapp('')
       } else {
         setError('Ocurrió un error al enviar. Intenta nuevamente.')
       }
@@ -210,6 +212,22 @@ export default function SeccionBuzonJavier() {
                   <div className="mb-6">
                     <h3 className="font-titulo font-bold text-white text-lg">Javier te escucha</h3>
                     <div className="w-10 h-0.5 bg-[#AC7C3F] mt-2" />
+                  </div>
+
+                  {/* Nombre */}
+                  <div>
+                    <label className="block text-white/60 text-xs font-bold uppercase tracking-widest mb-2">
+                      Nombre completo
+                    </label>
+                    <input
+                      type="text"
+                      value={nombre}
+                      onChange={e => setNombre(e.target.value)}
+                      placeholder="Ej: María García"
+                      autoComplete="off"
+                      className="w-full border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-[#AC7C3F]/60 focus:border-[#AC7C3F] transition-all"
+                      style={{ background: 'rgba(255,255,255,0.06)' }}
+                    />
                   </div>
 
                   {/* Temas */}

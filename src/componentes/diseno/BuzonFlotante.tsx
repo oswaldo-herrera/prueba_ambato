@@ -18,6 +18,7 @@ function limpiarTel(v: string) { return v.replace(/\D/g, '').slice(0, 10) }
 export default function BuzonFlotante() {
   const [visible,  setVisible]  = useState(false)
   const [abierto,  setAbierto]  = useState(false)
+  const [nombre,   setNombre]   = useState('')
   const [temas,    setTemas]    = useState<string[]>([])
   const [otra,     setOtra]     = useState('')
   const [parroquia,setParroquia]= useState('')
@@ -40,7 +41,7 @@ export default function BuzonFlotante() {
     setTemas(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])
 
   const resetForm = () => {
-    setTemas([]); setOtra(''); setParroquia(''); setWhatsapp(''); setError(null)
+    setNombre(''); setTemas([]); setOtra(''); setParroquia(''); setWhatsapp(''); setError(null)
   }
 
   const cerrar = () => {
@@ -61,6 +62,7 @@ export default function BuzonFlotante() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          nombre: nombre.trim() || undefined,
           propuesta,
           parroquia,
           whatsapp: whatsapp.trim() ? '+593' + whatsapp.trim() : '',
@@ -170,6 +172,26 @@ export default function BuzonFlotante() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+                  {/* Nombre */}
+                  <div>
+                    <label style={{ display: 'block', color: 'rgba(255,255,255,0.5)', fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Nombre completo
+                    </label>
+                    <input
+                      type="text"
+                      value={nombre}
+                      onChange={e => setNombre(e.target.value)}
+                      placeholder="Ej: María García"
+                      autoComplete="off"
+                      style={{
+                        width: '100%', background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px',
+                        padding: '12px 14px', fontSize: '14px', color: '#fff',
+                        outline: 'none', boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
 
                   {/* Temas */}
                   <div>
