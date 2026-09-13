@@ -34,6 +34,7 @@ export default async function handler(req, res) {
         Prefer: 'return=minimal',
       },
       body: JSON.stringify({
+        nombre:    nombre    || null,
         propuesta: propuesta || null,
         parroquia,
         whatsapp: whatsapp || null,
