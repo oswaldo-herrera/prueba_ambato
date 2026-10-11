@@ -854,57 +854,36 @@
           </button>
         </div>
         <pre id="sql-block" style="margin:0;padding:22px 24px;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.8;color:#1e293b;overflow-x:auto;background:#f8fafc;white-space:pre">-- ============================================================
--- TABLA: directorio_ciudadanos
--- Úsala para importar tu Excel de 50 000 registros
--- Ajusta los nombres de columnas para que coincidan
--- exactamente con los encabezados de tu Excel
+-- TABLA: contactos_whatsapp
+-- Columnas exactas de tu Excel: Nombre y WhatsApp
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS directorio_ciudadanos (
-  id            bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-
-  -- Datos personales
-  cedula        text,                          -- Número de cédula
-  nombre        text,                          -- Nombre completo o primer nombre
-  apellido      text,                          -- Apellidos (si están separados)
-  telefono      text,                          -- Teléfono / celular
-  whatsapp      text,                          -- WhatsApp si es diferente
-
-  -- Ubicación
-  parroquia     text,                          -- Parroquia
-  sector        text,                          -- Sector / barrio
-  direccion     text,                          -- Dirección completa
-  zona          text,                          -- Zona electoral (si aplica)
-
-  -- Extra campaña
-  lista         text,                          -- Lista o grupo de origen
-  observacion   text,                          -- Notas adicionales
-
-  -- Control
-  creado_en     timestamptz DEFAULT now()
+CREATE TABLE IF NOT EXISTS contactos_whatsapp (
+  id         bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  "Nombre"   text,
+  "WhatsApp" text,
+  creado_en  timestamptz DEFAULT now()
 );
 
--- Índices para búsquedas rápidas
-CREATE INDEX IF NOT EXISTS idx_dir_cedula    ON directorio_ciudadanos (cedula);
-CREATE INDEX IF NOT EXISTS idx_dir_nombre    ON directorio_ciudadanos (nombre);
-CREATE INDEX IF NOT EXISTS idx_dir_telefono  ON directorio_ciudadanos (telefono);
-CREATE INDEX IF NOT EXISTS idx_dir_parroquia ON directorio_ciudadanos (parroquia);
+-- Índices para búsquedas rápidas (50 000 registros)
+CREATE INDEX IF NOT EXISTS idx_cwa_nombre   ON contactos_whatsapp ("Nombre");
+CREATE INDEX IF NOT EXISTS idx_cwa_whatsapp ON contactos_whatsapp ("WhatsApp");
 
--- Permisos para acceso público (anon key)
-ALTER TABLE directorio_ciudadanos ENABLE ROW LEVEL SECURITY;
+-- Permisos (anon key puede leer e insertar)
+ALTER TABLE contactos_whatsapp ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "lectura_publica" ON directorio_ciudadanos
+CREATE POLICY "lectura_publica" ON contactos_whatsapp
   FOR SELECT USING (true);
 
-CREATE POLICY "insercion_publica" ON directorio_ciudadanos
+CREATE POLICY "insercion_publica" ON contactos_whatsapp
   FOR INSERT WITH CHECK (true);</pre>
       </div>
 
       <!-- Nota -->
       <div style="background:var(--oro-claro, #fef3c7);border:1px solid #fbbf24;border-radius:10px;padding:14px 18px;font-size:13px;color:#92400e;line-height:1.6">
-        <strong>💡 Tip:</strong> Si tu Excel tiene columnas con nombres diferentes (ej: "NOMBRES", "CELULAR", "BARRIO"),
-        cambia los nombres en el SQL para que coincidan exactamente antes de importar.
-        Supabase los mapea por nombre de columna automáticamente.
+        <strong>⚠️ Importante al convertir a CSV:</strong> Los números de WhatsApp como <code style="background:#fde68a;padding:1px 5px;border-radius:4px">0960536986</code>
+        pueden perder el <strong>cero inicial</strong> si Excel los trata como números. Antes de guardar como CSV,
+        selecciona toda la columna WhatsApp → formato <strong>Texto</strong> → luego <em>Guardar como → CSV UTF-8</em>.
       </div>
     </div>
 
