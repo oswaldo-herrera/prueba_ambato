@@ -822,12 +822,14 @@
         <div style="background:var(--azul);color:#fff;font-size:12px;font-weight:700;padding:9px 16px;border-radius:8px;white-space:nowrap">
           <span id="bdd-mostrado">0</span> de <span id="bdd-total">0</span>
         </div>
-        <button class="btn-xl" id="bdd-btn-excel" onclick="descargarBDDExcel()" disabled
-          style="padding:9px 18px;font-size:12px">
+        <button id="bdd-btn-excel" onclick="descargarBDDExcel()" disabled
+          style="display:flex;align-items:center;gap:7px;padding:9px 16px;background:var(--azul);color:#fff;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .2s"
+          onmouseenter="if(!this.disabled)this.style.opacity='.8'" onmouseleave="this.style.opacity='1'">
           <span class="xl-ico">XL</span> Excel
         </button>
-        <button class="btn-xl btn-pdf-rep" id="bdd-btn-pdf" onclick="descargarBDDPDF()" disabled
-          style="padding:9px 18px;font-size:12px">
+        <button id="bdd-btn-pdf" onclick="descargarBDDPDF()" disabled
+          style="display:flex;align-items:center;gap:7px;padding:9px 16px;background:linear-gradient(135deg,#b91c1c 0%,#ef4444 100%);color:#fff;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .2s"
+          onmouseenter="if(!this.disabled)this.style.opacity='.8'" onmouseleave="this.style.opacity='1'">
           <span class="pdf-ico">PDF</span> PDF
         </button>
       </div>
@@ -2238,6 +2240,7 @@ function descargarBDDExcel() {
   } catch(e) { toast('Error al generar Excel: ' + e.message) }
   btn.disabled = false
   btn.innerHTML = '<span class="xl-ico">XL</span> Excel'
+  btn.style.opacity = '1'
 }
 
 function descargarBDDPDF() {
