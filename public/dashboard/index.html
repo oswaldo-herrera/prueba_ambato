@@ -812,6 +812,34 @@
       </div>
     </div>
 
+    <!-- ── PÁGINA: CONTACTOS ── -->
+    <div class="page" id="page-contactos">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <input type="search" id="cont-buscar" placeholder="Buscar por nombre, WhatsApp o parroquia…"
+          oninput="filtrarContactos()"
+          style="flex:1;min-width:220px;padding:10px 14px;border:1.5px solid var(--borde);border-radius:10px;font-size:13px;outline:none;font-family:inherit;transition:border-color .2s"
+          onfocus="this.style.borderColor='var(--oro)'" onblur="this.style.borderColor='var(--borde)'" />
+        <div style="background:var(--azul);color:#fff;font-size:12px;font-weight:700;padding:9px 16px;border-radius:8px;white-space:nowrap">
+          Mostrando <span id="cont-mostrado">0</span> de <span id="cont-total">0</span>
+        </div>
+      </div>
+      <div class="tabla-wrap">
+        <div id="cont-spinner" style="text-align:center;padding:40px;color:var(--muted);font-size:13px">Cargando contactos…</div>
+        <table id="cont-tabla" style="display:none">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>WhatsApp</th>
+              <th>Parroquia</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody id="cont-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
   </div><!-- /content -->
 </div><!-- /app -->
 
@@ -833,9 +861,10 @@ const ADMIN_EMAIL = 'admin'
 const DEFAULT_PW  = 'Hersa2026'
 
 const MENUS_DISPONIBLES = [
-  { id: 'leads',    label: 'Leads',    ico: '📋' },
-  { id: 'reportes', label: 'Reportes', ico: '📊' },
-  { id: 'mapa',     label: 'Mapa',     ico: '🗺️' },
+  { id: 'leads',     label: 'Leads',     ico: '📋' },
+  { id: 'reportes',  label: 'Reportes',  ico: '📊' },
+  { id: 'mapa',      label: 'Mapa',      ico: '🗺️' },
+  { id: 'contactos', label: 'Contactos', ico: '👤' },
 ]
 const MENUS_ADMIN = [
   ...MENUS_DISPONIBLES,
@@ -939,8 +968,9 @@ const TITLES = {
   leads:    { title: 'VotoBox', sub: 'Embudo Electoral' },
   reportes: { title: 'Reportes',      sub: 'Descarga de registros en Excel' },
   mapa:     { title: 'Mapa de calor', sub: 'Registros por parroquia — Ambato' },
-  usuarios: { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
-  permisos: { title: 'Permisos',      sub: 'Control de visibilidad por usuario' },
+  usuarios:  { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
+  permisos:  { title: 'Permisos',      sub: 'Control de visibilidad por usuario' },
+  contactos: { title: 'Contactos',     sub: 'Registros de ciudadanos · Javier te escucha' },
 }
 
 function construirNav() {
@@ -998,6 +1028,10 @@ function navegarA(id) {
   if (id === 'mapa') {
     actions.innerHTML = `<button class="btn-sm oro" onclick="descargarMapaPDF()">⎙ PDF Ranking</button>`
     iniciarMapa()
+  }
+  if (id === 'contactos') {
+    actions.innerHTML = `<button class="btn-sm" onclick="cargarContactos()">↻ Actualizar</button>`
+    cargarContactos()
   }
 }
 
@@ -1957,6 +1991,79 @@ function mapaFocusParroquia(nombre) {
     mapaLeaflet.setView(coords, 14)
     if (marker) marker.openPopup()
   }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MÓDULO: CONTACTOS
+══════════════════════════════════════════════════════════════ */
+const CAMP_URL = 'https://psveoeanrjqncxyhmvfh.supabase.co'
+const CAMP_KEY = 'sb_publishable_xZMKZgaKDubOw4TddwQlpQ_zp8XyQZn'
+
+let _contactosTodos = []
+
+async function cargarContactos() {
+  document.getElementById('cont-spinner').style.display = 'block'
+  document.getElementById('cont-tabla').style.display   = 'none'
+  document.getElementById('cont-spinner').textContent   = 'Cargando contactos…'
+  try {
+    const res = await fetch(
+      `${CAMP_URL}/rest/v1/buzon_propuestas?select=id,nombre,whatsapp,parroquia,creado_en&order=creado_en.desc&limit=1000`,
+      { headers: { apikey: CAMP_KEY, Authorization: `Bearer ${CAMP_KEY}` } }
+    )
+    const rows = await res.json()
+    _contactosTodos = Array.isArray(rows) ? rows : []
+    document.getElementById('cont-total').textContent = _contactosTodos.length
+    filtrarContactos()
+  } catch(e) {
+    document.getElementById('cont-spinner').textContent = 'Error al cargar contactos'
+  }
+}
+
+function filtrarContactos() {
+  const q = (document.getElementById('cont-buscar')?.value || '').toLowerCase().trim()
+  const filtrados = q
+    ? _contactosTodos.filter(c =>
+        (c.nombre || '').toLowerCase().includes(q) ||
+        (c.whatsapp || '').includes(q) ||
+        (c.parroquia || '').toLowerCase().includes(q)
+      )
+    : _contactosTodos
+
+  document.getElementById('cont-mostrado').textContent = filtrados.length
+  document.getElementById('cont-spinner').style.display = 'none'
+  document.getElementById('cont-tabla').style.display   = 'table'
+
+  const tbody = document.getElementById('cont-tbody')
+  if (!filtrados.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted);font-size:13px">Sin resultados</td></tr>'
+    return
+  }
+
+  tbody.innerHTML = filtrados.map((c, i) => {
+    const wa    = c.whatsapp ? c.whatsapp.replace(/\D/g, '') : null
+    const waNum = wa ? (wa.startsWith('593') ? wa : '593' + wa.replace(/^0/, '')) : null
+    const waLink = waNum
+      ? `<a href="https://wa.me/${waNum}" target="_blank" rel="noopener"
+           style="color:#16a34a;font-weight:600;text-decoration:none">${escH(c.whatsapp)}</a>`
+      : '<span style="color:#9ca3af">—</span>'
+    const nombre = c.nombre
+      ? `<span style="font-weight:600;color:var(--azul)">${escH(c.nombre)}</span>`
+      : `<span style="color:var(--muted);font-style:italic">Sin nombre</span>`
+    const fecha = c.creado_en
+      ? new Date(c.creado_en).toLocaleString('es-EC', { dateStyle: 'short', timeStyle: 'short' })
+      : '—'
+    return `<tr>
+      <td style="color:var(--muted);font-size:12px">${i + 1}</td>
+      <td>${nombre}</td>
+      <td>${waLink}</td>
+      <td style="color:var(--muted);font-size:12px">${escH(c.parroquia || '—')}</td>
+      <td style="color:var(--muted);font-size:11px;white-space:nowrap">${fecha}</td>
+    </tr>`
+  }).join('')
+}
+
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
 }
 
 /* ══════════════════════════════════════════════════════════════
