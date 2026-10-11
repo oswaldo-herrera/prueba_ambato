@@ -814,77 +814,37 @@
 
     <!-- ── PÁGINA: BASES DE DATOS ── -->
     <div class="page" id="page-basededatos">
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-
-        <!-- Card info -->
-        <div style="background:#0d1b2a;border-radius:var(--radio);padding:22px 24px;color:#fff">
-          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px">¿Puedo subir 50 mil registros?</div>
-          <div style="font-size:32px;font-weight:900;color:#4ade80">Sí</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:6px;line-height:1.6">
-            Supabase maneja millones de filas sin problema.<br>
-            El plan gratuito soporta hasta <strong style="color:#fff">500 MB</strong> de base de datos.<br>
-            50 mil registros típicos ocupan aprox. <strong style="color:#fff">15–30 MB</strong>.
-          </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <input type="search" id="bdd-buscar" placeholder="Buscar nombre o WhatsApp…"
+          oninput="filtrarBDD()"
+          style="flex:1;min-width:220px;padding:10px 14px;border:1.5px solid var(--borde);border-radius:10px;font-size:13px;outline:none;font-family:inherit;transition:border-color .2s"
+          onfocus="this.style.borderColor='var(--oro)'" onblur="this.style.borderColor='var(--borde)'" />
+        <div style="background:var(--azul);color:#fff;font-size:12px;font-weight:700;padding:9px 16px;border-radius:8px;white-space:nowrap">
+          <span id="bdd-mostrado">0</span> de <span id="bdd-total">0</span>
         </div>
-
-        <!-- Card pasos -->
-        <div style="background:var(--card);border-radius:var(--radio);padding:22px 24px;border:1px solid var(--borde)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Pasos para importar el Excel</div>
-          <ol style="font-size:13px;color:var(--texto);line-height:2;padding-left:18px">
-            <li>Crea la tabla con el SQL de abajo</li>
-            <li>Convierte tu Excel a <strong>CSV</strong> (Guardar como → CSV UTF-8)</li>
-            <li>En Supabase → Table Editor → tu tabla</li>
-            <li>Click en <strong>"Insert" → "Import data from CSV"</strong></li>
-            <li>Sube el CSV y mapea las columnas</li>
-          </ol>
-        </div>
+        <button class="btn-xl" id="bdd-btn-excel" onclick="descargarBDDExcel()" disabled
+          style="padding:9px 18px;font-size:12px">
+          <span class="xl-ico">XL</span> Excel
+        </button>
+        <button class="btn-xl btn-pdf-rep" id="bdd-btn-pdf" onclick="descargarBDDPDF()" disabled
+          style="padding:9px 18px;font-size:12px">
+          <span class="pdf-ico">PDF</span> PDF
+        </button>
       </div>
-
-      <!-- SQL -->
-      <div style="background:var(--card);border-radius:var(--radio);border:1px solid var(--borde);overflow:hidden;margin-bottom:16px">
-        <div style="background:var(--azul);padding:14px 20px;display:flex;align-items:center;justify-content:space-between">
-          <div>
-            <div style="color:#fff;font-size:13px;font-weight:700">SQL — Crear tabla para tu Excel</div>
-            <div style="color:rgba(255,255,255,.45);font-size:11px;margin-top:2px">Copia esto y pégalo en Supabase → SQL Editor → New Query</div>
-          </div>
-          <button onclick="copiarSQL()" id="btn-copiar"
-            style="padding:8px 18px;background:var(--oro);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;white-space:nowrap">
-            📋 Copiar SQL
-          </button>
-        </div>
-        <pre id="sql-block" style="margin:0;padding:22px 24px;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.8;color:#1e293b;overflow-x:auto;background:#f8fafc;white-space:pre">-- ============================================================
--- Supabase: hersaambato@gmail.com  (dashboard / innyjxzs...)
--- Ejecuta esto en: SQL Editor → New Query → Run
--- ============================================================
-
-CREATE TABLE IF NOT EXISTS contactos_whatsapp (
-  id        bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  nombre    text,          -- columna "Nombre" de tu Excel
-  whatsapp  text,          -- columna "WhatsApp" de tu Excel
-  creado_en timestamptz DEFAULT now()
-);
-
--- Índices para búsqueda rápida en 50 000 registros
-CREATE INDEX IF NOT EXISTS idx_cwa_nombre   ON contactos_whatsapp (nombre);
-CREATE INDEX IF NOT EXISTS idx_cwa_whatsapp ON contactos_whatsapp (whatsapp);
-
--- Permisos de lectura pública (anon key)
-ALTER TABLE contactos_whatsapp ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "lectura_publica" ON contactos_whatsapp
-  FOR SELECT USING (true);
-
-CREATE POLICY "insercion_publica" ON contactos_whatsapp
-  FOR INSERT WITH CHECK (true);</pre>
+      <div class="tabla-wrap">
+        <div id="bdd-spinner" style="text-align:center;padding:40px;color:var(--muted);font-size:13px">Cargando registros…</div>
+        <table id="bdd-tabla" style="display:none">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>WhatsApp</th>
+            </tr>
+          </thead>
+          <tbody id="bdd-tbody"></tbody>
+        </table>
       </div>
-
-      <!-- Nota -->
-      <div style="background:var(--oro-claro, #fef3c7);border:1px solid #fbbf24;border-radius:10px;padding:14px 18px;font-size:13px;color:#92400e;line-height:1.6">
-        <strong>⚠️ Importante al convertir a CSV:</strong> Los números de WhatsApp como <code style="background:#fde68a;padding:1px 5px;border-radius:4px">0960536986</code>
-        pueden perder el <strong>cero inicial</strong> si Excel los trata como números. Antes de guardar como CSV,
-        selecciona toda la columna WhatsApp → formato <strong>Texto</strong> → luego <em>Guardar como → CSV UTF-8</em>.
-      </div>
+      <div id="bdd-paginacion" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap"></div>
     </div>
 
     <!-- ── PÁGINA: CONTACTOS ── -->
@@ -1047,7 +1007,7 @@ const TITLES = {
   usuarios:  { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
   permisos:  { title: 'Permisos',      sub: 'Control de visibilidad por usuario' },
   contactos:   { title: 'Contactos',      sub: 'Registros de ciudadanos · Javier te escucha' },
-  basededatos: { title: 'Bases de Datos', sub: 'Tablas SQL · Importación de Excel a Supabase' },
+  basededatos: { title: 'Contactos WhatsApp', sub: '26,980 registros · Búsqueda y descarga' },
 }
 
 function construirNav() {
@@ -1110,7 +1070,10 @@ function navegarA(id) {
     actions.innerHTML = `<button class="btn-sm" onclick="cargarContactos()">↻ Actualizar</button>`
     cargarContactos()
   }
-  if (id === 'basededatos') { /* solo HTML estático */ }
+  if (id === 'basededatos') {
+    actions.innerHTML = `<button class="btn-sm" onclick="_bddTodos=[];_bddFiltrados=[];cargarBDD()">↻ Actualizar</button>`
+    cargarBDD()
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -2144,13 +2107,177 @@ function escH(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
 }
 
-function copiarSQL() {
-  const sql = document.getElementById('sql-block').textContent
-  navigator.clipboard.writeText(sql).then(() => {
-    const btn = document.getElementById('btn-copiar')
-    btn.textContent = '✅ Copiado'
-    setTimeout(() => { btn.textContent = '📋 Copiar SQL' }, 2000)
-  }).catch(() => toast('No se pudo copiar — selecciona el texto manualmente'))
+/* ══ BASES DE DATOS ══════════════════════════════════════════ */
+let _bddTodos = []
+let _bddFiltrados = []
+let _bddPagActual = 1
+let _bddCargando = false
+const BDD_POR_PAGINA = 200
+
+async function cargarBDD() {
+  if (_bddCargando) return
+  _bddCargando = true
+
+  const spinner = document.getElementById('bdd-spinner')
+  const tabla   = document.getElementById('bdd-tabla')
+  spinner.style.display = 'block'
+  tabla.style.display   = 'none'
+  document.getElementById('bdd-btn-excel').disabled = true
+  document.getElementById('bdd-btn-pdf').disabled   = true
+
+  if (_bddTodos.length > 0) {
+    _bddFiltrados = _bddTodos
+    document.getElementById('bdd-total').textContent    = _bddTodos.length.toLocaleString('es')
+    document.getElementById('bdd-mostrado').textContent = _bddTodos.length.toLocaleString('es')
+    spinner.style.display = 'none'
+    tabla.style.display   = ''
+    document.getElementById('bdd-btn-excel').disabled = false
+    document.getElementById('bdd-btn-pdf').disabled   = false
+    renderBDD()
+    _bddCargando = false
+    return
+  }
+
+  let todos  = []
+  let offset = 0
+  const BATCH = 1000
+  try {
+    while (true) {
+      spinner.textContent = 'Cargando registros… ' + todos.length.toLocaleString('es')
+      const res  = await fetch(
+        `${SB_URL}/rest/v1/contactos_whatsapp?select=id,nombre,whatsapp&order=id.asc&limit=${BATCH}&offset=${offset}`,
+        { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } }
+      )
+      const rows = await res.json()
+      if (!Array.isArray(rows) || rows.length === 0) break
+      todos  = todos.concat(rows)
+      offset += rows.length
+      if (rows.length < BATCH) break
+    }
+    _bddTodos     = todos
+    _bddFiltrados = todos
+    document.getElementById('bdd-total').textContent    = todos.length.toLocaleString('es')
+    document.getElementById('bdd-mostrado').textContent = todos.length.toLocaleString('es')
+    spinner.style.display = 'none'
+    tabla.style.display   = ''
+    document.getElementById('bdd-btn-excel').disabled = false
+    document.getElementById('bdd-btn-pdf').disabled   = false
+    renderBDD()
+  } catch(e) {
+    spinner.textContent = 'Error al cargar: ' + e.message
+  }
+  _bddCargando = false
+}
+
+function filtrarBDD() {
+  const q = document.getElementById('bdd-buscar').value.trim().toLowerCase()
+  _bddFiltrados = q
+    ? _bddTodos.filter(r => (r.nombre || '').toLowerCase().includes(q) || (r.whatsapp || '').includes(q))
+    : _bddTodos
+  _bddPagActual = 1
+  document.getElementById('bdd-mostrado').textContent = _bddFiltrados.length.toLocaleString('es')
+  renderBDD()
+}
+
+function renderBDD() {
+  const inicio = (_bddPagActual - 1) * BDD_POR_PAGINA
+  const fin    = Math.min(inicio + BDD_POR_PAGINA, _bddFiltrados.length)
+  const filas  = _bddFiltrados.slice(inicio, fin)
+  document.getElementById('bdd-tbody').innerHTML = filas.map((r, i) => {
+    const num = r.whatsapp ? r.whatsapp.replace(/\D/g,'').replace(/^0/,'593') : null
+    const wa  = num
+      ? `<a href="https://wa.me/${num}" target="_blank" style="color:var(--oro);font-weight:600;text-decoration:none">${escH(r.whatsapp)}</a>`
+      : '—'
+    return `<tr>
+      <td style="color:var(--muted);font-variant-numeric:tabular-nums">${inicio + i + 1}</td>
+      <td>${r.nombre ? escH(r.nombre) : '<span style="color:var(--muted)">—</span>'}</td>
+      <td>${wa}</td>
+    </tr>`
+  }).join('')
+
+  const totalPags = Math.ceil(_bddFiltrados.length / BDD_POR_PAGINA)
+  const pag = document.getElementById('bdd-paginacion')
+  if (totalPags <= 1) { pag.innerHTML = ''; return }
+
+  const btnStyle = (active) =>
+    `style="padding:7px 13px;border:1px solid var(--borde);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;` +
+    (active ? 'background:var(--azul);color:#fff' : 'background:var(--card);color:var(--texto)') + `"`
+
+  let html = `<button onclick="bddIrPag(${_bddPagActual-1})" ${_bddPagActual===1?'disabled style="opacity:.4;cursor:not-allowed"':btnStyle(false)}>« Ant</button>`
+  for (let p = 1; p <= totalPags; p++) {
+    const cerca = p >= _bddPagActual - 2 && p <= _bddPagActual + 2
+    if (p === 1 || p === totalPags || cerca) {
+      html += `<button onclick="bddIrPag(${p})" ${btnStyle(p===_bddPagActual)}>${p}</button>`
+    } else if (p === _bddPagActual - 3 || p === _bddPagActual + 3) {
+      html += `<span style="padding:7px 3px;color:var(--muted)">…</span>`
+    }
+  }
+  html += `<button onclick="bddIrPag(${_bddPagActual+1})" ${_bddPagActual===totalPags?'disabled style="opacity:.4;cursor:not-allowed"':btnStyle(false)}>Sig »</button>`
+  pag.innerHTML = html
+}
+
+function bddIrPag(p) {
+  _bddPagActual = p
+  renderBDD()
+  document.getElementById('bdd-tabla').scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+function descargarBDDExcel() {
+  if (!_bddFiltrados.length) return
+  const btn = document.getElementById('bdd-btn-excel')
+  btn.disabled = true
+  btn.innerHTML = '<span class="xl-ico">XL</span> Generando…'
+  try {
+    const filas = _bddFiltrados.map((r, i) => ({ '#': i + 1, 'Nombre': r.nombre || '', 'WhatsApp': r.whatsapp || '' }))
+    const ws = XLSX.utils.json_to_sheet(filas)
+    ws['!cols'] = [{ wch: 8 }, { wch: 35 }, { wch: 16 }]
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Contactos WhatsApp')
+    XLSX.writeFile(wb, `contactos_whatsapp_${hoy()}.xlsx`)
+  } catch(e) { toast('Error al generar Excel: ' + e.message) }
+  btn.disabled = false
+  btn.innerHTML = '<span class="xl-ico">XL</span> Excel'
+}
+
+function descargarBDDPDF() {
+  if (!_bddFiltrados.length) return
+  const btn   = document.getElementById('bdd-btn-pdf')
+  btn.disabled = true
+  const fecha = new Date().toLocaleDateString('es-EC', { day:'2-digit', month:'long', year:'numeric' })
+  const LIMITE = 5000
+  const lista  = _bddFiltrados.slice(0, LIMITE)
+  const rows   = lista.map((r, i) => {
+    const n  = escH(r.nombre  || '—')
+    const w  = escH(r.whatsapp || '—')
+    const bg = i % 2 === 0 ? '#f8fafc' : '#fff'
+    return `<tr style="background:${bg}"><td style="color:#6b7280">${i+1}</td><td>${n}</td><td style="font-weight:600">${w}</td></tr>`
+  }).join('')
+  const win = window.open('', '_blank')
+  win.document.write(
+    '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Contactos WhatsApp — PDF</title>' +
+    '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#1a1a2e;padding:32px;font-size:12px}' +
+    '.hdr{border-bottom:3px solid #AC7C3F;padding-bottom:12px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end}' +
+    'h1{font-size:18px;font-weight:900;color:#21243D}.sub{font-size:11px;color:#6b7280;margin-top:3px}' +
+    '.kpis{display:flex;gap:16px;margin-bottom:16px}.kpi{background:#f1f5f9;border-radius:8px;padding:10px 16px}' +
+    '.kv{font-size:20px;font-weight:900;color:#21243D}.kl{font-size:9px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em}' +
+    'table{width:100%;border-collapse:collapse}th{background:#21243D;color:#fff;padding:7px 10px;text-align:left;font-size:11px;letter-spacing:.04em}' +
+    'td{padding:5px 10px;border-bottom:1px solid #e5e7eb;font-size:11px}' +
+    '.foot{margin-top:18px;font-size:10px;color:#9ca3af;text-align:center}' +
+    '@media print{body{padding:16px}}</style></head><body>' +
+    '<div class="hdr"><div><h1>📋 Contactos WhatsApp</h1><p class="sub">javieraltamirano.org · ' + fecha + '</p></div>' +
+    '<div style="font-size:11px;color:#6b7280">CRM Campaña Altamirano 2027</div></div>' +
+    '<div class="kpis"><div class="kpi"><div class="kv">' + _bddFiltrados.length.toLocaleString('es') + '</div><div class="kl">Total registros</div></div>' +
+    (_bddFiltrados.length > LIMITE ? '<div class="kpi"><div class="kv" style="color:#dc2626">' + LIMITE.toLocaleString('es') + '</div><div class="kl">Máx. en PDF</div></div>' : '') +
+    '</div>' +
+    '<table><thead><tr><th>#</th><th>Nombre</th><th>WhatsApp</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<div class="foot">javieraltamirano.org · CRM Campaña Altamirano 2027 · ' + _bddFiltrados.length.toLocaleString('es') + ' registros</div>' +
+    '<script>window.onload=()=>{window.print()};window.onafterprint=()=>{window.close()}<\/script>' +
+    '</body></html>'
+  )
+  win.document.close()
+  win.focus()
+  btn.disabled = false
+  btn.innerHTML = '<span class="pdf-ico">PDF</span> PDF'
 }
 
 /* ══════════════════════════════════════════════════════════════
