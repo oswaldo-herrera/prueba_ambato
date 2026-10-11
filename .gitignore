@@ -10,3 +10,6 @@ public/imagenes/videos/
 
 .vercel
 .env*
+
+*.HEIC
+*.heic
