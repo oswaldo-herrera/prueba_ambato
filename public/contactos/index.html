@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contactos — Javier Altamirano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;900&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:       #21243D;
+      --azul-claro: #353866;
+      --oro:        #AC7C3F;
+      --oro-claro:  #f5edd9;
+      --bg:         #f4f5f8;
+      --card:       #ffffff;
+      --texto:      #1a1c2e;
+      --gris:       #6b7280;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--texto);
+      min-height: 100dvh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--azul);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .header-logo {
+      width: 40px;
+      height: 40px;
+      background: var(--oro);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .header-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      margin-top: 2px;
+    }
+
+    /* ── LOGIN ── */
+    #login {
+      max-width: 380px;
+      margin: 80px auto;
+      padding: 0 16px;
+    }
+    .login-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 24px rgba(33,36,61,0.12);
+      text-align: center;
+    }
+    .login-card h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--azul);
+      margin-bottom: 6px;
+    }
+    .login-card p {
+      font-size: 14px;
+      color: var(--gris);
+      margin-bottom: 28px;
+    }
+    .login-card input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 14px;
+    }
+    .login-card input:focus { border-color: var(--oro); }
+    .login-card button {
+      width: 100%;
+      padding: 13px;
+      background: var(--azul);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .login-card button:hover { background: var(--azul-claro); }
+    .error-msg {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #dc2626;
+      font-weight: 500;
+    }
+
+    /* ── PANEL ── */
+    #panel { display: none; }
+    .toolbar {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 220px;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--oro); }
+    .total-badge {
+      background: var(--azul);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .total-badge span { color: var(--oro-claro); }
+
+    /* ── TABLA ── */
+    .table-wrap {
+      max-width: 1100px;
+      margin: 16px auto 40px;
+      padding: 0 16px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(33,36,61,0.08);
+      font-size: 14px;
+    }
+    thead {
+      background: var(--azul);
+      color: #fff;
+    }
+    thead th {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 13px 16px;
+      text-align: left;
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+    }
+    thead th:hover { background: var(--azul-claro); }
+    thead th.sorted { color: var(--oro-claro); }
+    tbody tr { border-bottom: 1px solid #f0f1f5; transition: background 0.15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafbff; }
+    tbody td { padding: 12px 16px; vertical-align: middle; }
+    .td-nombre { font-weight: 500; color: var(--azul); }
+    .td-sin-nombre { color: var(--gris); font-style: italic; }
+    .td-whatsapp { font-variant-numeric: tabular-nums; }
+    .td-wa-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #16a34a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .td-wa-link:hover { color: #15803d; }
+    .td-parroquia { color: var(--gris); font-size: 13px; }
+    .td-fecha { color: var(--gris); font-size: 12px; white-space: nowrap; }
+
+    .empty-row td {
+      text-align: center;
+      padding: 40px;
+      color: var(--gris);
+      font-style: italic;
+    }
+
+    /* ── LOADING ── */
+    .spinner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 60px 0;
+      color: var(--gris);
+    }
+    .spin {
+      width: 36px; height: 36px;
+      border: 3px solid #e5e7eb;
+      border-top-color: var(--oro);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── LOGOUT ── */
+    .btn-salir {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.7);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: auto;
+      transition: all 0.2s;
+    }
+    .btn-salir:hover { border-color: var(--oro); color: var(--oro-claro); }
+
+    @media (max-width: 600px) {
+      .header-title { font-size: 15px; }
+      thead th { font-size: 11px; padding: 11px 10px; }
+      tbody td { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo">J</div>
+  <div>
+    <div class="header-title">Contactos CRM</div>
+    <div class="header-sub">Javier Altamirano · Campaña 2025</div>
+  </div>
+  <button class="btn-salir" id="btnSalir" style="display:none" onclick="salir()">Salir</button>
+</header>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-card">
+    <h2>Acceso privado</h2>
+    <p>Ingresa la contraseña para ver los contactos registrados</p>
+    <input type="password" id="inputToken" placeholder="Contraseña" autocomplete="current-password" />
+    <button onclick="entrar()">Ingresar</button>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel">
+  <div class="toolbar">
+    <div class="search-wrap">
+      <input type="search" id="buscar" placeholder="Buscar por nombre, WhatsApp o parroquia…" oninput="filtrar()" />
+    </div>
+    <div class="total-badge">
+      Mostrando <span id="contMostrado">0</span> de <span id="contTotal">0</span> contactos
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="spinner" id="spinner"><div class="spin"></div><span>Cargando contactos…</span></div>
+    <table id="tabla" style="display:none">
+      <thead>
+        <tr>
+          <th onclick="ordenar('nombre')">Nombre</th>
+          <th onclick="ordenar('whatsapp')">WhatsApp</th>
+          <th onclick="ordenar('parroquia')">Parroquia</th>
+          <th onclick="ordenar('creado_en')">Fecha</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  let todos = []
+  let colOrden = 'creado_en'
+  let ascOrden = false
+  let tokenGuardado = ''
+
+  const $ = id => document.getElementById(id)
+
+  function formatFecha(iso) {
+    if (!iso) return '—'
+    const d = new Date(iso)
+    return d.toLocaleString('es-EC', { dateStyle: 'short', timeStyle: 'short' })
+  }
+
+  function formatWA(raw) {
+    if (!raw) return null
+    // Normalizar: quitar + y guiones, dejar solo dígitos
+    return raw.replace(/\D/g, '')
+  }
+
+  async function entrar() {
+    const token = $('inputToken').value.trim()
+    $('errorMsg').textContent = ''
+    if (!token) { $('errorMsg').textContent = 'Ingresa la contraseña'; return }
+
+    const url = `/api/contactos${token ? '?token=' + encodeURIComponent(token) : ''}`
+    try {
+      const r = await fetch(url)
+      if (r.status === 401) { $('errorMsg').textContent = 'Contraseña incorrecta'; return }
+      if (!r.ok) { $('errorMsg').textContent = 'Error al conectar'; return }
+      const data = await r.json()
+      tokenGuardado = token
+      todos = data.contactos || []
+      mostrarPanel()
+    } catch {
+      $('errorMsg').textContent = 'Sin conexión al servidor'
+    }
+  }
+
+  function mostrarPanel() {
+    $('login').style.display = 'none'
+    $('panel').style.display = 'block'
+    $('btnSalir').style.display = 'block'
+    $('spinner').style.display = 'none'
+    $('tabla').style.display = 'table'
+    $('contTotal').textContent = todos.length
+    renderizar(todos)
+  }
+
+  function filtrar() {
+    const q = $('buscar').value.toLowerCase().trim()
+    const filtrados = q
+      ? todos.filter(c =>
+          (c.nombre || '').toLowerCase().includes(q) ||
+          (c.whatsapp || '').includes(q) ||
+          (c.parroquia || '').toLowerCase().includes(q)
+        )
+      : todos
+    renderizar(filtrados)
+  }
+
+  function ordenar(col) {
+    if (colOrden === col) ascOrden = !ascOrden
+    else { colOrden = col; ascOrden = col !== 'creado_en' }
+    document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'))
+    event.target.classList.add('sorted')
+    filtrar()
+  }
+
+  function renderizar(lista) {
+    lista = [...lista].sort((a, b) => {
+      const va = (a[colOrden] ?? '').toString().toLowerCase()
+      const vb = (b[colOrden] ?? '').toString().toLowerCase()
+      return ascOrden ? va.localeCompare(vb) : vb.localeCompare(va)
+    })
+
+    $('contMostrado').textContent = lista.length
+    const tbody = $('tbody')
+    if (!lista.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Sin resultados</td></tr>'
+      return
+    }
+
+    tbody.innerHTML = lista.map(c => {
+      const wa = formatWA(c.whatsapp)
+      const waLink = wa
+        ? `<a class="td-wa-link" href="https://wa.me/${wa.startsWith('593') ? wa : '593' + wa.replace(/^0/, '')}" target="_blank" rel="noopener">
+             <svg width="15" height="15" viewBox="0 0 24 24" fill="#16a34a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+             ${c.whatsapp}
+           </a>`
+        : '<span style="color:#9ca3af">—</span>'
+
+      const nombre = c.nombre
+        ? `<span class="td-nombre">${esc(c.nombre)}</span>`
+        : `<span class="td-sin-nombre">Sin nombre</span>`
+
+      return `<tr>
+        <td>${nombre}</td>
+        <td class="td-whatsapp">${waLink}</td>
+        <td class="td-parroquia">${esc(c.parroquia || '—')}</td>
+        <td class="td-fecha">${formatFecha(c.creado_en)}</td>
+      </tr>`
+    }).join('')
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  }
+
+  function salir() {
+    tokenGuardado = ''
+    todos = []
+    $('panel').style.display = 'none'
+    $('btnSalir').style.display = 'none'
+    $('login').style.display = 'block'
+    $('inputToken').value = ''
+    $('errorMsg').textContent = ''
+  }
+
+  $('inputToken').addEventListener('keydown', e => { if (e.key === 'Enter') entrar() })
+</script>
+
+</body>
+</html>
