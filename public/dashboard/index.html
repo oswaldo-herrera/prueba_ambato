@@ -1007,7 +1007,7 @@ const TITLES = {
   usuarios:  { title: 'Usuarios',      sub: 'Gestión de accesos al CRM' },
   permisos:  { title: 'Permisos',      sub: 'Control de visibilidad por usuario' },
   contactos:   { title: 'Contactos',      sub: 'Registros de ciudadanos · Javier te escucha' },
-  basededatos: { title: 'Contactos WhatsApp', sub: '26,980 registros · Búsqueda y descarga' },
+  basededatos: { title: 'Contactos WhatsApp', sub: 'Cargando registros…' },
 }
 
 function construirNav() {
@@ -2158,6 +2158,7 @@ async function cargarBDD() {
     _bddFiltrados = todos
     document.getElementById('bdd-total').textContent    = todos.length.toLocaleString('es')
     document.getElementById('bdd-mostrado').textContent = todos.length.toLocaleString('es')
+    document.getElementById('topbar-sub').textContent = todos.length.toLocaleString('es') + ' registros · Búsqueda y descarga'
     spinner.style.display = 'none'
     tabla.style.display   = ''
     document.getElementById('bdd-btn-excel').disabled = false
