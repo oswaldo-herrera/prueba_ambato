@@ -854,22 +854,22 @@
           </button>
         </div>
         <pre id="sql-block" style="margin:0;padding:22px 24px;font-family:'Courier New',monospace;font-size:12.5px;line-height:1.8;color:#1e293b;overflow-x:auto;background:#f8fafc;white-space:pre">-- ============================================================
--- TABLA: contactos_whatsapp
--- Columnas exactas de tu Excel: Nombre y WhatsApp
+-- Supabase: hersaambato@gmail.com  (dashboard / innyjxzs...)
+-- Ejecuta esto en: SQL Editor → New Query → Run
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS contactos_whatsapp (
-  id         bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  "Nombre"   text,
-  "WhatsApp" text,
-  creado_en  timestamptz DEFAULT now()
+  id        bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre    text,          -- columna "Nombre" de tu Excel
+  whatsapp  text,          -- columna "WhatsApp" de tu Excel
+  creado_en timestamptz DEFAULT now()
 );
 
--- Índices para búsquedas rápidas (50 000 registros)
-CREATE INDEX IF NOT EXISTS idx_cwa_nombre   ON contactos_whatsapp ("Nombre");
-CREATE INDEX IF NOT EXISTS idx_cwa_whatsapp ON contactos_whatsapp ("WhatsApp");
+-- Índices para búsqueda rápida en 50 000 registros
+CREATE INDEX IF NOT EXISTS idx_cwa_nombre   ON contactos_whatsapp (nombre);
+CREATE INDEX IF NOT EXISTS idx_cwa_whatsapp ON contactos_whatsapp (whatsapp);
 
--- Permisos (anon key puede leer e insertar)
+-- Permisos de lectura pública (anon key)
 ALTER TABLE contactos_whatsapp ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "lectura_publica" ON contactos_whatsapp
