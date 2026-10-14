@@ -578,30 +578,42 @@ body {
     </div>
 
     <div class="card">
-      <div class="card-title">Datos de asignación</div>
-      <div class="info-box" style="margin-bottom:14px">
-        <strong>Encuestador/a:</strong> ingresa los datos que el coordinador te entregó
-        en tu hoja de asignación antes de salir a campo.
-      </div>
+      <div class="card-title">Datos de la entrevista</div>
       <div class="field">
-        <label>Tu zona de trabajo *</label>
-        <select id="f-point" onchange="autoParroquia()">
-          <option value="">— Seleccionar zona —</option>
+        <label>Parroquia donde estás trabajando *</label>
+        <select id="f-parroquia">
+          <option value="">— Seleccionar parroquia —</option>
+          <optgroup label="── Parroquias Urbanas ──">
+            <option>Atocha - Ficoa</option>
+            <option>Celiano Monge</option>
+            <option>Huachi Chico</option>
+            <option>Huachi Loreto</option>
+            <option>La Matriz</option>
+            <option>La Merced</option>
+            <option>La Paz</option>
+            <option>Pishilata</option>
+            <option>San Francisco</option>
+          </optgroup>
+          <optgroup label="── Parroquias Rurales ──">
+            <option>Ambatillo</option>
+            <option>Atahualpa</option>
+            <option>Augusto N. Martínez</option>
+            <option>Constantino Fernández</option>
+            <option>Cunchibamba</option>
+            <option>Huachi Grande</option>
+            <option>Izamba</option>
+            <option>Juan Benigno Vela</option>
+            <option>Montalvo</option>
+            <option>Pasa</option>
+            <option>Pilagüín</option>
+            <option>Pinllo</option>
+            <option>Quisapincha</option>
+            <option>San Bartolomé de Pinllo</option>
+            <option>Santa Rosa</option>
+            <option>Totoras</option>
+            <option>Unamuncho</option>
+          </optgroup>
         </select>
-      </div>
-      <div class="field">
-        <label>Parroquia / sector *</label>
-        <input type="text" id="f-parroquia" placeholder="Se rellena automáticamente" />
-      </div>
-      <div class="field">
-        <label>N.° de entrevista asignado *</label>
-        <input type="number" id="f-slot" min="1" max="1000" placeholder="Ej: 47" oninput="previewVer()" />
-        <div style="font-size:12px;color:var(--muted);margin-top:5px">
-          El coordinador te indica qué número corresponde a esta entrevista (del 1 al 1000).
-        </div>
-      </div>
-      <div class="field" id="ver-field" style="display:none">
-        <div class="ver-preview" id="ver-prev"></div>
       </div>
     </div>
 
@@ -732,42 +744,21 @@ const VER_ORDERS = {
   H:['C08','C01','C07','C02','C06','C03','C05','C04'],
 };
 
-// Puntos muestrales: U01–U34 urbanos, R01–R26 rurales
-const PUNTOS = [
-  ...Array.from({length:34}, (_,i) => ({id:`U${String(i+1).padStart(2,'0')}`, area:'Urbana', n:i<18?17:16})),
-  ...Array.from({length:26}, (_,i) => ({id:`R${String(i+1).padStart(2,'0')}`, area:'Rural',  n:i<22?17:16})),
-];
+// Parroquias urbanas del cantón Ambato (para determinar área)
+const PARR_URBANAS = new Set([
+  'Atocha - Ficoa','Celiano Monge','Huachi Chico','Huachi Loreto',
+  'La Matriz','La Merced','La Paz','Pishilata','San Francisco',
+]);
+function areaDeParroquia(p) { return PARR_URBANAS.has(p) ? 'Urbana' : 'Rural'; }
 
-// Parroquia sugerida por zona — el encuestador puede corregirla
-const PARROQUIA_MAP = {
-  U01:'La Merced / Atocha - Ficoa',  U02:'La Merced / Atocha - Ficoa',
-  U03:'La Merced / Atocha - Ficoa',  U04:'La Merced / Atocha - Ficoa',
-  U05:'La Merced / Atocha - Ficoa',  U06:'San Francisco',
-  U07:'San Francisco',               U08:'San Francisco',
-  U09:'San Francisco',               U10:'San Francisco',
-  U11:'La Matriz',                   U12:'La Matriz',
-  U13:'La Matriz',                   U14:'Celiano Monge',
-  U15:'Celiano Monge',               U16:'Huachi Loreto',
-  U17:'Huachi Loreto',               U18:'Huachi Loreto',
-  U19:'Huachi Chico',                U20:'Huachi Chico',
-  U21:'Constantino Fernández',       U22:'Constantino Fernández',
-  U23:'La Paz',                      U24:'La Paz',
-  U25:'La Paz',                      U26:'Izamba',
-  U27:'Izamba',                      U28:'Pishilata',
-  U29:'Pishilata',                   U30:'Pishilata',
-  U31:'Ambato Sur',                  U32:'Ambato Sur',
-  U33:'Ambato Sur',                  U34:'Ambato Sur',
-  R01:'Ambatillo',  R02:'Ambatillo',  R03:'Ambatillo',
-  R04:'Atahualpa',  R05:'Atahualpa',  R06:'Atahualpa',
-  R07:'Augusto N. Martínez',  R08:'Augusto N. Martínez',  R09:'Augusto N. Martínez',
-  R10:'Cunchibamba', R11:'Cunchibamba',
-  R12:'Juan Benigno Vela', R13:'Juan Benigno Vela',
-  R14:'Pilagüín',  R15:'Pilagüín',  R16:'Pilagüín',
-  R17:'Quisapincha', R18:'Quisapincha', R19:'Quisapincha',
-  R20:'Santa Rosa',  R21:'Santa Rosa',  R22:'Santa Rosa',
-  R23:'San Bartolomé de Pinllo', R24:'San Bartolomé de Pinllo',
-  R25:'Totoras',  R26:'Huambaló',
-};
+// Contador rotativo de versiones A-H (guardado en localStorage)
+function nextIvNum() {
+  let cnt = 0;
+  try { cnt = parseInt(localStorage.getItem('hersa_icnt') || '0'); } catch(e) {}
+  cnt++;
+  try { localStorage.setItem('hersa_icnt', String(cnt)); } catch(e) {}
+  return cnt;
+}
 
 // ═══════════════════════════════════════════════════════
 //  UTILIDADES
@@ -1000,58 +991,29 @@ function showS(name) {
 //  SETUP
 // ═══════════════════════════════════════════════════════
 (function initSetup() {
-  const sel = document.getElementById('f-point');
-  PUNTOS.forEach(p => {
-    const o = document.createElement('option');
-    o.value = p.id;
-    o.textContent = `${p.id} — ${p.area} (${p.n} entrevistas)`;
-    sel.appendChild(o);
-  });
   checkPending();
 })();
-
-function autoParroquia() {
-  const pt = document.getElementById('f-point').value;
-  if (!pt) return;
-  const parr = PARROQUIA_MAP[pt] || (pt.startsWith('U') ? 'Sector urbano Ambato' : 'Sector rural Tungurahua');
-  document.getElementById('f-parroquia').value = parr;
-}
 
 function checkPending() {
   const keys = pendingKeys();
   document.getElementById('pending-alert').style.display = keys.length ? 'block' : 'none';
 }
 
-function previewVer() {
-  const slot = parseInt(document.getElementById('f-slot').value);
-  const field = document.getElementById('ver-field');
-  const el = document.getElementById('ver-prev');
-  if (!slot || slot < 1 || slot > 1000) { field.style.display = 'none'; return; }
-  const v = slot2ver(slot);
-  field.style.display = 'block';
-  el.innerHTML = `<span style="font-size:12px;color:var(--muted)">Cuestionario asignado:</span>
-    <strong style="font-size:22px;color:var(--azul);margin:0 8px">${v}</strong>
-    <span style="font-size:12px;color:var(--muted)">(se asigna automáticamente)</span>`;
-}
-
 function iniciar() {
-  const slot = parseInt(document.getElementById('f-slot').value);
-  const pointId = document.getElementById('f-point').value;
-  const parroquia = document.getElementById('f-parroquia').value.trim();
+  const parroquia = document.getElementById('f-parroquia').value;
   const enc = document.getElementById('f-enc').value.trim();
 
-  if (!pointId)   return alert('Selecciona tu zona de trabajo.');
-  if (!parroquia) return alert('Verifica la parroquia o sector.');
-  if (!slot || slot < 1 || slot > 1000) return alert('Ingresa el número de entrevista asignado (1 al 1000).');
-  if (!enc)       return alert('Ingresa tu nombre o código de encuestador.');
+  if (!parroquia) return alert('Selecciona la parroquia donde estás trabajando.');
+  if (!enc)       return alert('Ingresa tu nombre o código.');
 
-  const pt = PUNTOS.find(p => p.id === pointId);
-  const ver = slot2ver(slot);
+  const slot = nextIvNum();
+  const ver = 'ABCDEFGH'[(slot - 1) % 8];
+  const area = areaDeParroquia(parroquia);
   const key = uid();
 
   iv = {
     key, slot, version: ver,
-    pointId, area: pt.area, parroquia, enc,
+    pointId: parroquia, area, parroquia, enc,
     mayorOrder: VER_ORDERS[ver],
     prefOrder: seededShuffle(PREF_IDS, key + '::PREF'),
     startedAt: new Date().toISOString(),
@@ -1066,7 +1028,7 @@ function iniciar() {
 
 function updateTopbar() {
   document.getElementById('tb-sub').textContent =
-    `Versión ${iv.version} · Slot ${iv.slot} · ${iv.pointId} · ${iv.area}`;
+    `${iv.parroquia} · ${iv.area} · Versión ${iv.version}`;
   const chip = document.getElementById('ver-chip');
   document.getElementById('ver-txt').textContent = iv.version;
   chip.style.display = 'flex';
@@ -1406,12 +1368,12 @@ async function submitEncuesta() {
     try { localStorage.removeItem('hersa_iv_' + iv.key); } catch(e) {}
 
     document.getElementById('done-msg').textContent =
-      `Slot ${iv.slot} · Versión ${iv.version} · ${iv.pointId} enviado correctamente.`;
+      `Entrevista en ${iv.parroquia} (${iv.area}) guardada correctamente.`;
     document.getElementById('done-info').innerHTML = `
-      <div class="done-cell"><div class="done-cell-lbl">Versión</div><div class="done-cell-val">${iv.version}</div></div>
-      <div class="done-cell"><div class="done-cell-lbl">Slot</div><div class="done-cell-val">${iv.slot}</div></div>
-      <div class="done-cell"><div class="done-cell-lbl">Punto</div><div class="done-cell-val">${iv.pointId}</div></div>
+      <div class="done-cell"><div class="done-cell-lbl">Parroquia</div><div class="done-cell-val">${iv.parroquia}</div></div>
       <div class="done-cell"><div class="done-cell-lbl">Área</div><div class="done-cell-val">${iv.area}</div></div>
+      <div class="done-cell"><div class="done-cell-lbl">Versión</div><div class="done-cell-val">${iv.version}</div></div>
+      <div class="done-cell"><div class="done-cell-lbl">Encuestador</div><div class="done-cell-val">${iv.enc}</div></div>
     `;
     showS('done');
     checkPending();
@@ -1445,8 +1407,8 @@ function verPendientes() {
       return `<div class="card" style="margin-bottom:12px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
           <div>
-            <div style="font-weight:800;color:var(--azul)">Slot ${data.slot} · Versión ${data.version}</div>
-            <div style="font-size:12px;color:var(--muted)">${data.pointId} · ${data.area} · ${data.parroquia}</div>
+            <div style="font-weight:800;color:var(--azul)">${data.parroquia} · Versión ${data.version}</div>
+            <div style="font-size:12px;color:var(--muted)">${data.area} · ${data.enc}</div>
             <div style="font-size:11px;color:var(--muted)">${new Date(data.startedAt).toLocaleString('es')}</div>
           </div>
           <button onclick="enviarPendiente('${k}')"
@@ -1504,7 +1466,7 @@ async function enviarPendiente(storageKey) {
     });
     if (!res.ok) throw new Error(await res.text());
     localStorage.removeItem(storageKey);
-    alert(`Slot ${data.slot} enviado correctamente.`);
+    alert(`Entrevista en ${data.parroquia} enviada correctamente.`);
     verPendientes();
     checkPending();
   } catch(e) {
@@ -1516,26 +1478,17 @@ async function enviarPendiente(storageKey) {
 //  NUEVA ENTREVISTA
 // ═══════════════════════════════════════════════════════
 function nueva() {
-  // Guarda punto, parroquia y encuestador para la siguiente entrevista
-  const prevSlot  = iv.slot;
-  const prevPoint = iv.pointId;
-  const prevParr  = iv.parroquia;
-  const prevEnc   = iv.enc;
+  const prevParr = iv.parroquia;
+  const prevEnc  = iv.enc;
 
   iv = newIv();
   document.getElementById('tb-sub').textContent = 'Sistema CAPI · Uso interno';
   document.getElementById('ver-chip').style.display = 'none';
   document.getElementById('prog').style.width = '0%';
-  document.getElementById('ver-field').style.display = 'none';
 
-  // Auto-rellenar para la siguiente entrevista
-  if (prevSlot && prevSlot < 1000) {
-    document.getElementById('f-slot').value = prevSlot + 1;
-    previewVer();
-  }
-  if (prevPoint) document.getElementById('f-point').value = prevPoint;
-  if (prevParr)  document.getElementById('f-parroquia').value = prevParr;
-  if (prevEnc)   document.getElementById('f-enc').value = prevEnc;
+  // Conservar parroquia y encuestador para la siguiente entrevista
+  if (prevParr) document.getElementById('f-parroquia').value = prevParr;
+  if (prevEnc)  document.getElementById('f-enc').value = prevEnc;
 
   checkPending();
   showS('setup');
