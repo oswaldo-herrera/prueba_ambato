@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>HERSA · Encuesta Electoral Ambato 2027</title>
+<title>Encuesta Electoral Ambato 2027</title>
 <style>
 :root {
   --azul: #21243D;
@@ -553,7 +553,7 @@ body {
   <div class="topbar-logo">
     <div class="topbar-logo-mark">H</div>
     <div>
-      <div class="topbar-title">HERSA · Encuesta Ambato 2027</div>
+      <div class="topbar-title">Encuesta Electoral Ambato 2027</div>
       <div class="topbar-sub" id="tb-sub">Sistema CAPI · Uso interno</div>
     </div>
   </div>
@@ -578,41 +578,39 @@ body {
     </div>
 
     <div class="card">
-      <div class="card-title">Punto muestral</div>
-      <div class="field">
-        <label>Slot de muestra (1 – 1000) *</label>
-        <input type="number" id="f-slot" min="1" max="1000" placeholder="Ej: 47" oninput="previewVer()" />
+      <div class="card-title">Datos de asignación</div>
+      <div class="info-box" style="margin-bottom:14px">
+        <strong>Encuestador/a:</strong> ingresa los datos que el coordinador te entregó
+        en tu hoja de asignación antes de salir a campo.
       </div>
       <div class="field">
-        <label>Versión asignada</label>
-        <div class="ver-preview" id="ver-prev">
-          Ingresa el slot para ver la versión
-        </div>
-      </div>
-      <div class="field">
-        <label>Punto muestral *</label>
-        <select id="f-point">
-          <option value="">— Seleccionar —</option>
+        <label>Tu zona de trabajo *</label>
+        <select id="f-point" onchange="autoParroquia()">
+          <option value="">— Seleccionar zona —</option>
         </select>
       </div>
       <div class="field">
-        <label>Parroquia *</label>
-        <input type="text" id="f-parroquia" placeholder="Ej: Atocha - Ficoa" />
+        <label>Parroquia / sector *</label>
+        <input type="text" id="f-parroquia" placeholder="Se rellena automáticamente" />
+      </div>
+      <div class="field">
+        <label>N.° de entrevista asignado *</label>
+        <input type="number" id="f-slot" min="1" max="1000" placeholder="Ej: 47" oninput="previewVer()" />
+        <div style="font-size:12px;color:var(--muted);margin-top:5px">
+          El coordinador te indica qué número corresponde a esta entrevista (del 1 al 1000).
+        </div>
+      </div>
+      <div class="field" id="ver-field" style="display:none">
+        <div class="ver-preview" id="ver-prev"></div>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">Encuestador</div>
+      <div class="card-title">Identificación</div>
       <div class="field">
-        <label>Nombre o código del encuestador *</label>
-        <input type="text" id="f-enc" placeholder="Ej: ENC-07 · María Torres" />
+        <label>Tu nombre o código *</label>
+        <input type="text" id="f-enc" placeholder="Ej: María Torres o ENC-07" />
       </div>
-    </div>
-
-    <div class="info-box">
-      <strong>Sobre las versiones A–H:</strong> cada 125 slots consecutivos corresponden a
-      una versión. La versión controla el orden de presentación de candidaturas
-      (cuadrado latino de Williams) para eliminar sesgo de posición.
     </div>
 
     <div id="pending-alert" style="display:none" class="info-box warn">
@@ -739,6 +737,37 @@ const PUNTOS = [
   ...Array.from({length:34}, (_,i) => ({id:`U${String(i+1).padStart(2,'0')}`, area:'Urbana', n:i<18?17:16})),
   ...Array.from({length:26}, (_,i) => ({id:`R${String(i+1).padStart(2,'0')}`, area:'Rural',  n:i<22?17:16})),
 ];
+
+// Parroquia sugerida por zona — el encuestador puede corregirla
+const PARROQUIA_MAP = {
+  U01:'La Merced / Atocha - Ficoa',  U02:'La Merced / Atocha - Ficoa',
+  U03:'La Merced / Atocha - Ficoa',  U04:'La Merced / Atocha - Ficoa',
+  U05:'La Merced / Atocha - Ficoa',  U06:'San Francisco',
+  U07:'San Francisco',               U08:'San Francisco',
+  U09:'San Francisco',               U10:'San Francisco',
+  U11:'La Matriz',                   U12:'La Matriz',
+  U13:'La Matriz',                   U14:'Celiano Monge',
+  U15:'Celiano Monge',               U16:'Huachi Loreto',
+  U17:'Huachi Loreto',               U18:'Huachi Loreto',
+  U19:'Huachi Chico',                U20:'Huachi Chico',
+  U21:'Constantino Fernández',       U22:'Constantino Fernández',
+  U23:'La Paz',                      U24:'La Paz',
+  U25:'La Paz',                      U26:'Izamba',
+  U27:'Izamba',                      U28:'Pishilata',
+  U29:'Pishilata',                   U30:'Pishilata',
+  U31:'Ambato Sur',                  U32:'Ambato Sur',
+  U33:'Ambato Sur',                  U34:'Ambato Sur',
+  R01:'Ambatillo',  R02:'Ambatillo',  R03:'Ambatillo',
+  R04:'Atahualpa',  R05:'Atahualpa',  R06:'Atahualpa',
+  R07:'Augusto N. Martínez',  R08:'Augusto N. Martínez',  R09:'Augusto N. Martínez',
+  R10:'Cunchibamba', R11:'Cunchibamba',
+  R12:'Juan Benigno Vela', R13:'Juan Benigno Vela',
+  R14:'Pilagüín',  R15:'Pilagüín',  R16:'Pilagüín',
+  R17:'Quisapincha', R18:'Quisapincha', R19:'Quisapincha',
+  R20:'Santa Rosa',  R21:'Santa Rosa',  R22:'Santa Rosa',
+  R23:'San Bartolomé de Pinllo', R24:'San Bartolomé de Pinllo',
+  R25:'Totoras',  R26:'Huambaló',
+};
 
 // ═══════════════════════════════════════════════════════
 //  UTILIDADES
@@ -975,11 +1004,18 @@ function showS(name) {
   PUNTOS.forEach(p => {
     const o = document.createElement('option');
     o.value = p.id;
-    o.textContent = `${p.id} · ${p.area} · ${p.n} entrevistas`;
+    o.textContent = `${p.id} — ${p.area} (${p.n} entrevistas)`;
     sel.appendChild(o);
   });
   checkPending();
 })();
+
+function autoParroquia() {
+  const pt = document.getElementById('f-point').value;
+  if (!pt) return;
+  const parr = PARROQUIA_MAP[pt] || (pt.startsWith('U') ? 'Sector urbano Ambato' : 'Sector rural Tungurahua');
+  document.getElementById('f-parroquia').value = parr;
+}
 
 function checkPending() {
   const keys = pendingKeys();
@@ -988,16 +1024,14 @@ function checkPending() {
 
 function previewVer() {
   const slot = parseInt(document.getElementById('f-slot').value);
+  const field = document.getElementById('ver-field');
   const el = document.getElementById('ver-prev');
-  if (!slot || slot < 1 || slot > 1000) {
-    el.innerHTML = 'Ingresa el slot para ver la versión';
-    return;
-  }
+  if (!slot || slot < 1 || slot > 1000) { field.style.display = 'none'; return; }
   const v = slot2ver(slot);
-  const order = VER_ORDERS[v];
-  el.innerHTML = `<strong>${v}</strong> <span style="font-size:13px;color:var(--muted)">
-    Orden: ${order.map(id => MAYOR[id]).join(' → ')}
-  </span>`;
+  field.style.display = 'block';
+  el.innerHTML = `<span style="font-size:12px;color:var(--muted)">Cuestionario asignado:</span>
+    <strong style="font-size:22px;color:var(--azul);margin:0 8px">${v}</strong>
+    <span style="font-size:12px;color:var(--muted)">(se asigna automáticamente)</span>`;
 }
 
 function iniciar() {
@@ -1006,10 +1040,10 @@ function iniciar() {
   const parroquia = document.getElementById('f-parroquia').value.trim();
   const enc = document.getElementById('f-enc').value.trim();
 
-  if (!slot || slot < 1 || slot > 1000) return alert('Ingresa un slot de muestra válido (1–1000).');
-  if (!pointId)   return alert('Selecciona el punto muestral.');
-  if (!parroquia) return alert('Ingresa la parroquia.');
-  if (!enc)       return alert('Ingresa el nombre o código del encuestador.');
+  if (!pointId)   return alert('Selecciona tu zona de trabajo.');
+  if (!parroquia) return alert('Verifica la parroquia o sector.');
+  if (!slot || slot < 1 || slot > 1000) return alert('Ingresa el número de entrevista asignado (1 al 1000).');
+  if (!enc)       return alert('Ingresa tu nombre o código de encuestador.');
 
   const pt = PUNTOS.find(p => p.id === pointId);
   const ver = slot2ver(slot);
@@ -1482,11 +1516,27 @@ async function enviarPendiente(storageKey) {
 //  NUEVA ENTREVISTA
 // ═══════════════════════════════════════════════════════
 function nueva() {
+  // Guarda punto, parroquia y encuestador para la siguiente entrevista
+  const prevSlot  = iv.slot;
+  const prevPoint = iv.pointId;
+  const prevParr  = iv.parroquia;
+  const prevEnc   = iv.enc;
+
   iv = newIv();
   document.getElementById('tb-sub').textContent = 'Sistema CAPI · Uso interno';
   document.getElementById('ver-chip').style.display = 'none';
   document.getElementById('prog').style.width = '0%';
-  document.getElementById('ver-prev').innerHTML = 'Ingresa el slot para ver la versión';
+  document.getElementById('ver-field').style.display = 'none';
+
+  // Auto-rellenar para la siguiente entrevista
+  if (prevSlot && prevSlot < 1000) {
+    document.getElementById('f-slot').value = prevSlot + 1;
+    previewVer();
+  }
+  if (prevPoint) document.getElementById('f-point').value = prevPoint;
+  if (prevParr)  document.getElementById('f-parroquia').value = prevParr;
+  if (prevEnc)   document.getElementById('f-enc').value = prevEnc;
+
   checkPending();
   showS('setup');
 }
