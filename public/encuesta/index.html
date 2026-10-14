@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>HERSA · Encuesta Electoral Ambato 2027</title>
+<style>
+:root {
+  --azul: #21243D;
+  --azul-m: #2d3260;
+  --azul-l: #3d4080;
+  --oro: #AC7C3F;
+  --oro-l: #d4a55a;
+  --bg: #f4f5fb;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --borde: #e5e7eb;
+  --rojo: #dc2626;
+  --verde: #16a34a;
+  --amarillo: #d97706;
+  --r: 12px;
+  --shadow: 0 1px 4px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  overscroll-behavior: none;
+}
+
+/* ── Topbar ──────────────────────────────────────────── */
+.topbar {
+  background: var(--azul);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--oro);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: -.5px;
+  flex-shrink: 0;
+}
+.topbar-title { color: #fff; font-size: 13px; font-weight: 800; line-height: 1.2; }
+.topbar-sub { color: rgba(255,255,255,.5); font-size: 11px; }
+.ver-chip {
+  background: var(--oro);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  display: none;
+  align-items: center;
+  gap: 5px;
+}
+.progress-rail {
+  height: 3px;
+  background: rgba(255,255,255,.12);
+}
+.progress-fill {
+  height: 3px;
+  background: var(--oro);
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+/* ── Screens ─────────────────────────────────────────── */
+[data-screen] { display: none; }
+[data-screen].on { display: block; }
+
+/* ── Setup Screen ────────────────────────────────────── */
+.setup-wrap {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+.setup-hero {
+  text-align: center;
+  margin-bottom: 28px;
+  padding: 28px 20px;
+  background: var(--azul);
+  border-radius: var(--r);
+  color: #fff;
+}
+.setup-hero h1 { font-size: 20px; font-weight: 900; margin-bottom: 6px; }
+.setup-hero p { font-size: 13px; color: rgba(255,255,255,.6); }
+.setup-badges {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.badge {
+  background: rgba(255,255,255,.12);
+  color: rgba(255,255,255,.85);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.card-title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 6px;
+}
+.field input, .field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+  outline: none;
+  color: var(--text);
+  transition: border-color .15s;
+}
+.field input:focus, .field select:focus { border-color: var(--azul); }
+.ver-preview {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ver-preview strong { color: var(--azul); font-size: 22px; font-weight: 900; }
+.info-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #1d4ed8;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.info-box.warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+
+/* ── Buttons ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: var(--r);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity .15s, transform .1s;
+  width: 100%;
+  text-decoration: none;
+}
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn-azul { background: var(--azul); color: #fff; }
+.btn-oro  { background: linear-gradient(135deg, var(--oro), var(--oro-l)); color: #fff; }
+.btn-ghost { background: var(--borde); color: var(--text); }
+.btn-rojo { background: var(--rojo); color: #fff; }
+.btn-verde { background: var(--verde); color: #fff; }
+
+/* ── Survey Screen ───────────────────────────────────── */
+.survey-body {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 16px 14px 110px;
+}
+.q-card {
+  background: var(--card);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 8px;
+  animation: fadeUp .25s ease;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.q-id {
+  background: var(--azul);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.q-sec {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.q-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--azul);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.q-inst {
+  font-size: 12px;
+  color: #92400e;
+  font-style: italic;
+  background: #fffbeb;
+  border-left: 3px solid var(--oro);
+  padding: 8px 12px;
+  border-radius: 0 8px 8px 0;
+  margin-top: 10px;
+  display: none;
+  line-height: 1.5;
+}
+
+/* ── Options ─────────────────────────────────────────── */
+.opts { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+}
+.opt:active { background: #f3f4f6; }
+.opt.sel { border-color: var(--azul); background: rgba(33,36,61,.05); }
+.opt-dot {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--borde);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.opt.sel .opt-dot { border-color: var(--azul); background: var(--azul); }
+.opt-dot-inner { width: 7px; height: 7px; border-radius: 50%; background: #fff; display: none; }
+.opt.sel .opt-dot-inner { display: block; }
+.opt-lbl { font-size: 14px; color: var(--text); flex: 1; }
+
+/* Checkboxes */
+.opt-chk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+}
+.opt-chk:active { background: #f3f4f6; }
+.opt-chk.sel { border-color: var(--azul); background: rgba(33,36,61,.05); }
+.opt-box {
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  border: 2px solid var(--borde);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 900;
+  color: transparent;
+  transition: all .15s;
+}
+.opt-chk.sel .opt-box { border-color: var(--azul); background: var(--azul); color: #fff; }
+.max-lbl {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  text-align: right;
+}
+
+/* Matrix */
+.matrix-scroll { overflow-x: auto; margin-top: 14px; -webkit-overflow-scrolling: touch; }
+.matrix {
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 460px;
+  width: 100%;
+}
+.matrix thead th {
+  background: var(--azul);
+  color: #fff;
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.matrix thead th:first-child { text-align: left; min-width: 130px; }
+.matrix tbody td {
+  padding: 9px 6px;
+  border-bottom: 1px solid var(--borde);
+  text-align: center;
+  vertical-align: middle;
+}
+.matrix tbody td:first-child {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--azul);
+  padding-left: 10px;
+}
+.matrix tbody tr:hover td { background: #f9fafb; }
+.mrad {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--borde);
+  display: inline-block;
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+  vertical-align: middle;
+}
+.mrad.sel { border-color: var(--azul); background: var(--azul); }
+.mrad.sel::after {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+.matrix-hint { font-size: 11px; color: var(--muted); margin-top: 8px; font-style: italic; }
+
+/* Text / Number */
+.q-txt {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+  margin-top: 14px;
+}
+.q-txt:focus { border-color: var(--azul); }
+.q-num {
+  width: 100%;
+  max-width: 180px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  margin-top: 14px;
+}
+.q-num:focus { border-color: var(--azul); }
+
+/* Territory card */
+.terr-card {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 14px;
+}
+.terr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.terr-cell { background: #fff; border-radius: 8px; padding: 10px 12px; }
+.terr-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.terr-val { font-size: 14px; font-weight: 700; color: var(--azul); }
+
+/* Attr matrix rows */
+.attr-row { margin-bottom: 18px; }
+.attr-row-title {
+  font-size: 13px; font-weight: 700;
+  color: #fff;
+  background: var(--azul-m);
+  padding: 7px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* Bottom nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-top: 1px solid var(--borde);
+  padding: 10px 14px 14px;
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+}
+.bottom-nav .btn { flex: 1; padding: 13px; font-size: 14px; }
+.q-counter {
+  position: fixed;
+  bottom: 74px; right: 16px;
+  background: rgba(33,36,61,.85);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(6px);
+  z-index: 100;
+}
+
+/* Terminate notice */
+.term-box {
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: #991b1b;
+  font-size: 14px;
+  margin-top: 14px;
+  display: none;
+}
+
+/* Modal */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 300;
+  padding: 20px;
+}
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 100%; max-width: 360px;
+  text-align: center;
+}
+.modal h3 { font-size: 20px; font-weight: 900; margin-bottom: 10px; }
+.modal p { color: var(--muted); font-size: 14px; margin-bottom: 22px; line-height: 1.5; }
+.modal-btns { display: flex; gap: 10px; }
+.modal-btns .btn { flex: 1; padding: 12px; font-size: 14px; }
+
+/* Done screen */
+.done-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+  text-align: center;
+}
+.done-icon {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 20px rgba(22,163,74,.3);
+}
+.done-wrap h2 { font-size: 24px; font-weight: 900; color: var(--azul); margin-bottom: 8px; }
+.done-wrap p  { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+.done-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.done-cell {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 12px 14px;
+  text-align: left;
+}
+.done-cell-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.done-cell-val { font-size: 15px; font-weight: 700; color: var(--azul); }
+
+/* Pending list */
+.pending-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* Scroll fix for long option lists */
+.opts-s { max-height: 55vh; overflow-y: auto; padding-right: 2px; }
+
+@media (min-width: 520px) {
+  .survey-body { padding-top: 24px; }
+  .setup-wrap { padding-top: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOPBAR ═════════════════════════════════════════ -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="topbar-logo-mark">H</div>
+    <div>
+      <div class="topbar-title">HERSA · Encuesta Ambato 2027</div>
+      <div class="topbar-sub" id="tb-sub">Sistema CAPI · Uso interno</div>
+    </div>
+  </div>
+  <div class="ver-chip" id="ver-chip">
+    <span id="ver-txt">A</span>
+  </div>
+</div>
+<div class="progress-rail"><div class="progress-fill" id="prog"></div></div>
+
+<!-- ═══ SCREEN: SETUP ══════════════════════════════════ -->
+<div data-screen="setup" class="on">
+  <div class="setup-wrap">
+    <div class="setup-hero">
+      <h1>Encuesta Electoral Ambato</h1>
+      <p>Instrumento de 25 preguntas · Versiones A–H · CAPI Presencial</p>
+      <div class="setup-badges">
+        <span class="badge">1.000 muestras</span>
+        <span class="badge">±3.1% IC 95%</span>
+        <span class="badge">60 puntos muestrales</span>
+        <span class="badge">8 candidaturas</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Punto muestral</div>
+      <div class="field">
+        <label>Slot de muestra (1 – 1000) *</label>
+        <input type="number" id="f-slot" min="1" max="1000" placeholder="Ej: 47" oninput="previewVer()" />
+      </div>
+      <div class="field">
+        <label>Versión asignada</label>
+        <div class="ver-preview" id="ver-prev">
+          Ingresa el slot para ver la versión
+        </div>
+      </div>
+      <div class="field">
+        <label>Punto muestral *</label>
+        <select id="f-point">
+          <option value="">— Seleccionar —</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Parroquia *</label>
+        <input type="text" id="f-parroquia" placeholder="Ej: Atocha - Ficoa" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Encuestador</div>
+      <div class="field">
+        <label>Nombre o código del encuestador *</label>
+        <input type="text" id="f-enc" placeholder="Ej: ENC-07 · María Torres" />
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Sobre las versiones A–H:</strong> cada 125 slots consecutivos corresponden a
+      una versión. La versión controla el orden de presentación de candidaturas
+      (cuadrado latino de Williams) para eliminar sesgo de posición.
+    </div>
+
+    <div id="pending-alert" style="display:none" class="info-box warn">
+      <strong>Tienes entrevistas no enviadas</strong> guardadas localmente.
+      <button onclick="verPendientes()" style="background:none;border:none;color:inherit;font-weight:800;cursor:pointer;text-decoration:underline;padding:0;margin-left:4px;font-family:inherit;font-size:inherit">Ver pendientes</button>
+    </div>
+
+    <button class="btn btn-azul" onclick="iniciar()">Comenzar Entrevista →</button>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: SURVEY ════════════════════════════════ -->
+<div data-screen="survey">
+  <div class="survey-body">
+    <div class="q-card" id="q-card">
+      <div class="q-meta">
+        <span class="q-id" id="q-id">P1</span>
+        <span class="q-sec" id="q-sec">Filtro</span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="q-inst" id="q-inst"></div>
+      <div id="q-body"></div>
+      <div class="term-box" id="term-box">
+        ⚠️ Este encuestado no califica. Haz clic en <strong>Terminar</strong> para cerrar esta entrevista e iniciar otra.
+      </div>
+    </div>
+  </div>
+  <div class="q-counter" id="q-counter">1 / 25</div>
+  <div class="bottom-nav">
+    <button class="btn btn-ghost" id="btn-prev" onclick="prevQ()">← Anterior</button>
+    <button class="btn btn-azul" id="btn-next" onclick="nextQ()">Siguiente →</button>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: DONE ══════════════════════════════════ -->
+<div data-screen="done">
+  <div class="done-wrap">
+    <div class="done-icon">✓</div>
+    <h2>¡Entrevista Guardada!</h2>
+    <p id="done-msg">Los datos se enviaron correctamente a Supabase.</p>
+    <div class="done-grid" id="done-info"></div>
+    <button class="btn btn-azul" onclick="nueva()" style="margin-bottom:10px">
+      + Nueva Entrevista
+    </button>
+    <button class="btn btn-ghost" onclick="verPendientes()">
+      Ver entrevistas pendientes
+    </button>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: PENDING ═══════════════════════════════ -->
+<div data-screen="pending">
+  <div class="pending-wrap">
+    <h2 style="font-size:18px;font-weight:900;color:var(--azul);margin-bottom:6px">Entrevistas pendientes</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px">
+      Guardadas localmente. Envía cuando tengas conexión.
+    </p>
+    <div id="pending-list"></div>
+    <button class="btn btn-ghost" onclick="showS('setup')" style="margin-top:14px">← Volver al inicio</button>
+  </div>
+</div>
+
+<!-- ═══ MODAL: TERMINATE ══════════════════════════════ -->
+<div class="overlay" id="modal-term" style="display:none">
+  <div class="modal">
+    <h3 style="color:var(--rojo)">Entrevista Terminada</h3>
+    <p>El encuestado no está habilitado para votar en el cantón Ambato o se negó a responder. Se debe cerrar la entrevista.</p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closeTermModal()">Corregir</button>
+      <button class="btn btn-rojo" onclick="terminarYNueva()">Terminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: OFFLINE SAVED ══════════════════════════ -->
+<div class="overlay" id="modal-offline" style="display:none">
+  <div class="modal">
+    <h3 style="color:var(--amarillo)">Sin conexión</h3>
+    <p>La entrevista se guardó localmente. Podrás enviarla desde "Ver pendientes" cuando tengas conexión a internet.</p>
+    <button class="btn btn-azul" onclick="closeOfflineModal(); nueva()">Entendido · Nueva entrevista</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONSTANTES
+// ═══════════════════════════════════════════════════════
+const SB_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co';
+const SB_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf';
+const SURVEY_ID = 'HERSA_AMBATO_2027_45D_25Q_V1';
+
+// Candidatos Alcaldía (desde PDF — documento maestro)
+const MAYOR = {
+  C01:'Evelyn Salazar',    C02:'Cristian Zúñiga',
+  C03:'Luis Amoroso',      C04:'Mario Robayo',
+  C05:'Diana Caiza',       C06:'Lisette Naranjo',
+  C07:'Juan Carlos López', C08:'Javier Altamirano',
+};
+// Candidatos Prefectura
+const PREF = {
+  T01:'Telmo Punina',      T02:'Danilo Ortiz',
+  T03:'Jaime Astudillo',   T04:'Fernando Gavilanez',
+  T05:'Lenin Manotoa',     T06:'Alejandro Lara',
+  T07:'David Martínez',    T08:'Amable Chaluis',
+};
+const MAYOR_IDS = ['C01','C02','C03','C04','C05','C06','C07','C08'];
+const PREF_IDS  = ['T01','T02','T03','T04','T05','T06','T07','T08'];
+const EXCL = new Set(['91','92','93','98','99']); // opciones exclusivas
+
+// Cuadrado latino de Williams (del PDF)
+const VER_ORDERS = {
+  A:['C01','C02','C08','C03','C07','C04','C06','C05'],
+  B:['C02','C03','C01','C04','C08','C05','C07','C06'],
+  C:['C03','C04','C02','C05','C01','C06','C08','C07'],
+  D:['C04','C05','C03','C06','C02','C07','C01','C08'],
+  E:['C05','C06','C04','C07','C03','C08','C02','C01'],
+  F:['C06','C07','C05','C08','C04','C01','C03','C02'],
+  G:['C07','C08','C06','C01','C05','C02','C04','C03'],
+  H:['C08','C01','C07','C02','C06','C03','C05','C04'],
+};
+
+// Puntos muestrales: U01–U34 urbanos, R01–R26 rurales
+const PUNTOS = [
+  ...Array.from({length:34}, (_,i) => ({id:`U${String(i+1).padStart(2,'0')}`, area:'Urbana', n:i<18?17:16})),
+  ...Array.from({length:26}, (_,i) => ({id:`R${String(i+1).padStart(2,'0')}`, area:'Rural',  n:i<22?17:16})),
+];
+
+// ═══════════════════════════════════════════════════════
+//  UTILIDADES
+// ═══════════════════════════════════════════════════════
+function hash32(str) {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function seededShuffle(arr, seed) {
+  const a = [...arr];
+  let s = hash32(seed);
+  for (let i = a.length - 1; i > 0; i--) {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    const j = s % (i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function slot2ver(n) { return 'ABCDEFGH'[Math.floor((n - 1) / 125)]; }
+function uid() {
+  return 'HERSA-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2,6).toUpperCase();
+}
+
+// ═══════════════════════════════════════════════════════
+//  ESTADO DE LA ENTREVISTA
+// ═══════════════════════════════════════════════════════
+let iv = newIv();
+function newIv() {
+  return { key:'', slot:0, version:'', pointId:'', area:'', parroquia:'', enc:'',
+           mayorOrder:[], prefOrder:[], startedAt:'', answers:{}, currentIdx:0 };
+}
+function saveLS() {
+  if (!iv.key) return;
+  try { localStorage.setItem('hersa_iv_' + iv.key, JSON.stringify(iv)); } catch(e){}
+}
+function pendingKeys() {
+  const keys = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('hersa_iv_')) keys.push(k);
+    }
+  } catch(e){}
+  return keys;
+}
+
+// ═══════════════════════════════════════════════════════
+//  PREGUNTAS (25 Q)
+// ═══════════════════════════════════════════════════════
+const QQ = [
+  // P1 — Filtro
+  { id:'P1', sec:'Filtro', type:'single',
+    text:'¿Está usted actualmente habilitado/a para votar en el cantón Ambato?',
+    opts:[{v:'1',l:'Sí'},{v:'2',l:'No → TERMINAR'},{v:'98',l:'No sabe → TERMINAR'}],
+    terminate:['2','98'] },
+
+  // P2 — Participación
+  { id:'P2', sec:'Participación', type:'single',
+    text:'Pensando en las próximas elecciones, ¿qué tan probable es que acuda a votar?',
+    opts:[{v:'1',l:'Definitivamente votaré'},{v:'2',l:'Probablemente votaré'},
+          {v:'3',l:'Probablemente no votaré'},{v:'4',l:'Definitivamente no votaré'},
+          {v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P3 — Clima
+  { id:'P3', sec:'Clima del cantón', type:'single',
+    text:'En términos generales, ¿considera que actualmente Ambato va por…?',
+    opts:[{v:'1',l:'Muy buen camino'},{v:'2',l:'Buen camino'},
+          {v:'3',l:'Mal camino'},{v:'4',l:'Muy mal camino'},
+          {v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P4 — Problema
+  { id:'P4', sec:'Agenda pública', type:'open',
+    text:'¿Cuál considera que es actualmente el principal problema del cantón Ambato?',
+    inst:'NO LEER. Respuesta abierta. Registrar literalmente.' },
+
+  // P5 — Intención espontánea
+  { id:'P5', sec:'Alcaldía — intención espontánea', type:'open',
+    text:'Si las elecciones para Alcalde/Alcaldesa de Ambato fueran mañana, ¿por quién votaría usted?',
+    inst:'NO LEER LOS NOMBRES. Registrar literalmente. Si dice "ninguno" o "blanco", registrar así.' },
+
+  // P6 — Intención estimulada
+  { id:'P6', sec:'Alcaldía — intención estimulada', type:'mayor_single',
+    text:'Ahora le muestro los nombres de las ocho candidaturas a la Alcaldía. Si las elecciones fueran mañana, ¿por cuál votaría?',
+    inst:'LEER Y MOSTRAR lista en el orden indicado por la versión.',
+    extra:[{v:'91',l:'Votaría en blanco'},{v:'92',l:'Anularía el voto'},
+           {v:'93',l:'Ninguno'},{v:'98',l:'Todavía no decide'},{v:'99',l:'Prefiere no responder'}] },
+
+  // P7 — Firmeza
+  { id:'P7', sec:'Alcaldía — firmeza', type:'single',
+    textFn:() => `¿Qué tan segura es su decisión de votar por ${MAYOR[iv.answers.P6] || '[candidatura]'}?`,
+    showIf:() => MAYOR_IDS.includes(iv.answers.P6),
+    opts:[{v:'1',l:'Totalmente segura/o'},{v:'2',l:'Bastante segura/o'},
+          {v:'3',l:'Podría cambiar de candidatura'},{v:'4',l:'Apenas está considerando esa candidatura'},
+          {v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P8 — Segunda opción
+  { id:'P8', sec:'Alcaldía — segunda opción', type:'mayor_second',
+    textFn:() => MAYOR_IDS.includes(iv.answers.P6)
+      ? `Si finalmente no votara por ${MAYOR[iv.answers.P6]}, ¿cuál sería su segunda opción?`
+      : '¿Hay alguna candidatura a la Alcaldía que consideraría más que al resto?',
+    extra:[{v:'91',l:'Blanco'},{v:'92',l:'Nulo'},{v:'93',l:'Ninguno'},
+           {v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P9 — Rechazo
+  { id:'P9', sec:'Alcaldía — rechazo', type:'mayor_multi', max:2,
+    text:'¿Por cuál o cuáles candidaturas a la Alcaldía definitivamente no votaría? Puede mencionar hasta dos.',
+    extra:[{v:'93',l:'Ninguno'},{v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P10 — Conocimiento
+  { id:'P10', sec:'Alcaldía — conocimiento', type:'mayor_matrix',
+    text:'Antes de esta entrevista, ¿qué tanto conocía o había escuchado hablar de cada candidatura?',
+    cols:[{v:'1',l:'Bastante'},{v:'2',l:'Algo'},{v:'3',l:'Solo el nombre'},{v:'4',l:'No la conocía'},
+          {v:'98',l:'NS'},{v:'99',l:'NR'}] },
+
+  // P11 — Imagen (condicional: excluye los que dijeron 4 en P10)
+  { id:'P11', sec:'Alcaldía — imagen', type:'mayor_matrix_cond',
+    condFrom:'P10', skipVals:['4'],
+    text:'En términos generales, ¿la opinión que tiene de cada candidatura es…?',
+    inst:'Solo para candidaturas que el encuestado dijo conocer (P10 ≠ "No la conocía").',
+    cols:[{v:'1',l:'Muy favorable'},{v:'2',l:'Algo favorable'},{v:'3',l:'Neutral'},
+          {v:'4',l:'Algo desfavorable'},{v:'5',l:'Muy desfavorable'},
+          {v:'98',l:'NS'},{v:'99',l:'NR'}] },
+
+  // P12 — Consideración
+  { id:'P12', sec:'Alcaldía — consideración', type:'mayor_matrix',
+    text:'Independientemente de su intención actual de voto, ¿consideraría seriamente votar por cada candidatura?',
+    cols:[{v:'1',l:'Sí'},{v:'2',l:'Tal vez'},{v:'3',l:'No'},{v:'98',l:'NS'},{v:'99',l:'NR'}] },
+
+  // P13 — Atributo más importante (randomizado)
+  { id:'P13', sec:'Atributos personales', type:'single', randomize:true,
+    text:'¿Cuál de estas características considera MÁS importante en el próximo Alcalde/Alcaldesa de Ambato?',
+    opts:[{v:'1',l:'Honestidad'},{v:'2',l:'Experiencia previa en gestión pública'},
+          {v:'3',l:'Capacidad administrativa'},{v:'4',l:'Cercanía con la gente'},
+          {v:'5',l:'Capacidad para enfrentar la inseguridad'},
+          {v:'6',l:'Impulsar desarrollo económico y empleo'},
+          {v:'7',l:'Realizar obra pública visible'},{v:'8',l:'Conseguir recursos para Ambato'},
+          {v:'9',l:'Otra'},{v:'98',l:'No sabe'}] },
+
+  // P14 — Asociación de atributos
+  { id:'P14', sec:'Atributos — asociación', type:'attr_matrix',
+    text:'Pensando en las candidaturas a la Alcaldía, ¿a cuál asocia más con cada característica?',
+    rows:[{id:'GEST',l:'Gestión eficiente del Municipio'},{id:'HON',l:'Honestidad'},
+          {id:'CER',l:'Cercanía con los problemas de la gente'},
+          {id:'ECO',l:'Impulsar desarrollo económico y empleo'}],
+    extra:[{v:'93',l:'Ninguno'},{v:'98',l:'No sabe'}] },
+
+  // P15 — Exposición campaña
+  { id:'P15', sec:'Campaña — exposición', type:'mayor_multi',
+    text:'Durante las últimas dos semanas, ¿sobre cuál o cuáles candidaturas a la Alcaldía ha visto, escuchado o leído información?',
+    extra:[{v:'93',l:'Ninguno'},{v:'98',l:'No sabe'}] },
+
+  // P16 — Medios
+  { id:'P16', sec:'Medios de información', type:'multi', max:2,
+    text:'¿Dónde recibe principalmente información sobre la elección municipal? Hasta dos opciones.',
+    opts:[{v:'1',l:'Facebook'},{v:'2',l:'TikTok'},{v:'3',l:'Instagram'},{v:'4',l:'WhatsApp'},
+          {v:'5',l:'X / Twitter'},{v:'6',l:'YouTube'},{v:'7',l:'Televisión'},
+          {v:'8',l:'Radio'},{v:'9',l:'Prensa digital'},{v:'10',l:'Prensa impresa'},
+          {v:'11',l:'Familiares o amigos'},{v:'12',l:'Actos y recorridos políticos'},
+          {v:'13',l:'Visitas puerta a puerta'},{v:'14',l:'Otra'},{v:'98',l:'No sabe'}] },
+
+  // P17 — Momento de decisión
+  { id:'P17', sec:'Decisión de voto', type:'single',
+    text:'¿Cuándo tomó, o cuándo cree que tomará, su decisión definitiva sobre por quién votar para Alcalde/Alcaldesa?',
+    opts:[{v:'1',l:'Hace varios meses'},{v:'2',l:'Durante las últimas semanas'},
+          {v:'3',l:'En las próximas semanas'},{v:'4',l:'Durante la última semana de campaña'},
+          {v:'5',l:'El mismo día de la elección'},{v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P18 — Prefectura intención
+  { id:'P18', sec:'Prefectura — intención', type:'pref_single',
+    text:'Pensando en la elección para la Prefectura de Tungurahua: si la elección fuera mañana, ¿por cuál candidato/a a Prefecto/a votaría?',
+    inst:'MOSTRAR lista en orden aleatorio fijo para este slot.',
+    extra:[{v:'91',l:'Votaría en blanco'},{v:'92',l:'Anularía el voto'},
+           {v:'93',l:'Ninguno'},{v:'98',l:'Todavía no decide'},{v:'99',l:'Prefiere no responder'}] },
+
+  // P19 — Prefectura segunda opción
+  { id:'P19', sec:'Prefectura — segunda opción', type:'pref_second',
+    textFn:() => PREF_IDS.includes(iv.answers.P18)
+      ? `Si finalmente no votara por ${PREF[iv.answers.P18]}, ¿cuál sería su segunda opción para la Prefectura?`
+      : '¿Hay alguna candidatura a la Prefectura que consideraría como alternativa?',
+    extra:[{v:'91',l:'Blanco'},{v:'92',l:'Nulo'},{v:'93',l:'Ninguno'},
+           {v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P20 — Prefectura rechazo
+  { id:'P20', sec:'Prefectura — rechazo', type:'pref_multi', max:2,
+    text:'¿Existe alguna candidatura a la Prefectura por la que definitivamente no votaría? Hasta dos.',
+    extra:[{v:'93',l:'Ninguno'},{v:'98',l:'No sabe'},{v:'99',l:'No responde'}] },
+
+  // P21 — Sexo
+  { id:'P21', sec:'Perfil — Sexo', type:'single',
+    text:'Sexo / género (registrar según observación o respuesta directa).',
+    opts:[{v:'1',l:'Hombre'},{v:'2',l:'Mujer'},
+          {v:'3',l:'Otra autodescripción'},{v:'99',l:'Prefiere no responder'}] },
+
+  // P22 — Edad
+  { id:'P22', sec:'Perfil — Edad', type:'number',
+    text:'¿Cuántos años cumplidos tiene usted?',
+    min:18, max:120, unit:'años cumplidos' },
+
+  // P23 — Educación
+  { id:'P23', sec:'Perfil — Educación', type:'single',
+    text:'¿Cuál es el nivel más alto de estudios que completó?',
+    opts:[{v:'1',l:'Primaria o menos'},{v:'2',l:'Secundaria / bachillerato'},
+          {v:'3',l:'Técnico o tecnológico'},{v:'4',l:'Universitario'},
+          {v:'5',l:'Posgrado'},{v:'99',l:'No responde'}] },
+
+  // P24 — Actividad
+  { id:'P24', sec:'Perfil — Actividad', type:'single',
+    text:'¿Cuál es actualmente su principal actividad?',
+    opts:[{v:'1',l:'Empleado privado'},{v:'2',l:'Empleado público'},{v:'3',l:'Independiente'},
+          {v:'4',l:'Comerciante'},{v:'5',l:'Agricultor/a'},{v:'6',l:'Estudiante'},
+          {v:'7',l:'Labores del hogar'},{v:'8',l:'Jubilado/a'},
+          {v:'9',l:'Desempleado/a'},{v:'10',l:'Otra'},{v:'99',l:'No responde'}] },
+
+  // P25 — Territorio
+  { id:'P25', sec:'Cierre — Territorio', type:'territory',
+    text:'Confirmar los datos del punto muestral antes de cerrar la entrevista.',
+    inst:'Encuestador: verifica que la parroquia y área correspondan al punto muestral asignado.' },
+];
+
+// ═══════════════════════════════════════════════════════
+//  NAVEGACIÓN DE PANTALLAS
+// ═══════════════════════════════════════════════════════
+function showS(name) {
+  document.querySelectorAll('[data-screen]').forEach(el => el.classList.remove('on'));
+  document.querySelector(`[data-screen="${name}"]`).classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════════
+//  SETUP
+// ═══════════════════════════════════════════════════════
+(function initSetup() {
+  const sel = document.getElementById('f-point');
+  PUNTOS.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p.id;
+    o.textContent = `${p.id} · ${p.area} · ${p.n} entrevistas`;
+    sel.appendChild(o);
+  });
+  checkPending();
+})();
+
+function checkPending() {
+  const keys = pendingKeys();
+  document.getElementById('pending-alert').style.display = keys.length ? 'block' : 'none';
+}
+
+function previewVer() {
+  const slot = parseInt(document.getElementById('f-slot').value);
+  const el = document.getElementById('ver-prev');
+  if (!slot || slot < 1 || slot > 1000) {
+    el.innerHTML = 'Ingresa el slot para ver la versión';
+    return;
+  }
+  const v = slot2ver(slot);
+  const order = VER_ORDERS[v];
+  el.innerHTML = `<strong>${v}</strong> <span style="font-size:13px;color:var(--muted)">
+    Orden: ${order.map(id => MAYOR[id]).join(' → ')}
+  </span>`;
+}
+
+function iniciar() {
+  const slot = parseInt(document.getElementById('f-slot').value);
+  const pointId = document.getElementById('f-point').value;
+  const parroquia = document.getElementById('f-parroquia').value.trim();
+  const enc = document.getElementById('f-enc').value.trim();
+
+  if (!slot || slot < 1 || slot > 1000) return alert('Ingresa un slot de muestra válido (1–1000).');
+  if (!pointId)   return alert('Selecciona el punto muestral.');
+  if (!parroquia) return alert('Ingresa la parroquia.');
+  if (!enc)       return alert('Ingresa el nombre o código del encuestador.');
+
+  const pt = PUNTOS.find(p => p.id === pointId);
+  const ver = slot2ver(slot);
+  const key = uid();
+
+  iv = {
+    key, slot, version: ver,
+    pointId, area: pt.area, parroquia, enc,
+    mayorOrder: VER_ORDERS[ver],
+    prefOrder: seededShuffle(PREF_IDS, key + '::PREF'),
+    startedAt: new Date().toISOString(),
+    answers: {}, currentIdx: 0,
+  };
+
+  saveLS();
+  updateTopbar();
+  goTo(0);
+  showS('survey');
+}
+
+function updateTopbar() {
+  document.getElementById('tb-sub').textContent =
+    `Versión ${iv.version} · Slot ${iv.slot} · ${iv.pointId} · ${iv.area}`;
+  const chip = document.getElementById('ver-chip');
+  document.getElementById('ver-txt').textContent = iv.version;
+  chip.style.display = 'flex';
+  document.getElementById('prog').style.width = '0%';
+}
+
+// ═══════════════════════════════════════════════════════
+//  PREGUNTAS VISIBLES (resuelve show_if)
+// ═══════════════════════════════════════════════════════
+function visQ() { return QQ.filter(q => !q.showIf || q.showIf()); }
+
+function goTo(idx) {
+  const visible = visQ();
+  if (idx < 0) idx = 0;
+  iv.currentIdx = idx;
+
+  if (idx >= visible.length) { showReview(); return; }
+
+  const q = visible[idx];
+  const pct = (idx / visible.length * 100).toFixed(1);
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('q-id').textContent = q.id;
+  document.getElementById('q-sec').textContent = q.sec;
+  document.getElementById('q-text').textContent = q.textFn ? q.textFn() : q.text;
+
+  const instEl = document.getElementById('q-inst');
+  if (q.inst) { instEl.textContent = q.inst; instEl.style.display = 'block'; }
+  else         { instEl.style.display = 'none'; }
+
+  document.getElementById('term-box').style.display = 'none';
+  document.getElementById('q-counter').textContent = `${idx + 1} / ${visible.length}`;
+
+  renderQ(q);
+
+  document.getElementById('btn-prev').disabled = idx === 0;
+  const isLast = idx === visible.length - 1;
+  document.getElementById('btn-next').textContent = isLast ? 'Finalizar ✓' : 'Siguiente →';
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  saveLS();
+}
+
+function nextQ() {
+  const visible = visQ();
+  const q = visible[iv.currentIdx];
+
+  if (q.terminate && q.terminate.includes(iv.answers[q.id])) {
+    document.getElementById('modal-term').style.display = 'flex';
+    return;
+  }
+  if (iv.currentIdx >= visible.length - 1) { showReview(); return; }
+  goTo(iv.currentIdx + 1);
+}
+
+function prevQ() {
+  if (iv.currentIdx > 0) goTo(iv.currentIdx - 1);
+}
+
+function closeTermModal() {
+  document.getElementById('modal-term').style.display = 'none';
+}
+
+function terminarYNueva() {
+  document.getElementById('modal-term').style.display = 'none';
+  nueva();
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER PREGUNTA
+// ═══════════════════════════════════════════════════════
+function mayorOpts(excl) {
+  return iv.mayorOrder.filter(id => id !== excl).map(id => ({v: id, l: MAYOR[id]}));
+}
+function prefOpts(excl) {
+  return iv.prefOrder.filter(id => id !== excl).map(id => ({v: id, l: PREF[id]}));
+}
+function optSel(v, cur) { return cur === v ? ' sel' : ''; }
+function chkSel(v, cur) { return Array.isArray(cur) && cur.includes(v) ? ' sel' : ''; }
+function chkMark(v, cur) { return Array.isArray(cur) && cur.includes(v) ? '✓' : ''; }
+
+function radioHTML(opts, qid, cur) {
+  return `<div class="opts opts-s">${opts.map(o => `
+    <div class="opt${optSel(o.v, cur)}" onclick="setA('${qid}','${o.v}',this)">
+      <div class="opt-dot"><div class="opt-dot-inner"></div></div>
+      <div class="opt-lbl">${o.l}</div>
+    </div>`).join('')}</div>`;
+}
+
+function checkHTML(opts, qid, cur, max) {
+  return `
+    <div class="max-lbl">Máximo ${max || '∞'} selección${(max || 2) > 1 ? 'es' : ''} · ${(cur||[]).filter(v => !EXCL.has(v)).length}/${max||'∞'}</div>
+    <div class="opts">${opts.map(o => `
+      <div class="opt-chk${chkSel(o.v, cur)}" onclick="toggleA('${qid}','${o.v}',${max||99})">
+        <div class="opt-box">${chkMark(o.v, cur)}</div>
+        <div class="opt-lbl">${o.l}</div>
+      </div>`).join('')}</div>`;
+}
+
+function matrixHTML(rows, cols, qid, cur) {
+  const hdrs = cols.map(c => `<th>${c.l}</th>`).join('');
+  const trs = rows.map(r => {
+    const curVal = (cur || {})[r.id];
+    const cells = cols.map(c => {
+      const sel = String(curVal) === c.v ? ' sel' : '';
+      return `<td><div class="mrad${sel}" onclick="setMat('${qid}','${r.id}','${c.v}',this)"></div></td>`;
+    }).join('');
+    return `<tr><td>${r.label}</td>${cells}</tr>`;
+  }).join('');
+  return `<div class="matrix-scroll">
+    <table class="matrix"><thead><tr><th>Candidatura</th>${hdrs}</tr></thead>
+    <tbody>${trs}</tbody></table>
+    <div class="matrix-hint">Desliza → si la tabla no cabe en pantalla</div>
+  </div>`;
+}
+
+function renderQ(q) {
+  const body = document.getElementById('q-body');
+  const a = iv.answers;
+  let html = '';
+
+  switch (q.type) {
+
+    case 'single':
+      html = radioHTML(q.randomize ? seededShuffle(q.opts, iv.key + '::' + q.id) : q.opts, q.id, a[q.id]);
+      break;
+
+    case 'mayor_single':
+      html = radioHTML([...mayorOpts(), ...(q.extra||[])], q.id, a[q.id]);
+      break;
+
+    case 'mayor_second': {
+      const excl = MAYOR_IDS.includes(a.P6) ? a.P6 : null;
+      html = radioHTML([...mayorOpts(excl), ...(q.extra||[])], q.id, a[q.id]);
+      break;
+    }
+
+    case 'pref_single':
+      html = radioHTML([...prefOpts(), ...(q.extra||[])], q.id, a[q.id]);
+      break;
+
+    case 'pref_second': {
+      const excl = PREF_IDS.includes(a.P18) ? a.P18 : null;
+      html = radioHTML([...prefOpts(excl), ...(q.extra||[])], q.id, a[q.id]);
+      break;
+    }
+
+    case 'multi':
+      html = checkHTML(q.opts, q.id, a[q.id], q.max);
+      break;
+
+    case 'mayor_multi':
+      html = checkHTML([...mayorOpts(), ...(q.extra||[])], q.id, a[q.id], q.max);
+      break;
+
+    case 'pref_multi':
+      html = checkHTML([...prefOpts(), ...(q.extra||[])], q.id, a[q.id], q.max);
+      break;
+
+    case 'open':
+      html = `<textarea class="q-txt" placeholder="Escribir respuesta…"
+        oninput="iv.answers['${q.id}']=this.value;saveLS()"
+      >${a[q.id]||''}</textarea>`;
+      break;
+
+    case 'number':
+      html = `<div>
+        <input type="number" class="q-num" min="${q.min}" max="${q.max}"
+          value="${a[q.id]||''}" placeholder="__"
+          oninput="iv.answers['${q.id}']=this.value;saveLS()"
+        />
+        <div style="font-size:12px;color:var(--muted);margin-top:8px">${q.unit||''}</div>
+      </div>`;
+      break;
+
+    case 'mayor_matrix': {
+      const rows = iv.mayorOrder.map(id => ({id, label: MAYOR[id]}));
+      html = matrixHTML(rows, q.cols, q.id, a[q.id]);
+      break;
+    }
+
+    case 'mayor_matrix_cond': {
+      const rows = iv.mayorOrder
+        .filter(id => {
+          const val = ((a[q.condFrom]||{})[id]);
+          return !(q.skipVals||[]).includes(String(val));
+        })
+        .map(id => ({id, label: MAYOR[id]}));
+      if (!rows.length) {
+        html = `<div class="info-box warn" style="margin-top:14px">
+          No hay candidaturas para evaluar (todas fueron marcadas como "No conocía" en P10).
+        </div>`;
+      } else {
+        html = matrixHTML(rows, q.cols, q.id, a[q.id]);
+      }
+      break;
+    }
+
+    case 'attr_matrix': {
+      const candidates = [...mayorOpts(), ...(q.extra||[])];
+      html = q.rows.map(row => {
+        const curVal = (a[q.id]||{})[row.id];
+        return `<div class="attr-row">
+          <div class="attr-row-title">${row.l}</div>
+          <div class="opts">${candidates.map(o => `
+            <div class="opt${optSel(o.v, curVal)}" onclick="setAttr('${q.id}','${row.id}','${o.v}',this)">
+              <div class="opt-dot"><div class="opt-dot-inner"></div></div>
+              <div class="opt-lbl" style="font-size:13px">${o.l}</div>
+            </div>`).join('')}
+          </div>
+        </div>`;
+      }).join('');
+      break;
+    }
+
+    case 'territory':
+      html = `<div class="terr-card">
+        <div class="terr-grid">
+          <div class="terr-cell">
+            <div class="terr-lbl">Punto muestral</div>
+            <div class="terr-val">${iv.pointId}</div>
+          </div>
+          <div class="terr-cell">
+            <div class="terr-lbl">Área</div>
+            <div class="terr-val">${iv.area}</div>
+          </div>
+          <div class="terr-cell" style="grid-column:1/-1">
+            <div class="terr-lbl">Parroquia</div>
+            <div class="terr-val">${iv.parroquia}</div>
+          </div>
+        </div>
+        ${radioHTML([{v:'1',l:'✓ Datos confirmados — cerrar entrevista'}], q.id, a[q.id])}
+      </div>`;
+      break;
+  }
+
+  body.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  SETTERS DE RESPUESTA
+// ═══════════════════════════════════════════════════════
+function setA(qid, val, el) {
+  iv.answers[qid] = val;
+  saveLS();
+  const wrap = el.closest('.opts, .opts-s');
+  if (wrap) { wrap.querySelectorAll('.opt').forEach(o => o.classList.remove('sel')); el.classList.add('sel'); }
+  el.querySelector('.opt-dot-inner') && (el.querySelector('.opt-dot-inner').style.display = 'block');
+}
+
+function toggleA(qid, val, max) {
+  let cur = iv.answers[qid] || [];
+  if (cur.includes(val)) {
+    cur = cur.filter(v => v !== val);
+  } else if (EXCL.has(val)) {
+    cur = [val];
+  } else {
+    cur = cur.filter(v => !EXCL.has(v));
+    if (cur.length >= max) { alert(`Máximo ${max} selecciones.`); return; }
+    cur = [...cur, val];
+  }
+  iv.answers[qid] = cur;
+  saveLS();
+  renderQ(visQ()[iv.currentIdx]);
+}
+
+function setMat(qid, rowId, val, el) {
+  if (!iv.answers[qid]) iv.answers[qid] = {};
+  iv.answers[qid][rowId] = val;
+  saveLS();
+  const row = el.closest('tr');
+  row.querySelectorAll('.mrad').forEach(r => r.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function setAttr(qid, rowId, val, el) {
+  if (!iv.answers[qid]) iv.answers[qid] = {};
+  iv.answers[qid][rowId] = val;
+  saveLS();
+  const grp = el.closest('.opts');
+  grp.querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+// ═══════════════════════════════════════════════════════
+//  REVISIÓN Y ENVÍO
+// ═══════════════════════════════════════════════════════
+function showReview() {
+  // Ir directo a submit
+  submitEncuesta();
+}
+
+function derivar() {
+  const a = iv.answers;
+  const p9  = new Set(Array.isArray(a.P9)  ? a.P9  : []);
+  const p20 = new Set(Array.isArray(a.P20) ? a.P20 : []);
+  const out = {
+    VOTO_FIRME_ALC:  Number(['1','2'].includes(a.P7)),
+    VOTO_BLANDO_ALC: Number(['3','4'].includes(a.P7)),
+  };
+  MAYOR_IDS.forEach(id => { out[`RECH_ALC_${id}`]  = Number(p9.has(id));  });
+  PREF_IDS.forEach(id  => { out[`RECH_PREF_${id}`] = Number(p20.has(id)); });
+  return out;
+}
+
+async function submitEncuesta() {
+  const payload = {
+    survey_id:        SURVEY_ID,
+    survey_version:   iv.version,
+    sample_slot:      iv.slot,
+    sample_point_id:  iv.pointId,
+    interviewer_id:   iv.enc,
+    interview_key:    iv.key,
+    area:             iv.area,
+    parroquia:        iv.parroquia,
+    mayor_order:      iv.mayorOrder,
+    prefecture_order: iv.prefOrder,
+    answers:          iv.answers,
+    derived:          derivar(),
+    started_at:       iv.startedAt,
+    completed_at:     new Date().toISOString(),
+  };
+
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/survey_responses_25`, {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+
+    try { localStorage.removeItem('hersa_iv_' + iv.key); } catch(e) {}
+
+    document.getElementById('done-msg').textContent =
+      `Slot ${iv.slot} · Versión ${iv.version} · ${iv.pointId} enviado correctamente.`;
+    document.getElementById('done-info').innerHTML = `
+      <div class="done-cell"><div class="done-cell-lbl">Versión</div><div class="done-cell-val">${iv.version}</div></div>
+      <div class="done-cell"><div class="done-cell-lbl">Slot</div><div class="done-cell-val">${iv.slot}</div></div>
+      <div class="done-cell"><div class="done-cell-lbl">Punto</div><div class="done-cell-val">${iv.pointId}</div></div>
+      <div class="done-cell"><div class="done-cell-lbl">Área</div><div class="done-cell-val">${iv.area}</div></div>
+    `;
+    showS('done');
+    checkPending();
+
+  } catch(e) {
+    // Guardar offline — ya está en localStorage
+    document.getElementById('modal-offline').style.display = 'flex';
+  }
+}
+
+function closeOfflineModal() {
+  document.getElementById('modal-offline').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════
+//  PENDIENTES
+// ═══════════════════════════════════════════════════════
+function verPendientes() {
+  const keys = pendingKeys();
+  const list = document.getElementById('pending-list');
+
+  if (!keys.length) {
+    list.innerHTML = '<div class="info-box">No hay entrevistas pendientes.</div>';
+    showS('pending');
+    return;
+  }
+
+  list.innerHTML = keys.map(k => {
+    try {
+      const data = JSON.parse(localStorage.getItem(k));
+      return `<div class="card" style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+          <div>
+            <div style="font-weight:800;color:var(--azul)">Slot ${data.slot} · Versión ${data.version}</div>
+            <div style="font-size:12px;color:var(--muted)">${data.pointId} · ${data.area} · ${data.parroquia}</div>
+            <div style="font-size:11px;color:var(--muted)">${new Date(data.startedAt).toLocaleString('es')}</div>
+          </div>
+          <button onclick="enviarPendiente('${k}')"
+            style="background:var(--verde);color:#fff;border:none;border-radius:8px;
+                   padding:8px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">
+            Enviar
+          </button>
+        </div>
+      </div>`;
+    } catch(e) { return ''; }
+  }).join('');
+
+  showS('pending');
+}
+
+async function enviarPendiente(storageKey) {
+  let data;
+  try { data = JSON.parse(localStorage.getItem(storageKey)); } catch(e) { return; }
+
+  const payload = {
+    survey_id:        SURVEY_ID,
+    survey_version:   data.version,
+    sample_slot:      data.slot,
+    sample_point_id:  data.pointId,
+    interviewer_id:   data.enc,
+    interview_key:    data.key,
+    area:             data.area,
+    parroquia:        data.parroquia,
+    mayor_order:      data.mayorOrder,
+    prefecture_order: data.prefOrder,
+    answers:          data.answers,
+    derived:          (() => {
+      const a = data.answers;
+      const p9  = new Set(Array.isArray(a.P9)  ? a.P9  : []);
+      const p20 = new Set(Array.isArray(a.P20) ? a.P20 : []);
+      const out = { VOTO_FIRME_ALC: Number(['1','2'].includes(a.P7)), VOTO_BLANDO_ALC: Number(['3','4'].includes(a.P7)) };
+      MAYOR_IDS.forEach(id => { out[`RECH_ALC_${id}`]  = Number(p9.has(id));  });
+      PREF_IDS.forEach(id  => { out[`RECH_PREF_${id}`] = Number(p20.has(id)); });
+      return out;
+    })(),
+    started_at:       data.startedAt,
+    completed_at:     new Date().toISOString(),
+  };
+
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/survey_responses_25`, {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal',
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error(await res.text());
+    localStorage.removeItem(storageKey);
+    alert(`Slot ${data.slot} enviado correctamente.`);
+    verPendientes();
+    checkPending();
+  } catch(e) {
+    alert('Error al enviar: ' + e.message);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  NUEVA ENTREVISTA
+// ═══════════════════════════════════════════════════════
+function nueva() {
+  iv = newIv();
+  document.getElementById('tb-sub').textContent = 'Sistema CAPI · Uso interno';
+  document.getElementById('ver-chip').style.display = 'none';
+  document.getElementById('prog').style.width = '0%';
+  document.getElementById('ver-prev').innerHTML = 'Ingresa el slot para ver la versión';
+  checkPending();
+  showS('setup');
+}
+</script>
+</body>
+</html>
