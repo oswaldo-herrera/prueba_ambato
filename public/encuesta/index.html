@@ -625,8 +625,11 @@ body {
     </div>
 
     <div id="pending-alert" style="display:none" class="info-box warn">
-      <strong>Tienes entrevistas no enviadas</strong> guardadas localmente.
+      <strong>Tienes entrevistas guardadas</strong> sin enviar o sin terminar.
       <button onclick="verPendientes()" style="background:none;border:none;color:inherit;font-weight:800;cursor:pointer;text-decoration:underline;padding:0;margin-left:4px;font-family:inherit;font-size:inherit">Ver pendientes</button>
+    </div>
+    <div class="info-box" style="margin-top:10px;font-size:13px">
+      ✓ <strong>Funciona sin internet.</strong> Los datos quedan guardados en el teléfono y los puedes enviar desde "Ver pendientes" cuando tengas conexión.
     </div>
 
     <button class="btn btn-azul" onclick="iniciar()">Comenzar Entrevista →</button>
@@ -1006,7 +1009,7 @@ function iniciar() {
   if (!enc)       return alert('Ingresa tu nombre o código.');
 
   const slot = nextIvNum();
-  const ver = 'ABCDEFGH'[(slot - 1) % 8];
+  const ver = 'ABCDEFGH'[Math.floor(Math.random() * 8)];
   const area = areaDeParroquia(parroquia);
   const key = uid();
 
@@ -1403,17 +1406,29 @@ function verPendientes() {
   list.innerHTML = keys.map(k => {
     try {
       const data = JSON.parse(localStorage.getItem(k));
+      const visible = Object.keys(data.answers || {}).length;
+      const total = 25;
+      const pct = Math.round(visible / total * 100);
+      const incompleta = pct < 100;
       return `<div class="card" style="margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-          <div>
-            <div style="font-weight:800;color:var(--azul)">${data.parroquia} · Versión ${data.version}</div>
-            <div style="font-size:12px;color:var(--muted)">${data.area} · ${data.enc}</div>
-            <div style="font-size:11px;color:var(--muted)">${new Date(data.startedAt).toLocaleString('es')}</div>
+        <div style="margin-bottom:10px">
+          <div style="font-weight:800;color:var(--azul);margin-bottom:3px">${data.parroquia} · Versión ${data.version}</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">${data.area} · ${data.enc} · ${new Date(data.startedAt).toLocaleString('es')}</div>
+          <div style="background:var(--borde);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px">
+            <div style="background:${incompleta?'var(--oro)':'var(--verde)'};height:6px;width:${pct}%;transition:width .3s"></div>
           </div>
+          <div style="font-size:11px;color:var(--muted)">${visible} de ${total} preguntas respondidas${incompleta?' — incompleta':' — completa'}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onclick="continuarPendiente('${k}')"
+            style="flex:1;background:var(--azul);color:#fff;border:none;border-radius:8px;
+                   padding:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">
+            ${incompleta ? '▶ Continuar' : '▶ Revisar'}
+          </button>
           <button onclick="enviarPendiente('${k}')"
-            style="background:var(--verde);color:#fff;border:none;border-radius:8px;
-                   padding:8px 14px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">
-            Enviar
+            style="flex:1;background:var(--verde);color:#fff;border:none;border-radius:8px;
+                   padding:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">
+            ↑ Enviar
           </button>
         </div>
       </div>`;
@@ -1421,6 +1436,17 @@ function verPendientes() {
   }).join('');
 
   showS('pending');
+}
+
+function continuarPendiente(storageKey) {
+  try {
+    iv = JSON.parse(localStorage.getItem(storageKey));
+    updateTopbar();
+    goTo(iv.currentIdx || 0);
+    showS('survey');
+  } catch(e) {
+    alert('No se pudo cargar la entrevista.');
+  }
 }
 
 async function enviarPendiente(storageKey) {
