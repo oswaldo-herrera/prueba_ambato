@@ -1,364 +1,930 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reportes — Javier Altamirano</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Reporte Electoral Ambato 2027</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F0F2F5;
+  --card:#FFFFFF;
+  --border:#E5E7EB;
+  --azul:#21243D;
+  --azul2:#2e3256;
+  --oro:#B07F3A;
+  --oro-lt:#D4A86A;
+  --txt:#111827;
+  --txt2:#4B5563;
+  --muted:#9CA3AF;
+  --pos:#16A065;
+  --neg:#C53030;
+  --gray:#8B96A3;
+  --r:12px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100dvh;padding:28px 16px 80px}
+h2{font-size:18px;font-weight:700;color:var(--azul);margin-bottom:6px}
+h3{font-size:13px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px}
+p{font-size:14px;line-height:1.6}
 
-    :root {
-      --azul:    #21243D;
-      --azul-lt: #2e3256;
-      --oro:     #AC7C3F;
-      --oro-lt:  #D4A86A;
-      --bg:      #f0f2f5;
-      --card-bg: #ffffff;
-      --text:    #1a1a2e;
-      --muted:   #6b7280;
-    }
+.wrap{max-width:1100px;margin:0 auto}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 36px 16px 80px;
-    }
+/* HEADER */
+.hdr{background:var(--azul);color:#fff;border-radius:var(--r);padding:28px 32px 22px;margin-bottom:24px;
+  box-shadow:0 4px 28px rgba(33,36,61,.22)}
+.hdr h1{font-size:22px;font-weight:800;letter-spacing:.02em}
+.hdr .sub{font-size:12px;color:var(--oro-lt);letter-spacing:.08em;margin-top:4px;text-transform:uppercase}
+.hdr .meta{display:flex;gap:24px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.15)}
+.hdr .meta span{font-size:12px;color:rgba(255,255,255,.75)}
+.hdr .meta strong{color:#fff}
 
-    /* ── HEADER ── */
-    header {
-      background: var(--azul);
-      color: #fff;
-      width: 100%;
-      max-width: 1100px;
-      border-radius: 18px;
-      padding: 28px 32px 22px;
-      text-align: center;
-      margin-bottom: 32px;
-      box-shadow: 0 4px 28px rgba(33,36,61,0.20);
-    }
-    header img {
-      width: 50px; height: 50px;
-      object-fit: contain;
-      display: block; margin: 0 auto 10px;
-    }
-    header h1 { font-size: 22px; font-weight: 800; letter-spacing: .02em; }
-    header p  { font-size: 12px; color: var(--oro-lt); margin-top: 4px; letter-spacing: .08em; }
+/* PILOT BANNER */
+.pilot-banner{background:#FFF3CD;border:1px solid #E8C45A;border-radius:8px;
+  padding:12px 16px;font-size:13px;color:#7A5700;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start}
+.pilot-banner svg{flex-shrink:0;margin-top:1px}
 
-    /* ── SECCIÓN LABEL ── */
-    .section-label {
-      width: 100%; max-width: 1100px;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 14px;
-      padding-left: 2px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1; height: 1px;
-      background: #e5e7eb;
-    }
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px}
+.kpi{background:var(--card);border-radius:var(--r);padding:16px 20px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.kpi .val{font-size:32px;font-weight:800;color:var(--azul);font-variant-numeric:tabular-nums;line-height:1}
+.kpi .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.kpi .sub-val{font-size:13px;color:var(--txt2);margin-top:2px;font-weight:500}
 
-    /* ── GRID DE REPORTES ── */
-    .grid {
-      width: 100%; max-width: 1100px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-      margin-bottom: 36px;
-    }
-    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+/* SECTION */
+.section{margin-bottom:32px}
+.section-head{margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px}
+.section-num{width:28px;height:28px;border-radius:50%;background:var(--azul);color:#fff;font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-    /* ── REPORT CARD ── */
-    .rcard {
-      background: var(--card-bg);
-      border-radius: 18px;
-      padding: 22px 20px 20px;
-      box-shadow: 0 2px 14px rgba(0,0,0,.08);
-      display: flex; flex-direction: column; gap: 14px;
-      border-top: 4px solid var(--oro);
-      position: relative;
-      overflow: hidden;
-    }
-    .rcard::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(172,124,63,.04) 0%, transparent 60%);
-      pointer-events: none;
-    }
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:700px){.g2,.g3{grid-template-columns:1fr}}
 
-    /* color top personalizable */
-    .rcard[data-color="azul"]  { border-top-color: var(--azul); }
-    .rcard[data-color="oro"]   { border-top-color: var(--oro); }
-    .rcard[data-color="verde"] { border-top-color: #16a34a; }
-    .rcard[data-color="morado"]{ border-top-color: #7c3aed; }
-    .rcard[data-color="rojo"]  { border-top-color: #dc2626; }
-    .rcard[data-color="celeste"]{ border-top-color: #0891b2; }
+/* CARD */
+.card{background:var(--card);border-radius:var(--r);padding:20px 22px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card.full{margin-bottom:16px}
+.chart-wrap{position:relative;width:100%;min-height:180px}
+.chart-wrap canvas{display:block}
+.chart-note{font-size:12px;color:var(--muted);margin-bottom:12px;font-style:italic}
 
-    .rcard-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      background: #f8f9fa;
-      flex-shrink: 0;
-    }
+/* TABLE */
+.tbl-small{width:100%;border-collapse:collapse;font-size:12px;margin-top:14px}
+.tbl-small th{background:var(--bg);padding:6px 10px;text-align:left;font-weight:600;color:var(--txt2);
+  font-size:11px;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--border)}
+.tbl-small td{padding:6px 10px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+.tbl-small tr:last-child td{border-bottom:none}
+.tbl-small .hl{font-weight:700;color:var(--azul)}
 
-    .rcard-header {
-      display: flex; align-items: center; gap: 12px;
-    }
+/* TAG LIST (P4 problemas) */
+.tag-list{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0}
+.tag{background:var(--bg);border-radius:20px;padding:5px 12px;font-size:13px;color:var(--txt2)}
+.tag .n{font-weight:700;color:var(--azul);margin-right:4px}
 
-    .rcard-titulo { font-size: 14px; font-weight: 800; color: var(--azul); line-height: 1.2; }
-    .rcard-subtitulo { font-size: 11px; color: var(--muted); margin-top: 2px; }
+/* P14 attr table */
+.attr-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.attr-tbl th{padding:6px 8px;text-align:left;font-weight:600;font-size:11px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--border)}
+.attr-tbl td{padding:8px 8px;border-bottom:1px solid var(--border)}
+.attr-tbl tr:last-child td{border-bottom:none}
+.attr-badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;
+  background:var(--bg);color:var(--txt)}
+.attr-badge.c08{background:rgba(176,127,58,.12);color:#7A5200}
 
-    .rcard-stats {
-      display: flex; gap: 10px;
-    }
-    .stat-mini {
-      flex: 1;
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 10px 12px;
-      text-align: center;
-    }
-    .stat-mini-num { font-size: 26px; font-weight: 900; color: var(--azul); line-height: 1; }
-    .stat-mini-lbl { font-size: 9px; color: var(--muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
+/* LOADING */
+#loading{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px}
+.spin{display:inline-block;width:28px;height:28px;border:3px solid var(--border);
+  border-top-color:var(--azul);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    .rcard-status {
-      font-size: 11px; color: var(--muted);
-      text-align: center; min-height: 14px;
-    }
-
-    .btn-dl {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; padding: 12px 16px;
-      background: linear-gradient(135deg, var(--azul) 0%, var(--azul-lt) 100%);
-      color: #fff; border: none; border-radius: 12px;
-      font-size: 13px; font-weight: 800;
-      cursor: pointer; letter-spacing: .03em;
-      box-shadow: 0 3px 12px rgba(33,36,61,0.20);
-      transition: opacity .2s, transform .1s;
-    }
-    .btn-dl:hover   { opacity: .88; }
-    .btn-dl:active  { transform: scale(.97); }
-    .btn-dl:disabled{ opacity: .45; cursor: not-allowed; }
-    .xl-ico {
-      width: 20px; height: 20px;
-      background: #1d6f42; border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 9px; font-weight: 900; color: #fff; flex-shrink: 0;
-    }
-
-    footer {
-      margin-top: 16px;
-      font-size: 11px; color: #bbb; text-align: center;
-    }
-  </style>
+/* FOOTER */
+footer{margin-top:40px;text-align:center;font-size:11px;color:var(--muted);padding-top:16px;border-top:1px solid var(--border)}
+</style>
 </head>
 <body>
+<div class="wrap">
 
-<header>
-  <img src="/tierra/logo_j.svg" alt="Javier" onerror="this.style.display='none'" />
-  <h1>Centro de Reportes</h1>
-  <p>JAVIER ALTAMIRANO · CAMPAÑA ALCALDÍA AMBATO 2026</p>
-</header>
+  <!-- HEADER -->
+  <header class="hdr">
+    <h1>Reporte Electoral — Alcaldía de Ambato 2027–2031</h1>
+    <div class="sub">Análisis de encuesta CAPI de campo</div>
+    <div class="meta">
+      <span><strong id="h-n">—</strong> entrevistas válidas</span>
+      <span><strong id="h-date">—</strong> fecha más reciente</span>
+      <span><strong id="h-parr">—</strong> parroquias cubiertas</span>
+      <span><strong id="h-ver">—</strong> versiones activas</span>
+    </div>
+  </header>
 
-<div class="section-label">Reportes disponibles</div>
+  <!-- PILOT BANNER -->
+  <div class="pilot-banner">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L14.5 13H1.5L8 1.5Z" stroke="#7A5700" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6V9" stroke="#7A5700" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r=".75" fill="#7A5700"/></svg>
+    <span><strong>Muestra piloto.</strong> Con menos de 30 casos el margen de error estadístico no es calculable. Los resultados son <strong>orientativos</strong> para ajuste de estrategia, no proyectables al universo electoral.</span>
+  </div>
 
-<div class="grid" id="grid">
-  <!-- Las cards se insertan por JS para facilitar agregar más -->
-</div>
+  <!-- LOADING -->
+  <div id="loading"><div class="spin"></div><br>Cargando datos desde Supabase…</div>
 
-<footer>javieraltamirano.org · Campaña Alcaldía Ambato 2026</footer>
+  <!-- REPORT -->
+  <div id="report" style="display:none">
 
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <!-- KPI ROW -->
+    <div class="kpi-row">
+      <div class="kpi"><div class="val" id="kpi-total">—</div><div class="lbl">Total registros</div></div>
+      <div class="kpi"><div class="val" id="kpi-valid">—</div><div class="lbl">Entrevistas válidas</div><div class="sub-val" id="kpi-valid-pct"></div></div>
+      <div class="kpi"><div class="val" id="kpi-urb">—</div><div class="lbl">Área urbana</div></div>
+      <div class="kpi"><div class="val" id="kpi-rur">—</div><div class="lbl">Área rural</div></div>
+      <div class="kpi"><div class="val" id="kpi-vers">—</div><div class="lbl">Versiones usadas</div><div class="sub-val" id="kpi-vers-list" style="font-size:11px"></div></div>
+    </div>
+
+    <!-- ═══ SECCIÓN 1: ALCALDÍA ═══ -->
+    <div class="section">
+      <div class="section-head"><div class="section-num">1</div><h2>Intención de Voto — Alcaldía de Ambato</h2></div>
+
+      <!-- P6 -->
+      <div class="card full">
+        <h3>P6 · Intención de voto estimulada</h3>
+        <p class="chart-note">Pregunta estimulada: se muestra la lista de 8 candidaturas. Excluye "NS", "NR" y blanco/nulo del denominador.</p>
+        <div class="chart-wrap"><canvas id="ch-p6" height="260"></canvas></div>
+        <div id="tbl-p6"></div>
+      </div>
+
+      <!-- P5 + P7 -->
+      <div class="g2">
+        <div class="card">
+          <h3>P5 · Mención espontánea (respuesta abierta)</h3>
+          <p class="chart-note">Sin leer lista. Se normalizan nombres mencionados.</p>
+          <div class="chart-wrap"><canvas id="ch-p5" height="200"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P7 · Firmeza del voto (votantes de Altamirano)</h3>
+          <p class="chart-note">Solo quienes eligieron C08 en P6.</p>
+          <div class="chart-wrap"><canvas id="ch-p7" height="200"></canvas></div>
+          <div id="p7-empty" style="display:none;font-size:13px;color:var(--muted);padding:20px 0;text-align:center">Sin datos suficientes</div>
+        </div>
+      </div>
+
+      <!-- P8 + P9 -->
+      <div class="g2">
+        <div class="card">
+          <h3>P8 · Segunda opción de candidatura</h3>
+          <div class="chart-wrap"><canvas id="ch-p8" height="200"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P9 · Rechazo de candidatura (hasta 2 menciones)</h3>
+          <div class="chart-wrap"><canvas id="ch-p9" height="200"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECCIÓN 2: IMAGEN ═══ -->
+    <div class="section">
+      <div class="section-head"><div class="section-num">2</div><h2>Conocimiento, Imagen y Consideración</h2></div>
+
+      <!-- P10 stacked -->
+      <div class="card full">
+        <h3>P10 · Nivel de conocimiento por candidatura</h3>
+        <p class="chart-note">Stacked = proporción de la muestra que conoce cada candidatura (%). Más oscuro = más conocimiento.</p>
+        <div class="chart-wrap"><canvas id="ch-p10" height="280"></canvas></div>
+      </div>
+
+      <!-- P11 + P12 -->
+      <div class="g2">
+        <div class="card">
+          <h3>P11 · Imagen neta (%fav − %desfav)</h3>
+          <p class="chart-note">Barra positiva (verde) = favorabilidad neta. Solo candidatos conocidos.</p>
+          <div class="chart-wrap"><canvas id="ch-p11" height="230"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P12 · Consideración de voto (% Sí + Tal vez)</h3>
+          <div class="chart-wrap"><canvas id="ch-p12" height="230"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECCIÓN 3: AGENDA ═══ -->
+    <div class="section">
+      <div class="section-head"><div class="section-num">3</div><h2>Agenda Pública y Atributos</h2></div>
+      <div class="g2">
+        <div class="card">
+          <h3>P3 · Rumbo del cantón Ambato</h3>
+          <div class="chart-wrap"><canvas id="ch-p3" height="220"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P4 · Principal problema mencionado (abierta)</h3>
+          <div id="p4-list"><p style="color:var(--muted);font-size:13px;padding:12px 0">Sin respuestas aún.</p></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <h3>P13 · Atributo más importante en un Alcalde</h3>
+          <div class="chart-wrap"><canvas id="ch-p13" height="220"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P14 · ¿Qué candidato asocia a cada atributo?</h3>
+          <div id="p14-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECCIÓN 4: CAMPAÑA Y MEDIOS ═══ -->
+    <div class="section">
+      <div class="section-head"><div class="section-num">4</div><h2>Campaña y Medios de Comunicación</h2></div>
+      <div class="g2">
+        <div class="card">
+          <h3>P15 · Candidaturas vistas / escuchadas (últimas 2 semanas)</h3>
+          <div class="chart-wrap"><canvas id="ch-p15" height="230"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P16 · Principales fuentes de información (hasta 2)</h3>
+          <div class="chart-wrap"><canvas id="ch-p16" height="230"></canvas></div>
+        </div>
+      </div>
+      <div style="max-width:480px">
+        <div class="card">
+          <h3>P17 · Momento de decisión del voto</h3>
+          <div class="chart-wrap"><canvas id="ch-p17" height="200"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECCIÓN 5: PREFECTURA ═══ -->
+    <div class="section">
+      <div class="section-head"><div class="section-num">5</div><h2>Prefectura de Tungurahua</h2></div>
+
+      <div class="card full">
+        <h3>P18 · Intención de voto — Prefectura</h3>
+        <div class="chart-wrap"><canvas id="ch-p18" height="260"></canvas></div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <h3>P19 · Segunda opción — Prefectura</h3>
+          <div class="chart-wrap"><canvas id="ch-p19" height="220"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P20 · Rechazo — Prefectura (hasta 2)</h3>
+          <div class="chart-wrap"><canvas id="ch-p20" height="220"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SECCIÓN 6: PERFIL ═══ -->
+    <div class="section">
+      <div class="section-head"><div class="section-num">6</div><h2>Perfil del Encuestado</h2></div>
+      <div class="g3">
+        <div class="card">
+          <h3>P21 · Sexo</h3>
+          <div class="chart-wrap"><canvas id="ch-p21" height="200"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P22 · Grupo etario</h3>
+          <div class="chart-wrap"><canvas id="ch-p22" height="200"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>Área urbana / rural</h3>
+          <div class="chart-wrap"><canvas id="ch-area" height="200"></canvas></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <h3>P23 · Nivel educativo</h3>
+          <div class="chart-wrap"><canvas id="ch-p23" height="200"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>P24 · Actividad principal</h3>
+          <div class="chart-wrap"><canvas id="ch-p24" height="200"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /report -->
+
+  <footer>Reporte generado automáticamente · Datos: Supabase encuesta_25 · HERSA Ambato 2027</footer>
+</div><!-- /wrap -->
+
 <script>
-  const SB_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co'
-  const SB_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf'
+const SB_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co';
+const SB_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf';
 
-  /* ─────────────────────────────────────────────────────────────
-   *  DEFINICIÓN DE REPORTES
-   *  Para agregar uno nuevo: copiar un objeto y ajustar sus campos.
-   * ──────────────────────────────────────────────────────────── */
-  const REPORTES = [
-    {
-      id:       'region5',
-      titulo:   'Javier en Tu Casa',
-      subtitulo:'Todas las parroquias',
-      tabla:    'region_5',
-      icono:    '🏘️',
-      color:    'azul',
-      hoy:      true,          // mostrar stat "Hoy"
-      columnas: r => ({
-        'Numero':            '___i___',
-        'Nombre':            r.nombre    || '',
-        'WhatsApp':          r.whatsapp  || '',
-        'Parroquia':         r.parroquia || '',
-        'Javier te escucha': r.necesidad || '',
-        'Creado en':         r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
-      }),
-      anchos: [8, 30, 16, 28, 50, 22],
-      hoja:  'Región 5',
-      archivo: i => `javier_en_tu_casa_region5_${fecha()}.xlsx`,
+const MAYOR = {
+  C01:'Evelyn Salazar',   C02:'Cristian Zúñiga',   C03:'Luis Amoroso',
+  C04:'Mario Robayo',     C05:'Diana Caiza',         C06:'Lisette Naranjo',
+  C07:'Juan Carlos López',C08:'Javier Altamirano'
+};
+const MAYOR_IDS = Object.keys(MAYOR);
+
+const PREF = {
+  T01:'Telmo Punina',   T02:'Danilo Ortiz',    T03:'Jaime Astudillo',
+  T04:'Fernando Gavilanez', T05:'Lenin Manotoa', T06:'Alejandro Lara',
+  T07:'David Martínez', T08:'Amable Chaluis'
+};
+const PREF_IDS = Object.keys(PREF);
+
+// Short labels for charts (max ~18 chars)
+const MAYOR_SHORT = {
+  C01:'E. Salazar',     C02:'C. Zúñiga',    C03:'L. Amoroso',
+  C04:'M. Robayo',      C05:'D. Caiza',     C06:'L. Naranjo',
+  C07:'J.C. López',     C08:'J. Altamirano'
+};
+const PREF_SHORT = {
+  T01:'T. Punina',    T02:'D. Ortiz',     T03:'J. Astudillo',
+  T04:'F. Gavilanez', T05:'L. Manotoa',   T06:'A. Lara',
+  T07:'D. Martínez',  T08:'A. Chaluis'
+};
+
+const ORO  = '#B07F3A';
+const AZUL = '#21243D';
+const GRAY = '#8B96A3';
+const POS  = '#16A065';
+const NEG  = '#C53030';
+const BORDER_LIGHT = '#E5E7EB';
+
+// Validated 4-color palette (categorical, light mode)
+const C4 = ['#2a78d6','#eb6834','#1baf7a','#eda100'];
+// Ordinal sequential blue (P10 knowledge, 4 levels, light→dark)
+const KNOW_COLORS = ['#2a78d6','#5A9AE0','#93BDE8','#C8DCEF'];
+
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#4B5563';
+Chart.defaults.plugins.legend.position = 'bottom';
+
+// ─── helpers ───────────────────────────────────────────────
+function pct(n,d){return d>0?Math.round(n/d*100):0}
+function fmt(n,d){return `${pct(n,d)}% (${n}/${d})`}
+
+function countSingle(rows, key, codes){
+  const c={};
+  codes.forEach(k=>c[k]=0);
+  rows.forEach(r=>{const v=r.answers[key];if(v&&c[v]!==undefined)c[v]++;});
+  return c;
+}
+function countMulti(rows, key, codes){
+  const c={};
+  codes.forEach(k=>c[k]=0);
+  rows.forEach(r=>{
+    const arr=r.answers[key];
+    if(Array.isArray(arr))arr.forEach(v=>{if(c[v]!==undefined)c[v]++;});
+  });
+  return c;
+}
+function countMatrix(rows, key, rowCodes, valCodes){
+  // returns {rowCode:{valCode:count}}
+  const c={};
+  rowCodes.forEach(r=>{c[r]={};valCodes.forEach(v=>c[r][v]=0);});
+  rows.forEach(row=>{
+    const m=row.answers[key];
+    if(!m||typeof m!=='object')return;
+    rowCodes.forEach(r=>{const v=m[r];if(v&&c[r][v]!==undefined)c[r][v]++;});
+  });
+  return c;
+}
+function countAttrMatrix(rows, key, attrCodes){
+  // P14: {attrCode: {candidateCode: count}}
+  const c={};
+  attrCodes.forEach(a=>{c[a]={};});
+  rows.forEach(row=>{
+    const m=row.answers[key];
+    if(!m||typeof m!=='object')return;
+    attrCodes.forEach(a=>{const v=m[a];if(v){c[a][v]=(c[a][v]||0)+1;}});
+  });
+  return c;
+}
+
+// ─── chart factories ───────────────────────────────────────
+function hBar(id, labels, data, colors, opts={}){
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  const N=data.reduce((s,v)=>s+v,0);
+  return new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        data,
+        backgroundColor:colors,
+        borderRadius:{topRight:4,bottomRight:4,topLeft:0,bottomLeft:0},
+        borderSkipped:'start',
+        barThickness: opts.thick||22,
+      }]
     },
-    {
-      id:       'candidatos',
-      titulo:   'Capacitación Candidatos/Simpatizantes',
-      subtitulo:'Javier en tu casa ',
-      tabla:    'candidatos',
-      icono:    '⭐',
-      color:    'oro',
-      hoy:      false,
-      columnas: r => ({
-        'Numero':    '___i___',
-        'Nombre':    r.nombre    || '',
-        'Cargo':     r.cargo     || '',
-        'Parroquia': r.parroquia || '',
-        'Celular':   r.celular   || '',
-        'Creado en': r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
-      }),
-      anchos: [8, 34, 30, 26, 18, 22],
-      hoja:  'Candidatos',
-      archivo: i => `candidatos_altamirano_${fecha()}.xlsx`,
-    },
-    /* ── PRÓXIMOS REPORTES ─ descomentar y personalizar ──────────
-    {
-      id:       'region1',
-      titulo:   'Región 1',
-      subtitulo:'Rural · Cunchibamba, Izamba, etc.',
-      tabla:    'region_1',
-      icono:    '🌿',
-      color:    'verde',
-      hoy:      true,
-      columnas: r => ({
-        'Numero':    '___i___',
-        'Nombre':    r.nombre    || '',
-        'WhatsApp':  r.whatsapp  || '',
-        'Parroquia': r.parroquia || '',
-        'Creado en': r.creado_en ? new Date(r.creado_en).toLocaleString('es-EC') : '',
-      }),
-      anchos: [8, 30, 16, 28, 22],
-      hoja:  'Región 1',
-      archivo: i => `region1_${fecha()}.xlsx`,
-    },
-    ── */
-  ]
-
-  /* ─────────────────────────────────────────────────────────────
-   *  UTILIDADES
-   * ──────────────────────────────────────────────────────────── */
-  function fecha() { return new Date().toISOString().slice(0, 10) }
-
-  function headers() {
-    return { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
-  }
-
-  /* ─────────────────────────────────────────────────────────────
-   *  RENDER INICIAL
-   * ──────────────────────────────────────────────────────────── */
-  function init() {
-    const grid = document.getElementById('grid')
-    grid.innerHTML = REPORTES.map(r => cardHTML(r)).join('')
-    REPORTES.forEach(r => cargar(r))
-  }
-
-  function cardHTML(r) {
-    return `
-      <div class="rcard" data-color="${r.color}" id="card-${r.id}">
-        <div class="rcard-header">
-          <div class="rcard-icon">${r.icono}</div>
-          <div>
-            <div class="rcard-titulo">${r.titulo}</div>
-            <div class="rcard-subtitulo">${r.subtitulo}</div>
-          </div>
-        </div>
-        <div class="rcard-stats" id="stats-${r.id}">
-          <div class="stat-mini">
-            <div class="stat-mini-num" id="total-${r.id}">—</div>
-            <div class="stat-mini-lbl">Total</div>
-          </div>
-          ${r.hoy ? `<div class="stat-mini">
-            <div class="stat-mini-num" id="hoy-${r.id}">—</div>
-            <div class="stat-mini-lbl">Hoy</div>
-          </div>` : ''}
-        </div>
-        <div class="rcard-status" id="status-${r.id}">Cargando...</div>
-        <button class="btn-dl" id="btn-${r.id}" onclick="descargar('${r.id}')" disabled>
-          <span class="xl-ico">XL</span>
-          Descargar Excel
-        </button>
-      </div>`
-  }
-
-  /* ─────────────────────────────────────────────────────────────
-   *  CARGA DE DATOS
-   * ──────────────────────────────────────────────────────────── */
-  const datos = {}
-
-  async function cargar(r) {
-    try {
-      const res = await fetch(
-        `${SB_URL}/rest/v1/${r.tabla}?select=*&order=id.asc&limit=10000`,
-        { headers: headers() }
-      )
-      const lista = await res.json()
-      datos[r.id] = lista
-
-      document.getElementById(`total-${r.id}`).textContent = lista.length
-
-      if (r.hoy) {
-        const hoy = new Date().toDateString()
-        const n = lista.filter(x => new Date(x.creado_en).toDateString() === hoy).length
-        document.getElementById(`hoy-${r.id}`).textContent = n
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      layout:{padding:{right:50}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:(ctx)=>`${ctx.parsed.x} de ${opts.denom||N} encuestados (${pct(ctx.parsed.x,opts.denom||N)}%)`
+          }
+        }
+      },
+      scales:{
+        x:{display:false,max:(opts.denom||N)*1.15},
+        y:{grid:{display:false},border:{display:false},ticks:{font:{size:12}}}
       }
+    },
+    plugins:[{
+      id:'bar-labels',
+      afterDatasetsDraw(chart){
+        const {ctx:c,data}=chart;
+        c.save();
+        data.datasets[0].data.forEach((val,i)=>{
+          const bar=chart.getDatasetMeta(0).data[i];
+          const d=opts.denom||N;
+          const pv=pct(val,d);
+          c.fillStyle='#111827';
+          c.font='600 12px -apple-system,sans-serif';
+          c.textAlign='left';
+          c.textBaseline='middle';
+          if(val>0)c.fillText(`${pv}%  (${val})`,bar.x+6,bar.y);
+        });
+        c.restore();
+      }
+    }]
+  });
+}
 
-      document.getElementById(`status-${r.id}`).textContent = `${lista.length} registros listos`
-      document.getElementById(`btn-${r.id}`).disabled = false
-    } catch {
-      document.getElementById(`status-${r.id}`).textContent = 'Error al cargar'
+function donut(id, labels, data, colors, opts={}){
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  return new Chart(ctx,{
+    type:'doughnut',
+    data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:4}]},
+    options:{
+      cutout:'55%',
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:12,font:{size:11},padding:12}},
+        tooltip:{callbacks:{label:(ctx)=>`${ctx.label}: ${ctx.parsed} (${pct(ctx.parsed,data.reduce((s,v)=>s+v,0))}%)`}}
+      }
     }
+  });
+}
+
+function divergingHBar(id, labels, vals){
+  // vals: array of numbers (positive = good, negative = bad)
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  const colors=vals.map(v=>v>=0?POS:NEG);
+  return new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        data:vals,
+        backgroundColor:colors,
+        borderRadius:4,
+        barThickness:18,
+        borderSkipped:false,
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      layout:{padding:{left:50,right:50}},
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:(ctx)=>`Imagen neta: ${ctx.parsed.x>0?'+':''}${ctx.parsed.x} pp`}}
+      },
+      scales:{
+        x:{
+          grid:{color:'rgba(0,0,0,.07)',drawBorder:false},
+          border:{display:false},
+          ticks:{callback:v=>v>0?`+${v}%`:`${v}%`,font:{size:11}}
+        },
+        y:{grid:{display:false},border:{display:false},ticks:{font:{size:12}}}
+      }
+    },
+    plugins:[{
+      id:'div-labels',
+      afterDatasetsDraw(chart){
+        const {ctx:c}=chart;
+        c.save();
+        vals.forEach((val,i)=>{
+          const bar=chart.getDatasetMeta(0).data[i];
+          c.fillStyle=val>=0?POS:NEG;
+          c.font='600 11px -apple-system,sans-serif';
+          if(val>=0){c.textAlign='left';c.fillText(`+${val}pp`,bar.x+4,bar.y);}
+          else{c.textAlign='right';c.fillText(`${val}pp`,bar.x-4,bar.y);}
+        });
+        c.restore();
+      }
+    }]
+  });
+}
+
+function stackedHBar(id, labels, datasets, opts={}){
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  return new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets},
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:false,
+      layout:{padding:{right:10}},
+      plugins:{
+        legend:{position:'top',labels:{boxWidth:12,font:{size:11},padding:10}},
+        tooltip:{callbacks:{
+          label:(ctx)=>`${ctx.dataset.label}: ${ctx.parsed.x} (${pct(ctx.parsed.x,opts.total||10)}%)`
+        }}
+      },
+      scales:{
+        x:{stacked:true,display:false},
+        y:{stacked:true,grid:{display:false},border:{display:false},ticks:{font:{size:12}}}
+      }
+    }
+  });
+}
+
+// ─── normalize P5 open text ───────────────────────────────
+const MAYOR_ALIASES = {
+  'altamirano':  'C08','javier':     'C08','javieralt':  'C08',
+  'amoroso':     'C03','luis':       'C03',
+  'robayo':      'C04','mario':      'C04',
+  'zuniga':      'C02','zúñiga':     'C02','cristian':   'C02',
+  'salazar':     'C01','evelyn':     'C01',
+  'caiza':       'C05','diana':      'C05',
+  'naranjo':     'C06','lisette':    'C06',
+  'lopez':       'C07','lópez':      'C07','juan carlos':'C07',
+};
+function normalizeP5(txt){
+  if(!txt||!txt.trim())return null;
+  const low=txt.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  for(const [k,v] of Object.entries(MAYOR_ALIASES)){
+    if(low.includes(k))return v;
+  }
+  if(/(ninguno|blanco|nulo|no sabe|ns|nr)/i.test(low))return '__ninguno__';
+  return '__otro__:'+txt.trim();
+}
+
+// ─── main ──────────────────────────────────────────────────
+async function fetchRows(){
+  const url=`${SB_URL}/rest/v1/survey_responses_25?select=*&order=completed_at.asc`;
+  const r=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}
+
+async function render(){
+  let rows;
+  try{rows=await fetchRows();}
+  catch(e){
+    document.getElementById('loading').innerHTML=
+      `<p style="color:#C53030;font-size:13px">Error al cargar datos: ${e.message}</p>`;
+    return;
   }
 
-  /* ─────────────────────────────────────────────────────────────
-   *  DESCARGA EXCEL
-   * ──────────────────────────────────────────────────────────── */
-  function descargar(id) {
-    const r    = REPORTES.find(x => x.id === id)
-    const lista = datos[id] || []
-    if (!lista.length) return
+  // Filter valid (have at least 6 answer keys)
+  const valid=rows.filter(r=>r.answers&&Object.keys(r.answers).length>=6);
+  const N=valid.length;
 
-    const btn = document.getElementById(`btn-${id}`)
-    btn.disabled = true
-    btn.innerHTML = '<span class="xl-ico">XL</span> Generando...'
+  document.getElementById('loading').style.display='none';
+  document.getElementById('report').style.display='';
 
-    const filas = lista.map((row, i) => {
-      const obj = r.columnas(row)
-      // reemplazar marcador de posición con número secuencial
-      Object.keys(obj).forEach(k => { if (obj[k] === '___i___') obj[k] = i + 1 })
-      return obj
-    })
+  // ── HEADER META ──────────────────────────
+  document.getElementById('h-n').textContent=N;
+  const dates=valid.map(r=>r.completed_at).filter(Boolean).sort();
+  if(dates.length){
+    const last=new Date(dates[dates.length-1]);
+    document.getElementById('h-date').textContent=last.toLocaleDateString('es-EC',{day:'2-digit',month:'short',year:'numeric'});
+  }
+  const parrs=[...new Set(valid.map(r=>r.parroquia).filter(Boolean))];
+  document.getElementById('h-parr').textContent=parrs.length;
+  const versSet=[...new Set(valid.map(r=>r.survey_version).filter(Boolean))].sort();
+  document.getElementById('h-ver').textContent=versSet.length;
 
-    const ws = XLSX.utils.json_to_sheet(filas)
-    ws['!cols'] = r.anchos.map(w => ({ wch: w }))
+  // ── KPI ──────────────────────────────────
+  document.getElementById('kpi-total').textContent=rows.length;
+  document.getElementById('kpi-valid').textContent=N;
+  document.getElementById('kpi-valid-pct').textContent=`${pct(N,rows.length)}% del total`;
+  const urb=valid.filter(r=>r.area==='Urbana').length;
+  const rur=valid.filter(r=>r.area==='Rural').length;
+  document.getElementById('kpi-urb').textContent=urb;
+  document.getElementById('kpi-rur').textContent=rur;
+  document.getElementById('kpi-vers').textContent=versSet.length;
+  document.getElementById('kpi-vers-list').textContent=versSet.join(' · ');
 
-    const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, r.hoja)
-    XLSX.writeFile(wb, r.archivo(id))
+  // ─────────────────────────────────────────
+  // P6 — Intención estimulada
+  // ─────────────────────────────────────────
+  const p6raw=countSingle(valid,'P6',[...MAYOR_IDS,'91','92','93','98','99']);
+  const p6denom=MAYOR_IDS.reduce((s,k)=>s+p6raw[k],0)+(p6raw['91']||0)+(p6raw['92']||0)+(p6raw['93']||0);
+  const p6labels=MAYOR_IDS.map(k=>MAYOR_SHORT[k]);
+  const p6data=MAYOR_IDS.map(k=>p6raw[k]);
+  const p6colors=MAYOR_IDS.map(k=>k==='C08'?ORO:GRAY);
+  const sorted6=MAYOR_IDS.map((k,i)=>({k,v:p6raw[k],i})).sort((a,b)=>b.v-a.v);
+  hBar('ch-p6',
+    sorted6.map(x=>MAYOR_SHORT[x.k]),
+    sorted6.map(x=>x.v),
+    sorted6.map(x=>x.k==='C08'?ORO:GRAY),
+    {denom:p6denom,thick:26}
+  );
+  // Table P6
+  const t6=document.getElementById('tbl-p6');
+  t6.innerHTML=`<table class="tbl-small"><thead><tr><th>#</th><th>Candidatura</th><th>Votos</th><th>%</th></tr></thead><tbody>
+    ${sorted6.map((x,i)=>`<tr class="${x.k==='C08'?'hl':''}"><td>${i+1}</td><td>${MAYOR[x.k]}</td><td>${x.v}</td><td>${pct(x.v,p6denom)}%</td></tr>`).join('')}
+    ${p6raw['93']>0?`<tr><td>—</td><td>Ninguno</td><td>${p6raw['93']}</td><td>${pct(p6raw['93'],p6denom)}%</td></tr>`:''}
+    ${p6raw['91']>0?`<tr><td>—</td><td>Voto en blanco</td><td>${p6raw['91']}</td><td>${pct(p6raw['91'],p6denom)}%</td></tr>`:''}
+    ${p6raw['98']>0?`<tr><td>—</td><td>No decide (NS)</td><td>${p6raw['98']}</td><td>—</td></tr>`:''}
+    <tr style="font-weight:700"><td></td><td>Total base</td><td>${p6denom}</td><td>100%</td></tr>
+  </tbody></table>`;
 
-    btn.disabled = false
-    btn.innerHTML = '<span class="xl-ico">XL</span> Descargar Excel'
+  // ─────────────────────────────────────────
+  // P5 — Espontánea
+  // ─────────────────────────────────────────
+  const p5count={};
+  valid.forEach(r=>{
+    const c=normalizeP5(r.answers.P5||'');
+    if(c)p5count[c]=(p5count[c]||0)+1;
+  });
+  const p5cand=MAYOR_IDS.filter(k=>p5count[k]);
+  const p5ninguno=p5count['__ninguno__']||0;
+  const p5otro=Object.entries(p5count).filter(([k])=>k.startsWith('__otro__')).reduce((s,[,v])=>s+v,0);
+  const p5labels=[...p5cand.map(k=>MAYOR_SHORT[k])];
+  const p5data=[...p5cand.map(k=>p5count[k])];
+  if(p5ninguno){p5labels.push('Ninguno / Blanco');p5data.push(p5ninguno);}
+  if(p5otro){p5labels.push('Otro / No identificado');p5data.push(p5otro);}
+  const p5colors=p5cand.map(k=>k==='C08'?ORO:GRAY);
+  if(p5ninguno)p5colors.push('#D1D5DB');
+  if(p5otro)p5colors.push('#D1D5DB');
+  hBar('ch-p5',p5labels,p5data,p5colors,{denom:valid.filter(r=>r.answers.P5).length,thick:20});
+
+  // ─────────────────────────────────────────
+  // P7 — Firmeza
+  // ─────────────────────────────────────────
+  const c08voters=valid.filter(r=>r.answers.P6==='C08');
+  const p7count=countSingle(c08voters,'P7',['1','2','3','4']);
+  const p7labels=['Totalmente seguro/a','Bastante seguro/a','Podría cambiar','Apenas considerando'];
+  const p7vals=[p7count['1'],p7count['2'],p7count['3'],p7count['4']];
+  if(c08voters.length>0){
+    donut('ch-p7',p7labels,p7vals,[ORO,'#D4A86A','#eb6834','#C53030']);
+  } else {
+    document.querySelector('#ch-p7').style.display='none';
+    document.getElementById('p7-empty').style.display='';
   }
 
-  init()
+  // ─────────────────────────────────────────
+  // P8 — Segunda opción
+  // ─────────────────────────────────────────
+  const p8raw=countSingle(valid,'P8',[...MAYOR_IDS,'91','92','93','98','99']);
+  const p8denom=MAYOR_IDS.reduce((s,k)=>s+p8raw[k],0);
+  const sort8=MAYOR_IDS.map(k=>({k,v:p8raw[k]})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  hBar('ch-p8',sort8.map(x=>MAYOR_SHORT[x.k]),sort8.map(x=>x.v),
+    sort8.map(x=>x.k==='C08'?ORO:GRAY),{denom:N,thick:20});
+
+  // ─────────────────────────────────────────
+  // P9 — Rechazo
+  // ─────────────────────────────────────────
+  const p9raw=countMulti(valid,'P9',[...MAYOR_IDS,'93','98','99']);
+  const sort9=MAYOR_IDS.map(k=>({k,v:p9raw[k]})).sort((a,b)=>b.v-a.v);
+  const p9colors=sort9.map(x=>{
+    const r=pct(x.v,N);
+    return r>=40?NEG:r>=20?'#E8600A':GRAY;
+  });
+  hBar('ch-p9',sort9.map(x=>MAYOR_SHORT[x.k]),sort9.map(x=>x.v),
+    sort9.map(x=>x.k==='C08'?'#4A5568':GRAY),{denom:N,thick:20});
+
+  // ─────────────────────────────────────────
+  // P10 — Conocimiento (stacked)
+  // ─────────────────────────────────────────
+  const p10=countMatrix(valid,'P10',MAYOR_IDS,['1','2','3','4','98','99']);
+  // Sort by % known (1+2+3)
+  const sortedByKnow=MAYOR_IDS.map(k=>({k,know:p10[k]['1']+p10[k]['2']+p10[k]['3']}))
+    .sort((a,b)=>b.know-a.know);
+  const p10labels=sortedByKnow.map(x=>MAYOR_SHORT[x.k]);
+  const knowledgeLevels=[
+    {val:'1',label:'Bastante',color:KNOW_COLORS[0]},
+    {val:'2',label:'Algo',   color:KNOW_COLORS[1]},
+    {val:'3',label:'Solo el nombre',color:KNOW_COLORS[2]},
+    {val:'4',label:'No conocía',color:KNOW_COLORS[3]},
+  ];
+  stackedHBar('ch-p10',p10labels,
+    knowledgeLevels.map(lv=>({
+      label:lv.label,
+      data:sortedByKnow.map(x=>p10[x.k][lv.val]),
+      backgroundColor:lv.color,
+      borderWidth:2,
+      borderColor:'#F0F2F5',
+    })),{total:N}
+  );
+
+  // ─────────────────────────────────────────
+  // P11 — Imagen neta
+  // ─────────────────────────────────────────
+  const p11=countMatrix(valid,'P11',MAYOR_IDS,['1','2','3','4','5','98','99']);
+  const p11nets=MAYOR_IDS.map(k=>{
+    let pos=0,neg=0,tot=0;
+    Object.entries(p11[k]).forEach(([v,c])=>{
+      if(['98','99'].includes(v))return;
+      tot+=c;
+      if(['1','2'].includes(v))pos+=c;
+      if(['4','5'].includes(v))neg+=c;
+    });
+    if(!tot)return{k,net:null};
+    return{k,net:pct(pos,tot)-pct(neg,tot)};
+  }).filter(x=>x.net!==null).sort((a,b)=>b.net-a.net);
+  divergingHBar('ch-p11',p11nets.map(x=>MAYOR_SHORT[x.k]),p11nets.map(x=>x.net));
+
+  // ─────────────────────────────────────────
+  // P12 — Consideración (% Sí + Tal vez)
+  // ─────────────────────────────────────────
+  const p12=countMatrix(valid,'P12',MAYOR_IDS,['1','2','3','98','99']);
+  const p12data=MAYOR_IDS.map(k=>({k,v:(p12[k]['1']+p12[k]['2'])})).sort((a,b)=>b.v-a.v);
+  hBar('ch-p12',p12data.map(x=>MAYOR_SHORT[x.k]),p12data.map(x=>x.v),
+    p12data.map(x=>x.k==='C08'?ORO:GRAY),{denom:N,thick:20});
+
+  // ─────────────────────────────────────────
+  // P3 — Clima del cantón
+  // ─────────────────────────────────────────
+  const p3raw=countSingle(valid,'P3',['1','2','3','4','98','99']);
+  const p3labels=['Muy buen camino','Buen camino','Mal camino','Muy mal camino'];
+  const p3vals=[p3raw['1'],p3raw['2'],p3raw['3'],p3raw['4']];
+  donut('ch-p3',p3labels,p3vals,['#16A065','#2a78d6','#eb6834','#C53030']);
+
+  // ─────────────────────────────────────────
+  // P4 — Principales problemas (open text)
+  // ─────────────────────────────────────────
+  const p4texts=valid.map(r=>r.answers.P4).filter(x=>x&&x.trim());
+  if(p4texts.length>0){
+    // Simple keyword tally
+    const kwMap={};
+    p4texts.forEach(txt=>{kwMap[txt]=(kwMap[txt]||0)+1;});
+    const sorted=Object.entries(kwMap).sort((a,b)=>b[1]-a[1]);
+    document.getElementById('p4-list').innerHTML=
+      '<div class="tag-list">'+
+      sorted.map(([txt,n])=>`<div class="tag"><span class="n">${n}×</span>${txt}</div>`).join('')+
+      '</div>';
+  }
+
+  // ─────────────────────────────────────────
+  // P13 — Atributo más importante
+  // ─────────────────────────────────────────
+  const p13opts=[
+    ['1','Honestidad'],['2','Experiencia pública'],['3','Capacidad administrativa'],
+    ['4','Cercanía con la gente'],['5','Seguridad'],['6','Desarrollo económico'],
+    ['7','Obra pública'],['8','Conseguir recursos'],['9','Otra'],['98','NS']
+  ];
+  const p13raw=countSingle(valid,'P13',p13opts.map(x=>x[0]));
+  const p13sorted=p13opts.map(([v,l])=>({v,l,n:p13raw[v]})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n);
+  const p13denom=p13sorted.reduce((s,x)=>s+x.n,0);
+  donut('ch-p13',p13sorted.map(x=>x.l),p13sorted.map(x=>x.n),
+    ['#B07F3A','#2a78d6','#1baf7a','#eb6834','#eda100','#6B46C1','#db2777','#0ea5e9'].slice(0,p13sorted.length));
+
+  // ─────────────────────────────────────────
+  // P14 — Asociación de atributos
+  // ─────────────────────────────────────────
+  const p14attrs=[
+    {id:'GEST',l:'Gestión eficiente'},
+    {id:'HON', l:'Honestidad'},
+    {id:'CER', l:'Cercanía con la gente'},
+    {id:'ECO', l:'Desarrollo económico'},
+  ];
+  const p14data=countAttrMatrix(valid,'P14',p14attrs.map(a=>a.id));
+  const p14html=p14attrs.map(attr=>{
+    const counts=p14data[attr.id];
+    const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>0);
+    const total=sorted.reduce((s,x)=>s+x[1],0);
+    const winner=sorted[0];
+    if(!winner)return`<tr><td>${attr.l}</td><td colspan="2" style="color:var(--muted)">Sin datos</td></tr>`;
+    const winName=MAYOR[winner[0]]||PREF[winner[0]]||winner[0];
+    return`<tr>
+      <td style="font-size:13px;font-weight:600">${attr.l}</td>
+      <td><span class="attr-badge ${winner[0]==='C08'?'c08':''}">${winName}</span></td>
+      <td style="font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted)">${winner[1]}/${total}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('p14-content').innerHTML=
+    `<table class="attr-tbl"><thead><tr><th>Atributo</th><th>Candidato líder</th><th>n</th></tr></thead>
+    <tbody>${p14html}</tbody></table>`;
+
+  // ─────────────────────────────────────────
+  // P15 — Exposición a campaña
+  // ─────────────────────────────────────────
+  const p15raw=countMulti(valid,'P15',[...MAYOR_IDS,'93','98','99']);
+  const sort15=MAYOR_IDS.map(k=>({k,v:p15raw[k]})).sort((a,b)=>b.v-a.v);
+  hBar('ch-p15',sort15.map(x=>MAYOR_SHORT[x.k]),sort15.map(x=>x.v),
+    sort15.map(x=>x.k==='C08'?ORO:GRAY),{denom:N,thick:20});
+
+  // ─────────────────────────────────────────
+  // P16 — Medios
+  // ─────────────────────────────────────────
+  const p16opts=[
+    ['1','Facebook'],['2','TikTok'],['3','Instagram'],['4','WhatsApp'],
+    ['5','X / Twitter'],['6','YouTube'],['7','Televisión'],['8','Radio'],
+    ['9','Prensa digital'],['10','Prensa impresa'],['11','Fam. o amigos'],
+    ['12','Actos políticos'],['13','Puerta a puerta'],['14','Otra'],
+  ];
+  const p16raw=countMulti(valid,'P16',p16opts.map(x=>x[0]));
+  const sort16=p16opts.map(([v,l])=>({v,l,n:p16raw[v]})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n);
+  hBar('ch-p16',sort16.map(x=>x.l),sort16.map(x=>x.n),
+    sort16.map(()=>AZUL),{denom:N,thick:20});
+
+  // ─────────────────────────────────────────
+  // P17 — Momento de decisión
+  // ─────────────────────────────────────────
+  const p17opts=[
+    ['1','Hace varios meses'],['2','Últimas semanas'],['3','Próximas semanas'],
+    ['4','Última semana campaña'],['5','El día de la elección'],
+  ];
+  const p17raw=countSingle(valid,'P17',p17opts.map(x=>x[0]));
+  const p17vals=p17opts.map(([v])=>p17raw[v]);
+  donut('ch-p17',p17opts.map(x=>x[1]),p17vals,C4.concat(['#6B46C1']));
+
+  // ─────────────────────────────────────────
+  // P18 — Prefectura
+  // ─────────────────────────────────────────
+  const p18raw=countSingle(valid,'P18',[...PREF_IDS,'91','92','93','98','99']);
+  const p18denom=PREF_IDS.reduce((s,k)=>s+p18raw[k],0)+(p18raw['93']||0);
+  const sort18=PREF_IDS.map(k=>({k,v:p18raw[k]})).sort((a,b)=>b.v-a.v);
+  hBar('ch-p18',sort18.map(x=>PREF_SHORT[x.k]),sort18.map(x=>x.v),
+    sort18.map(()=>AZUL),{denom:p18denom,thick:24});
+
+  // ─────────────────────────────────────────
+  // P19 — Segunda opción Prefectura
+  // ─────────────────────────────────────────
+  const p19raw=countSingle(valid,'P19',[...PREF_IDS,'91','92','93','98','99']);
+  const sort19=PREF_IDS.map(k=>({k,v:p19raw[k]})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  hBar('ch-p19',sort19.map(x=>PREF_SHORT[x.k]),sort19.map(x=>x.v),
+    sort19.map(()=>AZUL),{denom:N,thick:20});
+
+  // ─────────────────────────────────────────
+  // P20 — Rechazo Prefectura
+  // ─────────────────────────────────────────
+  const p20raw=countMulti(valid,'P20',[...PREF_IDS,'93','98','99']);
+  const sort20=PREF_IDS.map(k=>({k,v:p20raw[k]})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  hBar('ch-p20',sort20.map(x=>PREF_SHORT[x.k]),sort20.map(x=>x.v),
+    sort20.map(()=>GRAY),{denom:N,thick:20});
+
+  // ─────────────────────────────────────────
+  // P21 — Sexo
+  // ─────────────────────────────────────────
+  const p21raw=countSingle(valid,'P21',['1','2','3','99']);
+  donut('ch-p21',['Hombre','Mujer','Otra'],
+    [p21raw['1'],p21raw['2'],p21raw['3']],
+    [AZUL,'#eb6834','#eda100']);
+
+  // ─────────────────────────────────────────
+  // P22 — Edad (grupos)
+  // ─────────────────────────────────────────
+  const ageBuckets={'18–24':0,'25–34':0,'35–44':0,'45–54':0,'55–64':0,'65+':0};
+  valid.forEach(r=>{
+    const a=parseInt(r.answers.P22);
+    if(isNaN(a))return;
+    if(a<=24)ageBuckets['18–24']++;
+    else if(a<=34)ageBuckets['25–34']++;
+    else if(a<=44)ageBuckets['35–44']++;
+    else if(a<=54)ageBuckets['45–54']++;
+    else if(a<=64)ageBuckets['55–64']++;
+    else ageBuckets['65+']++;
+  });
+  {const ctx=document.getElementById('ch-p22');
+  new Chart(ctx,{type:'bar',
+    data:{labels:Object.keys(ageBuckets),datasets:[{
+      data:Object.values(ageBuckets),backgroundColor:AZUL,
+      borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},barThickness:28
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} personas`}}},
+      scales:{x:{grid:{display:false},border:{display:false}},
+              y:{grid:{color:'rgba(0,0,0,.07)'},border:{display:false},
+                ticks:{stepSize:1,callback:v=>Number.isInteger(v)?v:null}}}}
+  });}
+
+  // ─────────────────────────────────────────
+  // Area urbana/rural
+  // ─────────────────────────────────────────
+  donut('ch-area',['Urbana','Rural'],[urb,rur],[AZUL,ORO]);
+
+  // ─────────────────────────────────────────
+  // P23 — Educación
+  // ─────────────────────────────────────────
+  const p23opts=[['1','Primaria o menos'],['2','Secundaria'],['3','Técnico'],['4','Universitario'],['5','Posgrado']];
+  const p23raw=countSingle(valid,'P23',p23opts.map(x=>x[0]));
+  const p23sorted=p23opts.filter(([v])=>p23raw[v]>0);
+  hBar('ch-p23',p23sorted.map(x=>x[1]),p23sorted.map(([v])=>p23raw[v]),
+    p23sorted.map(()=>AZUL),{denom:N,thick:22});
+
+  // ─────────────────────────────────────────
+  // P24 — Actividad
+  // ─────────────────────────────────────────
+  const p24opts=[['1','Empleado privado'],['2','Empleado público'],['3','Independiente'],
+    ['4','Comerciante'],['5','Agricultor/a'],['6','Estudiante'],
+    ['7','Labores del hogar'],['8','Jubilado/a'],['9','Desempleado/a'],['10','Otra']];
+  const p24raw=countSingle(valid,'P24',p24opts.map(x=>x[0]));
+  const p24sorted=p24opts.filter(([v])=>p24raw[v]>0).sort((a,b)=>p24raw[b[0]]-p24raw[a[0]]);
+  hBar('ch-p24',p24sorted.map(x=>x[1]),p24sorted.map(([v])=>p24raw[v]),
+    p24sorted.map(()=>AZUL),{denom:N,thick:20});
+}
+
+render();
 </script>
-
 </body>
 </html>
