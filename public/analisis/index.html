@@ -90,14 +90,45 @@ h3{font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;let
 #err{display:none;color:var(--neg);font-size:13px;padding:40px;text-align:center}
 
 footer{margin-top:40px;text-align:center;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px}
+
+/* ── PDF BUTTON ── */
+.btn-pdf{display:inline-flex;align-items:center;gap:8px;background:var(--oro);color:#fff;
+  border:none;border-radius:8px;padding:10px 18px;font-size:13px;font-weight:600;
+  cursor:pointer;letter-spacing:.02em;transition:background .15s;text-decoration:none;white-space:nowrap}
+.btn-pdf:hover{background:#8a6028}
+.btn-pdf svg{flex-shrink:0}
+
+/* ── PRINT ── */
+@media print{
+  body{background:#fff!important;padding:0!important;font-size:11px}
+  .wrap{max-width:none}
+  .hdr{border-radius:0!important;box-shadow:none!important;margin-bottom:12px!important;padding:16px 20px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pilot{display:none}
+  .btn-pdf{display:none!important}
+  .kpis{page-break-inside:avoid}
+  .card{box-shadow:none!important;border:1px solid #e5e7eb;page-break-inside:avoid}
+  .g2,.g3{page-break-inside:avoid}
+  .sec{page-break-before:auto}
+  .sec-hd{page-break-after:avoid}
+  canvas{max-width:100%!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{margin:15mm;size:A4}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header class="hdr">
-  <h1>Análisis Electoral — Alcaldía de Ambato 2027–2031</h1>
-  <div class="sub">Encuesta CAPI de campo · Reporte dinámico</div>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div>
+      <h1>Análisis Electoral — Alcaldía de Ambato 2027–2031</h1>
+      <div class="sub">Encuesta CAPI de campo · Reporte dinámico</div>
+    </div>
+    <button class="btn-pdf" onclick="descargarPDF()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 1h6l4 4v10H4V1z" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/><path d="M10 1v4h4" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 9h4M6 11.5h4M6 6.5h2" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>
+      Descargar PDF
+    </button>
+  </div>
   <div class="meta">
     <span><strong id="h-n">—</strong> entrevistas válidas</span>
     <span><strong id="h-date">—</strong> última entrevista</span>
@@ -665,6 +696,11 @@ async function go(){
   const p24=cSingle(vld,'P24',P24O.map(x=>x[0]));
   const s24=P24O.filter(([v])=>p24[v]>0).sort((a,b)=>p24[b[0]]-p24[a[0]]);
   if(s24.length)hBar('c-p24',s24.map(x=>x[1]),s24.map(([v])=>p24[v]),s24.map(()=>AZUL),N);
+}
+
+function descargarPDF(){
+  // Esperar a que todos los canvas estén pintados antes de imprimir
+  setTimeout(()=>window.print(),300);
 }
 
 go();
