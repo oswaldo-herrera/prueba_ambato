@@ -137,8 +137,8 @@ footer{margin-top:40px;text-align:center;font-size:11px;color:var(--muted);borde
   </div>
 </header>
 
-<div class="pilot">
-  ⚠ <span><strong>Muestra piloto.</strong> Con N pequeño el margen de error no es calculable. Resultados <strong>orientativos</strong> para estrategia interna — no proyectables al universo electoral.</span>
+<div class="pilot" id="banner-nota" style="display:none">
+  ℹ <span id="banner-txt">Cargando...</span>
 </div>
 
 <div id="loading"><div class="spin"></div><br><span style="color:var(--muted);font-size:13px">Cargando datos…</span></div>
@@ -519,6 +519,20 @@ async function go(){
   document.getElementById('k-rur').textContent=rur;
   document.getElementById('k-ver').textContent=vers.length;
   document.getElementById('k-ver-l').textContent=vers.join(' · ');
+
+  // BANNER
+  const banner=document.getElementById('banner-nota');
+  const btxt=document.getElementById('banner-txt');
+  if(N<100){
+    const me=(1.96*Math.sqrt(0.5*0.5/N)*100).toFixed(1);
+    btxt.innerHTML=`<strong>Muestra en campo.</strong> Con N=${N} el margen de error es ±${me}% (95% confianza). Resultados <strong>orientativos</strong> — no proyectables hasta completar la muestra objetivo.`;
+    banner.style.display='';
+  }else{
+    const me=(1.96*Math.sqrt(0.5*0.5/N)*100).toFixed(1);
+    btxt.innerHTML=`N=${N} entrevistas válidas · Margen de error ±${me}% (95% confianza, p=q=0.5) · Resultados para uso interno de campaña.`;
+    banner.style.display='';
+    banner.style.background='#E8F5E9';banner.style.borderColor='#4CAF50';banner.style.color='#1B5E20';
+  }
 
   // ── P6 ────────────────────────────────────
   const p6=cSingle(vld,'P6',[...MK,'91','92','93','98','99']);
