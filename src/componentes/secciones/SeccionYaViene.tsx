@@ -64,6 +64,29 @@ export default function SeccionYaViene() {
             draggable={false}
           />
         </div>
+
+        {/* Video YouTube Shorts */}
+        <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center' }}>
+          <div style={{
+            borderRadius: '20px',
+            padding: '3px',
+            background: 'linear-gradient(135deg, rgba(212,168,106,0.7) 0%, rgba(255,255,255,0.15) 40%, rgba(172,124,63,0.6) 100%)',
+            boxShadow: '0 0 30px rgba(212,168,106,0.3)',
+            width: '100%',
+            maxWidth: '340px',
+          }}>
+            <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
+              <iframe
+                src="https://www.youtube.com/embed/mhlVCpgZRro"
+                title="Ambato 2050 — Ya Viene"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
+              />
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   )
