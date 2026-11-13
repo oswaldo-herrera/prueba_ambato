@@ -30,6 +30,7 @@ import SeccionTop5 from './componentes/secciones/SeccionTop5'
 import SeccionPropuestasNuevas from './componentes/secciones/SeccionPropuestasNuevas'
 import SeccionYaViene from './componentes/secciones/SeccionYaViene'
 // import SeccionMundial from './componentes/secciones/SeccionMundial'
+import SeccionInicioCampana from './componentes/secciones/SeccionInicioCampana'
 import SeccionVideoObra from './componentes/secciones/SeccionVideoObra'
 import SeccionWhatsApp from './componentes/secciones/SeccionWhatsApp'
 // import SeccionFacebookLive from './componentes/secciones/SeccionFacebookLive'
@@ -55,6 +56,12 @@ export default function App() {
         {/* 2. Quién soy / Conóceme */}
         <SeccionQuienSoy />
 
+        {/* 2.5 Inicio de Campaña */}
+        <SeccionInicioCampana />
+
+        {/* 2.6 Javier te escucha */}
+        <SeccionBuzonJavier />
+
         {/* 3. Video obra destacada */}
         <SeccionVideoObra />
 
@@ -63,9 +70,6 @@ export default function App() {
 
         {/* 3.25 Top 5 preocupaciones */}
         <SeccionTop5 />
-
-        {/* 3.26 Buzón de Javier */}
-        <SeccionBuzonJavier />
 
         {/* 3.3 Logros 2019-2023 */}
         <SeccionLogros />
@@ -85,14 +89,14 @@ export default function App() {
         {/* 5. Trayectoria / Experiencia */}
         <SeccionTrayectoria />
 
-        {/* 4. Valores — Tiempo, Pasión y Corazón */}
-        <SeccionValores />
+        {/* 4. Valores — oculto temporalmente */}
+        {/* <SeccionValores /> */}
 
         {/* 5. Propuestas — oculta temporalmente */}
         {/* <SeccionPropuestas /> */}
 
-        {/* 5. Formulario de registro */}
-        <SeccionRegistro />
+        {/* 5. Formulario de registro — oculto temporalmente */}
+        {/* <SeccionRegistro /> */}
 
         {/* 6. Formulario de registro alternativo */}
         <SeccionRegistroBackup onPolitica={() => setPoliticaAbierta(true)} />

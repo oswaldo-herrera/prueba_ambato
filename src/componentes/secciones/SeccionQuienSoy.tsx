@@ -42,7 +42,7 @@ export default function SeccionQuienSoy() {
   }
 
   return (
-    <section id="quiensoy" className="relative py-24 pb-36 bg-white overflow-hidden -mt-px">
+    <section id="quiensoy" className="relative py-24 pb-16 bg-white overflow-hidden -mt-px">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Encabezado de sección */}
@@ -301,12 +301,6 @@ export default function SeccionQuienSoy() {
         </div>
       )}
 
-      {/* Ola divisora */}
-      <div className="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
-        <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
-          <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#21243D" />
-        </svg>
-      </div>
     </section>
   )
 }
