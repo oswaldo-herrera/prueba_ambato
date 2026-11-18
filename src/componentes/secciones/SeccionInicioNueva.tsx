@@ -46,12 +46,8 @@ export default function SeccionInicioNueva() {
         />
       </svg>
 
-      {/* Vota Todo — esquina superior izquierda */}
-      <img
-        src="/imagenes/campa%C3%B1a/vota_todo_png.png"
-        alt="Vota Todo"
-        className="absolute top-24 left-4 sm:left-8 w-32 sm:w-40 object-contain drop-shadow-xl pointer-events-none z-10"
-      />
+      {/* Vota Todo — oculto temporalmente */}
+      {/* <img src="/imagenes/campa%C3%B1a/vota_todo_png.png" alt="Vota Todo" className="absolute top-24 left-4 sm:left-8 w-32 sm:w-40 object-contain drop-shadow-xl pointer-events-none z-10" /> */}
 
       {/* Número "1" decorativo translúcido — detalle del banner oficial */}
       <div
