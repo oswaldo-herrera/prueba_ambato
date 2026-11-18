@@ -46,19 +46,12 @@ export default function IntroAnimacion() {
           Ambato 2027 - 2031
         </p>
 
-        {/* Título principal */}
-        <h1 className="font-titulo font-black text-white leading-tight">
-          <span className="block text-5xl sm:text-6xl xl:text-7xl">Ambato Nos Une</span>
-          <span className="block text-4xl sm:text-5xl xl:text-6xl text-oro mt-1">Todos por Tungurahua</span>
-        </h1>
-
-        {/* Línea decorativa */}
-        <div className="w-20 h-[3px] bg-oro mx-auto mt-8 rounded-full" />
-
-        {/* Subtexto */}
-        <p className="text-white/40 text-sm mt-5 tracking-widest uppercase">
-          Continuamos con Javier
-        </p>
+        {/* Imagen campaña */}
+        <img
+          src="/imagenes/campa%C3%B1a/javier_altamirano.jpg"
+          alt="Javier Altamirano"
+          className="w-full max-w-xs sm:max-w-sm mx-auto object-contain drop-shadow-2xl rounded-xl"
+        />
       </div>
 
       <style>{`

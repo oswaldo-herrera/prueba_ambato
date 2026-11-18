@@ -1,7 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 
 // ── Imágenes carousel campaña ───────────────────────────────
+const BASE_2DA = '/imagenes/campa%C3%B1a/campa%C3%B1a_2da_fase'
 const CAROUSEL_IMGS = [
+  // Campaña 2da fase — portada siempre primera
+  `${BASE_2DA}/portada.jpeg`,
+  `${BASE_2DA}/001.jpeg`,
+  `${BASE_2DA}/002.jpeg`,
+  `${BASE_2DA}/003.jpeg`,
+  `${BASE_2DA}/005.jpeg`,
+  `${BASE_2DA}/006.jpeg`,
+  `${BASE_2DA}/007.jpeg`,
+  `${BASE_2DA}/008.jpeg`,
+  `${BASE_2DA}/009.jpeg`,
+  `${BASE_2DA}/010.jpeg`,
+  // Campaña 1ra fase
   '/imagenes/campa%C3%B1a/1.jpeg',
   '/imagenes/campa%C3%B1a/2.png',
   '/imagenes/campa%C3%B1a/3.png',
@@ -47,8 +60,8 @@ const FB_VIDEO_SRC = 'https://www.facebook.com/plugins/video.php?height=476&href
 // ── Estilos de animaciones globales ─────────────────────────
 const CSS = `
 @keyframes ic-glow {
-  0%,100% { text-shadow: 0 0 20px rgba(212,168,106,0.8), 0 0 60px rgba(212,168,106,0.4); }
-  50%      { text-shadow: 0 0 40px rgba(255,215,0,1),    0 0 100px rgba(212,168,106,0.6); }
+  0%,100% { text-shadow: 0 0 20px rgba(255,102,0,0.8), 0 0 60px rgba(255,102,0,0.4); }
+  50%      { text-shadow: 0 0 40px rgba(255,170,0,1),   0 0 100px rgba(255,102,0,0.7); }
 }
 @keyframes ic-scan {
   0%   { transform: translateY(-100%); }
@@ -85,7 +98,7 @@ const CSS = `
 .ic-flicker    { animation: ic-flicker 8s infinite; }
 .ic-shimmer-text {
   background: linear-gradient(90deg,
-    #B07F3A 0%, #FFD700 20%, #FFF8DC 40%, #FFD700 60%, #B07F3A 80%, #FFD700 100%);
+    #FF6600 0%, #FFB300 20%, #FFE0A0 40%, #FFB300 60%, #FF6600 80%, #FFB300 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -95,7 +108,7 @@ const CSS = `
 .ic-card { transition: transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s ease; }
 .ic-card:hover {
   transform: scale(1.03) translateY(-6px);
-  box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 0 40px rgba(212,168,106,0.35);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 0 40px rgba(255,102,0,0.45);
 }
 .ic-card:hover .ic-img { transform: scale(1.08); }
 .ic-img { transition: transform 0.6s cubic-bezier(.22,1,.36,1); }
@@ -157,7 +170,7 @@ export default function SeccionInicioCampana() {
         ref={sectionRef}
         id="inicio-campana"
         style={{
-          background: 'linear-gradient(to bottom, #21243D 0%, #161a3a 20%, #0d1030 55%, #0a0c1e 100%)',
+          background: 'linear-gradient(to bottom, #001F70 0%, #001255 20%, #000A3C 55%, #00041E 100%)',
           position: 'relative',
           overflow: 'hidden',
           paddingTop: '100px',
@@ -198,18 +211,18 @@ export default function SeccionInicioCampana() {
         {/* ── Overlay semitransparente sobre las fotos ── */}
         <div style={{
           position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
-          background: 'linear-gradient(to bottom, rgba(33,36,61,0.50) 0%, rgba(10,12,30,0.62) 100%)',
+          background: 'linear-gradient(to bottom, rgba(1,28,70,0.45) 0%, rgba(1,15,50,0.62) 100%)',
         }} />
 
         {/* ── Orbes de luz de fondo ── */}
         <div style={{
           position: 'absolute', top: '-15%', left: '-10%', width: '500px', height: '500px',
-          background: 'radial-gradient(circle, rgba(176,127,58,0.14) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255,102,0,0.18) 0%, transparent 70%)',
           borderRadius: '50%', pointerEvents: 'none', zIndex: 2,
         }} />
         <div style={{
           position: 'absolute', bottom: '-10%', right: '-5%', width: '600px', height: '600px',
-          background: 'radial-gradient(circle, rgba(33,36,61,0.5) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(1,40,87,0.25) 0%, transparent 70%)',
           borderRadius: '50%', pointerEvents: 'none', zIndex: 2,
         }} />
 
@@ -222,52 +235,41 @@ export default function SeccionInicioCampana() {
           >
             {/* Etiqueta superior */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '20px' }}>
-              <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to right, transparent, #B07F3A)' }} />
+              <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to right, transparent, #FF6600)' }} />
               <span style={{
                 fontSize: '11px', fontWeight: 700, letterSpacing: '4px', textTransform: 'uppercase',
-                color: '#D4A82A', border: '1px solid rgba(212,168,106,0.4)',
+                color: '#FF9900', border: '1px solid rgba(255,102,0,0.5)',
                 padding: '5px 14px', borderRadius: '20px',
-                background: 'rgba(176,127,58,0.08)',
+                background: 'rgba(255,102,0,0.1)',
               }}>
                 ◆ Javier Altamirano ◆
               </span>
-              <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to left, transparent, #B07F3A)' }} />
+              <div style={{ flex: 1, maxWidth: '120px', height: '1px', background: 'linear-gradient(to left, transparent, #FF6600)' }} />
             </div>
 
-            {/* Título principal */}
-            <h2
-              className="ic-glow-title ic-flicker"
-              style={{
-                fontSize: 'clamp(2.8rem, 7vw, 5.5rem)',
-                fontWeight: 900,
-                letterSpacing: '-1px',
-                lineHeight: 1.05,
-                margin: '0 0 12px',
-                color: '#FFFFFF',
-                textTransform: 'uppercase',
-              }}
-            >
-              INICIO DE
-              <br />
-              <span className="ic-shimmer-text">CAMPAÑA</span>
-            </h2>
+            {/* Imagen vota_todo */}
+            <img
+              src="/imagenes/campa%C3%B1a/vota_todo.png"
+              alt="Vota Todo Javier Altamirano"
+              style={{ width: '100%', maxWidth: '480px', objectFit: 'contain', margin: '0 auto 12px', display: 'block', filter: 'drop-shadow(0 4px 24px rgba(255,102,0,0.4))' }}
+            />
 
             {/* Línea decorativa animada */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', margin: '20px 0 24px' }}>
-              <div className="ic-pulse-line" style={{ width: '60px', height: '3px', background: 'linear-gradient(to right, transparent, #B07F3A)' }} />
+              <div className="ic-pulse-line" style={{ width: '60px', height: '3px', background: 'linear-gradient(to right, transparent, #FF6600)' }} />
               <div style={{
-                width: '10px', height: '10px', border: '2px solid #D4A82A', transform: 'rotate(45deg)',
+                width: '10px', height: '10px', border: '2px solid #FF6600', transform: 'rotate(45deg)',
                 animation: 'ic-bounce-dot 2s ease-in-out infinite',
               }} />
               <div style={{
-                width: '6px', height: '6px', background: '#D4A82A', borderRadius: '50%',
+                width: '6px', height: '6px', background: '#FF6600', borderRadius: '50%',
                 animation: 'ic-bounce-dot 2s ease-in-out infinite 0.3s',
               }} />
               <div style={{
-                width: '10px', height: '10px', border: '2px solid #D4A82A', transform: 'rotate(45deg)',
+                width: '10px', height: '10px', border: '2px solid #FF6600', transform: 'rotate(45deg)',
                 animation: 'ic-bounce-dot 2s ease-in-out infinite 0.6s',
               }} />
-              <div className="ic-pulse-line" style={{ width: '60px', height: '3px', background: 'linear-gradient(to left, transparent, #B07F3A)' }} />
+              <div className="ic-pulse-line" style={{ width: '60px', height: '3px', background: 'linear-gradient(to left, transparent, #FF6600)' }} />
             </div>
 
             <p style={{
@@ -278,7 +280,7 @@ export default function SeccionInicioCampana() {
             }}>
               La voz del pueblo de Ambato se hace escuchar.
               <br />
-              <strong style={{ color: '#D4A82A' }}>Juntos construimos el Ambato que merecemos.</strong>
+              <strong style={{ color: '#FF9900' }}>Juntos construimos el Ambato que merecemos.</strong>
             </p>
           </div>
 
@@ -361,7 +363,7 @@ export default function SeccionInicioCampana() {
                   borderRadius: '20px', overflow: 'hidden', cursor: 'zoom-in',
                   zIndex: 2, transition: 'all 0.45s cubic-bezier(.22,1,.36,1)',
                   boxShadow: '0 24px 70px rgba(0,0,0,0.65)',
-                  border: '2px solid rgba(212,168,106,0.45)',
+                  border: '2px solid rgba(255,102,0,0.55)',
                 }}
               >
                 <img src={CAROUSEL_IMGS[carIdx]}
@@ -389,14 +391,14 @@ export default function SeccionInicioCampana() {
               {[{ fn: prev, icon: '‹' }, { fn: next, icon: '›' }].map(({ fn, icon }, i) => (
                 <button key={i} onClick={fn} style={{
                   width: '42px', height: '42px', borderRadius: '50%',
-                  border: '1px solid rgba(212,168,106,0.45)',
-                  background: 'rgba(255,255,255,0.07)', color: '#D4A82A',
+                  border: '1px solid rgba(255,102,0,0.45)',
+                  background: 'rgba(255,255,255,0.07)', color: '#FF9900',
                   fontSize: '1.5rem', lineHeight: 1, cursor: 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'background 0.2s, border-color 0.2s',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(176,127,58,0.2)'; (e.currentTarget as HTMLElement).style.borderColor = '#D4A82A' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,168,106,0.45)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,102,0,0.2)'; (e.currentTarget as HTMLElement).style.borderColor = '#FF6600' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,102,0,0.45)' }}
                 >{icon}</button>
               ))}
             </div>
@@ -428,11 +430,11 @@ export default function SeccionInicioCampana() {
             data-reveal="ic-rise" data-delay="350"
             style={{ display: 'none', alignItems: 'center', gap: '16px', margin: '40px 0 36px' }}
           >
-            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(212,168,106,0.5), transparent)' }} />
-            <span style={{ color: '#D4A82A', fontSize: '1.1rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(255,102,0,0.5), transparent)' }} />
+            <span style={{ color: '#FF9900', fontSize: '1.1rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
               ▶ &nbsp;VIDEOS OFICIALES
             </span>
-            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(212,168,106,0.5), transparent)' }} />
+            <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(255,102,0,0.5), transparent)' }} />
           </div>
 
           {/* ── VIDEO YOUTUBE — oculto temporalmente ── */}
@@ -442,8 +444,8 @@ export default function SeccionInicioCampana() {
               display: 'none',
               borderRadius: '20px',
               padding: '3px',
-              background: 'linear-gradient(135deg, #B07F3A 0%, #FFD700 30%, rgba(255,255,255,0.15) 50%, #B07F3A 70%, #D4A82A 100%)',
-              boxShadow: '0 0 60px rgba(212,168,106,0.35), 0 0 120px rgba(176,127,58,0.15)',
+              background: 'linear-gradient(135deg, #FF6600 0%, #FFB300 30%, rgba(255,255,255,0.15) 50%, #FF6600 70%, #FF9900 100%)',
+              boxShadow: '0 0 60px rgba(255,102,0,0.4), 0 0 120px rgba(255,102,0,0.15)',
             }}
           >
             <div style={{ borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
@@ -451,14 +453,14 @@ export default function SeccionInicioCampana() {
                 background: 'linear-gradient(90deg, #07091a, #131840)',
                 padding: '10px 18px',
                 display: 'flex', alignItems: 'center', gap: '10px',
-                borderBottom: '1px solid rgba(212,168,106,0.2)',
+                borderBottom: '1px solid rgba(255,102,0,0.2)',
               }}>
                 <div style={{ display: 'flex', gap: '6px' }}>
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#FF5F57', display: 'inline-block' }} />
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#FFBD2E', display: 'inline-block' }} />
                   <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#28CA41', display: 'inline-block' }} />
                 </div>
-                <span style={{ color: '#D4A82A', fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>
+                <span style={{ color: '#FF9900', fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>
                   🎬 &nbsp;Los años que nos cambiaron — Javier Altamirano
                 </span>
                 <div style={{ marginLeft: 'auto', display: 'flex', gap: '6px', alignItems: 'center' }}>
@@ -494,7 +496,7 @@ export default function SeccionInicioCampana() {
             ].map((b, i) => (
               <div key={i} style={{
                 background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(212,168,106,0.2)',
+                border: '1px solid rgba(255,102,0,0.2)',
                 backdropFilter: 'blur(12px)',
                 borderRadius: '14px',
                 padding: '14px 22px',
@@ -504,16 +506,16 @@ export default function SeccionInicioCampana() {
                 transition: 'border-color 0.3s, background 0.3s',
               }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,168,106,0.6)'
-                ;(e.currentTarget as HTMLElement).style.background = 'rgba(176,127,58,0.1)'
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,102,0,0.6)'
+                ;(e.currentTarget as HTMLElement).style.background = 'rgba(255,102,0,0.1)'
               }}
               onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,168,106,0.2)'
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,102,0,0.2)'
                 ;(e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'
               }}
               >
                 <div style={{ fontSize: '1.6rem', marginBottom: '4px' }}>{b.icon}</div>
-                <div style={{ color: '#D4A82A', fontWeight: 700, fontSize: '0.95rem' }}>{b.value}</div>
+                <div style={{ color: '#FF9900', fontWeight: 700, fontSize: '0.95rem' }}>{b.value}</div>
                 <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', marginTop: '2px', textTransform: 'uppercase', letterSpacing: '1px' }}>{b.label}</div>
               </div>
             ))}

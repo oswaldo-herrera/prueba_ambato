@@ -22,7 +22,7 @@ export default function SeccionYaViene() {
 
   return (
     <section style={{
-      background: '#21243D',
+      background: 'linear-gradient(135deg, #012857 0%, #001F70 100%)',
       padding: '60px 24px',
       display: 'flex',
       justifyContent: 'center',
@@ -65,15 +65,30 @@ export default function SeccionYaViene() {
           />
         </div>
 
-        {/* Video YouTube Shorts */}
-        <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center' }}>
+        {/* Tres reels en fila */}
+        <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
+
+          {/* Reel izquierdo — Hospital Municipal */}
           <div style={{
-            borderRadius: '20px',
-            padding: '3px',
+            borderRadius: '20px', padding: '3px',
+            background: 'linear-gradient(135deg, rgba(255,102,0,0.6) 0%, rgba(255,255,255,0.15) 40%, rgba(1,40,87,0.5) 100%)',
+            boxShadow: '0 0 30px rgba(255,102,0,0.2)', width: '100%', maxWidth: '240px',
+          }}>
+            <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
+              <video
+                src="/imagenes/reels/hospital_municpal.mp4"
+                controls
+                playsInline
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+          </div>
+
+          {/* Reel central — YouTube Shorts */}
+          <div style={{
+            borderRadius: '20px', padding: '3px',
             background: 'linear-gradient(135deg, rgba(212,168,106,0.7) 0%, rgba(255,255,255,0.15) 40%, rgba(172,124,63,0.6) 100%)',
-            boxShadow: '0 0 30px rgba(212,168,106,0.3)',
-            width: '100%',
-            maxWidth: '340px',
+            boxShadow: '0 0 30px rgba(212,168,106,0.3)', width: '100%', maxWidth: '240px',
           }}>
             <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
               <iframe
@@ -85,6 +100,23 @@ export default function SeccionYaViene() {
               />
             </div>
           </div>
+
+          {/* Reel derecho — Nuevo Estadio */}
+          <div style={{
+            borderRadius: '20px', padding: '3px',
+            background: 'linear-gradient(135deg, rgba(1,40,87,0.5) 0%, rgba(255,255,255,0.15) 40%, rgba(255,102,0,0.6) 100%)',
+            boxShadow: '0 0 30px rgba(255,102,0,0.2)', width: '100%', maxWidth: '240px',
+          }}>
+            <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
+              <video
+                src="/imagenes/reels/nuevo_estadio.mp4"
+                controls
+                playsInline
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+          </div>
+
         </div>
 
       </div>

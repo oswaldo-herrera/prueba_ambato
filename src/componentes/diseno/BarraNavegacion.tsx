@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { navegacion } from '../../contenido/textos'
 import CarruselVideos from './CarruselVideos'
-import BolaBillar from './BolaBillar'
+// import BolaBillar from './BolaBillar'  // oculto temporalmente
 
 const BASE_AMBATO = '/imagenes/'
 const enc = (f: string) => BASE_AMBATO + encodeURIComponent(f)
@@ -25,10 +25,7 @@ export default function BarraNavegacion() {
   const [scrollado, setScrollado] = useState(false)
   const [carruselAbierto, setCarruselAbierto] = useState(false)
   const [videosAmbato, setVideosAmbato] = useState(false)
-  const [mostrarTaco, setMostrarTaco] = useState(false)
-  const [bolaGolpeada, setBolaGolpeada] = useState(false)
-  const [tacoPos, setTacoPos] = useState<{ top: number; left: number } | null>(null)
-  const logoRef = useRef<HTMLDivElement>(null)
+  // const logoRef = useRef<HTMLDivElement>(null)  // reservado para animación taco
 
   useEffect(() => {
     const alScrollear = () => setScrollado(window.scrollY > 20)
@@ -36,58 +33,49 @@ export default function BarraNavegacion() {
     return () => window.removeEventListener('scroll', alScrollear)
   }, [])
 
-  useEffect(() => {
-    const t1 = setTimeout(() => {
-      if (logoRef.current) {
-        const rect = logoRef.current.getBoundingClientRect()
-        const tacH = 40
-        const tacW = Math.round(tacH * (1750 / 150)) // ancho proporcional = ~467px
-        setTacoPos({
-          top: rect.top + rect.height / 2 - tacH / 2,
-          left: rect.left - tacW, // extremo derecho (punta) queda en el borde izq del logo
-        })
-      }
-      setMostrarTaco(true)
-      setBolaGolpeada(true)
-    }, 4400)
-    const t2 = setTimeout(() => setMostrarTaco(false), 4400 + 3200)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
-  }, [])
+  // Animación taco — oculta temporalmente
+  // useEffect(() => { ... }, [])
 
   return (
     <>
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrollado ? 'bg-azul shadow-lg shadow-azul/20' : 'bg-transparent'
+        scrollado ? 'bg-[#012857] shadow-lg shadow-black/30' : 'bg-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Logo */}
-          <a href="#" className="flex items-center ml-16 sm:ml-0">
-            <div ref={logoRef} className={`h-14 md:h-16 ${bolaGolpeada ? 'bola-anim' : 'hover:scale-105 transition-transform duration-200'}`}>
-              {/* Para volver al 63: <BolaBillar texto="63" className="h-full w-auto" /> */}
-              <BolaBillar texto="J" className="h-full w-auto" />
-            </div>
+          <a href="#" className="flex items-center shrink-0">
+            <img
+              src={scrollado
+                ? '/imagenes/campa%C3%B1a/logotipo_fondo_blanco.png'
+                : '/imagenes/campa%C3%B1a/logo_arriba.png'
+              }
+              alt="Javier Altamirano"
+              className={`w-auto object-contain hover:scale-105 transition-all duration-300 drop-shadow-md ${
+                scrollado ? 'h-10 md:h-12 rounded-xl' : 'h-16 md:h-20'
+              }`}
+            />
           </a>
 
           {/* Menú escritorio */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-4 lg:gap-5">
             {navegacion.enlaces.map((enlace) => (
               <a
                 key={enlace.href}
                 href={enlace.href}
-                className={`font-medium text-sm transition-colors duration-200 hover:text-oro ${scrollado ? 'text-white/80' : 'text-azul font-semibold'}`}
+                className={`font-medium text-xs lg:text-sm transition-colors duration-200 hover:text-oro whitespace-nowrap ${scrollado ? 'text-white' : 'text-azul'}`}
               >
                 {enlace.texto}
               </a>
             ))}
             <button
               onClick={() => setVideosAmbato(true)}
-              className={`font-bold text-sm px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:scale-105 flex items-center gap-2 ${scrollado ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-azul/10 hover:bg-azul/20 text-azul'}`}
+              className={`font-semibold text-xs lg:text-sm px-3 py-1.5 rounded-full transition-all duration-200 hover:scale-105 flex items-center gap-1.5 ${scrollado ? 'bg-white/15 hover:bg-white/25 text-white' : 'bg-azul/10 hover:bg-azul/20 text-azul'}`}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -95,7 +83,7 @@ export default function BarraNavegacion() {
             </button>
             <a
               href="#registro"
-              className="bg-oro hover:bg-oro-oscuro text-white font-bold text-sm px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:scale-105"
+              className="bg-oro hover:bg-oro-oscuro text-white font-bold text-xs lg:text-sm px-4 py-1.5 rounded-full transition-all duration-200 shadow-md hover:scale-105 whitespace-nowrap"
             >
               {navegacion.botonPrincipal.texto}
             </a>
@@ -154,30 +142,12 @@ export default function BarraNavegacion() {
       </div>
     </header>
 
-    {/* Taco de billar — position: fixed para evitar clipping de flex/overflow */}
-    {mostrarTaco && tacoPos && (
-      <div
-        style={{
-          position: 'fixed',
-          top: `${tacoPos.top}px`,
-          left: `${tacoPos.left}px`,
-          pointerEvents: 'none',
-          zIndex: 9999,
-          animation: 'taco-entrar 3s forwards',
-        }}
-      >
-        <img
-          src="/imagenes/taco.png"
-          alt=""
-          style={{
-            height: '40px',
-            width: 'auto',
-            display: 'block',
-            filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.7))',
-          }}
-        />
+    {/* Taco de billar — oculto temporalmente */}
+    {/* {mostrarTaco && tacoPos && (
+      <div style={{ position: 'fixed', top: `${tacoPos.top}px`, left: `${tacoPos.left}px`, pointerEvents: 'none', zIndex: 9999, animation: 'taco-entrar 3s forwards' }}>
+        <img src="/imagenes/taco.png" alt="" style={{ height: '40px', width: 'auto', display: 'block', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.7))' }} />
       </div>
-    )}
+    )} */}
 
     {carruselAbierto && <CarruselVideos onCerrar={() => setCarruselAbierto(false)} />}
     {videosAmbato && <CarruselVideos videos={VIDEOS_AMBATO} onCerrar={() => setVideosAmbato(false)} />}

@@ -69,7 +69,7 @@ export default function SeccionTop5() {
   }, [])
 
   return (
-    <section className="relative bg-azul py-20 pb-28 -mt-px">
+    <section className="relative bg-azul py-20 pb-28 -mt-px" style={{ background: 'linear-gradient(135deg, #012857 0%, #001F70 100%)' }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -114,7 +114,7 @@ export default function SeccionTop5() {
       {/* Ola divisora hacia SeccionLogros (bg-azul) */}
       <div className="absolute bottom-0 left-0 w-full leading-none pointer-events-none">
         <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
-          <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#21243D" />
+          <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#012857" />
         </svg>
       </div>
     </section>

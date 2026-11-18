@@ -7,6 +7,106 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ═══════════════════════════════════════════════
+   EFECTOS VISUALES — CAMPAÑA JAVIER ALTAMIRANO
+   ═══════════════════════════════════════════════ */
+
+/* Flotación suave */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%  { transform: translateY(-14px) rotate(0.8deg); }
+  66%  { transform: translateY(-7px) rotate(-0.5deg); }
+}
+
+/* Pulso de brillo naranja */
+@keyframes glow-naranja {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255,102,0,0.4), 0 0 50px rgba(255,102,0,0.15);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255,102,0,0.9), 0 0 90px rgba(255,102,0,0.4), 0 0 140px rgba(0,53,160,0.25);
+  }
+}
+
+/* Gradiente animado de fondo */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Shimmer naranja para texto */
+@keyframes shimmer-naranja {
+  0%   { background-position: -300% center; }
+  100% { background-position: 300% center; }
+}
+
+/* Entrada suave desde abajo */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Escala de pulso suave */
+@keyframes scale-breath {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+
+/* Rotación lenta para elementos decorativos */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Partícula subiendo */
+@keyframes particle-rise {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateY(-120px) scale(1); opacity: 0; }
+}
+
+/* Clases utilitarias de animación */
+.animate-float    { animation: float-slow 7s ease-in-out infinite; }
+.animate-glow-nar { animation: glow-naranja 2.5s ease-in-out infinite; }
+.animate-breath   { animation: scale-breath 4s ease-in-out infinite; }
+.animate-spin-slow{ animation: spin-slow 20s linear infinite; }
+.animate-rise-in  { animation: rise-in 0.8s cubic-bezier(.22,1,.36,1) forwards; }
+
+/* Texto con shimmer naranja */
+.shimmer-naranja {
+  background: linear-gradient(90deg, #FF6600, #FFB300, #FF6600, #FFB300);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-naranja 3s linear infinite;
+}
+
+/* Tarjeta 3D en hover */
+.card-3d {
+  transition: transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s ease;
+  transform-style: preserve-3d;
+}
+.card-3d:hover {
+  transform: perspective(900px) rotateX(-4deg) rotateY(6deg) translateY(-8px) scale(1.02);
+  box-shadow: 24px 32px 70px rgba(0,53,160,0.28), -4px -4px 20px rgba(255,102,0,0.12);
+}
+
+/* Botón con glow naranja */
+.btn-glow:hover {
+  box-shadow: 0 0 25px rgba(255,102,0,0.65), 0 0 55px rgba(255,102,0,0.3);
+  transform: translateY(-2px);
+}
+
+/* Gradiente de fondo animado */
+.bg-gradient-animate {
+  background: linear-gradient(135deg, #012857, #FF6600, #012857, #1A56CC);
+  background-size: 300% 300%;
+  animation: gradient-shift 8s ease infinite;
+}
+
 /* Evita que el menú fijo tape el contenido al navegar con anclas */
 [id] {
   scroll-margin-top: 80px;

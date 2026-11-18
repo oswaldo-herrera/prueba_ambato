@@ -77,12 +77,12 @@ export default function SeccionBuzonJavier() {
 
       {/* Fondo decorativo */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-[#21243D]/5 blur-3xl" />
+        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-[#012857]/5 blur-3xl" />
         <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full bg-[#AC7C3F]/8 blur-3xl" />
         <div
           className="absolute inset-0 opacity-[0.025]"
           style={{
-            backgroundImage: 'radial-gradient(circle, #21243D 1.5px, transparent 1.5px)',
+            backgroundImage: 'radial-gradient(circle, #012857 1.5px, transparent 1.5px)',
             backgroundSize: '36px 36px',
           }}
         />
@@ -95,7 +95,7 @@ export default function SeccionBuzonJavier() {
           <span className="inline-block text-[#AC7C3F] font-bold text-xs tracking-[0.28em] uppercase mb-3">
             Participa · Tu voz importa
           </span>
-          <h2 className="font-titulo font-black text-4xl sm:text-5xl text-[#21243D] leading-tight">
+          <h2 className="font-titulo font-black text-4xl sm:text-5xl text-[#012857] leading-tight">
             Javier <span className="text-[#AC7C3F]">te escucha</span>
           </h2>
         </div>
@@ -115,14 +115,14 @@ export default function SeccionBuzonJavier() {
               {/* Borde gradiente */}
               <div
                 className="relative rounded-3xl p-[2.5px] shadow-2xl"
-                style={{ background: 'linear-gradient(135deg, #D4A86A 0%, #21243D 45%, #AC7C3F 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #FF6600 0%, #012857 45%, #FF9900 100%)' }}
               >
                 {/* Esquinas decorativas */}
-                <span className="absolute -top-2 -left-2 w-5 h-5 rounded-full bg-[#D4A86A] shadow-lg z-10" />
-                <span className="absolute -top-2 -right-2 w-3 h-3 rounded-full bg-[#AC7C3F]/60 z-10" />
-                <span className="absolute -bottom-2 -left-2 w-3 h-3 rounded-full bg-[#AC7C3F]/60 z-10" />
+                <span className="absolute -top-2 -left-2 w-5 h-5 rounded-full bg-[#FF6600] shadow-lg z-10" />
+                <span className="absolute -top-2 -right-2 w-3 h-3 rounded-full bg-[#FF6600]/60 z-10" />
+                <span className="absolute -bottom-2 -left-2 w-3 h-3 rounded-full bg-[#FF6600]/60 z-10" />
 
-                <div className="rounded-[22px] overflow-hidden bg-[#21243D] relative">
+                <div className="rounded-[22px] overflow-hidden bg-[#012857] relative">
                   <video
                     ref={videoRef}
                     src="/imagenes/video_buzon_javier.mp4"
@@ -159,7 +159,7 @@ export default function SeccionBuzonJavier() {
               </div>
 
               {/* Badge flotante */}
-              <div className="absolute -bottom-5 -right-5 bg-[#21243D] text-white rounded-2xl px-4 py-3 shadow-xl flex items-center gap-2 z-10">
+              <div className="absolute -bottom-5 -right-5 bg-[#012857] text-white rounded-2xl px-4 py-3 shadow-xl flex items-center gap-2 z-10">
                 <span className="text-2xl">📬</span>
                 <div>
                   <div className="font-bold text-sm leading-tight">Buzón de</div>
@@ -170,7 +170,7 @@ export default function SeccionBuzonJavier() {
 
             {/* Texto descriptivo */}
             <div className="mt-6 space-y-4 max-w-sm">
-              <h3 className="font-titulo font-black text-2xl sm:text-3xl text-[#21243D] leading-tight">
+              <h3 className="font-titulo font-black text-2xl sm:text-3xl text-[#012857] leading-tight">
                 Mándanos tu <span className="text-[#AC7C3F]">propuesta</span>
               </h3>
               <p className="text-gray-500 leading-relaxed text-sm sm:text-base">
@@ -178,7 +178,7 @@ export default function SeccionBuzonJavier() {
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
                 {['🏗 Seguridad', '🏥 Salud', '💼 Empleo', '🎓 Educación', '💼 Movilidad', '🏗 Infraestructura' ].map(t => (
-                  <span key={t} className="text-xs font-semibold bg-[#21243D]/6 text-[#21243D] rounded-full px-3 py-1.5 border border-[#21243D]/10">
+                  <span key={t} className="text-xs font-semibold bg-[#012857]/6 text-[#012857] rounded-full px-3 py-1.5 border border-[#012857]/10">
                     {t}
                   </span>
                 ))}
@@ -188,7 +188,7 @@ export default function SeccionBuzonJavier() {
 
           {/* ── Columna derecha: formulario ── */}
           <div className="order-2 lg:order-1">
-            <div className="bg-[#21243D] rounded-3xl p-7 sm:p-9 shadow-2xl">
+            <div className="bg-[#012857] rounded-3xl p-7 sm:p-9 shadow-2xl">
 
               {enviado ? (
                 <div className="text-center py-10 space-y-4">
@@ -281,15 +281,15 @@ export default function SeccionBuzonJavier() {
                       className="w-full border border-white/15 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#AC7C3F]/60 focus:border-[#AC7C3F] transition-all appearance-none"
                       style={{ background: 'rgba(255,255,255,0.06)', color: parroquia ? '#fff' : 'rgba(255,255,255,0.35)' }}
                     >
-                      <option value="" style={{ background: '#21243D', color: '#fff' }}>— Selecciona tu parroquia —</option>
-                      <optgroup label="Urbanas" style={{ background: '#21243D', color: '#AC7C3F' }}>
+                      <option value="" style={{ background: '#012857', color: '#fff' }}>— Selecciona tu parroquia —</option>
+                      <optgroup label="Urbanas" style={{ background: '#012857', color: '#AC7C3F' }}>
                         {PARROQUIAS_URBANAS.map(p => (
-                          <option key={p} value={p} style={{ background: '#21243D', color: '#fff' }}>{p}</option>
+                          <option key={p} value={p} style={{ background: '#012857', color: '#fff' }}>{p}</option>
                         ))}
                       </optgroup>
-                      <optgroup label="Rurales" style={{ background: '#21243D', color: '#AC7C3F' }}>
+                      <optgroup label="Rurales" style={{ background: '#012857', color: '#AC7C3F' }}>
                         {PARROQUIAS_RURALES.map(p => (
-                          <option key={p} value={p} style={{ background: '#21243D', color: '#fff' }}>{p}</option>
+                          <option key={p} value={p} style={{ background: '#012857', color: '#fff' }}>{p}</option>
                         ))}
                       </optgroup>
                     </select>

@@ -62,9 +62,6 @@ export default function App() {
         {/* 2.6 Javier te escucha */}
         <SeccionBuzonJavier />
 
-        {/* 3. Video obra destacada */}
-        <SeccionVideoObra />
-
         {/* 3.2 Javier en Tu Casa */}
         <SeccionJavierEnTuCasa />
 
@@ -104,8 +101,11 @@ export default function App() {
         {/* 7. Facebook Live */}
         {/*<SeccionFacebookLive /> */}
 
-        {/* 8. Canal de WhatsApp */}
-        <SeccionWhatsApp />
+        {/* 8. Canal de WhatsApp — oculto temporalmente */}
+        {/* <SeccionWhatsApp /> */}
+
+        {/* 9. Video obra destacada — antes del footer */}
+        <SeccionVideoObra />
       </main>
 
       {/* ── PIE DE PÁGINA ── */}

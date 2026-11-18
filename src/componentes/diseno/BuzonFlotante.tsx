@@ -125,7 +125,7 @@ export default function BuzonFlotante() {
           }}
         >
           <div style={{
-            background: '#21243D', borderRadius: '20px', overflow: 'hidden',
+            background: '#012857', borderRadius: '20px', overflow: 'hidden',
             width: '100%', maxWidth: '440px', maxHeight: '92dvh',
             display: 'flex', flexDirection: 'column',
             boxShadow: '0 24px 64px rgba(0,0,0,0.45)',
@@ -255,12 +255,12 @@ export default function BuzonFlotante() {
                         outline: 'none', boxSizing: 'border-box', appearance: 'none',
                       }}
                     >
-                      <option value="" style={{ background: '#21243D' }}>— Selecciona tu parroquia —</option>
-                      <optgroup label="Urbanas" style={{ background: '#21243D', color: '#AC7C3F' }}>
-                        {PARROQUIAS_URBANAS.map(p => <option key={p} value={p} style={{ background: '#21243D', color: '#fff' }}>{p}</option>)}
+                      <option value="" style={{ background: '#012857' }}>— Selecciona tu parroquia —</option>
+                      <optgroup label="Urbanas" style={{ background: '#012857', color: '#AC7C3F' }}>
+                        {PARROQUIAS_URBANAS.map(p => <option key={p} value={p} style={{ background: '#012857', color: '#fff' }}>{p}</option>)}
                       </optgroup>
-                      <optgroup label="Rurales" style={{ background: '#21243D', color: '#AC7C3F' }}>
-                        {PARROQUIAS_RURALES.map(p => <option key={p} value={p} style={{ background: '#21243D', color: '#fff' }}>{p}</option>)}
+                      <optgroup label="Rurales" style={{ background: '#012857', color: '#AC7C3F' }}>
+                        {PARROQUIAS_RURALES.map(p => <option key={p} value={p} style={{ background: '#012857', color: '#fff' }}>{p}</option>)}
                       </optgroup>
                     </select>
                   </div>

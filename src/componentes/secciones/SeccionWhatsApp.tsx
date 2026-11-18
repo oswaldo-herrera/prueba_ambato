@@ -40,7 +40,7 @@ export default function SeccionWhatsApp() {
         <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" className="block w-full" preserveAspectRatio="none">
           <path
             d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z"
-            fill="#21243D"
+            fill="#012857"
           />
         </svg>
       </div>

@@ -13,14 +13,14 @@ export default {
       // ====================================
       colors: {
         'azul': {
-          DEFAULT: '#21243D',   // Azul marino campaña
-          'claro': '#353866',   // Azul más claro (hover, acentos)
-          'muy-claro': '#eaeaf2', // Fondo azul suave
+          DEFAULT: '#012857',   // Azul profundo campaña
+          'claro': '#1A4A8A',   // Azul más claro (hover, acentos)
+          'muy-claro': '#E6EEF8', // Fondo azul suave
         },
         'oro': {
-          DEFAULT: '#AC7C3F',   // Dorado campaña
-          'oscuro': '#8A6230',  // Dorado más oscuro (hover)
-          'claro': '#f5edd9',   // Fondo dorado suave
+          DEFAULT: '#FF6600',   // Naranja campaña (poster oficial)
+          'oscuro': '#E55500',  // Naranja oscuro (hover)
+          'claro': '#FFF3EB',   // Fondo naranja suave
         },
       },
       // ====================================
