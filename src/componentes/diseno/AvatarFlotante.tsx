@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
-const AUDIO_SALUDO = '/imagenes/musica_javier.mp3'
+const AUDIO_SALUDO = '/imagenes/campa%C3%B1a/javier_campa%C3%B1a.mpeg'
 
 export default function AvatarFlotante() {
   const [burbujaVisible, setBurbujaVisible] = useState(false)
@@ -65,7 +65,7 @@ export default function AvatarFlotante() {
         <img
           src="/imagenes/candidato_avatar.png"
           alt="Avatar del candidato"
-          className={`w-28 sm:w-36 drop-shadow-2xl select-none transition-all duration-150 ${hablando ? 'brightness-110 scale-105' : ''}`}
+          className={`w-20 sm:w-24 drop-shadow-2xl select-none transition-all duration-150 ${hablando ? 'brightness-110 scale-105' : ''}`}
           draggable={false}
         />
 
