@@ -456,7 +456,7 @@ export const pieDePagina = {
   ],
   redesSociales: [
     // CAMBIA estos enlaces por tus redes reales
-    { nombre: 'Facebook',  href: 'https://www.facebook.com/jfaltamirano63', icono: 'fb' },
+    { nombre: 'Facebook',  href: 'https://www.facebook.com/JavierAltamiranoec', icono: 'fb' },
     { nombre: 'Instagram', href: 'https://www.instagram.com/javieraltamirano.ec', icono: 'ig' },
     { nombre: 'YouTube',   href: 'https://www.youtube.com/@JavierAltamiranoec', icono: 'yt' },
     { nombre: 'TikTok',   href: 'https://www.tiktok.com/@javieraltamirano063', icono: 'tt' },
