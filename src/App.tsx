@@ -59,6 +59,9 @@ export default function App() {
         {/* 2.5 Inicio de Campaña */}
         <SeccionInicioCampana />
 
+        {/* 4.1 Ya viene 2050 — antes de Javier te escucha */}
+        <SeccionYaViene />
+
         {/* 2.6 Javier te escucha */}
         <SeccionBuzonJavier />
 
@@ -76,9 +79,6 @@ export default function App() {
 
         {/* 4. Propuestas */}
         <SeccionPropuestasNuevas />
-
-        {/* 4.1 Ya viene 2050 */}
-        <SeccionYaViene />
 
         {/* 4.5 Mundial 2026 */}
         {/* <SeccionMundial /> */}

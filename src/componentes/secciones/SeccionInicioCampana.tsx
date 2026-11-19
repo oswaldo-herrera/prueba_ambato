@@ -524,10 +524,10 @@ export default function SeccionInicioCampana() {
         </div>
 
 
-        {/* ── Ola inferior → transición a sección blanca ── */}
+        {/* ── Ola inferior → transición a SeccionYaViene (azul) ── */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', lineHeight: 0, pointerEvents: 'none', zIndex: 4 }}>
           <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', width: '100%' }} preserveAspectRatio="none">
-            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#ffffff" />
+            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#012857" />
           </svg>
         </div>
 

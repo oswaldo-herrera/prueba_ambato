@@ -65,8 +65,8 @@ export default function SeccionYaViene() {
           />
         </div>
 
-        {/* Tres reels en fila */}
-        <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
+        {/* Reels — filas de 3 */}
+        <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', maxWidth: '800px', margin: '32px auto 0' }}>
 
           {/* Reel izquierdo — Hospital Municipal */}
           <div style={{
@@ -110,6 +110,22 @@ export default function SeccionYaViene() {
             <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
               <video
                 src="/imagenes/reels/nuevo_estadio.mp4"
+                controls
+                playsInline
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+          </div>
+
+          {/* Reel 4 — No Hice Nada (nueva fila) */}
+          <div style={{
+            borderRadius: '20px', padding: '3px',
+            background: 'linear-gradient(135deg, rgba(255,102,0,0.6) 0%, rgba(255,255,255,0.15) 40%, rgba(1,40,87,0.5) 100%)',
+            boxShadow: '0 0 30px rgba(255,102,0,0.2)', width: '100%', maxWidth: '240px',
+          }}>
+            <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
+              <video
+                src="/imagenes/reels/no_hice_nada.mp4"
                 controls
                 playsInline
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
