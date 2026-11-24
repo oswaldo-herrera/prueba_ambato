@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elecciones Ambato 2027 · Javier Altamirano</title>
+  <meta name="description" content="Envía tu comentario o propuesta para Ambato. Javier Altamirano te escucha." />
+  <link rel="icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #012857;
+      --oro: #FF6600;
+      --azul-claro: #001F70;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      color: #1a1a1a;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--azul);
+      border-bottom: 3px solid var(--oro);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header-titulo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .header-titulo span { color: var(--oro); }
+
+    /* ── MAIN ── */
+    .main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    .titulo-seccion {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+    .titulo-seccion span { color: var(--oro); }
+    .subtitulo {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* ── CARD FORMULARIO ── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    .campo label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    select, textarea {
+      width: 100%;
+      background: #f9fafb;
+      border: 1.5px solid #d1d5db;
+      border-radius: 12px;
+      color: #111827;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    select:focus, textarea:focus {
+      border-color: var(--oro);
+    }
+    select option { background: #fff; color: #111827; }
+    textarea { resize: vertical; min-height: 110px; }
+
+    /* Select arrow */
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      pointer-events: none;
+      font-size: 1rem;
+    }
+
+    /* ── BOTONES FOTO / UBICACIÓN ── */
+    .acciones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn-accion {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #f3f4f6;
+      border: 1.5px solid #d1d5db;
+      border-radius: 10px;
+      color: #374151;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-accion:hover { background: #e5e7eb; border-color: var(--oro); }
+    .btn-accion.activo { border-color: #22c55e; color: #16a34a; }
+    .btn-accion.ubicacion-ok { border-color: #22c55e; color: #16a34a; }
+
+    .fotos-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .foto-thumb {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid var(--oro);
+    }
+
+    /* ── BOTÓN ENVIAR ── */
+    .btn-enviar {
+      width: 100%;
+      background: #25D366;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.03em;
+    }
+    .btn-enviar:hover { background: #1db954; transform: scale(1.01); }
+    .btn-enviar:active { transform: scale(0.99); }
+
+    .nota {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: center;
+      margin-top: -8px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.72rem;
+      color: #9ca3af;
+    }
+
+    @media (max-width: 480px) {
+      .titulo-seccion { font-size: 1.5rem; }
+      .card { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-titulo">Elecciones <span>2026</span></div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="card">
+
+      <!-- PARROQUIA -->
+      <div class="campo">
+        <label>Parroquia *</label>
+        <div class="select-wrap">
+          <select id="parroquia">
+            <option value="">— Selecciona tu parroquia —</option>
+            <optgroup label="Urbanas">
+              <option>Atocha - Ficoa</option>
+              <option>Celiano Monge</option>
+              <option>Huachi Chico</option>
+              <option>Huachi Loreto</option>
+              <option>La Matriz</option>
+              <option>La Merced</option>
+              <option>La Península</option>
+              <option>Pishilata</option>
+              <option>San Francisco</option>
+            </optgroup>
+            <optgroup label="Rurales">
+              <option>Ambatillo</option>
+              <option>Atahualpa</option>
+              <option>Augusto Nicolás Martínez</option>
+              <option>Constantino Fernández</option>
+              <option>Cunchibamba</option>
+              <option>Huachi Grande</option>
+              <option>Izamba</option>
+              <option>Juan Benigno Vela</option>
+              <option>Montalvo</option>
+              <option>Pasa</option>
+              <option>Picaihua</option>
+              <option>Pilahuín</option>
+              <option>Quisapincha</option>
+              <option>San Bartolomé de Pinllo</option>
+              <option>San Fernando</option>
+              <option>Santa Rosa</option>
+              <option>Totoras</option>
+              <option>Unamuncho</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <!-- COMENTARIO -->
+      <div class="campo">
+        <label>Comentario</label>
+        <textarea id="comentario" placeholder="Observaciones"></textarea>
+      </div>
+
+      <!-- FOTOS -->
+      <div class="campo">
+        <label>Fotos (opcional)</label>
+        <div class="acciones">
+          <button class="btn-accion" onclick="document.getElementById('cameraInput').click()">
+            📷 Tomar foto
+          </button>
+          <button class="btn-accion" onclick="document.getElementById('fileInput').click()">
+            🖼️ Agregar foto
+          </button>
+          <button class="btn-accion" id="btnUbicacion" onclick="obtenerUbicacion()">
+            📍 Usar mi ubicación
+          </button>
+        </div>
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" multiple onchange="agregarFotos(this)" />
+        <input type="file" id="fileInput" accept="image/*" style="display:none" multiple onchange="agregarFotos(this)" />
+        <div class="fotos-preview" id="fotosPreview"></div>
+      </div>
+
+      <!-- BOTÓN ENVIAR -->
+      <button class="btn-enviar" onclick="enviarWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.374 0 0 5.373 0 12c0 2.117.549 4.107 1.504 5.836L.057 23.882a.75.75 0 0 0 .921.921l6.047-1.447A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.846 0-3.573-.484-5.075-1.332l-.363-.214-3.767.902.916-3.767-.221-.375A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Enviar
+      </button>
+      <p class="nota">Se abrirá WhatsApp con tu mensaje. Puedes adjuntar fotos directamente ahí.</p>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2026 · javieraltamirano.org · Ambato 2027–2031
+  </footer>
+
+  <script>
+    let ubicacionTexto = ''
+    let fotosSeleccionadas = []
+
+    function agregarFotos(input) {
+      const archivos = Array.from(input.files)
+      archivos.forEach(archivo => {
+        if (fotosSeleccionadas.length >= 3) return
+        fotosSeleccionadas.push(archivo)
+        const reader = new FileReader()
+        reader.onload = e => {
+          const img = document.createElement('img')
+          img.src = e.target.result
+          img.className = 'foto-thumb'
+          document.getElementById('fotosPreview').appendChild(img)
+        }
+        reader.readAsDataURL(archivo)
+      })
+      input.value = ''
+    }
+
+    function obtenerUbicacion() {
+      const btn = document.getElementById('btnUbicacion')
+      btn.textContent = '⏳ Obteniendo...'
+      if (!navigator.geolocation) {
+        alert('Tu dispositivo no soporta geolocalización.')
+        btn.textContent = '📍 Usar mi ubicación'
+        return
+      }
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const lat = pos.coords.latitude.toFixed(6)
+          const lng = pos.coords.longitude.toFixed(6)
+          ubicacionTexto = `https://maps.google.com/?q=${lat},${lng}`
+          btn.textContent = '✅ Ubicación obtenida'
+          btn.classList.add('ubicacion-ok')
+        },
+        () => {
+          alert('No se pudo obtener la ubicación. Verifica los permisos.')
+          btn.textContent = '📍 Usar mi ubicación'
+        }
+      )
+    }
+
+    function enviarWhatsApp() {
+      const parroquia = document.getElementById('parroquia').value
+      const comentario = document.getElementById('comentario').value.trim()
+
+      if (!parroquia) {
+        alert('Por favor selecciona tu parroquia.')
+        return
+      }
+
+      let mensaje = '*MENSAJE ELECTORAL · Javier Altamirano*\n'
+      mensaje += `*Parroquia:* ${parroquia}\n`
+      if (comentario) mensaje += `*Comentario:* ${comentario}\n`
+      if (ubicacionTexto) mensaje += `*Ubicación:* ${ubicacionTexto}\n`
+      if (fotosSeleccionadas.length > 0) mensaje += `_Adjunta ${fotosSeleccionadas.length} foto(s) en este chat._\n`
+      mensaje += `_Enviado desde javieraltamirano.org/elecciones_`
+
+      const numero = '593986324840'
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`
+      window.open(url, '_blank')
+    }
+  </script>
+
+</body>
+</html>
