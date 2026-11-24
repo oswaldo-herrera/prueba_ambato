@@ -21,18 +21,21 @@ export default function SeccionInicioNueva() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at 35% 45%, #F4F5F8 0%, #E8E9EE 55%, #D8DAE0 100%)' }}
     >
+      {/* Relleno azul en el borde inferior para eliminar gap entre secciones */}
+      <div className="absolute bottom-0 left-0 w-full h-2 bg-[#012857] pointer-events-none" style={{ zIndex: 1 }} />
+
       {/* ── Swoosh estilo banner oficial — una curva suave, 3 capas ── */}
       <svg
         className="absolute bottom-0 left-0 w-full pointer-events-none"
         viewBox="0 0 1440 480"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
-        style={{ height: '54%' }}
+        style={{ height: '54%', zIndex: 2 }}
       >
-        {/* Línea blanca fina — capa superior del swoosh */}
+        {/* Capa superior del swoosh — azul para fundir con la sección siguiente */}
         <path
           d="M0,318 C380,348 900,318 1440,278 L1440,322 C900,362 380,392 0,362 Z"
-          fill="white"
+          fill="#012857"
         />
         {/* Franja naranja — debajo del blanco */}
         <path

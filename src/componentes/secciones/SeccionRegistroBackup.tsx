@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { seccionRegistro } from '../../contenido/textos'
 import { supabase } from '../../lib/supabase'
+import ContadorVisitas from '../diseno/ContadorVisitas'
 
 type CamposFormulario = {
   nombre: string
@@ -237,8 +238,13 @@ export default function SeccionRegistroBackup({ onPolitica }: { onPolitica?: () 
                 + Seguridad  + Salud + Empleo.
               </p>
               <p className="text-white/70 text-lg leading-relaxed">
-                <strong className="text-white font-semibold">Experiencia</strong> para escuchar, <strong className="text-white font-semibold">Carácter</strong> para corregir, capacidad para <strong className="text-white font-semibold">Ejecutar</strong> 
+                <strong className="text-white font-semibold">Experiencia</strong> para escuchar, <strong className="text-white font-semibold">Carácter</strong> para corregir, capacidad para <strong className="text-white font-semibold">Ejecutar</strong>
               </p>
+
+              {/* Contador de visitas */}
+              <div className="mt-6 pt-6 border-t border-white/10">
+                <ContadorVisitas variante="oscuro" />
+              </div>
             </div>
           </div>
         </div>

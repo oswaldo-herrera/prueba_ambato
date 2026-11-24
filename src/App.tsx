@@ -37,6 +37,7 @@ import SeccionVideoObra from './componentes/secciones/SeccionVideoObra'
 // import SeccionRegistro from './componentes/secciones/SeccionRegistro'
 import SeccionRegistroBackup from './componentes/secciones/SeccionRegistroBackup'
 import SeccionBuzonJavier from './componentes/secciones/SeccionBuzonJavier'
+import SeccionComoVotar from './componentes/secciones/SeccionComoVotar'
 
 export default function App() {
   const [politicaAbierta, setPoliticaAbierta] = useState(false)
@@ -52,6 +53,9 @@ export default function App() {
         {/* 1. Sección de inicio / Hero — CAMBIA ENTRE LAS DOS OPCIONES */}
         {/* INICIO NUEVA (activa) — para volver a la anterior ver los imports comentados arriba */}
         <SeccionInicioNueva />
+
+        {/* 1.5 Cómo votar */}
+        <SeccionComoVotar />
 
         {/* 2. Quién soy / Conóceme */}
         <SeccionQuienSoy />

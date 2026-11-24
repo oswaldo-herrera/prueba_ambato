@@ -46,11 +46,11 @@ export default function IntroAnimacion() {
           Ambato 2027 - 2031
         </p>
 
-        {/* Imagen campaña */}
+        {/* Boleta */}
         <img
-          src="/imagenes/campa%C3%B1a/javier_altamirano.jpg"
-          alt="Javier Altamirano"
-          className="w-full max-w-xs sm:max-w-sm mx-auto object-contain drop-shadow-2xl rounded-xl"
+          src="/imagenes/campa%C3%B1a/volantes/boleta_web.jpeg"
+          alt="Cómo votar"
+          className="w-full max-w-[200px] sm:max-w-[240px] mx-auto object-contain drop-shadow-2xl rounded-xl"
         />
       </div>
 
