@@ -100,7 +100,7 @@ export default function PieDePagina({ onPolitica }: { onPolitica?: () => void })
               Tu participación marca la diferencia. Regístrate y unete con Javier Altamirano.
             </p>
             <a
-              href="#registro"
+              href="#registro-backup"
               className="inline-block bg-oro hover:bg-oro-oscuro text-azul font-bold text-sm px-6 py-3 rounded-full transition-all duration-200"
             >
               Regístrate ahora

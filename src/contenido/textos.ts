@@ -15,7 +15,7 @@ export const navegacion = {
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Logros',      href: '#logros' },
     { texto: 'Propuestas',  href: '#propuestas-nuevas' },
-    { texto: 'Agenda',      href: '#agenda' },
+    // { texto: 'Agenda',      href: '#agenda' },
     { texto: 'Regístrate',  href: '#registro-backup' },
   ],
   botonPrincipal: {
@@ -452,13 +452,13 @@ export const pieDePagina = {
     { texto: 'Trayectoria', href: '#trayectoria' },
     { texto: 'Logros',      href: '#logros' },
     { texto: 'Propuestas',  href: '#propuestas-nuevas' },
-    { texto: 'Regístrate',  href: '#registro' },
+    { texto: 'Regístrate',  href: '#registro-backup' },
   ],
   redesSociales: [
     // CAMBIA estos enlaces por tus redes reales
     { nombre: 'Facebook',  href: 'https://www.facebook.com/JavierAltamiranoec', icono: 'fb' },
     { nombre: 'Instagram', href: 'https://www.instagram.com/javieraltamirano.ec', icono: 'ig' },
     { nombre: 'YouTube',   href: 'https://www.youtube.com/@JavierAltamiranoec', icono: 'yt' },
-    { nombre: 'TikTok',   href: 'https://www.tiktok.com/@javieraltamirano063', icono: 'tt' },
+    { nombre: 'TikTok',   href: 'https://www.tiktok.com/@javieraltamirano.ec', icono: 'tt' },
   ],
 }

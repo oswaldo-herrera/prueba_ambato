@@ -82,7 +82,7 @@ export default function BarraNavegacion() {
               Ambato
             </button>
             <a
-              href="#registro"
+              href="#buzon-javier"
               className="bg-oro hover:bg-oro-oscuro text-white font-bold text-xs lg:text-sm px-4 py-1.5 rounded-full transition-all duration-200 shadow-md hover:scale-105 whitespace-nowrap"
             >
               {navegacion.botonPrincipal.texto}
@@ -129,7 +129,7 @@ export default function BarraNavegacion() {
                   Videos
                 </button>
                 <a
-                  href="#registro"
+                  href="#buzon-javier"
                   onClick={() => setMenuAbierto(false)}
                   className="block w-full text-center bg-oro hover:bg-oro-oscuro text-azul font-bold text-sm px-5 py-3 rounded-full transition-colors"
                 >

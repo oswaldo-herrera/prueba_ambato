@@ -73,7 +73,7 @@ export default function SeccionBuzonJavier() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-white py-20 sm:py-28 -mt-px">
+    <section id="buzon-javier" className="relative overflow-hidden bg-white py-20 sm:py-28 -mt-px scroll-mt-20">
 
       {/* Fondo decorativo */}
       <div className="absolute inset-0 pointer-events-none">
