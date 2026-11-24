@@ -179,10 +179,10 @@ export default function SeccionInicioCampana() {
           marginBottom: '-2px',
         }}
       >
-        {/* ── Ola superior: tapa blanca invertida para transición desde SeccionQuienSoy ── */}
+        {/* ── Ola superior: transición desde SeccionComoVotar (azul) ── */}
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', lineHeight: 0, pointerEvents: 'none', zIndex: 5 }}>
           <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', width: '100%' }} preserveAspectRatio="none">
-            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,0 L0,0 Z" fill="#ffffff" />
+            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,0 L0,0 Z" fill="#012857" />
           </svg>
         </div>
 

@@ -24,6 +24,13 @@ export default function SeccionInicioNueva() {
       {/* Relleno azul en el borde inferior para eliminar gap entre secciones */}
       <div className="absolute bottom-0 left-0 w-full h-2 bg-[#012857] pointer-events-none" style={{ zIndex: 1 }} />
 
+      {/* Curva blanca inferior — da forma redondeada al borde del swoosh */}
+      <div className="absolute bottom-0 left-0 w-full leading-none pointer-events-none" style={{ zIndex: 10 }}>
+        <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="block w-full" style={{ height: '70px' }}>
+          <path d="M0,70 C360,10 1080,10 1440,70 L1440,70 L0,70 Z" fill="#ffffff" />
+        </svg>
+      </div>
+
       {/* ── Swoosh estilo banner oficial — una curva suave, 3 capas ── */}
       <svg
         className="absolute bottom-0 left-0 w-full pointer-events-none"

@@ -54,11 +54,11 @@ export default function App() {
         {/* INICIO NUEVA (activa) — para volver a la anterior ver los imports comentados arriba */}
         <SeccionInicioNueva />
 
-        {/* 1.5 Cómo votar */}
-        <SeccionComoVotar />
-
         {/* 2. Quién soy / Conóceme */}
         <SeccionQuienSoy />
+
+        {/* 2.5 Cómo votar */}
+        <SeccionComoVotar />
 
         {/* 2.5 Inicio de Campaña */}
         <SeccionInicioCampana />
