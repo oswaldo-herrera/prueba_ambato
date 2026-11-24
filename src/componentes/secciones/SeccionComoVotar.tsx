@@ -25,7 +25,7 @@ export default function SeccionComoVotar() {
             src="/imagenes/campa%C3%B1a/volantes/boleta_pc.jpeg"
             alt="Cómo votar por Javier Altamirano - escritorio"
             onClick={() => abrirImg('/imagenes/campa%C3%B1a/volantes/boleta_pc.jpeg')}
-            className="hidden lg:block w-full max-w-3xl rounded-2xl shadow-2xl shadow-black/40 ring-2 ring-oro/20 cursor-zoom-in hover:scale-[1.02] transition-transform duration-200"
+            className="hidden lg:block w-full max-w-xl rounded-2xl shadow-2xl shadow-black/40 ring-2 ring-oro/20 cursor-zoom-in hover:scale-[1.02] transition-transform duration-200"
           />
 
           {/* Boleta vertical — solo móvil */}
@@ -36,22 +36,15 @@ export default function SeccionComoVotar() {
             className="block lg:hidden w-full max-w-sm rounded-2xl shadow-2xl shadow-black/40 ring-2 ring-oro/20 cursor-zoom-in hover:scale-[1.02] transition-transform duration-200"
           />
 
-          {/* Imagen mensajes — debajo de la boleta */}
-          <img
+          {/* Imagen mensajes — oculta temporalmente */}
+          {/* <img
             src="/imagenes/campa%C3%B1a/volantes/javier_altamirano_mensajes.png"
             alt="Javier Altamirano mensajes"
             onClick={() => abrirImg('/imagenes/campa%C3%B1a/volantes/javier_altamirano_mensajes.png')}
-            className="w-full max-w-sm lg:max-w-3xl rounded-2xl shadow-2xl shadow-black/40 ring-2 ring-oro/20 cursor-zoom-in hover:scale-[1.02] transition-transform duration-200"
-          />
+            className="w-full max-w-sm lg:max-w-xl rounded-2xl shadow-2xl shadow-black/40 ring-2 ring-oro/20 cursor-zoom-in hover:scale-[1.02] transition-transform duration-200"
+          /> */}
         </div>
 
-        {/* Fecha destacada */}
-        <div className="text-center mt-8">
-          <div className="inline-flex items-center gap-3 bg-oro/10 border border-oro/30 rounded-full px-6 py-3">
-            <span className="text-2xl">🗳️</span>
-            <span className="text-white font-bold text-lg">Vota el <span className="text-oro">29 de Noviembre de 2026</span></span>
-          </div>
-        </div>
 
       </div>
 
