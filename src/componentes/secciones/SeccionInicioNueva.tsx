@@ -110,7 +110,7 @@ export default function SeccionInicioNueva() {
           </div>
 
           {/* Columna derecha — Foto del candidato */}
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex justify-center lg:justify-end relative z-10">
             <div
               className="relative cursor-pointer"
               onMouseMove={handleTiltMove}
