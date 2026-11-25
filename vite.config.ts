@@ -10,13 +10,9 @@ export default defineConfig({
       name: 'static-pages',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
-          const staticRoutes: Record<string, string> = {
-            '/elecciones': 'public/elecciones/index.html',
-            '/elecciones/': 'public/elecciones/index.html',
-          }
-          const filePath = staticRoutes[req.url?.split('?')[0] || '']
-          if (filePath) {
-            const fullPath = path.resolve(filePath)
+          const url = (req.url ?? '').split('?')[0]
+          if (url === '/elecciones' || url === '/elecciones/') {
+            const fullPath = path.join(process.cwd(), 'public', 'elecciones', 'index.html')
             if (fs.existsSync(fullPath)) {
               res.setHeader('Content-Type', 'text/html; charset=utf-8')
               res.end(fs.readFileSync(fullPath))
@@ -29,6 +25,7 @@ export default defineConfig({
     },
   ],
   server: {
+    port: 5173,
     headers: {
       'Accept-Ranges': 'bytes',
     },

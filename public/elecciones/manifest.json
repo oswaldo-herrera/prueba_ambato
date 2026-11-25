@@ -1,0 +1,9 @@
+{
+  "name": "Elecciones 2026 · Javier Altamirano",
+  "short_name": "Elecciones",
+  "start_url": "/elecciones/",
+  "display": "standalone",
+  "background_color": "#012857",
+  "theme_color": "#012857",
+  "icons": []
+}

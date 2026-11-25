@@ -6,30 +6,28 @@
   <title>Elecciones Ambato 2027 · Javier Altamirano</title>
   <meta name="description" content="Envía tu comentario o propuesta para Ambato. Javier Altamirano te escucha." />
   <link rel="icon" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="manifest" href="/elecciones/manifest.json" />
   <script src="/elecciones/supabase.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --azul: #012857;
+      --azul: #1A56DB;
       --oro: #FF6600;
-      --azul-claro: #001F70;
+      --azul-oscuro: #0E3FA5;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #EEF3FF;
       min-height: 100vh;
       color: #1a1a1a;
     }
 
     /* ── HEADER ── */
     .header {
-      background: var(--azul);
-      border-bottom: 3px solid var(--oro);
+      background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
+      border-bottom: 4px solid var(--oro);
       padding: 16px 24px;
       display: flex;
       align-items: center;
@@ -94,7 +92,7 @@
       border: 1.5px solid #d1d5db;
       border-radius: 12px;
       color: #111827;
-      font-family: 'Inter', sans-serif;
+      font-family: inherit;
       font-size: 0.95rem;
       padding: 12px 16px;
       outline: none;
@@ -102,8 +100,21 @@
       appearance: none;
       -webkit-appearance: none;
     }
+    input[type="text"] {
+      width: 100%;
+      background: #f9fafb;
+      border: 1.5px solid #d1d5db;
+      border-radius: 12px;
+      color: #111827;
+      font-family: inherit;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus { border-color: var(--azul); }
     select:focus, textarea:focus {
-      border-color: var(--oro);
+      border-color: var(--azul);
     }
     select option { background: #fff; color: #111827; }
     textarea { resize: vertical; min-height: 110px; }
@@ -140,7 +151,7 @@
       padding: 10px 16px;
       cursor: pointer;
       transition: background 0.2s, border-color 0.2s;
-      font-family: 'Inter', sans-serif;
+      font-family: inherit;
     }
     .btn-accion:hover { background: #e5e7eb; border-color: var(--oro); }
     .btn-accion.activo { border-color: #22c55e; color: #16a34a; }
@@ -165,7 +176,7 @@
       width: 100%;
       background: #25D366;
       color: #fff;
-      font-family: 'Montserrat', sans-serif;
+      font-family: inherit;
       font-weight: 800;
       font-size: 1rem;
       padding: 16px;
@@ -224,6 +235,7 @@
       background: var(--azul);
       border-color: var(--azul);
       color: #fff;
+      box-shadow: 0 4px 12px rgba(26,86,219,0.3);
     }
     .badge {
       background: var(--oro);
@@ -275,7 +287,7 @@
     .card-pendiente .cp-parroquia {
       font-weight: 700;
       font-size: 0.95rem;
-      color: var(--azul);
+      color: var(--azul-oscuro);
     }
     .card-pendiente .cp-fecha {
       font-size: 0.72rem;
@@ -308,7 +320,7 @@
       flex: 1;
       background: #25D366;
       color: #fff;
-      font-family: 'Montserrat', sans-serif;
+      font-family: inherit;
       font-weight: 800;
       font-size: 0.82rem;
       padding: 10px;
@@ -365,6 +377,12 @@
     <!-- SECCIÓN FORMULARIO -->
     <div id="seccionFormulario">
     <div class="card">
+
+      <!-- NOMBRE -->
+      <div class="campo">
+        <label>Nombre *</label>
+        <input type="text" id="nombre" placeholder="Tu nombre completo" autocomplete="name" />
+      </div>
 
       <!-- PARROQUIA -->
       <div class="campo">
@@ -558,11 +576,11 @@
       badge.classList.toggle('visible', total > 0)
     }
 
-    function guardarPendiente(parroquia, comentario, ubicacion, fotos64) {
+    function guardarPendiente(nombre, parroquia, comentario, ubicacion, fotos64) {
       const lista = getPendientes()
       const id = Date.now()
       const fecha = new Date().toLocaleString('es-EC', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })
-      lista.unshift({ id, parroquia, comentario, ubicacion, fotos64, fecha, enviado: false })
+      lista.unshift({ id, nombre, parroquia, comentario, ubicacion, fotos64, fecha, enviado: false })
       setPendientes(lista)
       actualizarBadge()
       return id
@@ -579,7 +597,7 @@
       cont.innerHTML = lista.map(p => `
         <div class="card-pendiente" id="cp-${p.id}">
           <div class="cp-header">
-            <div class="cp-parroquia">${p.parroquia}</div>
+            <div class="cp-parroquia">${p.nombre ? p.nombre + ' · ' : ''}${p.parroquia}</div>
             <div class="cp-fecha">${p.fecha}</div>
           </div>
           ${p.comentario ? `<div class="cp-obs">${p.comentario}</div>` : ''}
@@ -627,6 +645,7 @@
       }
 
       let mensaje = '*ELECCIONES 2026 · Javier Altamirano*\n'
+      if (p.nombre) mensaje += `*Nombre:* ${p.nombre}\n`
       mensaje += `*Parroquia:* ${p.parroquia}\n`
       if (p.comentario) mensaje += `*Observaciones:* ${p.comentario}\n`
       if (p.ubicacion) mensaje += `*Ubicación:* ${p.ubicacion}\n`
@@ -643,18 +662,20 @@
 
     // ── ENVIAR FORMULARIO ──
     async function enviarWhatsApp() {
+      const nombre = document.getElementById('nombre').value.trim()
       const parroquia = document.getElementById('parroquia').value
       const comentario = document.getElementById('comentario').value.trim()
       const aviso = document.getElementById('avisoEnvio')
       aviso.className = 'aviso'
 
+      if (!nombre) { alert('Por favor ingresa tu nombre.'); return }
       if (!parroquia) { alert('Por favor selecciona tu parroquia.'); return }
 
       const btn = document.querySelector('.btn-enviar')
       btn.disabled = true
 
       // Siempre guardar como pendiente
-      guardarPendiente(parroquia, comentario, ubicacionTexto, [...fotosBase64])
+      guardarPendiente(nombre, parroquia, comentario, ubicacionTexto, [...fotosBase64])
 
       if (!navigator.onLine) {
         btn.textContent = 'Enviar'
@@ -662,6 +683,7 @@
         aviso.className = 'aviso guardado'
         aviso.textContent = '📥 Sin internet — guardado en Pendientes. Se enviará cuando tengas señal.'
         // Reset form
+        document.getElementById('nombre').value = ''
         document.getElementById('parroquia').value = ''
         document.getElementById('comentario').value = ''
         fotosSeleccionadas = []; fotosBase64 = []
@@ -677,6 +699,7 @@
       if (fotosSeleccionadas.length > 0) fotosUrls = await subirFotos()
 
       let mensaje = '*ELECCIONES 2026 · Javier Altamirano*\n'
+      mensaje += `*Nombre:* ${nombre}\n`
       mensaje += `*Parroquia:* ${parroquia}\n`
       if (comentario) mensaje += `*Observaciones:* ${comentario}\n`
       if (ubicacionTexto) mensaje += `*Ubicación:* ${ubicacionTexto}\n`
@@ -697,6 +720,7 @@
       btn.disabled = false
 
       // Reset form
+      document.getElementById('nombre').value = ''
       document.getElementById('parroquia').value = ''
       document.getElementById('comentario').value = ''
       fotosSeleccionadas = []; fotosBase64 = []
@@ -708,6 +732,11 @@
 
     // Init badge al cargar
     actualizarBadge()
+
+    // Registrar Service Worker para funcionar offline
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/elecciones/sw.js').catch(() => {})
+    }
   </script>
 
 </body>
