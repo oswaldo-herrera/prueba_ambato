@@ -277,6 +277,7 @@
         </div>
         <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none" multiple onchange="agregarFotos(this)" />
         <input type="file" id="fileInput" accept="image/*" style="display:none" multiple onchange="agregarFotos(this)" />
+        <p style="font-size:0.75rem;color:#9ca3af;margin-top:8px;">📌 Usa la <strong>cámara trasera</strong> del celular para tomar la foto.</p>
         <div class="fotos-preview" id="fotosPreview"></div>
       </div>
 
@@ -343,6 +344,14 @@
       )
     }
 
+    async function acortarUrl(url) {
+      try {
+        const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`)
+        if (res.ok) return await res.text()
+      } catch {}
+      return url
+    }
+
     async function subirFotos() {
       const urls = []
       for (const archivo of fotosSeleccionadas) {
@@ -381,9 +390,10 @@
       mensaje += `*Parroquia:* ${parroquia}\n`
       if (comentario) mensaje += `*Observaciones:* ${comentario}\n`
       if (ubicacionTexto) mensaje += `*Ubicación:* ${ubicacionTexto}\n`
-      fotosUrls.forEach((url, i) => {
-        mensaje += `*Foto ${i + 1}:* ${url}\n`
-      })
+      for (let i = 0; i < fotosUrls.length; i++) {
+        const urlCorta = await acortarUrl(fotosUrls[i])
+        mensaje += `*Foto ${i + 1}:* ${urlCorta}\n`
+      }
       mensaje += `_javieraltamirano.org/elecciones_`
 
       const numero = '593986324840'
