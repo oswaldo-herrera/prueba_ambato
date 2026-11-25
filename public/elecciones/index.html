@@ -346,8 +346,11 @@
 
     async function acortarUrl(url) {
       try {
-        const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`)
-        if (res.ok) return await res.text()
+        const res = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(url)}`)
+        if (res.ok) {
+          const corta = (await res.text()).trim()
+          if (corta.startsWith('http')) return corta
+        }
       } catch {}
       return url
     }
