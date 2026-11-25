@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="/elecciones/supabase.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -197,6 +197,147 @@
       color: #9ca3af;
     }
 
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1.5px solid #d1d5db;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+    .tab.activo {
+      background: var(--azul);
+      border-color: var(--azul);
+      color: #fff;
+    }
+    .badge {
+      background: var(--oro);
+      color: #fff;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 1px 7px;
+      min-width: 20px;
+      text-align: center;
+      display: none;
+    }
+    .badge.visible { display: inline-block; }
+
+    /* ── AVISO OFFLINE ── */
+    .aviso {
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-top: -8px;
+      text-align: center;
+      display: none;
+    }
+    .aviso.guardado { background: #dcfce7; color: #16a34a; display: block; }
+    .aviso.error { background: #fee2e2; color: #dc2626; display: block; }
+
+    /* ── TARJETA PENDIENTE ── */
+    .pendiente-vacio {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.9rem;
+      padding: 40px 20px;
+    }
+    .card-pendiente {
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .card-pendiente .cp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .card-pendiente .cp-parroquia {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--azul);
+    }
+    .card-pendiente .cp-fecha {
+      font-size: 0.72rem;
+      color: #9ca3af;
+    }
+    .card-pendiente .cp-obs {
+      font-size: 0.82rem;
+      color: #6b7280;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .card-pendiente .cp-fotos {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .card-pendiente .cp-fotos img {
+      width: 54px;
+      height: 54px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+    }
+    .card-pendiente .cp-acciones {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-enviar-p {
+      flex: 1;
+      background: #25D366;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.82rem;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-enviar-p:hover { background: #1db954; }
+    .btn-enviar-p:disabled { background: #9ca3af; cursor: default; }
+    .btn-eliminar-p {
+      background: #f3f4f6;
+      color: #6b7280;
+      border: 1.5px solid #d1d5db;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .btn-eliminar-p:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+    .estado-enviado {
+      font-size: 0.78rem;
+      color: #16a34a;
+      font-weight: 600;
+      text-align: center;
+      padding: 6px;
+    }
+
     @media (max-width: 480px) {
       .titulo-seccion { font-size: 1.5rem; }
       .card { padding: 20px 16px; }
@@ -212,6 +353,17 @@
 
   <!-- MAIN -->
   <main class="main">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab activo" id="tabFormulario" onclick="mostrarTab('formulario')">Formulario</button>
+      <button class="tab" id="tabPendientes" onclick="mostrarTab('pendientes')">
+        Pendientes <span class="badge" id="badge">0</span>
+      </button>
+    </div>
+
+    <!-- SECCIÓN FORMULARIO -->
+    <div id="seccionFormulario">
     <div class="card">
 
       <!-- PARROQUIA -->
@@ -287,8 +439,16 @@
         Enviar
       </button>
       <p class="nota">Se abrirá WhatsApp con tu mensaje. Puedes adjuntar fotos directamente ahí.</p>
+      <div class="aviso" id="avisoEnvio"></div>
 
     </div>
+    </div><!-- /seccionFormulario -->
+
+    <!-- SECCIÓN PENDIENTES -->
+    <div id="seccionPendientes" style="display:none">
+      <div id="listaPendientes"></div>
+    </div>
+
   </main>
 
   <footer>
@@ -299,10 +459,12 @@
     const SUPABASE_URL = 'https://innyjxzsskuyfbzjciwj.supabase.co'
     const SUPABASE_KEY = 'sb_publishable_5dAJzEx9ozaz-mCxeytJwA_tabkgzHf'
     const BUCKET = 'elecciones-fotos'
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    let sb = null
+    try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) } catch(e) {}
 
     let ubicacionTexto = ''
     let fotosSeleccionadas = []
+    let fotosBase64 = []
 
     function agregarFotos(input) {
       const archivos = Array.from(input.files)
@@ -311,6 +473,7 @@
         fotosSeleccionadas.push(archivo)
         const reader = new FileReader()
         reader.onload = e => {
+          fotosBase64.push(e.target.result)
           const img = document.createElement('img')
           img.src = e.target.result
           img.className = 'foto-thumb'
@@ -356,56 +519,195 @@
     }
 
     async function subirFotos() {
+      if (!sb) return []
       const urls = []
       for (const archivo of fotosSeleccionadas) {
         const ext = archivo.name.split('.').pop() || 'jpg'
         const nombre = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-        const { error } = await sb.storage.from(BUCKET).upload(nombre, archivo, { cacheControl: '3600', upsert: false, contentType: archivo.type })
-        if (error) {
-          console.error('Error subiendo foto:', error.message)
-        } else {
-          const { data } = sb.storage.from(BUCKET).getPublicUrl(nombre)
-          if (data?.publicUrl) urls.push(data.publicUrl)
-        }
+        try {
+          const { error } = await sb.storage.from(BUCKET).upload(nombre, archivo, { cacheControl: '3600', upsert: false, contentType: archivo.type })
+          if (!error) {
+            const { data } = sb.storage.from(BUCKET).getPublicUrl(nombre)
+            if (data?.publicUrl) urls.push(data.publicUrl)
+          }
+        } catch(e) {}
       }
       return urls
     }
 
+    // ── TABS ──
+    function mostrarTab(tab) {
+      document.getElementById('seccionFormulario').style.display = tab === 'formulario' ? '' : 'none'
+      document.getElementById('seccionPendientes').style.display = tab === 'pendientes' ? '' : 'none'
+      document.getElementById('tabFormulario').classList.toggle('activo', tab === 'formulario')
+      document.getElementById('tabPendientes').classList.toggle('activo', tab === 'pendientes')
+      if (tab === 'pendientes') renderPendientes()
+    }
+
+    // ── LOCALSTORAGE ──
+    function getPendientes() {
+      try { return JSON.parse(localStorage.getItem('elecciones_pendientes') || '[]') } catch { return [] }
+    }
+    function setPendientes(lista) {
+      try { localStorage.setItem('elecciones_pendientes', JSON.stringify(lista)) } catch {}
+    }
+    function actualizarBadge() {
+      const total = getPendientes().filter(p => !p.enviado).length
+      const badge = document.getElementById('badge')
+      badge.textContent = total
+      badge.classList.toggle('visible', total > 0)
+    }
+
+    function guardarPendiente(parroquia, comentario, ubicacion, fotos64) {
+      const lista = getPendientes()
+      const id = Date.now()
+      const fecha = new Date().toLocaleString('es-EC', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' })
+      lista.unshift({ id, parroquia, comentario, ubicacion, fotos64, fecha, enviado: false })
+      setPendientes(lista)
+      actualizarBadge()
+      return id
+    }
+
+    // ── RENDER PENDIENTES ──
+    function renderPendientes() {
+      const lista = getPendientes()
+      const cont = document.getElementById('listaPendientes')
+      if (lista.length === 0) {
+        cont.innerHTML = '<div class="pendiente-vacio">📭 No hay envíos guardados.</div>'
+        return
+      }
+      cont.innerHTML = lista.map(p => `
+        <div class="card-pendiente" id="cp-${p.id}">
+          <div class="cp-header">
+            <div class="cp-parroquia">${p.parroquia}</div>
+            <div class="cp-fecha">${p.fecha}</div>
+          </div>
+          ${p.comentario ? `<div class="cp-obs">${p.comentario}</div>` : ''}
+          ${p.ubicacion ? `<div class="cp-obs" style="font-size:0.75rem">📍 Ubicación guardada</div>` : ''}
+          ${p.fotos64 && p.fotos64.length > 0 ? `<div class="cp-fotos">${p.fotos64.map(f => `<img src="${f}">`).join('')}</div>` : ''}
+          <div class="cp-acciones">
+            ${p.enviado
+              ? `<div class="estado-enviado" style="flex:1">✅ Enviado</div>`
+              : `<button class="btn-enviar-p" id="btn-${p.id}" onclick="enviarPendiente(${p.id})">📤 Enviar por WhatsApp</button>`
+            }
+            <button class="btn-eliminar-p" onclick="eliminarPendiente(${p.id})">🗑</button>
+          </div>
+        </div>
+      `).join('')
+    }
+
+    function eliminarPendiente(id) {
+      setPendientes(getPendientes().filter(p => p.id !== id))
+      actualizarBadge()
+      renderPendientes()
+    }
+
+    async function enviarPendiente(id) {
+      const btn = document.getElementById(`btn-${id}`)
+      if (btn) { btn.textContent = '⏳ Subiendo...'; btn.disabled = true }
+
+      const lista = getPendientes()
+      const p = lista.find(x => x.id === id)
+      if (!p) return
+
+      let fotosUrls = []
+      if (p.fotos64 && p.fotos64.length > 0 && sb) {
+        for (const b64 of p.fotos64) {
+          try {
+            const blob = await (await fetch(b64)).blob()
+            const ext = blob.type.split('/')[1] || 'jpg'
+            const nombre = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+            const { error } = await sb.storage.from(BUCKET).upload(nombre, blob, { cacheControl: '3600', upsert: false, contentType: blob.type })
+            if (!error) {
+              const { data } = sb.storage.from(BUCKET).getPublicUrl(nombre)
+              if (data?.publicUrl) fotosUrls.push(await acortarUrl(data.publicUrl))
+            }
+          } catch {}
+        }
+      }
+
+      let mensaje = '*ELECCIONES 2026 · Javier Altamirano*\n'
+      mensaje += `*Parroquia:* ${p.parroquia}\n`
+      if (p.comentario) mensaje += `*Observaciones:* ${p.comentario}\n`
+      if (p.ubicacion) mensaje += `*Ubicación:* ${p.ubicacion}\n`
+      fotosUrls.forEach((url, i) => { mensaje += `*Foto ${i + 1}:* ${url}\n` })
+      mensaje += `_javieraltamirano.org/elecciones_`
+
+      window.open(`https://wa.me/593986324840?text=${encodeURIComponent(mensaje)}`, '_blank')
+
+      p.enviado = true
+      setPendientes(lista)
+      actualizarBadge()
+      renderPendientes()
+    }
+
+    // ── ENVIAR FORMULARIO ──
     async function enviarWhatsApp() {
       const parroquia = document.getElementById('parroquia').value
       const comentario = document.getElementById('comentario').value.trim()
+      const aviso = document.getElementById('avisoEnvio')
+      aviso.className = 'aviso'
 
-      if (!parroquia) {
-        alert('Por favor selecciona tu parroquia.')
+      if (!parroquia) { alert('Por favor selecciona tu parroquia.'); return }
+
+      const btn = document.querySelector('.btn-enviar')
+      btn.disabled = true
+
+      // Siempre guardar como pendiente
+      guardarPendiente(parroquia, comentario, ubicacionTexto, [...fotosBase64])
+
+      if (!navigator.onLine) {
+        btn.textContent = 'Enviar'
+        btn.disabled = false
+        aviso.className = 'aviso guardado'
+        aviso.textContent = '📥 Sin internet — guardado en Pendientes. Se enviará cuando tengas señal.'
+        // Reset form
+        document.getElementById('parroquia').value = ''
+        document.getElementById('comentario').value = ''
+        fotosSeleccionadas = []; fotosBase64 = []
+        document.getElementById('fotosPreview').innerHTML = ''
+        ubicacionTexto = ''
+        const btnUb = document.getElementById('btnUbicacion')
+        btnUb.textContent = '📍 Usar mi ubicación'; btnUb.classList.remove('ubicacion-ok')
         return
       }
 
-      const btn = document.querySelector('.btn-enviar')
       btn.textContent = '⏳ Subiendo fotos...'
-      btn.disabled = true
-
       let fotosUrls = []
-      if (fotosSeleccionadas.length > 0) {
-        fotosUrls = await subirFotos()
-      }
+      if (fotosSeleccionadas.length > 0) fotosUrls = await subirFotos()
 
       let mensaje = '*ELECCIONES 2026 · Javier Altamirano*\n'
       mensaje += `*Parroquia:* ${parroquia}\n`
       if (comentario) mensaje += `*Observaciones:* ${comentario}\n`
       if (ubicacionTexto) mensaje += `*Ubicación:* ${ubicacionTexto}\n`
       for (let i = 0; i < fotosUrls.length; i++) {
-        const urlCorta = await acortarUrl(fotosUrls[i])
-        mensaje += `*Foto ${i + 1}:* ${urlCorta}\n`
+        mensaje += `*Foto ${i + 1}:* ${await acortarUrl(fotosUrls[i])}\n`
       }
       mensaje += `_javieraltamirano.org/elecciones_`
 
-      const numero = '593986324840'
-      const waUrl = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`
-      window.open(waUrl, '_blank')
+      window.open(`https://wa.me/593986324840?text=${encodeURIComponent(mensaje)}`, '_blank')
+
+      // Marcar como enviado
+      const lista = getPendientes()
+      const ultimo = lista[0]
+      if (ultimo) { ultimo.enviado = true; setPendientes(lista) }
+      actualizarBadge()
 
       btn.textContent = 'Enviar'
       btn.disabled = false
+
+      // Reset form
+      document.getElementById('parroquia').value = ''
+      document.getElementById('comentario').value = ''
+      fotosSeleccionadas = []; fotosBase64 = []
+      document.getElementById('fotosPreview').innerHTML = ''
+      ubicacionTexto = ''
+      const btnUb = document.getElementById('btnUbicacion')
+      btnUb.textContent = '📍 Usar mi ubicación'; btnUb.classList.remove('ubicacion-ok')
     }
+
+    // Init badge al cargar
+    actualizarBadge()
   </script>
 
 </body>
