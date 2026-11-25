@@ -346,9 +346,12 @@
     async function subirFotos() {
       const urls = []
       for (const archivo of fotosSeleccionadas) {
-        const nombre = `${Date.now()}-${Math.random().toString(36).slice(2)}.${archivo.name.split('.').pop()}`
-        const { error } = await sb.storage.from(BUCKET).upload(nombre, archivo, { cacheControl: '3600', upsert: false })
-        if (!error) {
+        const ext = archivo.name.split('.').pop() || 'jpg'
+        const nombre = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+        const { error } = await sb.storage.from(BUCKET).upload(nombre, archivo, { cacheControl: '3600', upsert: false, contentType: archivo.type })
+        if (error) {
+          console.error('Error subiendo foto:', error.message)
+        } else {
           const { data } = sb.storage.from(BUCKET).getPublicUrl(nombre)
           if (data?.publicUrl) urls.push(data.publicUrl)
         }
