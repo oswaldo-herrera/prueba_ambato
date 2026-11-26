@@ -21,6 +21,7 @@ import BuzonFlotante from './componentes/diseno/BuzonFlotante'
 // import SeccionInicioClaro from './componentes/secciones/SeccionInicioClaro' // ← fondo claro (oculta)
 import SeccionInicioNueva from './componentes/secciones/SeccionInicioNueva' // ← inicio_nueva (activa)
 import SeccionQuienSoy from './componentes/secciones/SeccionQuienSoy'
+import SeccionVaEnSerio from './componentes/secciones/SeccionVaEnSerio'
 import SeccionTrayectoria from './componentes/secciones/SeccionTrayectoria'
 // import SeccionValores from './componentes/secciones/SeccionValores'
 import SeccionLogros from './componentes/secciones/SeccionLogros'
@@ -56,6 +57,7 @@ export default function App() {
         <SeccionInicioNueva />
 
         {/* 2. Quién soy / Conóceme */}
+        <SeccionVaEnSerio />
         <SeccionQuienSoy />
 
         {/* 2.5 Cómo votar */}
