@@ -65,71 +65,52 @@ export default function SeccionYaViene() {
           />
         </div>
 
-        {/* Reels — filas de 3 */}
-        <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', maxWidth: '800px', margin: '32px auto 0' }}>
+        {/* Grid 2 filas × 3 columnas */}
+        <div style={{ marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', maxWidth: '760px', margin: '32px auto 0' }}>
 
-          {/* Reel izquierdo — Hospital Municipal */}
-          <div style={{
-            borderRadius: '20px', padding: '3px',
-            background: 'linear-gradient(135deg, rgba(255,102,0,0.6) 0%, rgba(255,255,255,0.15) 40%, rgba(1,40,87,0.5) 100%)',
-            boxShadow: '0 0 30px rgba(255,102,0,0.2)', width: '100%', maxWidth: '240px',
-          }}>
+          {/* 1 — Hospital Municipal */}
+          <div style={{ borderRadius: '20px', padding: '3px', background: 'linear-gradient(135deg, rgba(255,102,0,0.6) 0%, rgba(255,255,255,0.15) 40%, rgba(1,40,87,0.5) 100%)', boxShadow: '0 0 30px rgba(255,102,0,0.2)' }}>
             <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
-              <video
-                src="/imagenes/reels/hospital_municpal.mp4"
-                controls
-                playsInline
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-              />
+              <video src="/imagenes/reels/hospital_municpal.mp4" controls playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </div>
 
-          {/* Reel central — YouTube Shorts */}
-          <div style={{
-            borderRadius: '20px', padding: '3px',
-            background: 'linear-gradient(135deg, rgba(212,168,106,0.7) 0%, rgba(255,255,255,0.15) 40%, rgba(172,124,63,0.6) 100%)',
-            boxShadow: '0 0 30px rgba(212,168,106,0.3)', width: '100%', maxWidth: '240px',
-          }}>
+          {/* 2 — YouTube Shorts */}
+          <div style={{ borderRadius: '20px', padding: '3px', background: 'linear-gradient(135deg, rgba(212,168,106,0.7) 0%, rgba(255,255,255,0.15) 40%, rgba(172,124,63,0.6) 100%)', boxShadow: '0 0 30px rgba(212,168,106,0.3)' }}>
             <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
-              <iframe
-                src="https://www.youtube.com/embed/mhlVCpgZRro"
-                title="Ambato 2050 — Ya Viene"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
-              />
+              <iframe src="https://www.youtube.com/embed/mhlVCpgZRro" title="Ambato 2050" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }} />
             </div>
           </div>
 
-          {/* Reel derecho — Nuevo Estadio */}
-          <div style={{
-            borderRadius: '20px', padding: '3px',
-            background: 'linear-gradient(135deg, rgba(1,40,87,0.5) 0%, rgba(255,255,255,0.15) 40%, rgba(255,102,0,0.6) 100%)',
-            boxShadow: '0 0 30px rgba(255,102,0,0.2)', width: '100%', maxWidth: '240px',
-          }}>
+          {/* 3 — Nuevo Estadio */}
+          <div style={{ borderRadius: '20px', padding: '3px', background: 'linear-gradient(135deg, rgba(1,40,87,0.5) 0%, rgba(255,255,255,0.15) 40%, rgba(255,102,0,0.6) 100%)', boxShadow: '0 0 30px rgba(255,102,0,0.2)' }}>
             <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
-              <video
-                src="/imagenes/reels/nuevo_estadio.mp4"
-                controls
-                playsInline
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-              />
+              <video src="/imagenes/reels/nuevo_estadio.mp4" controls playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </div>
 
-          {/* Reel 4 — No Hice Nada (nueva fila) */}
-          <div style={{
-            borderRadius: '20px', padding: '3px',
-            background: 'linear-gradient(135deg, rgba(255,102,0,0.6) 0%, rgba(255,255,255,0.15) 40%, rgba(1,40,87,0.5) 100%)',
-            boxShadow: '0 0 30px rgba(255,102,0,0.2)', width: '100%', maxWidth: '240px',
-          }}>
+          {/* 4 — No Hice Nada */}
+          <div style={{ borderRadius: '20px', padding: '3px', background: 'linear-gradient(135deg, rgba(255,102,0,0.6) 0%, rgba(255,255,255,0.15) 40%, rgba(1,40,87,0.5) 100%)', boxShadow: '0 0 30px rgba(255,102,0,0.2)' }}>
             <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
-              <video
-                src="/imagenes/reels/no_hice_nada.mp4"
-                controls
-                playsInline
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-              />
+              <video src="/imagenes/reels/no_hice_nada.mp4" controls playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+          </div>
+
+          {/* 5 — Cierre 1 */}
+          <div style={{ borderRadius: '20px', padding: '3px', background: 'linear-gradient(135deg, rgba(212,168,106,0.7) 0%, rgba(255,255,255,0.15) 40%, rgba(172,124,63,0.6) 100%)', boxShadow: '0 0 30px rgba(212,168,106,0.3)' }}>
+            <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
+              <video controls playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
+                <source src="/imagenes/videos_cierre_campa%C3%B1a/cierre_1.MOV" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
+          {/* 6 — Cierre 2 */}
+          <div style={{ borderRadius: '20px', padding: '3px', background: 'linear-gradient(135deg, rgba(1,40,87,0.5) 0%, rgba(255,255,255,0.15) 40%, rgba(255,102,0,0.6) 100%)', boxShadow: '0 0 30px rgba(255,102,0,0.2)' }}>
+            <div style={{ position: 'relative', paddingBottom: '177.78%', borderRadius: '18px', overflow: 'hidden', background: '#000' }}>
+              <video controls playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
+                <source src="/imagenes/videos_cierre_campa%C3%B1a/cierre_2.MP4" type="video/mp4" />
+              </video>
             </div>
           </div>
 

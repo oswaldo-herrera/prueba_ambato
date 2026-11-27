@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const imagenes = Array.from({ length: 11 }, (_, i) =>
-  `/imagenes/campa%C3%B1a/va_en_serio/${i + 1}.jpeg`
-)
+const imagenes = [
+  `/imagenes/campa%C3%B1a/va_en_serio/1.1.jpg`,
+  ...Array.from({ length: 11 }, (_, i) => `/imagenes/campa%C3%B1a/va_en_serio/${i + 1}.jpeg`),
+]
 
 export default function SeccionVaEnSerio() {
   const [actual, setActual] = useState(0)
@@ -55,7 +56,7 @@ export default function SeccionVaEnSerio() {
             <img
               src={imagenes[prev]}
               alt=""
-              className="w-full aspect-[4/3] object-cover rounded-2xl"
+              className="w-full aspect-[4/3] object-contain bg-black/60 rounded-2xl"
             />
           </div>
 
@@ -69,7 +70,7 @@ export default function SeccionVaEnSerio() {
                 key={actual}
                 src={imagenes[actual]}
                 alt={`Va en serio ${actual + 1}`}
-                className="w-full aspect-[4/3] object-cover hover:scale-[1.02] transition-transform duration-300"
+                className="w-full aspect-[4/3] object-contain bg-black hover:scale-[1.02] transition-transform duration-300"
               />
               <div className="absolute inset-0 flex items-end justify-end p-3 pointer-events-none">
                 <span className="bg-black/40 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">🔍 Ver</span>
@@ -82,7 +83,7 @@ export default function SeccionVaEnSerio() {
             <img
               src={imagenes[next]}
               alt=""
-              className="w-full aspect-[4/3] object-cover rounded-2xl"
+              className="w-full aspect-[4/3] object-contain bg-black/60 rounded-2xl"
             />
           </div>
         </div>
